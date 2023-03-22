@@ -6,15 +6,13 @@
   button {
     @apply cursor-pointer;
   }
-  {
-    box-sizing: border-box;
-    scrollbar-width: thin;
-    scrollbar-color: var(--secondary) var(--primary);
-  }
-  /* *::-webkit-scrollbar {
+  *::-webkit-scrollbar {
     @apply w-2.5 md:w-2;
   }
   *::-webkit-scrollbar-thumb {
     @apply bg-slate-800;
-  }  */
+  } 
+  body {
+    @apply bg-quaternary
+  }
 }

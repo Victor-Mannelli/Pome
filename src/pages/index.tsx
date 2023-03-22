@@ -1,7 +1,8 @@
+import nookies from "nookies";
+
 export default function Home() {
+  // const cookies = nookies.get("token");
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <></>
   )
 }
