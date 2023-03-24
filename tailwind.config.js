@@ -13,8 +13,8 @@ module.exports = {
         xl: "1440px",
       },
       colors: {
-        "primary": "#2b2c2d",
-        "secundary": "#2e3031",
+        "primary": "#1e1e1e",
+        "secondary": "#2b2c2d",
         "tertiary": "#333536",
         "quaternary": "#3a3d3e",
         "quinary": "#a29d98"
