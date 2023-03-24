@@ -20,7 +20,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center w-full h-screen">
-      <div className="md:w-[30rem] md:h-auto h-screen bg-tertiary rounded-xl p-7">
+      <div className="md:w-[30rem] md:h-auto h-screen bg-third rounded-xl p-7">
         <Image 
           src="/assets/dark_bg.jpg"
           alt="banner"
@@ -46,7 +46,7 @@ export default function Login() {
             onChange={handleChanges}
           />
           <button
-            className="w-full md:w-full h-12 text-white bg-secondary  hover:bg-quaternary place-self-center font-bold rounded-md"
+            className="w-full md:w-full h-12 text-white bg-second  hover:bg-fourth place-self-center font-bold rounded-md"
             type="submit"
           >
             Log In
@@ -54,7 +54,7 @@ export default function Login() {
         </form>
         <h1 
           onClick={() => router.push("/PoMe/signup")} 
-          className="text-center pt-2 hover:cursor-pointer hover:text-quinary"
+          className="text-center pt-2 hover:cursor-pointer hover:text-sixth"
           > Don't have an account yet? Create one!
         </h1>
       </div>

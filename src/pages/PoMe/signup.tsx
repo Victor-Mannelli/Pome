@@ -22,8 +22,6 @@ export default function SignUp() {
     // userLogin({ email: fetchData.email, password: fetchData.password, router });
   }
 
-  console.log(fetchData)
-
   const handleImageInput = (event: any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -34,7 +32,7 @@ export default function SignUp() {
   };
   return (
     <div className="flex justify-center items-center w-full h-screen">
-      <div className="md:w-[30rem] md:h-auto h-screen bg-tertiary rounded-xl p-7">
+      <div className="md:w-[30rem] md:h-auto h-screen bg-third rounded-xl p-7">
         <form onSubmit={register}>
           {image ? (
             <>
@@ -46,7 +44,7 @@ export default function SignUp() {
                 className="rounded-xl"
               />
               <h1
-                className="mb-5 mt-1 hover:cursor-pointer hover:text-quinary underline"
+                className="mb-5 mt-1 hover:cursor-pointer hover:text-fifth underline"
                 onClick={() => {
                   setImage(null);
                   focus === true ? setFocus(false) : "";
@@ -57,7 +55,7 @@ export default function SignUp() {
             <>
               <h1 className="font-bold mb-3"> Banner </h1>
               <div className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md mb-3 px-5 
-                ${focus === true ? "bg-quaternary" : "bg-secondary"}`
+                ${focus === true ? "bg-fourth" : "bg-second"}`
               }>
                 <h1 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md"> Choose Image </h1>
                 <h1> or drag and drop your file here</h1>
@@ -68,7 +66,6 @@ export default function SignUp() {
                   onChange={(e) => {
                     handleImageInput(e)
                     handleChanges(e)
-                    console.log(e)
                   }}
                   onDragEnter={() => setFocus(!focus)}
                   onDragLeave={() => setFocus(!focus)}
@@ -101,14 +98,14 @@ export default function SignUp() {
             onChange={handleChanges}
           />
           <button
-            className="w-full md:w-full h-12 text-white bg-secondary  hover:bg-quaternary place-self-center font-bold rounded-md"
+            className="w-full md:w-full h-12 text-white bg-second  hover:bg-fourth place-self-center font-bold rounded-md"
             type="submit"
           >
             Register
           </button>
           <h1
             onClick={() => router.push("/")}
-            className="text-center pt-2 hover:cursor-pointer hover:text-quinary"
+            className="text-center pt-2 hover:cursor-pointer hover:text-sixth"
           > Already have an account? Log In!
           </h1>
         </form>

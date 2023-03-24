@@ -14,11 +14,13 @@ module.exports = {
         xl: "1440px",
       },
       colors: {
-        "primary": "#1e1e1e",
-        "secondary": "#2b2c2d",
-        "tertiary": "#333536",
-        "quaternary": "#3a3d3e",
-        "quinary": "#a29d98"
+        "first": "#1e1e1e",
+        "second": "#2b2c2d",
+        "third": "#333536",
+        "fourth": "#3a3d3e",
+        "fifth": "#5C5A5A",
+        "sixth": "#797776",
+        "seventh": "#a29d98",
       },
       fontFamily: {
         sans: ['var(--font-lato)']

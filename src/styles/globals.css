@@ -7,7 +7,7 @@
     @apply box-border transition-all antialiased 
   }
   body {
-    @apply bg-quaternary
+    @apply bg-fourth
   }
   p, h1, h2, h3, h4, h5 {
     @apply text-white
@@ -19,6 +19,6 @@
     @apply w-2.5 md:w-2;
   }
   *::-webkit-scrollbar-thumb {
-    @apply bg-slate-800;
+    @apply bg-first;
   } 
 }

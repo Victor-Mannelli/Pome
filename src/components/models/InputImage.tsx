@@ -29,7 +29,7 @@ export default function InputImage({
             className="rounded-xl"
           />
           <h1
-            className="mb-5 mt-1 hover:cursor-pointer hover:text-quinary underline"
+            className="mb-5 mt-1 hover:cursor-pointer hover:text-fifth underline"
             onClick={() => {
               setImage(null);
               focus === true ? setFocus(false) : "";
@@ -40,7 +40,7 @@ export default function InputImage({
         <>
           <h1 className="font-bold mb-3"> Banner </h1>
           <div className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md mb-3 px-5 
-            ${focus === true ? "bg-quaternary" : "bg-secondary"}`
+            ${focus === true ? "bg-fourth" : "bg-second"}`
           }>
             <h1 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md"> Choose Image </h1>
             <h1> or drag and drop your file here</h1>
