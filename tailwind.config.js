@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -19,6 +20,9 @@ module.exports = {
         "quaternary": "#3a3d3e",
         "quinary": "#a29d98"
       },
+      fontFamily: {
+        sans: ['var(--font-lato)']
+      }
     },
   },
   plugins: [],

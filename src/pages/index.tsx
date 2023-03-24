@@ -29,9 +29,9 @@ export default function Login() {
           className="rounded-xl mb-7"
         />
         <form onSubmit={login}>
-          <h1 className=""> Username </h1>
+          <h1 className="font-bold"> Username </h1>
           <input
-            className="w-full md:w-full h-12 border-b-4 bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
+            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
             name="email"
             type="email"
             value={fetchData.email}
@@ -39,7 +39,7 @@ export default function Login() {
           /> 
           <h1 className="font-bold"> Password </h1>
           <input
-            className="w-full md:w-full h-12 border-b-4 bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
+            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
             name="password"
             type="password"
             value={fetchData.password}
@@ -52,6 +52,11 @@ export default function Login() {
             Log In
           </button>
         </form>
+        <h1 
+          onClick={() => router.push("/PoMe/signup")} 
+          className="text-center pt-2 hover:cursor-pointer hover:text-quinary"
+          > Don't have an account yet? Create one!
+        </h1>
       </div>
     </div>
   )
