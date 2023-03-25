@@ -1,38 +1,133 @@
+import { useRouter } from "next/router";
 
 export default function Home() {
-
-  const releases: any = [
+  const router = useRouter();
+  const moc: any = [
     {
-      title: "aa",
+      title: "aaaaaaa",
       image: "",
       description: ""
-    }
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "aaaaaaa",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
+    {
+      title: "bbbbbb",
+      image: "",
+      description: ""
+    },
   ]
 
   return (
-    <div className="flex m-7 gap-2 h-[87.5vh]">
-      <div className="flex flex-col w-1/2 h-full rounded-xl">
-        <div>
-          <input />
-        </div>
-        <div className="bg-fifth h-full rounded-xl p-7">
-          <h1> Title </h1>
-          {releases.map((e: any) => {
-            <div> 
-              <h1> {e.title} </h1>
-            </div>
-          })}
+    <div className="flex m-7 gap-5 h-[calc(100vh-7.5rem)]">
+      <div className="flex flex-col w-3/5 h-[100%] rounded-xl">
+        <div className="bg-sixth h-full rounded-xl p-5">
+          <div className="h-[8%]">
+            <input className="w-full h-full rounded-xl bg-fifth caret-white text-white outline-none px-4" />
+          </div>
+          <h1 onClick={() => router.push("/PoMe/releases")} className="font-bold py-2 hover:cursor-pointer hover:text-third w-[6.5rem]"> New Releases </h1>
+          <div className="h-[85%] w-full flex flex-wrap gap-5 overflow-auto"> 
+            {moc.map((e: any, i: number) => (
+              <div key={i} className="w-[47%] h-32 bg-fifth rounded-xl p-2"> 
+                <h1> {e.title} </h1>
+                <h1> {e.title} </h1>
+                <h1> {e.title} </h1>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      <div className="bg-fifth h-full rounded-xl p-7 w-1/2">
-          <h1 className="bg-first"> </h1>
-          <h1 className="bg-second"> </h1>
-          <h1 className="bg-third"> </h1>
-          <h1 className="bg-fourth"> </h1>
-          <h1 className="bg-fifth"> </h1>
-          <h1 className="bg-sixth"> </h1>
-          <h1 className="bg-seventh"> </h1>
+      <div className="bg-sixth h-full w-2/5 rounded-xl px-8 py-5">
+        <h1 className="font-bold pb-3"> Airing </h1>
+        <div className="h-[94%] w-full flex flex-wrap gap-4 overflow-auto">
+          {moc.map((e: any, i: number) => (
+            <div key={i} className="w-[6rem] h-28 bg-fifth rounded-xl p-2"> 
+             
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

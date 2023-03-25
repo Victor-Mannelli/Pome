@@ -16,9 +16,18 @@
     @apply cursor-pointer;
   }
   *::-webkit-scrollbar {
-    @apply w-2.5 md:w-2;
+    @apply w-2 md:w-1.5;
   }
   *::-webkit-scrollbar-thumb {
-    @apply bg-first;
+    @apply bg-third;
   } 
+  /* h6 {
+    @apply bg-first
+    bg-second
+    bg-third
+    bg-fourth
+    bg-fifth
+    bg-sixth
+    bg-seventh
+  } */
 }

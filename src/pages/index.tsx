@@ -15,7 +15,8 @@ export default function Login() {
 
   function login(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    userLogin({ email: fetchData.email, password: fetchData.password, router });
+    // userLogin({ email: fetchData.email, password: fetchData.password, router });
+    router.push("/PoMe/home")
   }
 
   return (
@@ -55,8 +56,8 @@ export default function Login() {
         <h1 
           onClick={() => router.push("/PoMe/signup")} 
           className="text-center pt-2 hover:cursor-pointer hover:text-sixth"
-          > Don't have an account yet? Create one!
-        </h1>
+        // eslint-disable-next-line react/no-unescaped-entities
+        > Don't have an account yet? Create one! </h1>
       </div>
     </div>
   )
