@@ -21,7 +21,7 @@ export function Message({
           height={1080}
           src="/assets/dark_bg.jpg"
           alt="profile_picture"
-          className="rounded-full mx-3 my-2 w-10 h-10"
+          className="rounded-full mr-3 mb-2 w-10 h-10"
         />
         <div className="flex flex-col">
           <div className="flex">
