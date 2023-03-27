@@ -15,12 +15,13 @@ module.exports = {
       },
       colors: {
         "first": "#1e1e1e",
-        "second": "#2b2c2d",
+        "second": "#2c2e2f",
         "third": "#333536",
         "fourth": "#3a3d3e",
         "fifth": "#5C5A5A",
         "sixth": "#797776",
         "seventh": "#a29d98",
+        "eigth": "#D7DCDE"
       },
       fontFamily: {
         sans: ['var(--font-lato)']

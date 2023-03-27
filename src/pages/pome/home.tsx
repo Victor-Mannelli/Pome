@@ -102,13 +102,13 @@ export default function Home() {
   
 
   return (
-    <div className="flex m-7 gap-5 h-[calc(100vh-7.5rem)]">
+    <div className="flex m-7 gap-5 h-screen mt-20">
       <div className="flex flex-col w-3/5 h-[100%] rounded-xl">
         <div className="bg-sixth h-full rounded-xl p-5">
           <div className="h-[8%]">
             <input className="w-full h-full rounded-xl bg-fifth caret-white text-white outline-none px-4" />
           </div>
-          <h1 onClick={() => router.push("/PoMe/releases")} className="font-bold py-2 hover:cursor-pointer hover:text-third w-[6.5rem]"> New Releases </h1>
+          <h1 onClick={() => router.push("/pome/releases")} className="font-bold py-2 hover:cursor-pointer hover:text-third w-[6.5rem]"> New Releases </h1>
           <div className="h-[85%] w-full flex flex-wrap gap-5 overflow-auto"> 
             {moc.map((e: any, i: number) => (
               <div key={i} className="w-[47%] h-32 bg-fifth rounded-xl p-2"> 

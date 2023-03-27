@@ -28,31 +28,6 @@ export default function Friends() {
       description: ""
     },
     {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
       title: "bbbbbb",
       image: "",
       description: ""
@@ -127,12 +102,44 @@ export default function Friends() {
       timestamp: "MM/DD/YYYY at HH:mm",
       message:
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },  {
+      id: 2,
+      profile_picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
+      username: "Catto2",
+      timestamp: "MM/DD/YYYY at HH:mm",
+      message:
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },  {
+      id: 2,
+      profile_picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
+      username: "Catto2",
+      timestamp: "MM/DD/YYYY at HH:mm",
+      message:
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },  {
+      id: 2,
+      profile_picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
+      username: "Catto2",
+      timestamp: "MM/DD/YYYY at HH:mm",
+      message:
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },  {
+      id: 2,
+      profile_picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
+      username: "Catto2",
+      timestamp: "MM/DD/YYYY at HH:mm",
+      message:
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     },
   ];
   
   return (
-    <div className="flex m-7 gap-5 h-[calc(100vh-7.5rem)]">
-      <div className="bg-sixth w-1/4 h-full rounded-xl p-5">
+    <div className="flex m-5 pt-16 gap-5 h-[calc(100vh-2.7rem)]">
+      <div className="bg-third w-1/4 h-full rounded-xl p-5">
         <h1 className="font-bold pb-3"> Friends </h1>
         <div className="h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
           {moc.map((e: any, i: number) => (
@@ -153,8 +160,8 @@ export default function Friends() {
           ))}
         </div>
       </div>
-      <div className="bg-sixth w-3/4 h-full relative rounded-xl p-5">
-        <div className="h-[90%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
+      <div className="bg-third w-3/4 h-full rounded-xl p-5 flex flex-col justify-between">
+        <div className="h-[90%] w-full flex flex-col gap-3 overflow-auto rounded-md mb-5">
           {message.map((e) => (
             <Message
               key={e.id}
@@ -171,11 +178,11 @@ export default function Friends() {
           onPressEnter={() => console.log("pressed enter")}
           autoSize={true}
           placeholder="Message"
-          className="absolute bottom-3 right-[4.5] w-[95%] outline-none border-none bg-fifth text-white rounded-lg pl-4 py-1.5 pr-9 resize-none"
+          className="relative w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 py-1.5 pr-9 resize-none"
         />
         <IoSendSharp 
           onClick={() => console.log("sent")} 
-          className="absolute right-9 bottom-[1.4rem] text-seventh hover:cursor-pointer"
+          className="absolute z-20 bottom-[3.6rem] right-14 text-seventh hover:cursor-pointer"
         />
       </div>
     </div>
