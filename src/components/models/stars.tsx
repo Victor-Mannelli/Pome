@@ -1,6 +1,5 @@
 export function Stars(props: any) {
   const width =`${(props.score * 10).toFixed(2)}%`
-  
   return (
     <div className="relative mb-10 w-[74.98px]">
       <div 

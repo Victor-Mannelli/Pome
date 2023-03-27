@@ -51,7 +51,7 @@ export default function Releases() {
   }, [page])
   console.log(animeInfo?.data)
   console.log(animeInfo)
-  console.log(animeInfo.data[0].genres)
+  console.log(animeInfo?.data[0].genres)
   if (!animeInfo) {
     return (
       <>
@@ -76,7 +76,7 @@ export default function Releases() {
                 <h1 className="font-bold"> {e.title} </h1>
                 <div className="flex w-full">
                   <div className="w-[75%] lg:w-3/5">
-                    <Stars score={e.score.score} />
+                    <Stars score={e.score} />
                   </div>
                   <div className="flex flex-col w-[25%] lg:w-2/5 h-36 ml-2 gap-[0.35rem] overflow-auto">
                     {e.genres.map((el: any) => (
