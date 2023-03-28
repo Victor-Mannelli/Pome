@@ -1,30 +1,32 @@
 import GenresList from "@/components/genres";
 import { Stars } from "@/components/stars";
 import { animeApi } from "@/utils/axios";
-import { AnimeInfo } from "@/utils/Interfaces";
+import { AnimeInfo, AnimeInfoData } from "@/utils/Interfaces";
 import { NextPageContext } from "next";
 // import { useRouter } from "next/router";
 // import { BiUpArrow } from "react-icons/bi";
 
-export default function AnimePage({ data }: { data: AnimeInfo }) {
-  // const router = useRouter()
-
+export default function AnimePage({ data }: {
+  data: {
+    data: AnimeInfo
+  }
+}) {
   return (
     <>
       {
         !data ? null : (
           <div className="flex flex-col items-center gap-5 pb-7">
-            <img 
-              alt="banner" 
-              src="/assets/dark_bg.jpg" 
+            <img
+              alt="banner"
+              src="/assets/dark_bg.jpg"
               className="w-full h-[22rem]"
             />
             <div className="h-1/2 w-full rounded-xl flex gap-2 px-5">
               <div className="relative w-[19rem] h-64 flex flex-col justify-end items-center">
-                <img 
-                  className="absolute top-[-10rem] rounded-xl w-[80%]" 
+                <img
+                  className="absolute top-[-10rem] rounded-xl w-[80%] h-[23rem]"
                   src={data.data.images.jpg.large_image_url} 
-                  alt="pfp" 
+                  alt="pfp"
                 />
                 <div className="bg-seventh w-[80%] h-9 rounded-md cursor-pointer">
 

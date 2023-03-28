@@ -178,11 +178,11 @@ export default function Friends() {
           onPressEnter={() => console.log("pressed enter")}
           autoSize={true}
           placeholder="Message"
-          className="relative w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 py-1.5 pr-9 resize-none"
+          className="relative w-full min-h-[3rem] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
         />
         <IoSendSharp 
           onClick={() => console.log("sent")} 
-          className="absolute z-20 bottom-[3.6rem] right-14 text-seventh hover:cursor-pointer"
+          className="absolute z-20 bottom-[3.7rem] right-14 text-seventh hover:cursor-pointer"
         />
       </div>
     </div>

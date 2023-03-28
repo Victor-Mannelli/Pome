@@ -10,7 +10,13 @@
     @apply bg-fourth
   }
   p, h1, h2, h3, h4, h5 {
-    @apply text-eigth
+    @apply text-eigth cursor-default text-xl
+  }
+  h1 {
+    @apply text-2xl font-bold
+  }
+  h2 {
+    @apply cursor-pointer text-2xl font-bold hover:text-third
   }
   button {
     @apply cursor-pointer;
@@ -21,13 +27,4 @@
   *::-webkit-scrollbar-thumb {
     @apply bg-third;
   } 
-  /* h6 {
-    @apply bg-first
-    bg-second
-    bg-third
-    bg-fourth
-    bg-fifth
-    bg-sixth
-    bg-seventh
-  } */
 }

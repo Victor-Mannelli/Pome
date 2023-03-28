@@ -1,4 +1,8 @@
+import { Stars } from "@/components/stars";
+import { animeApi } from "@/utils/axios";
+import { AnimeInfoData } from "@/utils/Interfaces";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -100,36 +104,66 @@ export default function Home() {
     },
   ]
   
+  const [page, setPage] = useState<number>(0);
+  const [animeInfo, setAnimeInfo] = useState<AnimeInfoData>();
+
+  useEffect(() => {
+    animeApi
+      .get(`/anime?limit=24&status=airing&page=${page}`)
+      .then(({ data }) => setAnimeInfo(data))
+  }, [page])
+
+  console.log(animeInfo?.data);
 
   return (
-    <div className="flex m-7 gap-5 h-screen mt-20">
-      <div className="flex flex-col w-3/5 h-[100%] rounded-xl">
-        <div className="bg-sixth h-full rounded-xl p-5">
-          <div className="h-[8%]">
-            <input className="w-full h-full rounded-xl bg-fifth caret-white text-white outline-none px-4" />
-          </div>
-          <h1 onClick={() => router.push("/pome/releases")} className="font-bold py-2 hover:cursor-pointer hover:text-third w-[6.5rem]"> New Releases </h1>
-          <div className="h-[85%] w-full flex flex-wrap gap-5 overflow-auto"> 
-            {moc.map((e: any, i: number) => (
-              <div key={i} className="w-[47%] h-32 bg-fifth rounded-xl p-2"> 
-                <h1> {e.title} </h1>
-                <h1> {e.title} </h1>
-                <h1> {e.title} </h1>
+    <>
+      {
+        !animeInfo ? null : (
+          <div className="flex m-7 gap-5 mt-20">
+            <div className="flex flex-col w-4/6 h-[92%] rounded-xl">
+              <div className="bg-sixth h-full rounded-xl p-5">
+                <div className="h-[8%]">
+                  <input className="w-full h-full rounded-xl bg-fifth caret-white text-white outline-none px-4" />
+                </div>
+                <h1 
+                  onClick={() => router.push("/pome/releases")} 
+                  className="py-4 text-center"
+                > Airing </h1>
+                <div className="h-[85%] w-full flex flex-wrap gap-5 overflow-auto"> 
+                  {animeInfo.data.map((e: any) => (
+                    <div key={e.id} className="xl:w-[47%] w-full h-80 bg-fifth rounded-xl p-4 flex"> 
+                      <img 
+                        className="h-full w-40 rounded-xl"
+                        src={e.images.jpg.image_url} 
+                        alt="anime_image" 
+                      />
+                      <div className="pl-5 h-[90%]">
+                        <h1 > {e.title} </h1>
+                        <Stars score={e.score}/>
+                        <h3 className="pb-3"> {e.year} </h3>
+                        <h3 className="h-2/3 overflow-auto"> {e.synopsis} </h3>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div>
+
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="bg-sixth h-full w-2/5 rounded-xl px-8 py-5">
-        <h1 className="font-bold pb-3"> Airing </h1>
-        <div className="h-[94%] w-full flex flex-wrap gap-4 overflow-auto">
-          {moc.map((e: any, i: number) => (
-            <div key={i} className="w-[6rem] h-28 bg-fifth rounded-xl p-2"> 
-             
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
+            <div className="bg-sixth w-2/6 h-fit rounded-xl px-8 pb-10">
+              <h1 className="font-bold py-5"> You are following </h1>
+              <div className="w-full flex flex-wrap gap-4 overflow-auto">
+                {moc.map((e: any) => (
+                  <div key={e.id} className="w-32 h-40 bg-fifth rounded-xl p-2"> 
+                  
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </>
   )
 }
