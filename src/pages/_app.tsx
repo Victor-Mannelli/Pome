@@ -14,10 +14,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>P.o.Me</title>
       </Head>
       <main className={`${lato.variable} font-sans`}>
-        {router.pathname !== "/" && router.pathname !== "/PoMe/signup" 
+      {/* {
+        router.pathname !== "/" && router.pathname !== "/PoMe/signup" 
         ? <Navbar/>
         : <></>
-      }
+      } */}
+        <Navbar/>
         <Component {...pageProps} />
       </main>
     </>

@@ -21,7 +21,9 @@ module.exports = {
         "fifth": "#5C5A5A",
         "sixth": "#797776",
         "seventh": "#a29d98",
-        "eigth": "#D7DCDE"
+        "eigth": "#D7DCDE",
+        "signature": "#00C8A5",
+        "h-signature": "#008C75",
       },
       fontFamily: {
         sans: ['var(--font-lato)']

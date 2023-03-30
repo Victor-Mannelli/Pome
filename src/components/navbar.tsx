@@ -24,18 +24,18 @@ export default function Navbar() {
 
   return (
     <div 
-      className={`fixed w-full bg-second hover:opacity-100 h-16 flex justify-between items-center px-10 z-20
+      className={`sticky w-full bg-second hover:opacity-100 h-16 flex justify-between items-center px-10 z-20
         ${ show ? "top-0" : "top-[-4rem]" } 
         ${router.pathname.startsWith("/pome/anime") ? "opacity-70" : "opacity-100" }`}
       style={{ transition: "top 0.3s" }}
     >
-      <SiNiconico onClick={() => router.push("/pome/home")} className="text-white text-3xl cursor-pointer hover:text-fifth "/>
+      <SiNiconico onClick={() => router.push("/pome/home")} className="text-signature text-2xl cursor-pointer hover:text-h-signature "/>
       <div>
-        <h2 className="hover:text-fifth" onClick={() => router.push("/pome/releases")}> Comming Soon! </h2>
+        <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push("/pome/releases")}> Comming Soon! </h2>
       </div>
       <div className="flex items-center gap-7">
-        <FaUserFriends onClick={() => router.push("/pome/friends")} className="text-white text-3xl cursor-pointer hover:text-fifth"/>
-        <FaUserCircle onClick={() => router.push("/pome/profile")} className="text-white text-3xl cursor-pointer hover:text-fifth"/>
+        <FaUserFriends onClick={() => router.push("/pome/friends")} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
+        <FaUserCircle onClick={() => router.push("/pome/profile")} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
       </div>
     </div>
   )

@@ -10,8 +10,8 @@ export default function Login() {
   const [fetchData, setFetchData] = useState({ email: "", password: "" });
 
   function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
-		setFetchData({ ...fetchData, [e.target.name]: e.target.value });
-	}
+    setFetchData({ ...fetchData, [e.target.name]: e.target.value });
+  }
 
   function login(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,44 +20,39 @@ export default function Login() {
   }
 
   return (
-    <div className="flex justify-center items-center w-full h-screen">
-      <div className="md:w-[30rem] md:h-auto h-screen bg-third rounded-xl p-7">
-        <Image 
-          src="/assets/dark_bg.jpg"
-          alt="banner"
-          width={1920}
-          height={1080}
-          className="rounded-xl mb-7"
-        />
-        <form onSubmit={login}>
-          <h1 className="font-bold"> Username </h1>
+    <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
+      <div className="flex flex-col items-center md:w-[23rem] md:h-[80%] h-screen bg-second rounded-xl">
+        <img src="/assets/dark_bg.jpg" alt="banner" className="rounded-xl w-[23rem] h-40 mb-5"/>
+        <form onSubmit={login} className="flex flex-col justify-center w-4/5">
           <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
+            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-3"
             name="email"
             type="email"
+            placeholder="Email"
             value={fetchData.email}
             onChange={handleChanges}
-          /> 
-          <h1 className="font-bold"> Password </h1>
+          />
           <input
             className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
             name="password"
             type="password"
+            placeholder="Password"
             value={fetchData.password}
             onChange={handleChanges}
           />
           <button
-            className="w-full md:w-full h-12 text-white bg-second  hover:bg-fourth place-self-center font-bold rounded-md"
+            className="w-full md:w-full h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             type="submit"
           >
             Log In
           </button>
+          <h4 className="text-sm text-center pt-2 hover:cursor-pointer hover:text-sixth"> Forgot your password? </h4>
         </form>
-        <h1 
-          onClick={() => router.push("/PoMe/signup")} 
-          className="text-center pt-2 hover:cursor-pointer hover:text-sixth"
-        // eslint-disable-next-line react/no-unescaped-entities
-        > Don't have an account yet? Create one! </h1>
+        <h4 
+          className="text-sm pt-2 hover:cursor-pointer hover:text-sixth mt-10" 
+          onClick={() => router.push("/pome/signup")}
+          > Don't have an account yet? <span className="text-signature hover:text-h-signature font-bold"> Create one! </span>
+        </h4>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import { SignupFetchData } from "@/utils/Interfaces";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { RxCross2 } from "react-icons/rx"
 
 export default function SignUp() {
   const router = useRouter();
@@ -31,84 +31,75 @@ export default function SignUp() {
     reader.readAsDataURL(file);
   };
   return (
-    <div className="flex justify-center items-center w-full h-screen">
-      <div className="md:w-[30rem] md:h-auto h-screen bg-third rounded-xl p-7">
-        <form onSubmit={register}>
-          {image ? (
-            <>
-              <Image
-                src={image}
-                alt="user_banner"
-                width={1920}
-                height={1080}
-                className="rounded-xl"
-              />
-              <h1
-                className="mb-5 mt-1 hover:cursor-pointer hover:text-fifth underline"
-                onClick={() => {
-                  setImage(null);
-                  focus === true ? setFocus(false) : "";
+    <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
+      <div className="flex flex-col items-center md:w-[23rem] md:h-[80%] h-screen bg-second rounded-xl">
+        {image ? (
+          <div className="relative mb-2">
+            <img src={image} alt="user_banner" className="rounded-xl w-[23rem] h-44"/>
+            <RxCross2 
+              className="absolute top-3 right-3 w-6 h-6 rounded-full border bg-opacity-20 bg-white text-white cursor-pointer"
+              onClick={() => {
+                setImage(null);
+                focus === true ? setFocus(false) : "";
+              }}
+            />
+          </div>
+        ) : null}
+        <form onSubmit={register} className="flex flex-col justify-center w-4/5">
+          {!image ? (
+            <div className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md mb-5 mt-8 px-5 
+              ${focus === true ? "bg-fourth" : "bg-second"}`
+            }>
+              <h3 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md text-center"> Choose Banner </h3>
+              <h3 className="text-sm"> or drag and drop your file here</h3>
+              <input
+                className="opacity-0 hover:cursor-pointer bg-black absolute top-0 left-0 w-full h-full"
+                type="file"
+                name="userBanner"
+                onChange={(e) => {
+                  handleImageInput(e)
+                  handleChanges(e)
                 }}
-              > change image here </h1>
-            </>
-          ) : (
-            <>
-              <h1 className="font-bold mb-3"> Banner </h1>
-              <div className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md mb-3 px-5 
-                ${focus === true ? "bg-fourth" : "bg-second"}`
-              }>
-                <h1 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md"> Choose Image </h1>
-                <h1> or drag and drop your file here</h1>
-                <input
-                  className="opacity-0 hover:cursor-pointer bg-black absolute top-0 left-0 w-full h-full"
-                  type="file"
-                  name="userBanner"
-                  onChange={(e) => {
-                    handleImageInput(e)
-                    handleChanges(e)
-                  }}
-                  onDragEnter={() => setFocus(!focus)}
-                  onDragLeave={() => setFocus(!focus)}
-                  />
-              </div>
-            </>
-          )}
-          <h1 className="font-bold"> Username </h1>
+                onDragEnter={() => setFocus(!focus)}
+                onDragLeave={() => setFocus(!focus)}
+                />
+            </div>
+          ) : null }
           <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
+            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-3"
             name="email"
             type="email"
+            placeholder="Email"
             value={fetchData.email}
             onChange={handleChanges}
           />
-          <h1 className="font-bold"> Password </h1>
           <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
+            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-3"
             name="password"
             type="password"
+            placeholder="Password"
             value={fetchData.password}
             onChange={handleChanges}
           />
-          <h1 className="font-bold"> Confirm Password </h1>
           <input
             className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
             name="confirmPassword"
             type="confirmPassword"
+            placeholder="Confirm Password"
             value={fetchData.confirmPassword}
             onChange={handleChanges}
           />
           <button
-            className="w-full md:w-full h-12 text-white bg-second  hover:bg-fourth place-self-center font-bold rounded-md"
+            className="w-full md:w-full h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             type="submit"
-          >
-            Register
+          > Register
           </button>
-          <h1
-            onClick={() => router.push("/")}
-            className="text-center pt-2 hover:cursor-pointer hover:text-sixth"
-          > Already have an account? Log In!
-          </h1>
         </form>
+        <h4 
+          className="text-sm pt-2 hover:cursor-pointer hover:text-sixth mt-2" 
+          onClick={() => router.push("/")}
+          >  Already have an account? <span className="text-signature hover:text-h-signature font-bold"> Log In! </span>
+        </h4>
       </div>
     </div>
   )
