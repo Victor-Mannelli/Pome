@@ -1,3 +1,4 @@
+import Filter from "@/components/models/filter";
 import { Stars } from "@/components/stars";
 import { animeApi } from "@/utils/axios";
 import { GraphqlRequestFunction } from "@/utils/axios";
@@ -122,17 +123,17 @@ export default function Home() {
     <>
       {
         !animeInfo ? null : (
-          <div className="flex m-7 gap-5 mt-20">
-            <div className="bg-sixth h-full flex flex-col w-[73%] rounded-xl p-5">
+          <div className="flex m-7 gap-5">
+            <div className="h-full flex flex-col w-[73%] rounded-xl p-5">
               <div className="h-[8%]">
-                <input className="w-full h-full rounded-xl bg-fifth caret-white text-white outline-none px-4" />
+                <Filter onChange={(e) => console.log(e.target.value)}/>
               </div>
               <h1 className="py-4 text-center"
                 onClick={() => router.push("/pome/releases")}
               > Airing </h1>
               <div className="w-full flex flex-wrap gap-5 overflow-auto">
                 {animeInfo.data.map((e: any) => (
-                  <div key={e.id} className="xl:w-[49%] w-full h-80 bg-fifth rounded-xl p-4 flex">
+                  <div key={e.id} className="xl:w-[49%] w-full h-80 bg-third rounded-xl p-4 flex">
                     <img
                       className="h-full w-40 rounded-xl"
                       src={e.images.jpg.image_url}
@@ -151,7 +152,7 @@ export default function Home() {
                 {/* page handler */}
               </div>
             </div>
-            <div className="bg-sixth w-[27%] h-fit rounded-xl px-8 pb-10">
+            <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-10">
               <h1 className="font-bold py-5"> You are following </h1>
               <div className="w-full flex flex-wrap gap-4 overflow-auto">
                 {moc.map((e: any) => (

@@ -93,6 +93,14 @@ export default function Friends() {
       timestamp: "MM/DD/YYYY at HH:mm",
       message:
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },    {
+      id: 1,
+      profile_picture:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
+      username: "Catto",
+      timestamp: "MM/DD/YYYY at HH:mm",
+      message:
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     },
     {
       id: 2,
@@ -138,7 +146,7 @@ export default function Friends() {
   ];
   
   return (
-    <div className="flex m-5 pt-16 gap-5 h-[calc(100vh-2.7rem)]">
+    <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
       <div className="bg-third w-1/4 h-full rounded-xl p-5">
         <h1 className="font-bold pb-3"> Friends </h1>
         <div className="h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
@@ -148,12 +156,10 @@ export default function Friends() {
               className="bg-fifth rounded-xl p-2 w-[95%] flex items-center"
               onClick={() => console.log("open friend chat")}
             > 
-              <Image
-                width={1920}
-                height={1080}
-                src="/assets/dark_bg.jpg"
-                alt="pfp" 
+              <img 
                 className="rounded-full h-6 w-6 mr-2"
+                src="/assets/dark_bg.jpg" 
+                alt="profile_pic" 
               />
               <h1> {e.title} </h1>
             </div>
@@ -161,7 +167,7 @@ export default function Friends() {
         </div>
       </div>
       <div className="bg-third w-3/4 h-full rounded-xl p-5 flex flex-col justify-between">
-        <div className="h-[90%] w-full flex flex-col gap-3 overflow-auto rounded-md mb-5">
+        <div className="h-[92%] w-full flex flex-col gap-3 overflow-auto rounded-md">
           {message.map((e) => (
             <Message
               key={e.id}
@@ -178,11 +184,11 @@ export default function Friends() {
           onPressEnter={() => console.log("pressed enter")}
           autoSize={true}
           placeholder="Message"
-          className="relative w-full min-h-[3rem] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
+          className="w-full min-h-[3rem] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
         />
         <IoSendSharp 
           onClick={() => console.log("sent")} 
-          className="absolute z-20 bottom-[3.7rem] right-14 text-seventh hover:cursor-pointer"
+          className="fixed z-20 bottom-[3.5rem] right-14 text-seventh hover:cursor-pointer"
         />
       </div>
     </div>

@@ -16,13 +16,7 @@ export function Message({
   return (
     <>
       <div className="flex p-3 text-sixth bg-fifth rounded-md" key={id}>
-        <Image
-          width={1920}
-          height={1080}
-          src="/assets/dark_bg.jpg"
-          alt="profile_picture"
-          className="rounded-full mr-3 mb-2 w-10 h-10"
-        />
+        <img src={profile_picture} alt="profile_pic" className="rounded-full mr-3 mb-2 w-10 h-10"/>
         <div className="flex flex-col">
           <div className="flex">
             <h1 className="pr-3 font-bold text-second"> {username} </h1>

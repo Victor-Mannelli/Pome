@@ -23,7 +23,7 @@ export default function Releases() {
     <>
       {
         !animeInfo ? null : (
-          <div className="flex flex-col rounded-xl m-5 pt-12">
+          <div className="flex flex-col  rounded-xl m-5">
             {/* <div className="h-8">
                   <input className="w-full h-full rounded-xl bg-sixth caret-white text-white outline-none px-4"/>
                 </div> */}
@@ -32,7 +32,7 @@ export default function Releases() {
               {animeInfo.data.map((e: AnimeInfo, i: number) => (
                 <div
                   key={i}
-                  className="xl:w-[48.5%] w-full h-56 bg-sixth rounded-xl p-2 cursor-pointer flex"
+                  className="xl:w-[48.5%] w-full h-56 bg-third rounded-xl p-2 cursor-pointer flex"
                   onClick={() => router.push(`/pome/anime/${e.mal_id}`)}
                 >
                   <img
@@ -41,11 +41,11 @@ export default function Releases() {
                     className="rounded-md w-40 mr-3"
                   />
                   <div className="flex flex-col h-full w-[88%]">
-                    <h1 className="font-bold text-2xl mb-3"> {e.title} </h1>
+                    <h1 className="font-bold text-2xl mb-3 cursor-pointer"> {e.title} </h1>
                     <div className="flex justify-between h-[68%] w-full pr-10">
                       <div className="lg:w-3/5">
                         {/* <Stars score={e.score} /> */}
-                        <h3 className="overflow-auto h-full"> {e.synopsis} </h3>
+                        <h3 className="overflow-auto h-full cursor-pointer"> {e.synopsis} </h3>
                       </div>
                       <GenresList data={e} />
                     </div>

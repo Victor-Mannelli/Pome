@@ -19,7 +19,7 @@
     @apply cursor-pointer text-2xl font-bold hover:text-third
   }
   button {
-    @apply cursor-pointer;
+    @apply cursor-pointer
   }
   *::-webkit-scrollbar {
     @apply w-2 md:w-1.5;

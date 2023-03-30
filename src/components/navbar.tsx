@@ -24,9 +24,9 @@ export default function Navbar() {
 
   return (
     <div 
-      className={`sticky w-full bg-second hover:opacity-100 h-16 flex justify-between items-center px-10 z-20
+      className={`w-full bg-second hover:opacity-100 h-16 flex justify-between items-center px-10 z-20
         ${ show ? "top-0" : "top-[-4rem]" } 
-        ${router.pathname.startsWith("/pome/anime") ? "opacity-70" : "opacity-100" }`}
+        ${(router.pathname.startsWith("/pome/anime") || router.pathname.startsWith("/pome/profile")) ? "fixed opacity-70" : "sticky opacity-100" }`}
       style={{ transition: "top 0.3s" }}
     >
       <SiNiconico onClick={() => router.push("/pome/home")} className="text-signature text-2xl cursor-pointer hover:text-h-signature "/>
@@ -35,7 +35,7 @@ export default function Navbar() {
       </div>
       <div className="flex items-center gap-7">
         <FaUserFriends onClick={() => router.push("/pome/friends")} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
-        <FaUserCircle onClick={() => router.push("/pome/profile")} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
+        <FaUserCircle onClick={() => router.push("/pome/profile/1")} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
       </div>
     </div>
   )
