@@ -47,7 +47,7 @@ export default function SignUp() {
         ) : null}
         <form onSubmit={register} className="flex flex-col justify-center w-4/5">
           {!image ? (
-            <div className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md mb-5 mt-8 px-5 
+            <div className={`relative w-full flex items-center h-[8.25rem] border-solid border-2 rounded-md mb-5 mt-8 px-5 
               ${focus === true ? "bg-fourth" : "bg-second"}`
             }>
               <h3 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md text-center"> Choose Banner </h3>
