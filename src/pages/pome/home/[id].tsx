@@ -1,3 +1,4 @@
+import Button from "@/components/models/button";
 import Filter from "@/components/models/filter";
 import { Stars } from "@/components/stars";
 import { GraphqlRequestFunction } from "@/utils/axios";
@@ -8,8 +9,6 @@ import { useState } from "react";
 
 export default function Home({ data }: { data: AnimeData }) {
   const router = useRouter();
-  const [page, setPage] = useState<number>(1);
-
   console.log(data);
 
   return (
@@ -41,9 +40,29 @@ export default function Home({ data }: { data: AnimeData }) {
               </div>
             </div>
           ))}
-        </div>
-        <div>
-          {/* page handler */}
+          <div className="flex justify-center items-center w-full">
+            {data.pageInfo.currentPage > 1 
+              ? <Button 
+                  className=""
+                  onClick={() => router.push(`/pome/home/${data.pageInfo.currentPage - 1}`)} 
+                  text="Back" 
+                /> 
+              : <Button 
+                  className="disabled"
+                  onClick={() => console.log()} 
+                  text="Back" 
+                /> 
+            }
+            <h3 className="font-bold px-5"> { data.pageInfo.currentPage } </h3>
+            {data.pageInfo.hasNextPage 
+              ? <Button 
+                  className=""
+                  onClick={() => router.push(`/pome/home/${data.pageInfo.currentPage + 1}`)} 
+                  text="Next" 
+                /> 
+              : null 
+            }
+          </div>
         </div>
       </div>
       <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-10">
@@ -69,7 +88,6 @@ export async function getServerSideProps(context: NextPageContext) {
   if (!data) return {
     redirect: { destination: "/", permanent: false },
   };
-
   return {
     props: {
       data,
