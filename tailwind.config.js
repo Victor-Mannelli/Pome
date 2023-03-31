@@ -8,10 +8,14 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        sm: "480px",
-        md: "768px",
-        lg: "976px",
-        xl: "1440px",
+        sm: '480px',
+        md: '768px',
+        lg: '976px',
+        xl: '1440px',
+        'max-sm': {'max': '480px'},
+        'max-md': {'max': '768px'},
+        'max-lg': {'max': '976px'},
+        'max-xl': {'max': '1440px'},
       },
       colors: {
         "first": "#1e1e1e",

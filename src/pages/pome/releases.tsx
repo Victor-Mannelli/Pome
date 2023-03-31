@@ -17,7 +17,7 @@ export default function Releases() {
       .then(({ data }) => setAnimeInfo(data))
   }, [page])
 
-  console.log(animeInfo?.data)
+  // console.log(animeInfo?.data)
 
   return (
     <>

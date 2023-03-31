@@ -10,98 +10,53 @@ export default function Home() {
   const router = useRouter();
   const moc: any = [
     {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
-    },
-    {
-      title: "aaaaaaa",
-      image: "",
+      title: "bbbbbb",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
     {
       title: "bbbbbb",
-      image: "",
-      description: ""
-    },
-    {
-      title: "bbbbbb",
-      image: "",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
       description: ""
     },
   ]
@@ -117,7 +72,7 @@ export default function Home() {
       .then(({ data }) => setAnimeInfo(data))
   }, [page])
 
-  // console.log(animeInfo?.data);
+  console.log(animeInfo?.data);
 
   return (
     <>
@@ -133,17 +88,21 @@ export default function Home() {
               > Airing </h1>
               <div className="w-full flex flex-wrap gap-5 overflow-auto">
                 {animeInfo.data.map((e: any) => (
-                  <div key={e.id} className="xl:w-[49%] w-full h-80 bg-third rounded-xl p-4 flex">
+                  <div 
+                    className="xl:w-[48.9%] w-full h-80 bg-third rounded-xl p-4 flex cursor-pointer"
+                    onClick={() => router.push(`/pome/anime/${e.mal_id}`)}
+                    key={e.mal_id} 
+                  >
                     <img
                       className="h-full w-40 rounded-xl"
                       src={e.images.jpg.image_url}
                       alt="anime_image"
                     />
                     <div className="pl-5 h-[90%]">
-                      <h1 > {e.title} </h1>
+                      <h1 className="cursor-pointer"> {e.title} </h1>
                       <Stars score={e.score} />
-                      <h3 className="pb-3"> {e.year} </h3>
-                      <h3 className="h-2/3 overflow-auto"> {e.synopsis} </h3>
+                      <h3 className="cursor-pointer pb-3"> {e.year} </h3>
+                      <h3 className="cursor-pointer h-2/3 overflow-auto"> {e.synopsis} </h3>
                     </div>
                   </div>
                 ))}
@@ -156,7 +115,11 @@ export default function Home() {
               <h1 className="font-bold py-5"> You are following </h1>
               <div className="w-full flex flex-wrap gap-4 overflow-auto">
                 {moc.map((e: any) => (
-                  <div key={e.name} className="w-32 h-40 bg-fifth rounded-xl p-2">
+                  <div 
+                    className="w-32 h-40 bg-fifth rounded-xl p-2 bg-cover"
+                    style={{backgroundImage: `url(${e.image})`}}
+                    key={e.name} 
+                  >
 
                   </div>
                 ))}
