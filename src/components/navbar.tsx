@@ -29,7 +29,7 @@ export default function Navbar() {
         ${(router.pathname.startsWith("/pome/anime") || router.pathname.startsWith("/pome/profile")) ? "fixed opacity-70" : "sticky opacity-100" }`}
       style={{ transition: "top 0.3s" }}
     >
-      <SiNiconico onClick={() => router.push("/pome/home")} className="text-signature text-2xl cursor-pointer hover:text-h-signature "/>
+      <SiNiconico onClick={() => router.push("/pome/home/1")} className="text-signature text-2xl cursor-pointer hover:text-h-signature "/>
       <div>
         <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push("/pome/releases")}> Comming Soon! </h2>
       </div>

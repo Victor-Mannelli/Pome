@@ -1,4 +1,3 @@
-import { HtmlHTMLAttributes } from "react"
 import { GiMagnifyingGlass } from "react-icons/gi"
 
 export default function Filter({ onChange } : { onChange: React.ChangeEventHandler<HTMLInputElement>}) {

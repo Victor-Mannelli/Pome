@@ -16,11 +16,9 @@ export interface SignupFetchData {
   confirmPassword: string,
   userBanner: string,
 }
-
 export interface AnimeInfoData {
   data: AnimeInfo[]
 }
-
 export interface AnimeInfo {
   title: string,
   score: number,
@@ -46,5 +44,91 @@ export interface AnimeInfo {
     },
     url: string,
     youtube_id: string
+  }
+}
+export interface AnimeData {
+  media: {
+    id: number,
+    title: {
+      romaji: string,
+      english: string,
+      native: string,
+    },
+    type: string,
+    format: string,
+    status: string
+    description: string,
+    startDate: {
+      year: number,
+      month: number,
+      day: number,
+    },
+    endDate: {
+      year: number,
+      month: number,
+      day: number,
+    },
+    season: string,
+    episodes: number,
+    duration: number,
+    chapters: number,
+    volumes: number,
+    source: string,
+    trailer: {
+      id: number,
+      site: string,
+      thumbnail: string,
+    },
+    updatedAt: number,
+    coverImage: {
+      extraLarge: string,
+      large: string,
+      medium: string,
+    },
+    bannerImage: string,
+    genres: string[] | string,
+    synonyms: string[] | string,
+    averageScore: number,
+    popularity: number,
+    favourites: number,
+    tags: {
+      id: number,
+      name: string,
+      description: string,
+      category: string,
+      isAdult: boolean,
+    },
+    characters: {
+      nodes: {
+        id: number,
+        name: {
+          full: string,
+        },
+        image: {
+          large: string,
+          medium: string,
+        },
+        gender: string,
+        description: string,
+        dateOfBirth: {
+          year: number,
+          month: number,
+          day: number,
+        },
+        age: number,
+        bloodType: string,
+        favourites: number,
+      }
+    }
+    isAdult: boolean,
+    nextAiringEpisode: {
+      id: number
+      timeUntilAiring: number,
+      episode: number
+    }
+  }[]
+  pageInfo: {
+    currentPage: number,
+    hasNextPage: boolean
   }
 }
