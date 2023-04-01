@@ -106,11 +106,31 @@ export default function Profile(data: any) {
               </div>
               <div className="w-3/4 h-screen flex flex-col">
                 <div className="flex justify-center">
-                  <Button text={'Finished'} list={list} onClick={() => setList('Finished') }/>
-                  <Button text={'Whatching'} list={list} onClick={() => setList('Whatching') }/>
-                  <Button text={'Planning'} list={list} onClick={() => setList('Planning') }/>
-                  <Button text={'Dropped'} list={list} onClick={() => setList('Dropped') }/>
-                  <Button text={'Rewatching'} list={list} onClick={() => setList('Rewatching') }/>
+                  <Button 
+                    text={'Finished'} 
+                    className={`ml-5 mt-5 ${list === 'Finished' ? "border bg-second" : "bg-third"}`} 
+                    onClick={() => setList('Finished')}
+                  />
+                  <Button 
+                    text={'Whatching'} 
+                    className={`ml-5 mt-5 ${list === 'Whatching' ? "border bg-second" : "bg-third"}`} 
+                    onClick={() => setList('Whatching')}
+                  />
+                  <Button 
+                    text={'Planning'} 
+                    className={`ml-5 mt-5 ${list === 'Planning' ? "border bg-second" : "bg-third"}`} 
+                    onClick={() => setList('Planning')}
+                  />
+                  <Button 
+                    text={'Dropped'} 
+                    className={`ml-5 mt-5 ${list === 'Dropped' ? "border bg-second" : "bg-third"}`} 
+                    onClick={() => setList('Dropped')}
+                  />
+                  <Button 
+                    text={'Rewatching'} 
+                    className={`ml-5 mt-5 ${list === 'Rewatching' ? "border bg-second" : "bg-third"}`} 
+                    onClick={() => setList('Rewatching')}
+                  />
                 </div>
                 <div className="bg-third rounded-2xl m-5 pb-5">
                   <div className="w-full flex pt-5">

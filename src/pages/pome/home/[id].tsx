@@ -43,12 +43,12 @@ export default function Home({ data }: { data: AnimeData }) {
           <div className="flex justify-center items-center w-full">
             {data.pageInfo.currentPage > 1 
               ? <Button 
-                  className=""
+                  className="bg-third"
                   onClick={() => router.push(`/pome/home/${data.pageInfo.currentPage - 1}`)} 
                   text="Back" 
                 /> 
               : <Button 
-                  className="disabled"
+                  className="bg-third"
                   onClick={() => console.log()} 
                   text="Back" 
                 /> 
@@ -56,7 +56,7 @@ export default function Home({ data }: { data: AnimeData }) {
             <h3 className="font-bold px-5"> { data.pageInfo.currentPage } </h3>
             {data.pageInfo.hasNextPage 
               ? <Button 
-                  className=""
+                  className="bg-third"
                   onClick={() => router.push(`/pome/home/${data.pageInfo.currentPage + 1}`)} 
                   text="Next" 
                 /> 

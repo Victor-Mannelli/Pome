@@ -11,7 +11,7 @@ export default function Button({
 }) {
   return (
     <button
-      className={`p-5 text-xl font-bold text-eigth rounded-xl hover:bg-second transition-none bg-third ${className}`}
+      className={`p-5 text-xl font-bold text-eigth rounded-xl hover:bg-second transition-none  ${className}`}
       onClick={onClick}
     > {text} </button> 
     // <button
