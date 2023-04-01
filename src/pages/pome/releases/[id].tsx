@@ -1,11 +1,12 @@
 import GenresList from "@/components/genres";
+import PageHandler from "@/components/pageHandler";
 import { Stars } from "@/components/stars";
 import { animeApi } from "@/utils/axios";
-import { AnimeData, SingleAnimeData } from "@/utils/Interfaces";
+import { AnimeData } from "@/utils/Interfaces";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router"
 
-export default function Releases({ data }: { data: AnimeData }) {
+export default function Releases({ data } : { data: AnimeData }) {
   const router = useRouter();
   // console.log(data);
   return (
@@ -27,17 +28,22 @@ export default function Releases({ data }: { data: AnimeData }) {
               className="rounded-md w-40 mr-3"
             />
             <div className="flex flex-col h-full w-[88%]">
-              <h1 className="font-bold text-2xl mb-3 cursor-pointer"> {e.title.romaji} </h1>
+              <h1 className="font-bold text-2xl cursor-pointer max-h-16 overflow-auto"> {e.title.romaji} </h1>
               <div className="flex justify-between h-[68%] w-full pr-10">
                 <div className="lg:w-3/5">
-                  {e.averageScore ? <Stars score={e.averageScore} /> : null}
-                  <h3 className="overflow-auto h-full cursor-pointer"> {e.description} </h3>
+                  {e.averageScore ? <Stars score={e.averageScore} /> : <div className="h-8"> </div>}
+                  <h3 className="overflow-auto h-3/4 cursor-pointer"> {e.description} </h3>
                 </div>
                 {e.genres ? <GenresList genres={e.genres} /> : null}
               </div>
             </div>
           </div>
         ))}
+        <PageHandler 
+          currentPage={data.pageInfo.currentPage} 
+          hasNextPage={data.pageInfo.hasNextPage} 
+          route="releases" 
+        />
       </div>
     </div>
   )

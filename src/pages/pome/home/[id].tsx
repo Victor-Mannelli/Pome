@@ -1,5 +1,6 @@
 import Button from "@/components/models/button";
 import Filter from "@/components/models/filter";
+import PageHandler from "@/components/pageHandler";
 import { Stars } from "@/components/stars";
 import { animeApi } from "@/utils/axios";
 import { AnimeData } from "@/utils/Interfaces";
@@ -54,39 +55,21 @@ export default function Home({ data }: { data: AnimeData }) {
               </div>
             </div>
           ))}
-          <div className="flex justify-center items-center w-full">
-            {data.pageInfo.currentPage > 1 
-              ? <Button 
-                  className="bg-third"
-                  onClick={() => router.push(`/pome/home/${data.pageInfo.currentPage - 1}`)} 
-                  text="Back" 
-                /> 
-              : <Button 
-                  className="bg-third"
-                  onClick={() => console.log()} 
-                  text="Back" 
-                /> 
-            }
-            <h3 className="font-bold px-5"> { data.pageInfo.currentPage } </h3>
-            {data.pageInfo.hasNextPage 
-              ? <Button 
-                  className="bg-third"
-                  onClick={() => router.push(`/pome/home/${data.pageInfo.currentPage + 1}`)} 
-                  text="Next" 
-                /> 
-              : null 
-            }
-          </div>
+          <PageHandler 
+            currentPage={data.pageInfo.currentPage} 
+            hasNextPage={data.pageInfo.hasNextPage} 
+            route="home" 
+          />
         </div>
       </div>
       <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-10">
         <h1 className="font-bold py-5"> You are following </h1>
         <div className="w-full flex flex-wrap gap-4 overflow-auto">
           {moc.map((e: any) => (
-            <div 
+            <div
               className="w-32 h-40 bg-fifth rounded-xl p-2 bg-cover"
-              style={{backgroundImage: `url(${e.image})`}}
-              key={e.id} 
+              style={{ backgroundImage: `url(${e.image})` }}
+              key={e.id}
             >
             </div>
           ))}
@@ -195,7 +178,7 @@ export async function getServerSideProps(context: NextPageContext) {
     }
   `
   try {
-    let { data } = await animeApi.post("", { query, variables }, { 
+    let { data } = await animeApi.post("", { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

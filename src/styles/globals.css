@@ -25,6 +25,6 @@
     @apply w-2 md:w-1.5;
   }
   *::-webkit-scrollbar-thumb {
-    @apply bg-third;
+    @apply bg-first;
   } 
 }
