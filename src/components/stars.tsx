@@ -1,10 +1,11 @@
-export function Stars(props: any) {
-  const width =`${(props.score).toFixed(2)}%`
+import { ReactElement } from "react";
+
+export function Stars({ score } : { score: number}) : ReactElement {
   return (
     <div className="relative w-[74.98px] h-8">
       <div 
         className={`absolute z-10 top-0 left-0 overflow-hidden`}
-        style={{ width: width }}
+        style={{ width: `${score}%` }}
       > 
         <p className="text-[#e7711b] text-lg">★★★★★</p>
       </div>
