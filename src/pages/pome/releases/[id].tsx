@@ -6,9 +6,9 @@ import { AnimeData } from "@/utils/Interfaces";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router"
 
-export default function Releases({ data } : { data: AnimeData }) {
+export default function Releases({ data }: { data: AnimeData }) {
   const router = useRouter();
-  // console.log(data);
+  console.log(data);
   return (
     <div className="flex flex-col  rounded-xl m-5">
       {/* <div className="h-8">
@@ -39,10 +39,10 @@ export default function Releases({ data } : { data: AnimeData }) {
             </div>
           </div>
         ))}
-        <PageHandler 
-          currentPage={data.pageInfo.currentPage} 
-          hasNextPage={data.pageInfo.hasNextPage} 
-          route="releases" 
+        <PageHandler
+          currentPage={data.pageInfo.currentPage}
+          hasNextPage={data.pageInfo.hasNextPage}
+          route="releases"
         />
       </div>
     </div>
@@ -148,22 +148,15 @@ export async function getServerSideProps(context: NextPageContext) {
     }
   `
   try {
-    let { data } = await animeApi.post("", { query, variables }, { 
+    let { data } = await animeApi.post("", { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
     });
     data = data.data.Page
-
-    return {
-      props: {
-        data
-      },
-    };
+    return { props: { data } };
   } catch (error) {
-    return {
-      redirect: { destination: "/", permanent: false }
-    }
+    return { redirect: { destination: "/", permanent: false } }
   }
 }

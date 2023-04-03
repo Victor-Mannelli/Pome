@@ -16,12 +16,10 @@ export default function SignUp() {
       setFetchData({ ...fetchData, [e.target.name]: e.target.value });
     }
   }
-
   function register(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // userLogin({ email: fetchData.email, password: fetchData.password, router });
   }
-
   const handleImageInput = (event: any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -30,9 +28,10 @@ export default function SignUp() {
     };
     reader.readAsDataURL(file);
   };
+
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col items-center md:w-[23rem] md:h-[80%] h-screen bg-second rounded-xl">
+      <div className="flex flex-col md:justify-start justify-center items-center md:w-[23rem] w-full md:h-[80%] h-screen bg-second rounded-xl">
         {image ? (
           <div className="relative mb-2">
             <img src={image} alt="user_banner" className="rounded-xl w-[23rem] h-44"/>

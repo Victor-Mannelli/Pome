@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col items-center md:w-[23rem] md:h-[80%] h-screen bg-second rounded-xl">
+      <div className="flex flex-col md:justify-start justify-center items-center md:w-[23rem] w-full md:h-[80%] h-screen bg-second rounded-xl">
         <img src="/assets/dark_bg.jpg" alt="banner" className="rounded-xl w-[23rem] h-40 mb-5"/>
         <form onSubmit={login} className="flex flex-col justify-center w-4/5">
           <input

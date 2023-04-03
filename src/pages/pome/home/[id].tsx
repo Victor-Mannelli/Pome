@@ -1,4 +1,3 @@
-import Button from "@/components/models/button";
 import Filter from "@/components/models/filter";
 import PageHandler from "@/components/pageHandler";
 import { Stars } from "@/components/stars";
