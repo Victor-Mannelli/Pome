@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 export interface LoginHandler {
   email: string;
@@ -211,4 +211,7 @@ export interface SingleAnimeData {
     timeUntilAiring: number,
     episode: number
   }
+}
+export interface ChatMessages {
+  message: string
 }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 // { id, profile_picture, username, timestamp, message }: Component<MessageProps>
 export function Message({
   id,

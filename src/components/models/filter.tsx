@@ -1,4 +1,4 @@
-import { GiMagnifyingGlass } from "react-icons/gi"
+import { GiMagnifyingGlass } from 'react-icons/gi';
 
 export default function Filter({ onChange } : { onChange: React.ChangeEventHandler<HTMLInputElement>}) {
   return (
@@ -9,5 +9,5 @@ export default function Filter({ onChange } : { onChange: React.ChangeEventHandl
         onChange={onChange}
       />
     </div>
-  )
+  );
 }

@@ -5,5 +5,5 @@ export default function GenresList({ genres } : { genres: string[]}) {
         <li key={i} className="text-eigth text-xl"> {e} </li>
       ))}
     </div>
-  )
+  );
 }

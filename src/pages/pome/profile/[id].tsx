@@ -1,87 +1,87 @@
-import { NextPageContext } from "next"
-import { useEffect, useState } from "react"
-import Button from "@/components/models/button";
-import Filter from "@/components/models/filter";
-import _ from "underscore";
+import { NextPageContext } from 'next';
+import { useEffect, useState } from 'react';
+import Button from '@/components/models/button';
+import Filter from '@/components/models/filter';
+import _ from 'underscore';
 
 export default function Profile(data: any) {
-  const [list, setList] = useState<string>("Whatching");
-  const [sort, setSort] = useState<string>("");
+  const [list, setList] = useState<string>('Whatching');
+  const [sort, setSort] = useState<string>('');
 
   const user = {
-    banner: "/assets/dark_bg.jpg",
-    profile_picture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-    username: "Catto",
-  }
+    banner: '/assets/dark_bg.jpg',
+    profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU',
+    username: 'Catto',
+  };
   const moc: any = [
     {
       id: 1,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 2,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 3,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 4,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 5,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 6,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 7,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 8,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id: 9,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }, {
       id:10,
-      title: "aaaaaaa",
-      score: "10",
-      progress: "10/12",
-      type: "TV",
+      title: 'aaaaaaa',
+      score: '10',
+      progress: '10/12',
+      type: 'TV',
     }
-  ]
+  ];
 
   useEffect(() => {
   
     //request to list type 
   
-  }, [])
+  }, []);
 
   data = _.sortBy(data, sort).reverse();
 
@@ -90,7 +90,7 @@ export default function Profile(data: any) {
       {
         !data ? null : (
           <div className="flex flex-col">
-            <div className={`w-full h-[20rem] flex items-end px-48`}
+            <div className={'w-full h-[20rem] flex items-end px-48'}
               style={{backgroundImage: `url('${user.banner}')`}}
             >
               <img 
@@ -108,27 +108,27 @@ export default function Profile(data: any) {
                 <div className="flex justify-center">
                   <Button 
                     text={'Finished'} 
-                    className={`ml-5 mt-5 ${list === 'Finished' ? "border bg-second" : "bg-third"}`} 
+                    className={`ml-5 mt-5 ${list === 'Finished' ? 'border bg-second' : 'bg-third'}`} 
                     onClick={() => setList('Finished')}
                   />
                   <Button 
                     text={'Whatching'} 
-                    className={`ml-5 mt-5 ${list === 'Whatching' ? "border bg-second" : "bg-third"}`} 
+                    className={`ml-5 mt-5 ${list === 'Whatching' ? 'border bg-second' : 'bg-third'}`} 
                     onClick={() => setList('Whatching')}
                   />
                   <Button 
                     text={'Planning'} 
-                    className={`ml-5 mt-5 ${list === 'Planning' ? "border bg-second" : "bg-third"}`} 
+                    className={`ml-5 mt-5 ${list === 'Planning' ? 'border bg-second' : 'bg-third'}`} 
                     onClick={() => setList('Planning')}
                   />
                   <Button 
                     text={'Dropped'} 
-                    className={`ml-5 mt-5 ${list === 'Dropped' ? "border bg-second" : "bg-third"}`} 
+                    className={`ml-5 mt-5 ${list === 'Dropped' ? 'border bg-second' : 'bg-third'}`} 
                     onClick={() => setList('Dropped')}
                   />
                   <Button 
                     text={'Rewatching'} 
-                    className={`ml-5 mt-5 ${list === 'Rewatching' ? "border bg-second" : "bg-third"}`} 
+                    className={`ml-5 mt-5 ${list === 'Rewatching' ? 'border bg-second' : 'bg-third'}`} 
                     onClick={() => setList('Rewatching')}
                   />
                 </div>
@@ -154,7 +154,7 @@ export default function Profile(data: any) {
         )
       }
     </>
-  )
+  );
 }
 
 export async function getServerSideProps(context: NextPageContext) {
@@ -162,7 +162,7 @@ export async function getServerSideProps(context: NextPageContext) {
   const data = {};
 
   if (!data) return {
-    redirect: { destination: "/pome/home", permanent: false },
+    redirect: { destination: '/pome/home', permanent: false },
   };
 
   return {
@@ -171,4 +171,3 @@ export async function getServerSideProps(context: NextPageContext) {
     },
   };
 }
-;;

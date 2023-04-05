@@ -1,10 +1,10 @@
-import GenresList from "@/components/genres";
-import PageHandler from "@/components/pageHandler";
-import { Stars } from "@/components/stars";
-import { animeApi } from "@/utils/axios";
-import { AnimeData } from "@/utils/Interfaces";
-import { NextPageContext } from "next";
-import { useRouter } from "next/router"
+import GenresList from '@/components/genres';
+import PageHandler from '@/components/pageHandler';
+import { Stars } from '@/components/stars';
+import { animeApi } from '@/utils/axios';
+import { AnimeData } from '@/utils/Interfaces';
+import { NextPageContext } from 'next';
+import { useRouter } from 'next/router';
 
 export default function Releases({ data }: { data: AnimeData }) {
   const router = useRouter();
@@ -46,13 +46,13 @@ export default function Releases({ data }: { data: AnimeData }) {
         />
       </div>
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  let variables = {
+  const variables = {
     page: Number(context.query.id)
-  }
+  };
   const query = `
     query ($page: Int) {
       Page (page: $page, perPage: 20) {
@@ -146,17 +146,17 @@ export async function getServerSideProps(context: NextPageContext) {
         }
       }
     }
-  `
+  `;
   try {
-    let { data } = await animeApi.post("", { query, variables }, {
+    let { data } = await animeApi.post('', { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
     });
-    data = data.data.Page
+    data = data.data.Page;
     return { props: { data } };
   } catch (error) {
-    return { redirect: { destination: "/", permanent: false } }
+    return { redirect: { destination: '/', permanent: false } };
   }
 }

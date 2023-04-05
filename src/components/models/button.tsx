@@ -19,5 +19,5 @@ export default function Button({
     //   ${text === list ? "border bg-second" : "bg-third"}`}
     //   onClick={onClick}
     // > {text} </button>
-  )
+  );
 }

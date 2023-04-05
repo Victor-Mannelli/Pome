@@ -1,20 +1,20 @@
-import GenresList from "@/components/genres";
-import { Stars } from "@/components/stars";
-import { animeApi } from "@/utils/axios";
-import { SingleAnimeData } from "@/utils/Interfaces";
-import { NextPageContext } from "next";
+import GenresList from '@/components/genres';
+import { Stars } from '@/components/stars';
+import { animeApi } from '@/utils/axios';
+import { SingleAnimeData } from '@/utils/Interfaces';
+import { NextPageContext } from 'next';
 // import { useRouter } from "next/router";
 // import { BiUpArrow } from "react-icons/bi";
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
   console.log(data);
   return (
-    <div className={`flex flex-col items-center gap-5 pb-7 ${data.bannerImage ? "" : "mt-56"}`}>
+    <div className={`flex flex-col items-center gap-5 pb-7 ${data.bannerImage ? '' : 'mt-56'}`}>
       {data.bannerImage ? (
-         <div 
-         className={`w-full h-[22rem] bg-cover`}
-         style={{backgroundImage: `url(${data.bannerImage})`}}
-       > </div>
+        <div 
+          className={'w-full h-[22rem] bg-cover'}
+          style={{backgroundImage: `url(${data.bannerImage})`}}
+        > </div>
       ) : null}
       <div className="h-1/2 w-full rounded-xl flex gap-2 px-5">
         <div className="relative w-[19rem] h-64 flex flex-col justify-end items-center">
@@ -43,7 +43,7 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
         <h1 className="text-3xl font-bold pb-3"> Sinopse </h1>
         <p className="text-2xl"> {data.description} </p>
       </div>
-      {data.trailer && data.trailer.site === "youtube" ? (
+      {data.trailer && data.trailer.site === 'youtube' ? (
         <div className="bg-sixth rounded-xl w-[98%] p-5">
           <h1 className="text-3xl font-bold pb-3"> Trailer </h1>
           <div className="flex justify-center"> 
@@ -56,14 +56,14 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
         </div>
       ) : null}
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  let variables = {
+  const variables = {
     id: Number(context.query.id)
-  }
-  let query = `
+  };
+  const query = `
     query ($id: Int) {
       Media (id: $id) {
         id
@@ -150,15 +150,15 @@ export async function getServerSideProps(context: NextPageContext) {
         }
       }
     }
-  `
+  `;
   try {
-    let { data } = await animeApi.post("", { query, variables }, {
+    let { data } = await animeApi.post('', { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
     });
-    data = data.data.Media
+    data = data.data.Media;
 
     return {
       props: {
@@ -167,7 +167,7 @@ export async function getServerSideProps(context: NextPageContext) {
     };
   } catch (error) {
     return {
-      redirect: { destination: "/", permanent: false }
-    }
+      redirect: { destination: '/', permanent: false }
+    };
   }
 }

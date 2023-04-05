@@ -1,10 +1,10 @@
-import Filter from "@/components/models/filter";
-import PageHandler from "@/components/pageHandler";
-import { Stars } from "@/components/stars";
-import { animeApi } from "@/utils/axios";
-import { AnimeData } from "@/utils/Interfaces";
-import { NextPageContext } from "next";
-import { useRouter } from "next/router";
+import Filter from '@/components/models/filter';
+import PageHandler from '@/components/pageHandler';
+import { Stars } from '@/components/stars';
+import { animeApi } from '@/utils/axios';
+import { AnimeData } from '@/utils/Interfaces';
+import { NextPageContext } from 'next';
+import { useRouter } from 'next/router';
 
 export default function Home({ data }: { data: AnimeData }) {
   const router = useRouter();
@@ -13,17 +13,17 @@ export default function Home({ data }: { data: AnimeData }) {
   const moc = [
     {
       id: 1,
-      image: "https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg"
+      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
     },
     {
       id: 2,
-      image: "https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg"
+      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
     },
     {
       id: 3,
-      image: "https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg"
+      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
     }
-  ]
+  ];
 
   return (
     <div className="flex m-7 gap-5">
@@ -32,7 +32,7 @@ export default function Home({ data }: { data: AnimeData }) {
           <Filter onChange={(e) => console.log(e.target.value)} />
         </div>
         <h1 className="py-4 text-center"
-          onClick={() => router.push("/pome/releases")}
+          onClick={() => router.push('/pome/releases')}
         > Airing </h1>
         <div className="w-full flex flex-wrap gap-5 overflow-auto">
           {data.media.map((e: any) => (
@@ -75,13 +75,13 @@ export default function Home({ data }: { data: AnimeData }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  let variables = {
+  const variables = {
     page: Number(context.query.id)
-  }
+  };
   const query = `
     query ($page: Int) {
       Page (page: $page, perPage: 20) {
@@ -175,15 +175,15 @@ export async function getServerSideProps(context: NextPageContext) {
         }
       }
     }
-  `
+  `;
   try {
-    let { data } = await animeApi.post("", { query, variables }, {
+    let { data } = await animeApi.post('', { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
     });
-    data = data.data.Page
+    data = data.data.Page;
 
     return {
       props: {
@@ -192,7 +192,7 @@ export async function getServerSideProps(context: NextPageContext) {
     };
   } catch (error) {
     return {
-      redirect: { destination: "/", permanent: false }
-    }
+      redirect: { destination: '/', permanent: false }
+    };
   }
 }

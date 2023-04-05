@@ -1,13 +1,13 @@
-import Image from "next/image";
-import nookies from "nookies";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { userLogin } from "@/utils/handlers/handleLogin";
+import Image from 'next/image';
+import nookies from 'nookies';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { userLogin } from '@/utils/handlers/handleLogin';
 
 export default function Login() {
   // const cookies = nookies.get("token");
   const router = useRouter();
-  const [fetchData, setFetchData] = useState({ email: "", password: "" });
+  const [fetchData, setFetchData] = useState({ email: '', password: '' });
 
   function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
     setFetchData({ ...fetchData, [e.target.name]: e.target.value });
@@ -16,7 +16,7 @@ export default function Login() {
   function login(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // userLogin({ email: fetchData.email, password: fetchData.password, router });
-    router.push("/PoMe/home")
+    router.push('/PoMe/home');
   }
 
   return (
@@ -50,10 +50,10 @@ export default function Login() {
         </form>
         <h4 
           className="text-sm pt-2 hover:cursor-pointer hover:text-sixth mt-10" 
-          onClick={() => router.push("/pome/signup")}
-          > Don't have an account yet? <span className="text-signature hover:text-h-signature font-bold"> Create one! </span>
+          onClick={() => router.push('/pome/signup')}
+        > Don't have an account yet? <span className="text-signature hover:text-h-signature font-bold"> Create one! </span>
         </h4>
       </div>
     </div>
-  )
+  );
 }

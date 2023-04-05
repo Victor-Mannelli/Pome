@@ -25,11 +25,13 @@
     "react-icons": "^4.8.0",
     "react-toastify": "^9.1.2",
     "typescript": "5.0.2",
-    "underscore": "^1.13.6"
+    "underscore": "^1.13.6",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.2.4",
     "@types/underscore": "^1.11.4",
+    "@types/ws": "^8.5.4",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "autoprefixer": "^10.4.14",

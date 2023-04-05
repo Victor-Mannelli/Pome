@@ -1,16 +1,16 @@
-import { SignupFetchData } from "@/utils/Interfaces";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { RxCross2 } from "react-icons/rx"
+import { SignupFetchData } from '@/utils/Interfaces';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { RxCross2 } from 'react-icons/rx';
 
 export default function SignUp() {
   const router = useRouter();
   const [image, setImage] = useState<any>(null);
-  const [fetchData, setFetchData] = useState<SignupFetchData>({ email: "", password: "", confirmPassword: "", userBanner: "" });
-  const [focus, setFocus] = useState<boolean>(false)
+  const [fetchData, setFetchData] = useState<SignupFetchData>({ email: '', password: '', confirmPassword: '', userBanner: '' });
+  const [focus, setFocus] = useState<boolean>(false);
 
   function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.name === "userBanner") {
+    if (e.target.name === 'userBanner') {
       // setFetchData({ ...fetchData, [e.target.name]: e.});
     } else {
       setFetchData({ ...fetchData, [e.target.name]: e.target.value });
@@ -39,7 +39,7 @@ export default function SignUp() {
               className="absolute top-3 right-3 w-6 h-6 rounded-full border bg-opacity-20 bg-white text-white cursor-pointer"
               onClick={() => {
                 setImage(null);
-                focus === true ? setFocus(false) : "";
+                focus === true ? setFocus(false) : '';
               }}
             />
           </div>
@@ -47,7 +47,7 @@ export default function SignUp() {
         <form onSubmit={register} className="flex flex-col justify-center w-4/5">
           {!image ? (
             <div className={`relative w-full flex items-center h-[8.25rem] border-solid border-2 rounded-md mb-5 mt-8 px-5 
-              ${focus === true ? "bg-fourth" : "bg-second"}`
+              ${focus === true ? 'bg-fourth' : 'bg-second'}`
             }>
               <h3 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md text-center"> Choose Banner </h3>
               <h3 className="text-sm"> or drag and drop your file here</h3>
@@ -56,12 +56,12 @@ export default function SignUp() {
                 type="file"
                 name="userBanner"
                 onChange={(e) => {
-                  handleImageInput(e)
-                  handleChanges(e)
+                  handleImageInput(e);
+                  handleChanges(e);
                 }}
                 onDragEnter={() => setFocus(!focus)}
                 onDragLeave={() => setFocus(!focus)}
-                />
+              />
             </div>
           ) : null }
           <input
@@ -96,10 +96,10 @@ export default function SignUp() {
         </form>
         <h4 
           className="text-sm pt-2 hover:cursor-pointer hover:text-sixth mt-2" 
-          onClick={() => router.push("/")}
-          >  Already have an account? <span className="text-signature hover:text-h-signature font-bold"> Log In! </span>
+          onClick={() => router.push('/')}
+        >  Already have an account? <span className="text-signature hover:text-h-signature font-bold"> Log In! </span>
         </h4>
       </div>
     </div>
-  )
+  );
 }

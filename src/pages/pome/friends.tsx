@@ -1,149 +1,105 @@
-import { Message } from "@/components/models/message";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import Textarea from "rc-textarea";
-import { IoSendSharp } from "react-icons/io5"
+import { Message } from '@/components/models/message';
+import { useRouter } from 'next/router';
+import { IoSendSharp } from 'react-icons/io5';
+import Textarea from 'rc-textarea';
+import { useEffect, useState } from 'react';
+import { ChatMessages } from '@/utils/Interfaces';
+import WebSocket from 'ws';
 
 export default function Friends() {
-  const router = useRouter();
+  // const router = useRouter();
+  const [message, setMessage] = useState<string>('');
+  const [chatMessages, setChatMessages] = useState<string>('');
+  
   const moc: any = [
     {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
+      title: 'aaaaaaa',
+      image: '',
+      description: ''
     },
     {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
+      title: 'aaaaaaa',
+      image: '',
+      description: ''
     },
     {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
+      title: 'aaaaaaa',
+      image: '',
+      description: ''
     },
     {
-      title: "aaaaaaa",
-      image: "",
-      description: ""
+      title: 'aaaaaaa',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
     {
-      title: "bbbbbb",
-      image: "",
-      description: ""
-    },
-  ]
-  const message: {
-    id: number;
-    profile_picture: string;
-    username: string;
-    timestamp: string;
-    message: string;
-  }[] = [
-    {
-      id: 1,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },    {
-      id: 1,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },
-    {
-      id: 2,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto2",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },  {
-      id: 2,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto2",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },  {
-      id: 2,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto2",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },  {
-      id: 2,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto2",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },  {
-      id: 2,
-      profile_picture:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU",
-      username: "Catto2",
-      timestamp: "MM/DD/YYYY at HH:mm",
-      message:
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      title: 'bbbbbb',
+      image: '',
+      description: ''
     },
   ];
+
+  // const ws = new WebSocket('ws://localhost:8080');
+
+  // ws.addEventListener('open', function () {
+  //   console.log('Connected to WebSocket server');
+  // });
+  
+  // ws.addEventListener('message', function(event) {
+  //   const blob = event.data;
+  //   blob.text().then(function(data: any) {
+  //     const json = JSON.parse(data);
+  //     console.log('Received message:', json);
+  //   });
+  // });
+  function handleMessages(message: string) {
+    console.log(message);
+  }
   
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
@@ -154,7 +110,7 @@ export default function Friends() {
             <div 
               key={i} 
               className="bg-fifth rounded-xl p-2 w-[95%] flex items-center"
-              onClick={() => console.log("open friend chat")}
+              onClick={() => console.log('open friend chat')}
             > 
               <img 
                 className="rounded-full h-6 w-6 mr-2"
@@ -167,30 +123,34 @@ export default function Friends() {
         </div>
       </div>
       <div className="bg-third w-3/4 h-full rounded-xl p-5 flex flex-col justify-between">
-        <div className="h-[92%] w-full flex flex-col gap-3 overflow-auto rounded-md">
-          {message.map((e) => (
+        <div 
+          className="h-[92%] w-full flex flex-col gap-3 overflow-auto rounded-md"
+          id='chatBox'
+        >
+          {/* {chatMessages.map((e: any, i: number) => (
             <Message
               key={e.id}
-              id={e.id}
+              id={i}
               profile_picture={e.profile_picture}
               username={e.username}
               timestamp={e.timestamp}
               message={e.message}
             />
-          ))}
+          ))} */}
         </div>
         <Textarea
-          // eslint-disable-next-line no-console
-          onPressEnter={() => console.log("pressed enter")}
+          onPressEnter={() => {message === '' ? null : handleMessages(message);}} 
+          onChange={(e) => setMessage(e.target.value)}
           autoSize={true}
+          value={message}
           placeholder="Message"
           className="w-full min-h-[3rem] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
         />
         <IoSendSharp 
-          onClick={() => console.log("sent")} 
+          onClick={() => {message === '' ? null : handleMessages(message);}} 
           className="fixed z-20 bottom-[3.5rem] right-14 text-seventh hover:cursor-pointer"
         />
       </div>
     </div>
-  )
+  );
 }
