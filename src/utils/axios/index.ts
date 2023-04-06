@@ -1,7 +1,7 @@
 import axios from 'axios';
 import nookies from 'nookies';
 
-export const api = axios.create({ baseURL: process.env.BASE_URL });
+export const api = axios.create({ baseURL: process.env.NEXT_PUBLIC_API });
 
 export const apiAuth = axios.create({
   baseURL: process.env.BASE_URL,

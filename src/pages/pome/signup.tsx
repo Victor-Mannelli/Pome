@@ -1,13 +1,17 @@
+import InputForm from '@/components/models/inputForm';
 import { SignupFetchData } from '@/utils/Interfaces';
+import { userSignUp } from '@/utils/handlers/signUpHandler';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { RxCross2 } from 'react-icons/rx';
+import { toast } from 'react-toastify';
+// import { RxCross2 } from 'react-icons/rx';
 
 export default function SignUp() {
   const router = useRouter();
-  const [image, setImage] = useState<any>(null);
   const [fetchData, setFetchData] = useState<SignupFetchData>({ email: '', username: '', password: '', confirmPassword: '', userBanner: '' });
-  const [focus, setFocus] = useState<boolean>(false);
+  const [match, setMatch] = useState(true);
+  // const [image, setImage] = useState<any>(null);
+  // const [focus, setFocus] = useState<boolean>(false);
 
   function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.name === 'userBanner') {
@@ -18,20 +22,25 @@ export default function SignUp() {
   }
   function register(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // userLogin({ email: fetchData.email, password: fetchData.password, router });
+    if (fetchData.password === fetchData.confirmPassword) {
+      userSignUp({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
+    } else {
+      setMatch(false);
+      toast.error('Password confirmation denied!');
+    }
   }
-  const handleImageInput = (event: any) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
+  // const handleImageInput = (event: any) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setImage(reader.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col md:justify-center justify-center items-center md:w-1/2 md:py-10 md:h-fit w-full h-screen bg-second rounded-xl">
+      <div className="flex flex-col md:justify-center justify-center items-center md:w-[35rem] md:py-10 md:h-fit w-full h-screen bg-second rounded-xl">
         <h1> Welcome! </h1>
         {/* {image ? (
           <div className="relative mb-2">
@@ -65,40 +74,12 @@ export default function SignUp() {
               />
             </div>
           ) : null } */}
-          <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white"
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={fetchData.email}
-            onChange={handleChanges}
-          />  
-          <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white"
-            name="username"
-            type="username"
-            placeholder="Username"
-            value={fetchData.username}
-            onChange={handleChanges}
-          />
-          <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white"
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={fetchData.password}
-            onChange={handleChanges}
-          />
-          <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white mb-7"
-            name="confirmPassword"
-            type="confirmPassword"
-            placeholder="Confirm Password"
-            value={fetchData.confirmPassword}
-            onChange={handleChanges}
-          />
+          <InputForm name="email" type="email" placeholder="Email" value={fetchData.email} onChange={handleChanges}/>
+          <InputForm name="username" type="text" placeholder="Username" value={fetchData.username} onChange={handleChanges}/>
+          <InputForm name="password" type="password" match={match} placeholder="Password" value={fetchData.password} onChange={handleChanges}/>
+          <InputForm name="confirmPassword" type="password" match={match} placeholder="Confirm Password" value={fetchData.confirmPassword} onChange={handleChanges}/>
           <button
-            className="w-full md:w-full text-lg h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
+            className="w-full md:w-full text-lg h-12 mt-7 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             type="submit"
           > Register
           </button>

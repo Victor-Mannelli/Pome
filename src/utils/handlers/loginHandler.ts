@@ -6,8 +6,9 @@ import { api } from '../axios';
 export function userLogin({ email, password, router }: LoginHandler) {
   toast.promise(
     api
-      .post('user/signin', { email, password })
+      .post('/signin', { email, password })
       .then((response) => {
+        console.log(response);
         setCookie(null, 'token', response.data.token, {
           maxAge: 2 * 60 * 60,
           path: '/',
@@ -17,11 +18,16 @@ export function userLogin({ email, password, router }: LoginHandler) {
       pending: 'Logging in...',
       success: {
         render() {
-          router.push('/PoMe/home');
-          return 'Logado com sucesso!';
+          router.push('/pome/signin');
+          return 'Logged In!';
         },
       },
-      error: 'Not authorized.',
+      error: {
+        render(e : any) {
+          console.log(e);
+          return e;
+        }
+      }
     },
     { toastId: 'login' }
   );
