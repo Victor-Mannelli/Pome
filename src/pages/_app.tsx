@@ -1,9 +1,11 @@
 import Navbar from '@/components/navbar';
-import '@/styles/globals.css';
-import { lato } from '@/utils/fonts';
-import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import type { AppProps } from 'next/app';
+import { lato } from '@/utils/fonts';
 import { useRouter } from 'next/router';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -21,6 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
       } */}
         <Navbar/>
         <Component {...pageProps} />
+        <ToastContainer
+          theme="dark"
+          position="top-center"
+          autoClose={1200}
+        />
       </main>
     </>
   );

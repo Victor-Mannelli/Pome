@@ -1,62 +1,198 @@
-import Image from 'next/image';
-import nookies from 'nookies';
+import Filter from '@/components/models/filter';
+import PageHandler from '@/components/pageHandler';
+import { Stars } from '@/components/stars';
+import { animeApi } from '@/utils/axios';
+import { AnimeData } from '@/utils/Interfaces';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { userLogin } from '@/utils/handlers/handleLogin';
 
-export default function Login() {
-  // const cookies = nookies.get("token");
+export default function Home({ data }: { data: AnimeData }) {
   const router = useRouter();
-  const [fetchData, setFetchData] = useState({ username: '', password: '' });
+  console.log(data);
 
-  function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
-    setFetchData({ ...fetchData, [e.target.name]: e.target.value });
-  }
-
-  function login(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    // userLogin({ email: fetchData.email, password: fetchData.password, router });
-  }
+  const moc = [
+    {
+      id: 1,
+      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
+    },
+    {
+      id: 2,
+      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
+    },
+    {
+      id: 3,
+      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
+    }
+  ];
 
   return (
-    <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col md:justify-start justify-center items-center md:w-1/2 w-full md:h-fit py-10 h-full bg-second rounded-xl">
-        <h1> Welcome Back! </h1>
-        <form onSubmit={login} className="flex flex-col justify-center items-center w-full h-full p-16 gap-5">
-          <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white placeholder:text-lg text-lg"
-            name="username"
-            type="username"
-            placeholder="Username"
-            value={fetchData.username}
-            onChange={handleChanges}
+    <div className="flex m-7 gap-5">
+      <div className="h-full flex flex-col w-[73%] rounded-xl p-5">
+        <div className="h-[8%]">
+          <Filter onChange={(e) => console.log(e.target.value)} />
+        </div>
+        <h1 className="py-4 text-center"
+          onClick={() => router.push('/pome/releases')}
+        > Airing </h1>
+        <div className="w-full flex flex-wrap gap-5 overflow-auto">
+          {data.media.map((e: any) => (
+            <div
+              className="xl:w-[48.9%] w-full h-80 bg-third rounded-xl p-4 flex cursor-pointer"
+              onClick={() => router.push(`/pome/anime/${e.id}`)}
+              key={e.id}
+            >
+              <img
+                className="h-full w-40 rounded-xl"
+                src={e.coverImage.extraLarge}
+                alt="anime_image"
+              />
+              <div className="pl-5 h-full flex flex-col">
+                <h1 className="cursor-pointer"> {e.title.romaji} </h1>
+                {e.averageScore ? <Stars score={e.averageScore} /> : null}
+                <h3 className="cursor-pointer pb-3"> {e.startDate.year} </h3>
+                <h3 className="cursor-pointer h-2/3 overflow-auto"> {e.description} </h3>
+              </div>
+            </div>
+          ))}
+          <PageHandler 
+            currentPage={data.pageInfo.currentPage} 
+            hasNextPage={data.pageInfo.hasNextPage} 
+            route="home" 
           />
-          <input
-            className="w-full md:w-full h-12 border-b-[3px] bg-transparent focus:border-b-2 duration-300 outline-none caret-white text-white placeholder:text-lg text-lg"
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={fetchData.password}
-            onChange={handleChanges}
-          />
-          <div className='w-full'>
-            <h2 className="text-lg w-[11.5rem] py-2 text-signature hover:cursor-pointer hover:text-h-signature "> Forgot your password? </h2>
-          </div>
-          <button
-            className="w-full md:w-full h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md text-lg"
-            type="submit"
-          >
-            Log In
-          </button>
-          <div className='w-full flex justify-center'>
-            <h4 
-              className="text-lg w-[19.5rem] hover:cursor-pointer hover:text-sixth" 
-              onClick={() => router.push('/pome/signup')}
-            > Don't have an account yet? <span className="text-signature font-bold"> Create one! </span>
-            </h4>
-          </div>
-        </form>
+        </div>
+      </div>
+      <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-10">
+        <h1 className="font-bold py-5"> You are following </h1>
+        <div className="w-full flex flex-wrap gap-4 overflow-auto">
+          {moc.map((e: any) => (
+            <div
+              className="w-32 h-40 bg-fifth rounded-xl p-2 bg-cover"
+              style={{ backgroundImage: `url(${e.image})` }}
+              key={e.id}
+            >
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context: NextPageContext) {
+  const variables = {
+    page: Number(context.query.id)
+  };
+  const query = `
+    query ($page: Int) {
+      Page (page: $page, perPage: 20) {
+        pageInfo {
+          currentPage
+          hasNextPage
+        }
+        media (status: RELEASING, startDate_greater: 2023, type: ANIME) {
+          id
+          title {
+            romaji
+            english
+            native
+          }
+          type
+          format
+          status
+          description
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            year
+            month
+            day
+          }
+          season
+          episodes
+          duration
+          chapters
+          volumes
+          source
+          hashtag
+          trailer {
+            id
+            site
+            thumbnail
+          }
+          updatedAt
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+          bannerImage
+          genres
+          synonyms 
+          averageScore
+          meanScore
+          popularity
+          trending
+          favourites
+          tags {
+            id
+            name
+            description
+            category
+            isAdult
+          }
+          characters {
+            nodes {
+              id
+              name {
+                full
+              }
+              image {
+                large
+                medium
+              }
+              gender
+              description
+              dateOfBirth {
+                year
+                month
+                day
+              }
+              age
+              bloodType
+              isFavourite
+              favourites
+            }
+          }
+          isAdult
+          nextAiringEpisode {
+            id
+            timeUntilAiring
+            episode
+          }
+        }
+      }
+    }
+  `;
+  try {
+    let { data } = await animeApi.post('', { query, variables }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    });
+    data = data.data.Page;
+
+    return {
+      props: {
+        data
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: { destination: '/pome/signin', permanent: false }
+    };
+  }
 }

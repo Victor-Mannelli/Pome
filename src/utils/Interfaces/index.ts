@@ -5,6 +5,13 @@ export interface LoginHandler {
   password: string;
   router: ReturnType<typeof useRouter>;
 }
+export interface SignUpHandler {
+  email: string;
+  username: string,
+  password: string;
+  confirmPassword: string,
+  router: ReturnType<typeof useRouter>;
+}
 export interface LoginFetchData {
   email: string,
   password: string,
