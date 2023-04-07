@@ -3,12 +3,11 @@ import { toast } from 'react-toastify';
 import { LoginHandler } from '../Interfaces';
 import { api } from '../axios';
 
-export function userLogin({ email, password, router }: LoginHandler) {
+export function userLogin({ login, password, router }: LoginHandler) {
   toast.promise(
     api
-      .post('/signin', { email, password })
+      .post('/signin', { login, password })
       .then((response) => {
-        console.log(response);
         setCookie(null, 'token', response.data.token, {
           maxAge: 2 * 60 * 60,
           path: '/',
@@ -18,7 +17,7 @@ export function userLogin({ email, password, router }: LoginHandler) {
       pending: 'Logging in...',
       success: {
         render() {
-          router.push('/pome/signin');
+          router.push('/');
           return 'Logged In!';
         },
       },

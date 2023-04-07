@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 
 export default function Home({ data }: { data: AnimeData }) {
   const router = useRouter();
-  console.log(data);
+  // console.log(data);
 
   const moc = [
     {

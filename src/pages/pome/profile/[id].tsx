@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Button from '@/components/models/button';
 import Filter from '@/components/models/filter';
 import _ from 'underscore';
+import nookies from 'nookies';
+import { apiAuth } from '@/utils/axios';
 
 export default function Profile(data: any) {
   const [list, setList] = useState<string>('Whatching');
@@ -158,11 +160,12 @@ export default function Profile(data: any) {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  // const { data } = await Api.get(`/user/${context.query.id}`)
-  const data = {};
+  // const id = context.query.id;
+  console.log(nookies.get(null, 'token').token);
+  const { data } = await apiAuth.get('/userdata');
 
   if (!data) return {
-    redirect: { destination: '/pome/home', permanent: false },
+    redirect: { destination: '/', permanent: false },
   };
 
   return {

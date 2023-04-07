@@ -2,10 +2,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaUserFriends, FaUserCircle } from 'react-icons/fa';
 import { SiNiconico } from 'react-icons/si';
+import nookies from 'nookies';
 
 export default function Navbar() {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(true);
+  const cookies = nookies.get(null, 'token').token;
+  console.log(cookies);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -34,8 +37,14 @@ export default function Navbar() {
         <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/releases/1')}> Comming Soon! </h2>
       </div>
       <div className="flex items-center gap-7">
-        <FaUserFriends onClick={() => router.push('/pome/friends')} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
-        <FaUserCircle onClick={() => router.push('/pome/profile/1')} className="text-signature text-2xl cursor-pointer hover:text-h-signature"/>
+        <FaUserFriends 
+          className="text-signature text-2xl cursor-pointer hover:text-h-signature"
+          onClick={() => router.push('/pome/friends')} 
+        />
+        <FaUserCircle 
+          onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/signin'); }} 
+          className="text-signature text-2xl cursor-pointer hover:text-h-signature"
+        />
       </div>
     </div>
   );

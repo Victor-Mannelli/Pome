@@ -1,4 +1,3 @@
-import { setCookie } from 'nookies';
 import { api } from '../axios';
 import { toast } from 'react-toastify';
 import { SignUpHandler } from '../Interfaces';
@@ -10,7 +9,7 @@ export function userSignUp({ email, username, password, confirmPassword, router}
       pending: 'Signing Up...',
       success: {
         render() {
-          router.push('/');
+          router.push('/pome/signup');
           return 'Account created!';
         },
       },

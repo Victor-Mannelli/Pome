@@ -1,31 +1,37 @@
-import Image from 'next/image';
-import nookies from 'nookies';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { userLogin } from '@/utils/handlers/loginHandler';
 import InputForm from '@/components/models/inputForm';
 
 export default function Login() {
-  // const cookies = nookies.get("token");
   const router = useRouter();
-  const [fetchData, setFetchData] = useState({ username: '', password: '' });
+  const [login, setLogin] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
-    setFetchData({ ...fetchData, [e.target.name]: e.target.value });
-  }
-
-  function login(e: React.FormEvent<HTMLFormElement>) {
+  function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    userLogin({ email: fetchData.username, password: fetchData.password, router });
+    userLogin({ login, password, router });
   }
 
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
       <div className="flex flex-col md:justify-start justify-center items-center md:w-1/2 w-full md:h-fit py-10 h-full bg-second rounded-xl">
         <h1> Welcome Back! </h1>
-        <form onSubmit={login} className="flex flex-col justify-center items-center w-full h-full p-16 gap-5">
-          <InputForm name="username" type="username" placeholder="Username" value={fetchData.username} onChange={handleChanges}/>
-          <InputForm name="password" type="password" placeholder="Password" value={fetchData.password} onChange={handleChanges}/>
+        <form onSubmit={submitLogin} className="flex flex-col justify-center items-center w-full h-full p-16 gap-5">
+          <InputForm 
+            name="username" 
+            type="username" 
+            placeholder="Username or Email" 
+            value={login} 
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
+          />
+          <InputForm 
+            name="password" 
+            type="password" 
+            placeholder="Password" 
+            value={password} 
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+          />
           <div className='w-full'>
             <h2 className="text-lg w-[11.5rem] py-2 text-signature hover:cursor-pointer hover:text-h-signature "> Forgot your password? </h2>
           </div>
