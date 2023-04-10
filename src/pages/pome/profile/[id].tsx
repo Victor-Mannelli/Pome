@@ -1,12 +1,14 @@
-import { NextPageContext } from 'next';
-import { useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _ from 'underscore';
 import Button from '@/components/models/button';
 import Filter from '@/components/models/filter';
-import _ from 'underscore';
-import nookies from 'nookies';
-import { apiAuth } from '@/utils/axios';
+import { useEffect, useState } from 'react';
+import { NextPageContext } from 'next';
+import { parseCookies } from 'nookies';
+import { api } from '@/utils/axios';
+import { ProfileData } from '@/utils/Interfaces';
 
-export default function Profile(data: any) {
+export default function Profile(data: ProfileData) {
   const [list, setList] = useState<string>('Whatching');
   const [sort, setSort] = useState<string>('');
 
@@ -85,92 +87,90 @@ export default function Profile(data: any) {
   
   }, []);
 
-  data = _.sortBy(data, sort).reverse();
+  // data = _.sortBy(data, sort).reverse();
 
   return (
-    <>
-      {
-        !data ? null : (
-          <div className="flex flex-col">
-            <div className={'w-full h-[20rem] flex items-end px-48'}
-              style={{backgroundImage: `url('${user.banner}')`}}
-            >
-              <img 
-                className="h-56"
-                src={user.profile_picture} 
-                alt="profile_pic"
-              />
-              <h1 className="pl-10 pb-5"> {user.username} </h1>
-            </div>
-            <div className="flex h-screen w-full">
-              <div className="w-1/4 h-screen bg-second flex p-10">
-                <Filter onChange={(e) => setSort(e.target.value)}/>
-              </div>
-              <div className="w-3/4 h-screen flex flex-col">
-                <div className="flex justify-center">
-                  <Button 
-                    text={'Finished'} 
-                    className={`ml-5 mt-5 ${list === 'Finished' ? 'border bg-second' : 'bg-third'}`} 
-                    onClick={() => setList('Finished')}
-                  />
-                  <Button 
-                    text={'Whatching'} 
-                    className={`ml-5 mt-5 ${list === 'Whatching' ? 'border bg-second' : 'bg-third'}`} 
-                    onClick={() => setList('Whatching')}
-                  />
-                  <Button 
-                    text={'Planning'} 
-                    className={`ml-5 mt-5 ${list === 'Planning' ? 'border bg-second' : 'bg-third'}`} 
-                    onClick={() => setList('Planning')}
-                  />
-                  <Button 
-                    text={'Dropped'} 
-                    className={`ml-5 mt-5 ${list === 'Dropped' ? 'border bg-second' : 'bg-third'}`} 
-                    onClick={() => setList('Dropped')}
-                  />
-                  <Button 
-                    text={'Rewatching'} 
-                    className={`ml-5 mt-5 ${list === 'Rewatching' ? 'border bg-second' : 'bg-third'}`} 
-                    onClick={() => setList('Rewatching')}
-                  />
-                </div>
-                <div className="bg-third rounded-2xl m-5 pb-5">
-                  <div className="w-full flex pt-5">
-                    <h3 className="w-[64%] pl-7 break-all font-bold"> Title </h3>
-                    <h3 className="w-[12%] text-center font-bold"> Score </h3>
-                    <h3 className="w-[12%] text-center font-bold"> Progress </h3>
-                    <h3 className="w-[12%] text-center font-bold"> Type </h3>
-                  </div>
-                  {moc.map((e: any) => (
-                    <div key={e.id} className="w-full flex pt-5">
-                      <h3 className="w-[64%] pl-7 break-all"> {e.title} </h3>
-                      <h3 className="w-[12%] text-center"> {e.score} </h3>
-                      <h3 className="w-[12%] text-center"> {e.progress} </h3>
-                      <h3 className="w-[12%] text-center"> {e.type} </h3>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div> 
+    <div className="flex flex-col">
+      <div className={'w-full h-[20rem] flex items-end px-48'}
+        style={{backgroundImage: `url('${user.banner}')`}}
+      >
+        <img 
+          className="h-56"
+          src={user.profile_picture} 
+          alt="profile_pic"
+        />
+        <h1 className="pl-10 pb-5"> {data.data.username} </h1>
+      </div>
+      <div className="flex h-screen w-full">
+        <div className="w-1/4 h-screen bg-second flex p-10">
+          <Filter onChange={(e) => setSort(e.target.value)}/>
+        </div>
+        <div className="w-3/4 h-screen flex flex-col">
+          <div className="flex justify-center">
+            <Button 
+              text={'Finished'} 
+              className={`ml-5 mt-5 ${list === 'Finished' ? 'border bg-second' : 'bg-third'}`} 
+              onClick={() => setList('Finished')}
+            />
+            <Button 
+              text={'Whatching'} 
+              className={`ml-5 mt-5 ${list === 'Whatching' ? 'border bg-second' : 'bg-third'}`} 
+              onClick={() => setList('Whatching')}
+            />
+            <Button 
+              text={'Planning'} 
+              className={`ml-5 mt-5 ${list === 'Planning' ? 'border bg-second' : 'bg-third'}`} 
+              onClick={() => setList('Planning')}
+            />
+            <Button 
+              text={'Dropped'} 
+              className={`ml-5 mt-5 ${list === 'Dropped' ? 'border bg-second' : 'bg-third'}`} 
+              onClick={() => setList('Dropped')}
+            />
+            <Button 
+              text={'Rewatching'} 
+              className={`ml-5 mt-5 ${list === 'Rewatching' ? 'border bg-second' : 'bg-third'}`} 
+              onClick={() => setList('Rewatching')}
+            />
           </div>
-        )
-      }
-    </>
+          <div className="bg-third rounded-2xl m-5 pb-5">
+            <div className="w-full flex pt-5">
+              <h3 className="w-[64%] pl-7 break-all font-bold"> Title </h3>
+              <h3 className="w-[12%] text-center font-bold"> Score </h3>
+              <h3 className="w-[12%] text-center font-bold"> Progress </h3>
+              <h3 className="w-[12%] text-center font-bold"> Type </h3>
+            </div>
+            {moc.map((e: any) => (
+              <div key={e.id} className="w-full flex pt-5">
+                <h3 className="w-[64%] pl-7 break-all"> {e.title} </h3>
+                <h3 className="w-[12%] text-center"> {e.score} </h3>
+                <h3 className="w-[12%] text-center"> {e.progress} </h3>
+                <h3 className="w-[12%] text-center"> {e.type} </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div> 
+    </div>
   );
 }
 
 export async function getServerSideProps(context: NextPageContext) {
   // const id = context.query.id;
-  console.log(nookies.get(null, 'token').token);
-  const { data } = await apiAuth.get('/userdata');
+  const cookies = parseCookies(context);
+  try {
+    const { data } = await api.get('userdata', {
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    });
 
-  if (!data) return {
-    redirect: { destination: '/', permanent: false },
-  };
+    if (!data) return {
+      redirect: { destination: '/', permanent: false },
+    };
 
-  return {
-    props: {
-      data,
-    },
-  };
+    return { props: { data }};
+  } catch (error) {
+    return { redirect: { destination: '/', permanent: false } };
+  }
 }

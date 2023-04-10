@@ -15,7 +15,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col md:justify-start justify-center items-center md:w-1/2 w-full md:h-fit py-10 h-full bg-second rounded-xl">
+      <div className="flex flex-col md:justify-start justify-center items-center md:w-[35rem] w-full md:h-fit py-10 h-full bg-second rounded-xl">
         <h1> Welcome Back! </h1>
         <form onSubmit={submitLogin} className="flex flex-col justify-center items-center w-full h-full p-16 gap-5">
           <InputForm 
@@ -33,7 +33,10 @@ export default function Login() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           />
           <div className='w-full'>
-            <h2 className="text-lg w-[11.5rem] py-2 text-signature hover:cursor-pointer hover:text-h-signature "> Forgot your password? </h2>
+            <h2  
+              className="text-lg w-[11.5rem] py-2 text-signature hover:cursor-pointer hover:text-h-signature "
+              onClick={() => console.log('wasted')}
+            > Forgot your password? </h2>
           </div>
           <button
             className="w-full md:w-full h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md text-lg"

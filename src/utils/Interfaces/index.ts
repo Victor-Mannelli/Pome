@@ -1,17 +1,3 @@
-import { useRouter } from 'next/router';
-
-export interface LoginHandler {
-  login: string;
-  password: string;
-  router: ReturnType<typeof useRouter>;
-}
-export interface SignUpHandler {
-  email: string;
-  username: string,
-  password: string;
-  confirmPassword: string,
-  router: ReturnType<typeof useRouter>;
-}
 export interface LoginFetchData {
   email: string,
   password: string,
@@ -222,4 +208,25 @@ export interface SingleAnimeData {
 }
 export interface ChatMessages {
   message: string
+}
+
+export interface ToastError {
+  data: {
+    response: {
+      data: {
+        message: string
+      }
+    }
+  }
+}
+export interface ProfileData {
+  data: {
+    username: string
+  }
+}
+
+export interface User {
+  user_id: number,
+  email: string,
+  username: string
 }

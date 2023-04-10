@@ -154,6 +154,11 @@ export async function getServerSideProps(context: NextPageContext) {
         'Accept': 'application/json',
       }
     });
+
+    if (!data) return {
+      redirect: { destination: '/', permanent: false },
+    };
+
     data = data.data.Page;
     return { props: { data } };
   } catch (error) {

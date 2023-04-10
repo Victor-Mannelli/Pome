@@ -1,8 +1,21 @@
 import { api } from '../axios';
 import { toast } from 'react-toastify';
-import { SignUpHandler } from '../Interfaces';
+import { useRouter } from 'next/router';
+import { ToastError } from '../Interfaces';
 
-export function userSignUp({ email, username, password, confirmPassword, router} : SignUpHandler) {
+export function userSignUp({ 
+  email, 
+  username, 
+  password, 
+  confirmPassword, 
+  router
+} : {
+  email: string,
+  username: string, 
+  password: string,
+  confirmPassword: string,
+  router: ReturnType<typeof useRouter>
+}) {
   toast.promise(
     api.post('/signup', { email, username, password, confirmPassword }),
     {
@@ -13,10 +26,11 @@ export function userSignUp({ email, username, password, confirmPassword, router}
           return 'Account created!';
         },
       },
-      // error: 'Not authorized.',
       error: {
-        render(e : any) { 
-          return e.data.response.data.message;
+        render(e: ToastError | any) { 
+          return e.data.response.data.message 
+            ? e.data.response.data.message
+            : 'Error while signin up';
         }
       }
     },

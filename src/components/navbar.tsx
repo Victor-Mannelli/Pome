@@ -2,13 +2,14 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaUserFriends, FaUserCircle } from 'react-icons/fa';
 import { SiNiconico } from 'react-icons/si';
+import { toast } from 'react-toastify';
 import nookies from 'nookies';
 
-export default function Navbar() {
+export default function Navbar(data: any) {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(true);
   const cookies = nookies.get(null, 'token').token;
-  console.log(cookies);
+  console.log(data);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -39,7 +40,11 @@ export default function Navbar() {
       <div className="flex items-center gap-7">
         <FaUserFriends 
           className="text-signature text-2xl cursor-pointer hover:text-h-signature"
-          onClick={() => router.push('/pome/friends')} 
+          onClick={() => { 
+            cookies 
+              ? router.push('/pome/friends/-1')
+              : (router.push('/pome/signin'), toast.error('log in first!'));
+          }} 
         />
         <FaUserCircle 
           onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/signin'); }} 
