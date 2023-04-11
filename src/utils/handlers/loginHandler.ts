@@ -17,7 +17,7 @@ export function userLogin({
     api.post('/signin', { login, password })
       .then((response) => {
         setCookie(null, 'token', response.data.token, {
-          maxAge: 2 * 60 * 60,
+          maxAge: 1 * 60 * 60 * 60,
           path: '/',
         });
       }),
@@ -30,6 +30,7 @@ export function userLogin({
         },
       },
       error: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         render(e: ToastError | any) { 
           return e.data.response.data.message 
             ? e.data.response.data.message

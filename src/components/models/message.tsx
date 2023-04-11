@@ -1,29 +1,34 @@
-// { id, profile_picture, username, timestamp, message }: Component<MessageProps>
 export function Message({
-  id,
-  profile_picture,
+  // profile_picture,
   username,
   timestamp,
   message,
 }: {
-  id: number;
-  profile_picture: string;
+  // profile_picture: string;
   username: string;
-  timestamp: string;
+  timestamp: Date;
   message: string;
 }) {
+  const month = timestamp.getMonth() + 1;
+  const day = timestamp.getDate();
+  const year = timestamp.getFullYear();
+  const hours = timestamp.getHours();
+  const minutes = timestamp.getMinutes();
+  const meridiem = hours >= 12 ? 'PM' : 'AM';
   return (
-    <>
-      <div className="flex p-3 text-sixth bg-fifth rounded-md" key={id}>
-        <img src={profile_picture} alt="profile_pic" className="rounded-full mr-3 mb-2 w-10 h-10"/>
-        <div className="flex flex-col">
-          <div className="flex">
-            <h1 className="pr-3 font-bold text-second"> {username} </h1>
-            <h2> {timestamp} </h2>
-          </div>
-          <p className="break-all"> {message} </p>
+    <div className="flex p-3 bg-fifth text-sixthrounded-md rounded-lg">
+      <img 
+        className="rounded-full mr-4 mt-1 w-10 h-10"
+        src="/assets/dark_bg.jpg"
+        alt="profile_pic" 
+      />
+      <div className="flex flex-col">
+        <div className="flex items-center">
+          <h1 className="pr-3 font-bold"> {username} </h1>
+          <h3 className="text-sm"> {month}/{day}/{year} {hours}:{minutes} {meridiem} </h3>
         </div>
+        <p className="break-all text-lg"> {message} </p>
       </div>
-    </>
+    </div>
   );
 }

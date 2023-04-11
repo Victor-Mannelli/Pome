@@ -5,11 +5,10 @@ import { SiNiconico } from 'react-icons/si';
 import { toast } from 'react-toastify';
 import nookies from 'nookies';
 
-export default function Navbar(data: any) {
+export default function Navbar() {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(true);
   const cookies = nookies.get(null, 'token').token;
-  console.log(data);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -42,7 +41,7 @@ export default function Navbar(data: any) {
           className="text-signature text-2xl cursor-pointer hover:text-h-signature"
           onClick={() => { 
             cookies 
-              ? router.push('/pome/friends/-1')
+              ? router.push('/pome/friends')
               : (router.push('/pome/signin'), toast.error('log in first!'));
           }} 
         />

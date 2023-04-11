@@ -1,27 +1,26 @@
-import Textarea from 'rc-textarea';
 import { IoSendSharp } from 'react-icons/io5';
 import { BsPlusSquare } from 'react-icons/bs';
 import { FiUserPlus } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
 import { Message } from '@/components/models/message';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { ChatMessages, User } from '@/utils/Interfaces';
-import WebSocket from 'ws';
-import nookies, { parseCookies } from 'nookies';
+import { NextPageContext } from 'next';
+import { ChatMessagesInterface, FriendData, FriendsData, User } from '@/utils/Interfaces';
 import { api } from '@/utils/axios';
+import nookies, { parseCookies } from 'nookies';
+import Textarea from 'rc-textarea';
 import PopUp from '@/components/models/popup';
 import Filter from '@/components/models/filter';
-import { NextPageContext } from 'next';
+import Friend from '@/components/friend';
+// import WebSocket from 'ws';
 
-export default function Friends(data: any) {
-  // const router = useRouter();
+export default function Friends(data: FriendsData) {
   const [show, setShow] = useState<boolean>(false);
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
   const [message, setMessage] = useState<string>('');
-  const [chatMessages, setChatMessages] = useState<string>('');
-  const [friendList, setFriendList] = useState<object[]>([]);
-  const [userChat, setUserChat] = useState<number>();
+  const [userChat, setUserChat] = useState<number>(-1);
+  const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
+
   // const ws = new WebSocket('ws://localhost:8080');
 
   // ws.addEventListener('open', function () {
@@ -36,27 +35,38 @@ export default function Friends(data: any) {
   //   });
   // });
 
-  // useEffect(() => {
-  //   api
-  //     .post('/users/friendlist', {
-  //       headers: {
-  //         Authorization: `Bearer ${nookies.get(null, 'token').token}`,
-  //       },
-  //     })
-  //     .then((e) => console.log(e.data));
-  // }, []);
+  console.log(data.friendRequests);
 
-  console.log(data);
+  useEffect(() => {
+    if (userChat !== -1) {
+      api
+        .get(`/messages/${userChat}`, {
+          headers: {
+            Authorization: `Bearer ${nookies.get(null, 'token').token}`,
+          },
+        })
+        .then((e) => setChatMessages(e.data));
+    }
+  }, [userChat]);
 
-  function sendFriendRequest(user_id: number) {
-    console.log(user_id);
+  function sendFriendRequest(friend_id: number) {
+    api.post('/friendrequest', friend_id, {
+      headers: {
+        Authorization: `Bearer ${nookies.get(null, 'token').token}`,
+      },
+    });
+  }
+  function sendMessages(message: string) {
+    if (userChat !== -1) {
+      api.post(`/messages/${userChat}`, message, {
+        headers: {
+          Authorization: `Bearer ${nookies.get(null, 'token').token}`,
+        },
+      });
+    }
   }
 
-  function handleMessages(message: string) {
-    console.log(message);
-  }
-
-  const userList = data.data.usersList.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.data.userData.username && i < 10);
+  const userList = data.usersList.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.userData.username && i < 10);
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
       <div className="bg-third w-1/4 h-full rounded-xl p-5">
@@ -81,7 +91,8 @@ export default function Friends(data: any) {
                 {userList.map((e: User) => (
                   <div
                     key={e.user_id}
-                    className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between"
+                    className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between hover:bg-fourth hover:cursor-pointer"
+                    onClick={() => sendFriendRequest(e.user_id)}
                   >
                     <div className='flex items-center'>
                       <img
@@ -91,10 +102,16 @@ export default function Friends(data: any) {
                       />
                       <h1> {e.username} </h1>
                     </div>
-                    <FiUserPlus
-                      className="text-white text-2xl cursor-pointer hover:text-third pr-1"
-                      onClick={() => sendFriendRequest(e.user_id)}
-                    />
+                    <div className='flex items-center gap-3'>
+                      {data.friendRequests.some((friendRequest) => friendRequest.requested_id === e.user_id)
+                        ? <h3 className='text-signature'> Friend Request Sent </h3>
+                        : null
+                      }
+                      <FiUserPlus
+                        className="text-white text-2xl cursor-pointer hover:text-sixth pr-1"
+                        onClick={() => sendFriendRequest(e.user_id)}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -102,30 +119,19 @@ export default function Friends(data: any) {
           </PopUp>
         </div>
         <div className='h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl'>
-          {data?.data?.friendList?.friendshipsAsUser.length !== 0 ? (
-            data.data.friendList.friendshipsAsUser.map((e: any) => (
-              <div
-                key={e.friend.user_id}
-                className={` rounded-xl p-2 w-[95%] flex items-center 
-                  ${typeof window !== 'undefined' && window?.location.pathname.split('/')[3] === e.friend.user_id ? 'bg-red-500' : 'bg-fourth'}`
-                }
-                // className='rounded-xl p-2 w-[95%] flex items-center bg-fourth'
-                onClick={() => window.history.pushState({}, '', `/pome/friends/${e.friend.user_id}`)}
-              >
-                <img
-                  className="rounded-full h-6 w-6 mr-2"
-                  src="/assets/dark_bg.jpg"
-                  alt="profile_pic"
-                />
-                <h1> {e.friend.username} </h1>
+          {data.friendList.friendshipsAsUser.length !== 0
+            ? (
+              data.friendList.friendshipsAsUser.map((e: FriendData) =>
+                <Friend key={e.friend.user_id} friend={e.friend} userChat={userChat} setUserChat={setUserChat} />
+              )
+            ) : (
+              <div className='flex-col text-white pt-10'>
+                <h3> It looks a little empty, just like you on the inside :D</h3>
+                <br />
+                <h3> Add some friends at the plus button above!</h3>
               </div>
-            ))) : (
-            <div className='flex-col text-white pt-10'>
-              <h3> It looks a little empty, just like you on the inside :D</h3>
-              <br />
-              <h3> Add some friends at the plus button above!</h3>
-            </div>
-          )}
+            )
+          }
         </div>
       </div>
       <div className="bg-third w-3/4 h-full rounded-xl p-5 flex flex-col justify-between">
@@ -133,19 +139,18 @@ export default function Friends(data: any) {
           className="h-[92%] w-full flex flex-col gap-3 overflow-auto rounded-md"
           id='chatBox'
         >
-          {/* {chatMessages.map((e: any, i: number) => (
+          {chatMessages.map((e: ChatMessagesInterface) => (
             <Message
-              key={e.id}
-              id={i}
-              profile_picture={e.profile_picture}
-              username={e.username}
-              timestamp={e.timestamp}
+              key={e.message_id}
+              // profile_picture={e.profile_picture}
+              username={e.author.username}
+              timestamp={new Date(e.created_at)}
               message={e.message}
             />
-          ))} */}
+          ))}
         </div>
         <Textarea
-          onPressEnter={() => { message === '' ? null : handleMessages(message); }}
+          onPressEnter={() => { message === '' ? null : sendMessages(message); }}
           onChange={(e) => setMessage(e.target.value)}
           autoSize={true}
           value={message}
@@ -153,7 +158,7 @@ export default function Friends(data: any) {
           className="w-full min-h-[3rem] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
         />
         <IoSendSharp
-          onClick={() => { message === '' ? null : handleMessages(message); }}
+          onClick={() => { message === '' ? null : sendMessages(message); }}
           className="fixed z-20 bottom-[3.5rem] right-14 text-seventh hover:cursor-pointer"
         />
       </div>
@@ -162,39 +167,32 @@ export default function Friends(data: any) {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  // const id = context.query.id;
   const cookies = parseCookies(context);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${cookies.token}`,
+    },
+  };
   try {
-    const [usersList, userData, friendList] = await Promise.all([
-      api.get('users/allusers', {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      }).then(e => e.data), 
-      api.get('users/userdata', {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      }).then(e => e.data),
-      api.get('users/friendlist', {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      }).then(e => e.data),
+    const [usersList, userData, friendList, friendRequests] = await Promise.all([
+      api.get('/users/allusers', config).then(e => e.data),
+      api.get('/users/userdata', config).then(e => e.data),
+      api.get('/friendlist', config).then(e => e.data),
+      api.get('/friendrequest', config).then(e => e.data),
     ]);
 
     const data = {
       usersList,
       friendList,
       userData,
-      // messages,
+      friendRequests,
     };
 
     if (!data) return {
       redirect: { destination: '/', permanent: false },
     };
 
-    return { props: { data } };
+    return { props: data };
   } catch (error) {
     return { redirect: { destination: '/', permanent: false } };
   }

@@ -225,8 +225,52 @@ export interface ProfileData {
   }
 }
 
-export interface User {
+export interface User { // being used at Users List for Friend Requests
   user_id: number,
-  email: string,
   username: string
+}
+export interface FriendData { // being used at friends.tsx as the element of the friendlist
+  friend: {
+    user_id: number,
+    username: string;
+    // profile_picture: string;
+    // timestamp: Date;
+    // message: string
+  }
+}
+export interface FriendsData { // friends tsx pre fectched data
+  friendList: {
+    friendshipsAsUser: {
+      friend: {
+        user_id: number,
+        username: string,
+      }
+    }[]
+  },
+  friendRequests: {
+    requester_id: number,
+    requested_id: number,
+  }[]
+  userData: {
+    user_id: number,
+    username: string,
+  }
+  usersList: {
+    user_id: number,
+    username: string
+  }[]
+}
+export interface ChatMessagesInterface {
+  profile_picture: string
+  author: {
+    username: string,
+  },
+  author_id: number, // don´t think I need this one
+  created_at: string,
+  message: string,
+  message_id: number,
+  receiver: {
+    username: string,
+  }
+  receiver_id: number // don´t think I need this one
 }
