@@ -229,8 +229,17 @@ export interface User { // being used at Users List for Friend Requests
   user_id: number,
   username: string
 }
-export interface FriendData { // being used at friends.tsx as the element of the friendlist
+export interface FriendAsFData { // being used at friends.tsx as the element of the friendlist
   friend: {
+    user_id: number,
+    username: string;
+    // profile_picture: string;
+    // timestamp: Date;
+    // message: string
+  }
+}
+export interface FriendAsUData { // being used at friends.tsx as the element of the friendlist
+  user: {
     user_id: number,
     username: string;
     // profile_picture: string;
@@ -246,8 +255,15 @@ export interface FriendsData { // friends tsx pre fectched data
         username: string,
       }
     }[]
+    friendshipsAsFriend: {
+      user: {
+        user_id: number,
+        username: string,
+      }
+    }[]
   },
   friendRequests: {
+    friend_request_id: number,
     requester_id: number,
     requested_id: number,
   }[]
@@ -259,6 +275,11 @@ export interface FriendsData { // friends tsx pre fectched data
     user_id: number,
     username: string
   }[]
+}
+export interface friendRequests {
+  friend_request_id: number,
+  requester_id: number,
+  requested_id: number,
 }
 export interface ChatMessagesInterface {
   profile_picture: string

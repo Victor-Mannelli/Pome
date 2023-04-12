@@ -2,10 +2,11 @@ import { IoSendSharp } from 'react-icons/io5';
 import { BsPlusSquare } from 'react-icons/bs';
 import { FiUserPlus } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
+import { GiCakeSlice } from 'react-icons/gi';
 import { Message } from '@/components/models/message';
 import { useEffect, useState } from 'react';
 import { NextPageContext } from 'next';
-import { ChatMessagesInterface, FriendData, FriendsData, User } from '@/utils/Interfaces';
+import { ChatMessagesInterface, FriendAsFData, FriendAsUData, FriendsData, User, friendRequests } from '@/utils/Interfaces';
 import { api } from '@/utils/axios';
 import nookies, { parseCookies } from 'nookies';
 import Textarea from 'rc-textarea';
@@ -15,7 +16,8 @@ import Friend from '@/components/friend';
 // import WebSocket from 'ws';
 
 export default function Friends(data: FriendsData) {
-  const [show, setShow] = useState<boolean>(false);
+  const [showUsers, setShowUsers] = useState<boolean>(false);
+  const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [userChat, setUserChat] = useState<number>(-1);
@@ -35,8 +37,7 @@ export default function Friends(data: FriendsData) {
   //   });
   // });
 
-  console.log(data.friendRequests);
-
+  console.log(data);
   useEffect(() => {
     if (userChat !== -1) {
       api
@@ -49,8 +50,23 @@ export default function Friends(data: FriendsData) {
     }
   }, [userChat]);
 
+  function acceptFriendRequest({
+    friend_request_id,
+    requested_id,
+    requester_id
+  }: {
+    friend_request_id: number,
+    requested_id: number,
+    requester_id: number
+  }) {
+    api.post('/friends/acceptfriend', { friend_request_id, requested_id, requester_id }, {
+      headers: {
+        Authorization: `Bearer ${nookies.get(null, 'token').token}`,
+      },
+    });
+  }
   function sendFriendRequest(friend_id: number) {
-    api.post('/friendrequest', friend_id, {
+    api.post('/friends/friendrequest', friend_id, {
       headers: {
         Authorization: `Bearer ${nookies.get(null, 'token').token}`,
       },
@@ -58,32 +74,90 @@ export default function Friends(data: FriendsData) {
   }
   function sendMessages(message: string) {
     if (userChat !== -1) {
-      api.post(`/messages/${userChat}`, message, {
+      api.post(`/messages/${userChat}`, { message: message }, {
         headers: {
           Authorization: `Bearer ${nookies.get(null, 'token').token}`,
         },
       });
     }
   }
-
-  const userList = data.usersList.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.userData.username && i < 10);
+  const friends = [
+    ...data.friendList.friendshipsAsUser.map((friendship: FriendAsFData) => friendship.friend),
+    ...data.friendList.friendshipsAsFriend.map((friendship: FriendAsUData) => friendship.user),
+  ].sort();
+  const userList = data.usersList.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.userData.username && i < 10 && !friends.some(friend => friend.username === e.username));
+  const receivedFR = data.friendRequests.filter((e: friendRequests) => e.requested_id === data.userData.user_id);
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
       <div className="bg-third w-1/4 h-full rounded-xl p-5">
         <div className='flex items-center justify-between pb-3'>
-          <h1 className="font-bold"> Friends </h1>
+          <div className='flex items-center gap-3'>
+            <h1 className="font-bold"> Friends </h1>
+            <FiUserPlus
+              className='text-signature text-2xl cursor-pointer'
+              onClick={() => setShowFriendRequests(!showFriendRequests)}
+            />
+            <PopUp show={showFriendRequests} setShow={setShowFriendRequests}>
+              <div
+                className='relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-center gap-3 p-5'
+                onClick={(e) => e.stopPropagation()}
+              >
+                <RxCross2
+                  className='absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
+                  onClick={() => setShowFriendRequests(!showFriendRequests)}
+                />
+                <h1> These people want to be your friend! </h1>
+                <div className='overflow-auto w-full flex flex-col gap-3'>
+                  {receivedFR.length === 0 ?
+                    <div className='flex justify-center items-center gap-2 text-white pt-16'>
+                      <h3> Yeah, I didn't think so either, have a cake instead</h3>
+                      <GiCakeSlice className='text-3xl' />
+                    </div>
+                    : receivedFR.map((e: friendRequests) => (
+                      <div
+                        key={e.friend_request_id}
+                        className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between hover:bg-fourth hover:cursor-pointer"
+                        onClick={() => acceptFriendRequest({ friend_request_id: e.friend_request_id, requested_id: e.requested_id, requester_id: e.requester_id })}
+                      >
+                        <div className='flex items-center'>
+                          <img
+                            className="rounded-full h-6 w-6 mr-2"
+                            src="/assets/dark_bg.jpg"
+                            alt="profile_pic"
+                          />
+                          <h1 className='cursor-pointer text-2xl'>
+                            {data.usersList.find(user => user.user_id === e.requester_id)?.username}
+                          </h1>
+                        </div>
+                        <div className='flex items-center gap-3'>
+                          {/* {data.friendRequests.some((friendRequest) => friendRequest.requested_id === e.user_id)
+                              ? <h3 className='text-signature'> Friend Request Sent </h3>
+                              : null
+                            } */}
+                          <FiUserPlus
+                            className="text-white text-2xl cursor-pointer hover:text-sixth pr-1"
+                          // onClick={() => sendFriendRequest(e.user_id)}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            </PopUp>
+          </div>
           <BsPlusSquare
             className="text-white text-2xl cursor-pointer"
-            onClick={() => setShow(true)}
+            onClick={() => setShowUsers(true)}
           />
-          <PopUp show={show} setShow={setShow}>
+          <PopUp show={showUsers} setShow={setShowUsers}>
             <div
-              className='relative md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-center gap-3 p-5'
+              className='relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-center gap-3 p-5'
               onClick={(e) => e.stopPropagation()}
             >
               <RxCross2
                 className='absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
-                onClick={() => setShow(!show)}
+                onClick={() => setShowUsers(!showUsers)}
               />
               <h1> Send a friend Request!</h1>
               <Filter onChange={(e) => setAddFriendFilter(e.target.value)} />
@@ -104,13 +178,17 @@ export default function Friends(data: FriendsData) {
                     </div>
                     <div className='flex items-center gap-3'>
                       {data.friendRequests.some((friendRequest) => friendRequest.requested_id === e.user_id)
-                        ? <h3 className='text-signature'> Friend Request Sent </h3>
-                        : null
+                        ?
+                        <>
+                          <h3 className='text-signature cursor-pointer'> Friend Request Sent </h3>
+                          <FiUserPlus className="text-white text-2xl cursor-pointer pr-1" />
+                        </>
+                        :
+                        <FiUserPlus
+                          className="text-white text-2xl cursor-pointer hover:text-sixth pr-1"
+                          onClick={() => sendFriendRequest(e.user_id)}
+                        />
                       }
-                      <FiUserPlus
-                        className="text-white text-2xl cursor-pointer hover:text-sixth pr-1"
-                        onClick={() => sendFriendRequest(e.user_id)}
-                      />
                     </div>
                   </div>
                 ))}
@@ -119,14 +197,12 @@ export default function Friends(data: FriendsData) {
           </PopUp>
         </div>
         <div className='h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl'>
-          {data.friendList.friendshipsAsUser.length !== 0
-            ? (
-              data.friendList.friendshipsAsUser.map((e: FriendData) =>
-                <Friend key={e.friend.user_id} friend={e.friend} userChat={userChat} setUserChat={setUserChat} />
-              )
-            ) : (
-              <div className='flex-col text-white pt-10'>
-                <h3> It looks a little empty, just like you on the inside :D</h3>
+          {data.friendList.friendshipsAsUser.length !== 0 || data.friendList.friendshipsAsFriend.length !== 0
+            ?
+            friends.map((e: User) => <Friend key={e.user_id} friend={e} userChat={userChat} setUserChat={setUserChat} />)
+            : (
+              <div className='flex flex-col text-white pt-10'>
+                <h3> It looks a little empty, just like you on the inside :D </h3>
                 <br />
                 <h3> Add some friends at the plus button above!</h3>
               </div>
@@ -134,11 +210,8 @@ export default function Friends(data: FriendsData) {
           }
         </div>
       </div>
-      <div className="bg-third w-3/4 h-full rounded-xl p-5 flex flex-col justify-between">
-        <div
-          className="h-[92%] w-full flex flex-col gap-3 overflow-auto rounded-md"
-          id='chatBox'
-        >
+      <div className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
+        <div className='w-full flex flex-col gap-3 overflow-auto rounded-md'>
           {chatMessages.map((e: ChatMessagesInterface) => (
             <Message
               key={e.message_id}
@@ -149,18 +222,20 @@ export default function Friends(data: FriendsData) {
             />
           ))}
         </div>
-        <Textarea
-          onPressEnter={() => { message === '' ? null : sendMessages(message); }}
-          onChange={(e) => setMessage(e.target.value)}
-          autoSize={true}
-          value={message}
-          placeholder="Message"
-          className="w-full min-h-[3rem] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
-        />
-        <IoSendSharp
-          onClick={() => { message === '' ? null : sendMessages(message); }}
-          className="fixed z-20 bottom-[3.5rem] right-14 text-seventh hover:cursor-pointer"
-        />
+        <div className="relative w-full bg-third rounded-md pt-5">
+          <Textarea
+            onPressEnter={() => { message === '' ? null : sendMessages(message), setMessage(''); }}
+            onChange={(e) => setMessage(e.target.value)}
+            autoSize={true}
+            value={message}
+            placeholder="Message"
+            className="w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
+          />
+          <IoSendSharp
+            onClick={() => { message === '' ? null : sendMessages(message); }}
+            className="absolute right-3 bottom-5 text-seventh hover:cursor-pointer"
+          />
+        </div>
       </div>
     </div>
   );
@@ -177,8 +252,8 @@ export async function getServerSideProps(context: NextPageContext) {
     const [usersList, userData, friendList, friendRequests] = await Promise.all([
       api.get('/users/allusers', config).then(e => e.data),
       api.get('/users/userdata', config).then(e => e.data),
-      api.get('/friendlist', config).then(e => e.data),
-      api.get('/friendrequest', config).then(e => e.data),
+      api.get('/friends/friendlist', config).then(e => e.data),
+      api.get('/friends/friendrequest', config).then(e => e.data),
     ]);
 
     const data = {

@@ -13,7 +13,7 @@ export function Message({
   const day = timestamp.getDate();
   const year = timestamp.getFullYear();
   const hours = timestamp.getHours();
-  const minutes = timestamp.getMinutes();
+  const minutes = timestamp.getMinutes().toString().padStart(2, '0');
   const meridiem = hours >= 12 ? 'PM' : 'AM';
   return (
     <div className="flex p-3 bg-fifth text-sixthrounded-md rounded-lg">

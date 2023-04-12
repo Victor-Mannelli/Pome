@@ -3,15 +3,15 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { ToastError } from '../Interfaces';
 
-export function userSignUp({ 
-  email, 
-  username, 
-  password, 
-  confirmPassword, 
+export function userSignUp({
+  email,
+  username,
+  password,
+  confirmPassword,
   router
-} : {
+}: {
   email: string,
-  username: string, 
+  username: string,
   password: string,
   confirmPassword: string,
   router: ReturnType<typeof useRouter>
@@ -27,10 +27,11 @@ export function userSignUp({
         },
       },
       error: {
-        render(e: ToastError | any) { 
-          return e.data.response.data.message 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        render(e: ToastError | any) {
+          return e.data.response.data.message
             ? e.data.response.data.message
-            : 'Error while signin up';
+            : e.data.response.data;
         }
       }
     },
