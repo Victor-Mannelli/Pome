@@ -8,6 +8,7 @@ export function getMessagesHook(userChat: number) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [token, _] = useState<string>(nookies.get(null, 'token').token);
   const [messages, setMessages] = useState<ChatMessagesInterface[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: response, isError, isFetching } : any = useGetMessages(token, userChat);
 
   useEffect(() => {

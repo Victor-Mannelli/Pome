@@ -176,7 +176,7 @@ export interface SingleAnimeData {
     description: string,
     category: string,
     isAdult: boolean,
-  },
+  }[],
   characters: {
     nodes: {
       id: number,

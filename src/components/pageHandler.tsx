@@ -16,9 +16,8 @@ export default function PageHandler({
       {currentPage > 1 
         ? <Button
           className="bg-third"
-          // onClick={() => router.push(`/pome/home/${currentPage - 1}`)} 
           onClick={() => router.push({
-            pathname: `/pome/${route}`, 
+            pathname: `/${route}`, 
             query: { id: `${currentPage - 1}`}
           })}
           text="Back" 
@@ -34,9 +33,8 @@ export default function PageHandler({
         ? <Button 
           text="Next" 
           className="bg-third"
-          // onClick={() => router.push(`/pome/${route}/${currentPage + 1}`)} 
           onClick={() => router.push({
-            pathname: `/pome/${route}`, 
+            pathname: `/${route}`, 
             query: { id: `${currentPage + 1}`}
           })}
         /> 
