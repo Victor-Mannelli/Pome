@@ -13,6 +13,7 @@ import Textarea from 'rc-textarea';
 import PopUp from '@/components/models/popup';
 import Filter from '@/components/models/filter';
 import Friend from '@/components/friend';
+import { getMessagesHook } from '@/utils/hooks/useGetMessages';
 // import WebSocket from 'ws';
 
 export default function Friends(data: FriendsData) {
@@ -20,9 +21,10 @@ export default function Friends(data: FriendsData) {
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
   const [message, setMessage] = useState<string>('');
-  const [userChat, setUserChat] = useState<number>(-1);
-  const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
+  const [userChat, setUserChat] = useState<number>(data.userData.user_id);
+  // const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
 
+  const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
   // const ws = new WebSocket('ws://localhost:8080');
 
   // ws.addEventListener('open', function () {
@@ -37,50 +39,28 @@ export default function Friends(data: FriendsData) {
   //   });
   // });
 
-  console.log(data);
-  useEffect(() => {
-    if (userChat !== -1) {
-      api
-        .get(`/messages/${userChat}`, {
-          headers: {
-            Authorization: `Bearer ${nookies.get(null, 'token').token}`,
-          },
-        })
-        .then((e) => setChatMessages(e.data));
-    }
-  }, [userChat]);
+  // console.log(data);
+  // useEffect(() => {
+  // console.log(data);
+  // const chatMessages = getMessagesHook(userChat);
+  // console.log(chatMessages);
+  // if (userChat !== -1) {
+  //   api
+  //     .get(`/messages/${userChat}`, config)
+  //     .then((e) => setChatMessages(e.data));
+  // }
+  // }, [userChat]);
 
-  function acceptFriendRequest({
-    friend_request_id,
-    requested_id,
-    requester_id
-  }: {
-    friend_request_id: number,
-    requested_id: number,
-    requester_id: number
-  }) {
-    api.post('/friends/acceptfriend', { friend_request_id, requested_id, requester_id }, {
-      headers: {
-        Authorization: `Bearer ${nookies.get(null, 'token').token}`,
-      },
-    });
+  function acceptFriendRequest({ friend_request_id, requested_id, requester_id }: friendRequests) {
+    api.post('/friends/acceptfriend', { friend_request_id, requested_id, requester_id }, config);
   }
   function sendFriendRequest(friend_id: number) {
-    api.post('/friends/friendrequest', friend_id, {
-      headers: {
-        Authorization: `Bearer ${nookies.get(null, 'token').token}`,
-      },
-    });
+    api.post('/friends/friendrequest', friend_id, config);
   }
   function sendMessages(message: string) {
-    if (userChat !== -1) {
-      api.post(`/messages/${userChat}`, { message: message }, {
-        headers: {
-          Authorization: `Bearer ${nookies.get(null, 'token').token}`,
-        },
-      });
-    }
+    if (userChat !== -1) api.post(`/messages/${userChat}`, { message: message }, config);
   }
+
   const friends = [
     ...data.friendList.friendshipsAsUser.map((friendship: FriendAsFData) => friendship.friend),
     ...data.friendList.friendshipsAsFriend.map((friendship: FriendAsUData) => friendship.user),
@@ -89,7 +69,13 @@ export default function Friends(data: FriendsData) {
   const receivedFR = data.friendRequests.filter((e: friendRequests) => e.requested_id === data.userData.user_id);
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
-      <div className="bg-third w-1/4 h-full rounded-xl p-5">
+      <div className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5">
+        <div
+          className={`flex justify-center items-center rounded-xl p-2 mb-5 w-[98%] ${userChat === data.userData.user_id ? 'bg-sixth' : 'bg-fourth'}`}
+          onClick={() => setUserChat(data.userData.user_id)}
+        >
+          <h1> Your notes </h1>
+        </div>
         <div className='flex items-center justify-between pb-3'>
           <div className='flex items-center gap-3'>
             <h1 className="font-bold"> Friends </h1>
@@ -212,7 +198,7 @@ export default function Friends(data: FriendsData) {
       </div>
       <div className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
         <div className='w-full flex flex-col gap-3 overflow-auto rounded-md'>
-          {chatMessages.map((e: ChatMessagesInterface) => (
+          {/* {chatMessages.messages.map((e: ChatMessagesInterface) => (
             <Message
               key={e.message_id}
               // profile_picture={e.profile_picture}
@@ -220,7 +206,7 @@ export default function Friends(data: FriendsData) {
               timestamp={new Date(e.created_at)}
               message={e.message}
             />
-          ))}
+          ))} */}
         </div>
         <div className="relative w-full bg-third rounded-md pt-5">
           <Textarea
@@ -264,11 +250,11 @@ export async function getServerSideProps(context: NextPageContext) {
     };
 
     if (!data) return {
-      redirect: { destination: '/', permanent: false },
+      // redirect: { destination: '/', permanent: false },
     };
 
     return { props: data };
   } catch (error) {
-    return { redirect: { destination: '/', permanent: false } };
+    // return { redirect: { destination: '/', permanent: false } };
   }
 }
