@@ -3,11 +3,13 @@ export function Message({
   username,
   timestamp,
   message,
+  id
 }: {
   // profile_picture: string;
   username: string;
   timestamp: Date;
   message: string;
+  id: string;
 }) {
   const month = timestamp.getMonth() + 1;
   const day = timestamp.getDate();
@@ -16,7 +18,7 @@ export function Message({
   const minutes = timestamp.getMinutes().toString().padStart(2, '0');
   const meridiem = hours >= 12 ? 'PM' : 'AM';
   return (
-    <div className="flex p-3 bg-fifth text-sixthrounded-md rounded-lg">
+    <div id={id} className="flex p-3 bg-fifth text-sixthrounded-md rounded-lg">
       <img 
         className="rounded-full mr-4 mt-1 w-10 h-10"
         src="/assets/dark_bg.jpg"

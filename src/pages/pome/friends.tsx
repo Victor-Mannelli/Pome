@@ -4,12 +4,12 @@ import { FiUserPlus } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
 import { GiCakeSlice } from 'react-icons/gi';
 import { Message } from '@/components/models/message';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NextPageContext } from 'next';
 import { ChatMessagesInterface, FriendAsFData, FriendAsUData, FriendsData, User, friendRequests } from '@/utils/Interfaces';
 import { api } from '@/utils/axios';
 import nookies, { parseCookies } from 'nookies';
-import Textarea from 'rc-textarea';
+import Textarea, { TextAreaRef } from 'rc-textarea';
 import PopUp from '@/components/models/popup';
 import Filter from '@/components/models/filter';
 import Friend from '@/components/friend';
@@ -20,11 +20,13 @@ export default function Friends(data: FriendsData) {
   const [showUsers, setShowUsers] = useState<boolean>(false);
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
   const [userChat, setUserChat] = useState<number>(data.userData.user_id);
-  // const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
 
   const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const textArea: any = useRef();
+  const chatRef: any = useRef();
   // const ws = new WebSocket('ws://localhost:8080');
 
   // ws.addEventListener('open', function () {
@@ -58,15 +60,37 @@ export default function Friends(data: FriendsData) {
     api.post('/friends/friendrequest', friend_id, config);
   }
   function sendMessages(message: string) {
-    if (userChat !== -1) api.post(`/messages/${userChat}`, { message: message }, config);
+    api.post(`/messages/${userChat}`, { message: message }, config);
   }
 
   const friends = [
     ...data.friendList.friendshipsAsUser.map((friendship: FriendAsFData) => friendship.friend),
     ...data.friendList.friendshipsAsFriend.map((friendship: FriendAsUData) => friendship.user),
   ].sort();
+
+  useEffect(() => {
+    let intervalId: any = null; 
+
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight - chatRef.current.clientHeight;
+    }
+
+    const fetchChatMessages = () => {
+      api
+        .get(`/messages/${userChat}`, config)
+        .then((response) => setChatMessages(response.data))
+        .catch((error) => console.log(error));
+    };
+
+    intervalId = setInterval(fetchChatMessages, 1000 * 5);
+    fetchChatMessages();
+    return () => clearInterval(intervalId);
+  }, [userChat]);
+
+
   const userList = data.usersList.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.userData.username && i < 10 && !friends.some(friend => friend.username === e.username));
   const receivedFR = data.friendRequests.filter((e: friendRequests) => e.requested_id === data.userData.user_id);
+
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
       <div className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5">
@@ -197,30 +221,31 @@ export default function Friends(data: FriendsData) {
         </div>
       </div>
       <div className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
-        <div className='w-full flex flex-col gap-3 overflow-auto rounded-md'>
-          {/* {chatMessages.messages.map((e: ChatMessagesInterface) => (
+        <div ref={chatRef} className='w-full flex flex-col gap-3 overflow-auto rounded-md'>
+          {chatMessages.map((e: ChatMessagesInterface, i: number) => (
             <Message
+              id={'message' + i}
               key={e.message_id}
               // profile_picture={e.profile_picture}
               username={e.author.username}
               timestamp={new Date(e.created_at)}
               message={e.message}
             />
-          ))} */}
+          ))}
         </div>
         <div className="relative w-full bg-third rounded-md pt-5">
           <Textarea
-            onPressEnter={() => { message === '' ? null : sendMessages(message), setMessage(''); }}
-            onChange={(e) => setMessage(e.target.value)}
+            ref={textArea}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onPressEnter={(e: any) => { e.target.value === '' ? null : sendMessages(e.target.value); return e.target.value = null; }}
             autoSize={true}
-            value={message}
             placeholder="Message"
             className="w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
           />
-          <IoSendSharp
+          {/* <IoSendSharp
             onClick={() => { message === '' ? null : sendMessages(message); }}
             className="absolute right-3 bottom-5 text-seventh hover:cursor-pointer"
-          />
+          /> */}
         </div>
       </div>
     </div>
