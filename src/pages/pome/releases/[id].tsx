@@ -32,7 +32,9 @@ export default function Releases({ data }: { data: AnimeData }) {
               <div className="flex justify-between h-[68%] w-full pr-10">
                 <div className="lg:w-3/5">
                   {e.averageScore ? <Stars score={e.averageScore} /> : <div className="h-8"> </div>}
-                  <h3 className="overflow-auto h-3/4 cursor-pointer"> {e.description} </h3>
+                  <h3 className="overflow-auto h-3/4 cursor-pointer"> 
+                    {e.description ? e.description.replace(/(<([^>]+)>)/ig,' ').replace(/(\r\n|\n|\r)/gm, ' ') : 'No description yet'}
+                  </h3>
                 </div>
                 {e.genres ? <GenresList genres={e.genres} /> : null}
               </div>
@@ -51,16 +53,17 @@ export default function Releases({ data }: { data: AnimeData }) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const variables = {
-    page: Number(context.query.id)
+    page: Number(context.query.id),
+    year: Number(new Date().getFullYear() + '0000')
   };
   const query = `
-    query ($page: Int) {
+    query ($page: Int, $year: FuzzyDateInt) {
       Page (page: $page, perPage: 20) {
         pageInfo {
           currentPage
           hasNextPage
         }
-        media (status: RELEASING, startDate_greater: 2023, type: ANIME) {
+        media (status: NOT_YET_RELEASED, startDate_greater: $year, type: ANIME, format: TV, isAdult: false) {
           id
           title {
             romaji

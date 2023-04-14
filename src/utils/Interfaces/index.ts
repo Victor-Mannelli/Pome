@@ -262,20 +262,15 @@ export interface FriendsData { // friends tsx pre fectched data
       }
     }[]
   },
-  friendRequests: {
-    friend_request_id: number,
-    requester_id: number,
-    requested_id: number,
-  }[]
   userData: {
     user_id: number,
     username: string,
   }
-  usersList: {
-    user_id: number,
-    username: string
-  }[]
 }
+export interface UsersList {
+  user_id: number,
+  username: string
+}[];
 export interface friendRequests {
   friend_request_id: number,
   requester_id: number,

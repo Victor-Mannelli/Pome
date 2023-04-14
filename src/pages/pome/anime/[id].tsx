@@ -1,4 +1,3 @@
-import GenresList from '@/components/genres';
 import { Stars } from '@/components/stars';
 import { animeApi } from '@/utils/axios';
 import { SingleAnimeData } from '@/utils/Interfaces';
@@ -10,36 +9,37 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa';
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
   const [favorite, setFavorite] = useState(false);
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   console.log(data);
   return (
-    <div className={`flex flex-col items-center gap-5 pb-7 ${data.bannerImage ? '' : 'mt-56'}`}>
+    <div className='flex flex-col items-center gap-5 pb-7'>
       {data.bannerImage ? (
         <div
           className={'w-full h-[22rem] bg-cover'}
           style={{ backgroundImage: `url(${data.bannerImage})` }}
         > </div>
       ) : null}
-      <div className="relative h-1/2 w-full rounded-xl flex gap-2 px-5">
+      <div className={`relative ${!data.bannerImage ? 'mt-20' : 'h-1/2'} w-full rounded-xl flex gap-2 px-5 `}>
         {favorite
           ? <FaHeart className='absolute right-1 top-0 mr-3 text-2xl text-red-500 hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
           : <FaRegHeart className='absolute right-1 top-0 mr-3 text-2xl text-white hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
         }
-        <div className="relative w-[19rem] h-64 flex flex-col justify-end items-center">
+        <div className={`relative ${!data.bannerImage ? 'w-64' : 'h-64 w-[19rem]'} flex flex-col justify-end items-center`}>
           <img
-            className="absolute top-[-10rem] rounded-xl w-[80%] h-[23rem]"
+            className={`absolute ${!data.bannerImage ? 'top-0 left-0 w-[95%] h-[25.5rem]' : 'top-[-10rem]'} rounded-xl w-[80%] h-[23rem]`}
             src={data.coverImage.extraLarge}
             alt="pfp"
           />
-          <div className="bg-fifth w-[80%] h-9 rounded-md cursor-pointer">
+          <div className={`bg-fifth ${!data.bannerImage ? 'absolute top-[26.5rem] left-0 w-[95%]' : 'w-[80%]'} h-9 rounded-md cursor-pointer`}>
             <h1></h1>
           </div>
         </div>
         <div className="w-[75%] flex flex-col gap-3">
           <h1 className="font-bold text-3xl"> {data.title.romaji} </h1>
-          <div className="w-full flex justify-between pr-24 gap-10">
-            <div className='flex flex-col'>
+          <div className={`w-full flex ${!data.bannerImage ? 'h-36' : ''} pr-24 gap-10 overflow-auto`}>
+            <div className='flex flex-col w-fit'>
               <div className='flex'>
-                <h3 className='pr-2'> <span className='font-bold italic pr-1'> {data.status[0] + data.status.slice(1).toLocaleLowerCase()} </span> with </h3>
+                <h3 className='pr-2'> <span className='font-bold italic pr-1'> {data.status[0] + data.status.slice(1).toLocaleLowerCase()} </span> {data.averageScore ? 'with' : ''} </h3>
                 {data.averageScore ? <Stars className='' score={data.averageScore} /> : null}
               </div>
               {data.status === 'RELEASING' ?
@@ -48,30 +48,31 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
                   <h3 className='text-h-signature'> Next Episode in {Math.floor(data.nextAiringEpisode.timeUntilAiring / 3600)}h {Math.floor((data.nextAiringEpisode.timeUntilAiring % 3600) / 60)}m </h3>
                   <h3> Total Episodes: {data.episodes} </h3>
                 </div>
-
-                : <></>
+                : data.status === 'NOT_YET_RELEASED' ?
+                  <div className='flex flex-col gap-1 pt-2'>
+                    <h3 className='text-h-signature'> Start Date: {data.startDate.day && data.startDate.day + ' of'} {monthNames[data.startDate.month - 1] + ', '}{data.startDate.year} </h3>
+                    {data.episodes ? <h3> Total Episodes: {data.episodes} </h3> : null}
+                  </div>
+                  : <></>
               }
-              {data.genres ? 
+              {data.genres ?
                 <div className="flex h-full gap-[0.35rem] overflow-auto">
                   {data.genres.map((e: string, i: number) => (
                     <h3 key={i} className="text-eigth text-xl border h-fit mt-5 p-2 rounded-xl"> {e} </h3>
                   ))}
                 </div>
                 : null
-              }  
+              }
             </div>
-            {data.tags ?
-              <div className="flex flex-col w-fit h-56 ml-2 pr-2 gap-[0.35rem] flex-wrap ">
-                {data.tags.map((e: any,) => (
-                  <li key={e.id} className="text-eigth text-xl pr-10"> {e.name} </li>
-                ))}
-              </div>
-              : null
-            }
+            <div className={`flex flex-col w-auto ${!data.bannerImage ? 'h-36' : 'h-56'}  ml-2 pr-2 gap-[0.35rem] flex-wrap`}>
+              {data.tags ? data.tags.map((e: any,) => (
+                <li key={e.id} className="text-eigth text-xl pr-10"> {e.name} </li>
+              )) : null}
+            </div>
           </div>
         </div>
       </div>
-      <div className="bg-fifth rounded-xl w-[98%] p-5">
+      <div className={`bg-fifth ${!data.bannerImage ? 'ml-[17.8rem] mr-3 w-fit' : 'w-[98%]'} rounded-xl p-5`}>
         <h1 className="text-3xl font-bold pb-3"> Sinopse </h1>
         <p className="text-2xl"> {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')} </p>
       </div>

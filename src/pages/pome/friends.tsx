@@ -1,4 +1,3 @@
-import { IoSendSharp } from 'react-icons/io5';
 import { BsPlusSquare } from 'react-icons/bs';
 import { FiUserPlus } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
@@ -6,19 +5,23 @@ import { GiCakeSlice } from 'react-icons/gi';
 import { Message } from '@/components/models/message';
 import { useEffect, useRef, useState } from 'react';
 import { NextPageContext } from 'next';
-import { ChatMessagesInterface, FriendAsFData, FriendAsUData, FriendsData, User, friendRequests } from '@/utils/Interfaces';
+import { ChatMessagesInterface, FriendAsFData, FriendAsUData, FriendsData, User, UsersList, friendRequests } from '@/utils/Interfaces';
 import { api } from '@/utils/axios';
 import nookies, { parseCookies } from 'nookies';
-import Textarea, { TextAreaRef } from 'rc-textarea';
+import Textarea from 'rc-textarea';
 import PopUp from '@/components/models/popup';
 import Filter from '@/components/models/filter';
 import Friend from '@/components/friend';
-import { getMessagesHook } from '@/utils/hooks/useGetMessages';
+// import { getMessagesHook } from '@/utils/hooks/useGetMessages';
 // import WebSocket from 'ws';
 
 export default function Friends(data: FriendsData) {
   const [showUsers, setShowUsers] = useState<boolean>(false);
+  const [allUsers, setAllUsers] = useState<UsersList[]>([]);
+
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
+  const [friendRequests, setFriendRequests] = useState<friendRequests[]>([]);
+
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
   const [userChat, setUserChat] = useState<number>(data.userData.user_id);
   const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
@@ -26,7 +29,6 @@ export default function Friends(data: FriendsData) {
   const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const textArea: any = useRef();
-  const chatRef: any = useRef();
   // const ws = new WebSocket('ws://localhost:8080');
 
   // ws.addEventListener('open', function () {
@@ -42,8 +44,8 @@ export default function Friends(data: FriendsData) {
   // });
 
   // console.log(data);
+
   // useEffect(() => {
-  // console.log(data);
   // const chatMessages = getMessagesHook(userChat);
   // console.log(chatMessages);
   // if (userChat !== -1) {
@@ -69,11 +71,8 @@ export default function Friends(data: FriendsData) {
   ].sort();
 
   useEffect(() => {
-    let intervalId: any = null; 
-
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight - chatRef.current.clientHeight;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let intervalId: any = null;
 
     const fetchChatMessages = () => {
       api
@@ -82,14 +81,31 @@ export default function Friends(data: FriendsData) {
         .catch((error) => console.log(error));
     };
 
-    intervalId = setInterval(fetchChatMessages, 1000 * 5);
+    intervalId = setInterval(() => {
+      fetchChatMessages;
+      document.getElementById('last')?.scrollIntoView();
+    }
+    , 1000 * 5);
+
     fetchChatMessages();
+    document.getElementById('last')?.scrollIntoView();
+
     return () => clearInterval(intervalId);
   }, [userChat]);
 
+  useEffect(() => {
+    api.get('/friends/friendrequest', config).then(e => setFriendRequests(e.data));
+  }, [showFriendRequests]);
 
-  const userList = data.usersList.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.userData.username && i < 10 && !friends.some(friend => friend.username === e.username));
-  const receivedFR = data.friendRequests.filter((e: friendRequests) => e.requested_id === data.userData.user_id);
+  useEffect(() => {
+    api.get('/users/allusers', config).then(e => setAllUsers(e.data));
+  }, [showUsers]);
+
+
+  const userList = allUsers.filter((e: User, i: number) => e.username.includes(addFriendFilter) && e.username !== data.userData.username && i < 10 && !friends.some(friend => friend.username === e.username));
+  const receivedFR = friendRequests.filter((e: friendRequests) => e.requested_id === data.userData.user_id);
+  console.log(receivedFR);
+  console.log(userList);
 
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
@@ -136,7 +152,7 @@ export default function Friends(data: FriendsData) {
                             alt="profile_pic"
                           />
                           <h1 className='cursor-pointer text-2xl'>
-                            {data.usersList.find(user => user.user_id === e.requester_id)?.username}
+                            {userList.find(user => user.user_id === e.requester_id)?.username}
                           </h1>
                         </div>
                         <div className='flex items-center gap-3'>
@@ -187,7 +203,7 @@ export default function Friends(data: FriendsData) {
                       <h1> {e.username} </h1>
                     </div>
                     <div className='flex items-center gap-3'>
-                      {data.friendRequests.some((friendRequest) => friendRequest.requested_id === e.user_id)
+                      {friendRequests.some((friendRequest) => friendRequest.requested_id === e.user_id)
                         ?
                         <>
                           <h3 className='text-signature cursor-pointer'> Friend Request Sent </h3>
@@ -221,10 +237,10 @@ export default function Friends(data: FriendsData) {
         </div>
       </div>
       <div className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
-        <div ref={chatRef} className='w-full flex flex-col gap-3 overflow-auto rounded-md'>
+        <div className='w-full flex flex-col gap-3 overflow-auto rounded-md'>
           {chatMessages.map((e: ChatMessagesInterface, i: number) => (
             <Message
-              id={'message' + i}
+              id={i === chatMessages.length - 1 ? 'last' : ''}
               key={e.message_id}
               // profile_picture={e.profile_picture}
               username={e.author.username}
@@ -242,10 +258,6 @@ export default function Friends(data: FriendsData) {
             placeholder="Message"
             className="w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
           />
-          {/* <IoSendSharp
-            onClick={() => { message === '' ? null : sendMessages(message); }}
-            className="absolute right-3 bottom-5 text-seventh hover:cursor-pointer"
-          /> */}
         </div>
       </div>
     </div>
@@ -260,26 +272,22 @@ export async function getServerSideProps(context: NextPageContext) {
     },
   };
   try {
-    const [usersList, userData, friendList, friendRequests] = await Promise.all([
-      api.get('/users/allusers', config).then(e => e.data),
+    const [userData, friendList] = await Promise.all([
       api.get('/users/userdata', config).then(e => e.data),
       api.get('/friends/friendlist', config).then(e => e.data),
-      api.get('/friends/friendrequest', config).then(e => e.data),
     ]);
 
     const data = {
-      usersList,
       friendList,
       userData,
-      friendRequests,
     };
 
     if (!data) return {
-      // redirect: { destination: '/', permanent: false },
+      redirect: { destination: '/', permanent: false },
     };
 
     return { props: data };
   } catch (error) {
-    // return { redirect: { destination: '/', permanent: false } };
+    return { redirect: { destination: '/', permanent: false } };
   }
 }

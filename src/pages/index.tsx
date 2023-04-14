@@ -25,7 +25,7 @@ export default function Home({ data }: { data: AnimeData }) {
       image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
     }
   ];
-  
+
   console.log(new Date().getFullYear());
 
   const animeList = data.media.filter((e) => e.title.romaji.toLocaleLowerCase().includes(filter));
@@ -54,7 +54,9 @@ export default function Home({ data }: { data: AnimeData }) {
                 <h1 className="cursor-pointer"> {e.title.romaji} </h1>
                 {e.averageScore ? <Stars className='mb-3' score={e.averageScore} /> : null}
                 <h3 className="cursor-pointer pb-3"> {e.startDate.year} </h3>
-                <h3 className="cursor-pointer h-2/3 overflow-auto"> {e.description.replace(/(<([^>]+)>)/ig,' ').replace(/(\r\n|\n|\r)/gm, ' ')} </h3>
+                <h3 className="cursor-pointer h-2/3 overflow-auto">
+                  {e.description ? e.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ') : 'No description yet'}
+                </h3>
               </div>
             </div>
           ))}

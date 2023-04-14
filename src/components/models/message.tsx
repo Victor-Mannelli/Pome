@@ -9,7 +9,7 @@ export function Message({
   username: string;
   timestamp: Date;
   message: string;
-  id: string;
+  id?: string;
 }) {
   const month = timestamp.getMonth() + 1;
   const day = timestamp.getDate();

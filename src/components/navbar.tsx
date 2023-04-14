@@ -34,7 +34,7 @@ export default function Navbar() {
     >
       <SiNiconico onClick={() => router.push('/')} className="text-signature text-2xl cursor-pointer hover:text-h-signature "/>
       <div>
-        <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/releases/1')}> Comming Soon! </h2>
+        <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/releases/1')}> Not Aired Yet! </h2>
       </div>
       <div className="flex items-center gap-7">
         <FaUserFriends 
