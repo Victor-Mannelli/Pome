@@ -41,7 +41,7 @@ export default function Home({ data }: { data: AnimeData }) {
         <div className="w-full flex flex-wrap gap-5 overflow-auto">
           {animeList.map((e: any) => (
             <div
-              className="xl:w-[48.9%] w-full h-[19rem] bg-third rounded-xl p-4 flex cursor-pointer"
+              className="xl:w-[48.9%] w-full h-[19.5rem] bg-third rounded-xl p-4 flex cursor-pointer"
               onClick={() => router.push(`/pome/anime/${e.id}`)}
               key={e.id}
             >

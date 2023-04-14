@@ -1,16 +1,20 @@
+import AnimeUserStats from '@/components/folderButton';
+import PopUp from '@/components/models/popup';
 import { Stars } from '@/components/stars';
 import { animeApi } from '@/utils/axios';
 import { SingleAnimeData } from '@/utils/Interfaces';
 import { NextPageContext } from 'next';
 import { useState } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { RxCross2 } from 'react-icons/rx';
 // import { useRouter } from "next/router";
 // import { BiUpArrow } from "react-icons/bi";
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState<boolean>(false);
+  const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  console.log(data);
+  // console.log(data);
   return (
     <div className='flex flex-col items-center gap-5 pb-7'>
       {data.bannerImage ? (
@@ -30,9 +34,39 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
             src={data.coverImage.extraLarge}
             alt="pfp"
           />
-          <div className={`bg-fifth ${!data.bannerImage ? 'absolute top-[26.5rem] left-0 w-[95%]' : 'w-[80%]'} h-9 rounded-md cursor-pointer`}>
-            <h1></h1>
+          <div onClick={() => setShowAnimeSettings(!showAnimeSettings)}
+            className={`${!data.bannerImage ? 'absolute top-[26.5rem] left-0 w-[95%]' : 'w-[80%]'} flex justify-center items-center h-9 rounded-md hover:cursor-pointer hover:bg-fifth bg-fourthAndAHalf`}
+          >
+            <h3 className='hover:cursor-pointer text-h-signature'>
+              Did you like it?
+            </h3>
           </div>
+          <PopUp show={showAnimeSettings} setShow={setShowAnimeSettings} bg={true}>
+            <div
+              className='relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col gap-3'
+              onClick={(e) => e.stopPropagation()}
+            >
+              <RxCross2
+                className='absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
+                onClick={() => setShowAnimeSettings(!showAnimeSettings)}
+              />
+              {/* <div>
+                <img className='rounded-t-xl h-[13.1rem]' src={data.bannerImage} alt='banner' />
+              </div> */}
+              <div
+                className={'rounded-t-xl h-[13.1rem] bg-cover flex flex-wrap items-end p-3'}
+                style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black'}}
+              > 
+                <h3 className='font-bold'> {data.title.romaji} </h3>
+              </div>
+              <AnimeUserStats/>
+              <div className='absolute bottom-4 right-4 border rounded-xl p-3 cursor-pointer'
+                onClick={() => console.log('temp')}
+              >
+                <h3 className='text-h-signature cursor-pointer'> Save </h3>
+              </div>
+            </div>
+          </PopUp>
         </div>
         <div className="w-[75%] flex flex-col gap-3">
           <h1 className="font-bold text-3xl"> {data.title.romaji} </h1>
@@ -53,7 +87,7 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
                     <h3 className='text-h-signature'> Start Date: {data.startDate.day && data.startDate.day + ' of'} {monthNames[data.startDate.month - 1] + ', '}{data.startDate.year} </h3>
                     {data.episodes ? <h3> Total Episodes: {data.episodes} </h3> : null}
                   </div>
-                  : <></>
+                  : null
               }
               {data.genres ?
                 <div className="flex h-full gap-[0.35rem] overflow-auto">
@@ -71,24 +105,26 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
             </div>
           </div>
         </div>
-      </div>
-      <div className={`bg-fifth ${!data.bannerImage ? 'ml-[17.8rem] mr-3 w-fit' : 'w-[98%]'} rounded-xl p-5`}>
+      </div >
+      <div className={`bg-fourthAndAHalf ${!data.bannerImage ? 'ml-[17.8rem] mr-3 w-fit' : 'w-[98%]'} rounded-xl p-5`}>
         <h1 className="text-3xl font-bold pb-3"> Sinopse </h1>
         <p className="text-2xl"> {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')} </p>
       </div>
-      {data.trailer && data.trailer.site === 'youtube' ? (
-        <div className="bg-fifth rounded-xl w-[98%] p-5">
-          <h1 className="text-3xl font-bold pb-3"> Trailer </h1>
-          <div className="flex justify-center">
-            <iframe
-              className="h-[25rem] w-[40rem]"
-              src={`https://www.youtube.com/embed/${data.trailer.id}`}
-              allowFullScreen
-            />
+      {
+        data.trailer && data.trailer.site === 'youtube' ? (
+          <div className="bg-fourthAndAHalf rounded-xl w-[98%] p-5">
+            <h1 className="text-3xl font-bold pb-3"> Trailer </h1>
+            <div className="flex justify-center">
+              <iframe
+                className="h-[25rem] w-[40rem]"
+                src={`https://www.youtube.com/embed/${data.trailer.id}`}
+                allowFullScreen
+              />
+            </div>
           </div>
-        </div>
-      ) : null}
-    </div>
+        ) : null
+      }
+    </div >
   );
 }
 
