@@ -23,6 +23,7 @@
     "nookies": "^2.5.2",
     "rc-textarea": "^1.2.1",
     "react": "18.2.0",
+    "react-datepicker": "^4.11.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-toastify": "^9.1.2",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.2.4",
+    "@types/react-datepicker": "^4.10.0",
     "@types/underscore": "^1.11.4",
     "@types/ws": "^8.5.4",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

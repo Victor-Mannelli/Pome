@@ -24,6 +24,7 @@ export default function SignUp() {
     e.preventDefault();
     if (fetchData.password === fetchData.confirmPassword) {
       userSignUp({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
+      router.push('/pome/signin');
     } else {
       setMatch(false);
       toast.error('Password confirmation denied!');
@@ -86,7 +87,7 @@ export default function SignUp() {
         </form>
         <h4 
           className="text-lg pt-2 hover:cursor-pointer hover:text-sixth mt-2" 
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/pome/signin')}
         >  Already have an account? <span className="text-signature hover:text-h-signature font-bold text-lg"> Log In! </span>
         </h4>
       </div>

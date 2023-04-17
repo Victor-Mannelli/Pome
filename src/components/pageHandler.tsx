@@ -18,7 +18,7 @@ export default function PageHandler({
           className="bg-third"
           onClick={() => router.push({
             pathname: `/${route}`, 
-            query: { id: `${currentPage - 1}`}
+            query: { page: `${currentPage - 1}`}
           })}
           text="Back" 
         /> 
@@ -35,7 +35,7 @@ export default function PageHandler({
           className="bg-third"
           onClick={() => router.push({
             pathname: `/${route}`, 
-            query: { id: `${currentPage + 1}`}
+            query: { page: `${currentPage + 1}`}
           })}
         /> 
         : null 

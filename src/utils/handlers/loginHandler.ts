@@ -4,10 +4,10 @@ import { api } from '../axios';
 import { useRouter } from 'next/router';
 import { ToastError } from '../Interfaces';
 
-export function userLogin({ 
-  login, 
-  password, 
-  router 
+export function userLogin({
+  login,
+  password,
+  router
 }: {
   login: string,
   password: string,
@@ -31,10 +31,13 @@ export function userLogin({
       },
       error: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        render(e: ToastError | any) { 
-          return e.data.response.data.message 
+        render(e: ToastError | any) {
+          return e.data.response.data.message
             ? e.data.response.data.message
-            : e.data.response.data;
+            : e.response.data.length > 1
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ? e.response.data.map((error: any) => toast.error(error))
+              : toast.error(e.response.data[0]);
         }
       }
     },

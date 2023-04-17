@@ -7,6 +7,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/utils/hooks';
 // import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -27,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ToastContainer
           theme="dark"
           position="top-center"
-          autoClose={1200}
+          // autoClose={1200}
         />
       </main>
     </QueryClientProvider>

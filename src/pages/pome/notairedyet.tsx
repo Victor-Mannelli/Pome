@@ -6,15 +6,14 @@ import { AnimeData } from '@/utils/Interfaces';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 
-export default function Releases({ data }: { data: AnimeData }) {
+export default function NotAiredYet({ data }: { data: AnimeData }) {
   const router = useRouter();
-  console.log(data);
   return (
     <div className="flex flex-col  rounded-xl m-5">
       {/* <div className="h-8">
         <input className="w-full h-full rounded-xl bg-sixth caret-white text-white outline-none px-4"/>
       </div> */}
-      <h1 className="font-bold py-4 cursor-default w-[10rem] text-2xl"> New Releases </h1>
+      <h1 className="font-bold py-4 cursor-default text-center text-2xl"> Not Aired Yet </h1>
       <div className="w-full flex flex-wrap gap-5 overflow-auto">
         {data.media.map((e: any) => (
           <div
@@ -44,7 +43,7 @@ export default function Releases({ data }: { data: AnimeData }) {
         <PageHandler
           currentPage={data.pageInfo.currentPage}
           hasNextPage={data.pageInfo.hasNextPage}
-          route="releases"
+          route="/pome/notairedyet"
         />
       </div>
     </div>
@@ -53,7 +52,7 @@ export default function Releases({ data }: { data: AnimeData }) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const variables = {
-    page: Number(context.query.id),
+    page: Number(context.query.page),
     year: Number(new Date().getFullYear() + '0000')
   };
   const query = `

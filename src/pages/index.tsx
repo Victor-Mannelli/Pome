@@ -1,32 +1,31 @@
 import Filter from '@/components/models/filter';
 import PageHandler from '@/components/pageHandler';
 import { Stars } from '@/components/stars';
-import { animeApi } from '@/utils/axios';
-import { AnimeData } from '@/utils/Interfaces';
+import { animeApi, api } from '@/utils/axios';
+import { AnimeData, UserFollowingAnime } from '@/utils/Interfaces';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { BiMinus, BiPlus } from 'react-icons/bi';
+import nookies from 'nookies';
 
 export default function Home({ data }: { data: AnimeData }) {
   const router = useRouter();
   const [filter, setFilter] = useState<string>('');
-  // console.log(data);
-  const moc = [
-    {
-      id: 1,
-      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
-    },
-    {
-      id: 2,
-      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
-    },
-    {
-      id: 3,
-      image: 'https://i.pinimg.com/736x/67/4d/27/674d274d9292e24e5a3800134fbe702f.jpg'
-    }
-  ];
+  const [userFollowedAnimes, setUserFollowedAnimes] = useState<any>();
+  const [toggle, setToggle] = useState<boolean>(false);
+  const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
 
-  console.log(new Date().getFullYear());
+  useEffect(() => {
+    api
+      .get('/anime/userlist', config)
+      .then((e) => setUserFollowedAnimes(e.data));
+  }, [toggle]);
+
+  function handleUpdateFollowing({ animeId, progress }: { animeId: number, progress: number }) {
+    api.put('/anime/userlist', { animeId, progress }, config);
+    setToggle(!toggle);
+  }
 
   const animeList = data.media.filter((e) => e.title.romaji.toLocaleLowerCase().includes(filter));
   return (
@@ -70,12 +69,32 @@ export default function Home({ data }: { data: AnimeData }) {
       <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-10">
         <h1 className="font-bold py-5"> You are following </h1>
         <div className="w-full flex flex-wrap gap-4 overflow-auto">
-          {moc.map((e: any) => (
+          {userFollowedAnimes?.map((e: UserFollowingAnime) => (
             <div
-              className="w-32 h-40 bg-fifth rounded-xl p-2 bg-cover"
-              style={{ backgroundImage: `url(${e.image})` }}
-              key={e.id}
+              className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
+              onClick={() => router.push(`/pome/anime/${e.anime.anime_id}`)}
+              style={{ backgroundImage: `url(${e.anime.cover_image})` }}
+              key={e.anime.anime_id}
             >
+              <div className='flex flex-col justify-center items-center h-2/5 w-full bg-black bg-opacity-60 rounded-b-xl border-b-8 border-signature cursor-default'>
+                {e.anime.next_airing_episode.episode - 1 - e.progress > 0 ?
+                  <div className='flex items-center gap-5'>
+                    <BiMinus
+                      className='text-white text-xl cursor-pointer hover:text-eigth'
+                      onClick={(event) => (event.stopPropagation(), handleUpdateFollowing({ progress: e.progress - 1, animeId: e.anime.anime_id }))}
+                    />
+                    <h3 className='text-white'> {e.anime.next_airing_episode.episode - 1 - e.progress} </h3>
+                    <BiPlus
+                      className='text-white text-xl cursor-pointer hover:text-eigth'
+                      onClick={(event) => (event.stopPropagation(), handleUpdateFollowing({ progress: e.progress + 1, animeId: e.anime.anime_id }))}
+                    />
+                  </div>
+                  : null
+                }
+                <h3 className='text-white'>
+                  {Math.floor(e.anime.next_airing_episode.timeUntilAiring / 86400)}d {Math.floor((e.anime.next_airing_episode.timeUntilAiring % 86400) / 3600)}h {Math.floor((e.anime.next_airing_episode.timeUntilAiring % 3600) / 60)}m
+                </h3>
+              </div>
             </div>
           ))}
         </div>
@@ -86,10 +105,9 @@ export default function Home({ data }: { data: AnimeData }) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const variables = {
-    page: Number(context.query.id) || 0,
+    page: Number(context.query.page) || 0,
     year: Number(new Date().getFullYear() + '0000')
   };
-  console.log(variables);
   const query = `
     query ($page: Int, $year: FuzzyDateInt) {
       Page (page: $page, perPage: 20) {

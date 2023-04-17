@@ -31,7 +31,10 @@ export function userSignUp({
         render(e: ToastError | any) {
           return e.data.response.data.message
             ? e.data.response.data.message
-            : e.data.response.data;
+            : e.response.data.length > 1
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ? e.response.data.map((error: any) => toast.error(error))
+              : toast.error(e.response.data[0]);
         }
       }
     },

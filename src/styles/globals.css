@@ -22,11 +22,12 @@
     @apply cursor-pointer
   }
   *::-webkit-scrollbar {
-    @apply w-2 md:w-1.5;
+    @apply w-2 h-2 md:w-1.5 md:h-1.5;
   }
   *::-webkit-scrollbar-thumb {
     @apply bg-first;
   } 
+  *::-webkit-scrollbar-track 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,

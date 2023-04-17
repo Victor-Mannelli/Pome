@@ -1,20 +1,43 @@
-import AnimeUserStats from '@/components/folderButton';
-import PopUp from '@/components/models/popup';
+import AnimeUserStats from '@/components/animeUserStats';
+import PopUp from '@/components/popup';
 import { Stars } from '@/components/stars';
-import { animeApi } from '@/utils/axios';
+import { animeApi, api } from '@/utils/axios';
 import { SingleAnimeData } from '@/utils/Interfaces';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
+import { AnimeUserStatsInterface } from '../../../utils/Interfaces';
+import { addAnimeUserStatus } from '@/utils/handlers/animeUserStatusHandler';
+import nookies from 'nookies';
 // import { useRouter } from "next/router";
 // import { BiUpArrow } from "react-icons/bi";
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
   const [favorite, setFavorite] = useState<boolean>(false);
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
+  const [fetchData, setFetchData] = useState<AnimeUserStatsInterface>({ status: '', score: 0, progress: 0, rewatches: 0, startDate: new Date(), finishDate: null });
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  // console.log(data);
+  const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
+
+  function handleAnimeUserStatus(fetchData: AnimeUserStatsInterface) {
+    const body = { ...fetchData, animeId: data.id, favorite: favorite };
+    addAnimeUserStatus({ body, setShowAnimeSettings });
+  }
+  function populateDb() {
+    api.post('/anime/populate', { animeId: data.id }, config);
+  }
+
+  useEffect(() => {
+    api.get('/anime/userlist', config).then((e) => {
+      const response = e.data.find((e: any) => e.anime_id === data.id);
+      if (response) {
+        response.favorite === true && setFavorite(true);
+        setFetchData({ ...fetchData, status: response.status, score: response.score, progress: response.progress, rewatches: response.rewatches });
+      }
+    });
+  }, []);
+
   return (
     <div className='flex flex-col items-center gap-5 pb-7'>
       {data.bannerImage ? (
@@ -34,7 +57,7 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
             src={data.coverImage.extraLarge}
             alt="pfp"
           />
-          <div onClick={() => setShowAnimeSettings(!showAnimeSettings)}
+          <div onClick={() => (setShowAnimeSettings(!showAnimeSettings), populateDb())}
             className={`${!data.bannerImage ? 'absolute top-[26.5rem] left-0 w-[95%]' : 'w-[80%]'} flex justify-center items-center h-9 rounded-md hover:cursor-pointer hover:bg-fifth bg-fourthAndAHalf`}
           >
             <h3 className='hover:cursor-pointer text-h-signature'>
@@ -47,23 +70,28 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
               onClick={(e) => e.stopPropagation()}
             >
               <RxCross2
-                className='absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
+                className='absolute z-20 right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
                 onClick={() => setShowAnimeSettings(!showAnimeSettings)}
               />
               {/* <div>
                 <img className='rounded-t-xl h-[13.1rem]' src={data.bannerImage} alt='banner' />
               </div> */}
               <div
-                className={'rounded-t-xl h-[13.1rem] bg-cover flex flex-wrap items-end p-3'}
-                style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black'}}
-              > 
-                <h3 className='font-bold'> {data.title.romaji} </h3>
-              </div>
-              <AnimeUserStats/>
-              <div className='absolute bottom-4 right-4 border rounded-xl p-3 cursor-pointer'
-                onClick={() => console.log('temp')}
+                className={'relative rounded-t-xl h-[13.1rem] bg-cover flex flex-wrap items-end p-3'}
+                style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
               >
-                <h3 className='text-h-signature cursor-pointer'> Save </h3>
+                <h3 className='font-bold'> {data.title.romaji} </h3>
+                {favorite
+                  ? <FaHeart className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
+                  : <FaRegHeart className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
+                }
+              </div>
+              <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} />
+              <div
+                className='absolute bottom-4 right-4 rounded-xl px-7 py-3 bg-fourth hover:bg-fourthAndAHalf cursor-pointer'
+                onClick={() => handleAnimeUserStatus(fetchData)}
+              >
+                <h3 className='cursor-pointer'> Save </h3>
               </div>
             </div>
           </PopUp>
@@ -79,7 +107,9 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
               {data.status === 'RELEASING' ?
                 <div className='flex flex-col gap-1 pt-2'>
                   <h3> Current Episode: {data.nextAiringEpisode.episode - 1} </h3>
-                  <h3 className='text-h-signature'> Next Episode in {Math.floor(data.nextAiringEpisode.timeUntilAiring / 3600)}h {Math.floor((data.nextAiringEpisode.timeUntilAiring % 3600) / 60)}m </h3>
+                  <h3 className='text-h-signature'>
+                    Next Episode in {Math.floor(data.nextAiringEpisode.timeUntilAiring / 86400)}d {Math.floor((data.nextAiringEpisode.timeUntilAiring % 86400) / 3600)}h {Math.floor((data.nextAiringEpisode.timeUntilAiring % 3600) / 60)}m
+                  </h3>
                   <h3> Total Episodes: {data.episodes} </h3>
                 </div>
                 : data.status === 'NOT_YET_RELEASED' ?

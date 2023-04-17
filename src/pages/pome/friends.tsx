@@ -2,30 +2,27 @@ import { BsPlusSquare } from 'react-icons/bs';
 import { FiUserPlus } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
 import { GiCakeSlice } from 'react-icons/gi';
-import { Message } from '@/components/models/message';
+import { Message } from '@/components/friends/message';
 import { useEffect, useRef, useState } from 'react';
 import { NextPageContext } from 'next';
 import { ChatMessagesInterface, FriendAsFData, FriendAsUData, FriendsData, User, UsersList, friendRequests } from '@/utils/Interfaces';
 import { api } from '@/utils/axios';
 import nookies, { parseCookies } from 'nookies';
 import Textarea from 'rc-textarea';
-import PopUp from '@/components/models/popup';
+import PopUp from '@/components/popup';
 import Filter from '@/components/models/filter';
-import Friend from '@/components/friend';
+import Friend from '@/components/friends/friend';
 // import { getMessagesHook } from '@/utils/hooks/useGetMessages';
 // import WebSocket from 'ws';
 
 export default function Friends(data: FriendsData) {
   const [showUsers, setShowUsers] = useState<boolean>(false);
   const [allUsers, setAllUsers] = useState<UsersList[]>([]);
-
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [friendRequests, setFriendRequests] = useState<friendRequests[]>([]);
-
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
   const [userChat, setUserChat] = useState<number>(data.userData.user_id);
   const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
-
   const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const textArea: any = useRef();
@@ -266,11 +263,7 @@ export default function Friends(data: FriendsData) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const cookies = parseCookies(context);
-  const config = {
-    headers: {
-      Authorization: `Bearer ${cookies.token}`,
-    },
-  };
+  const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
   try {
     const [userData, friendList] = await Promise.all([
       api.get('/users/userdata', config).then(e => e.data),
@@ -278,8 +271,8 @@ export async function getServerSideProps(context: NextPageContext) {
     ]);
 
     const data = {
-      friendList,
       userData,
+      friendList,
     };
 
     if (!data) return {

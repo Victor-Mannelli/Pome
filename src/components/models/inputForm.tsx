@@ -22,6 +22,7 @@ export default function InputForm({
         name={name}
         type={type}
         placeholder={placeholder}
+        required
         value={value}
         onChange={onChange}
       />

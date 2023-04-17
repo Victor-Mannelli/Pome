@@ -13,7 +13,7 @@ export default function Navbar() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       let scrollPositionNow = window.pageYOffset;
-      window.onscroll = function() {
+      window.onscroll = function () {
         const currentScrollPos = window.pageYOffset;
         if (scrollPositionNow < currentScrollPos || currentScrollPos === 0) {
           setShow(true);
@@ -22,31 +22,32 @@ export default function Navbar() {
         }
         scrollPositionNow = currentScrollPos;
       };
-    } 
+    }
   }, []);
 
   return (
-    <div 
+    <div
       className={`w-full bg-second hover:opacity-100 h-16 flex justify-between items-center px-10 z-20
-        ${ show ? 'top-0' : 'top-[-4rem]' } 
-        ${(router.pathname.startsWith('/pome/anime') || router.pathname.startsWith('/pome/profile')) ? 'fixed opacity-70' : 'sticky opacity-100' }`}
+        ${show ? 'top-0' : 'top-[-4rem]'} 
+        ${(router.pathname.startsWith('/pome/anime') || router.pathname.startsWith('/pome/profile')) ? 'fixed opacity-70' : 'sticky opacity-100'}`}
       style={{ transition: 'top 0.3s' }}
     >
-      <SiNiconico onClick={() => router.push('/')} className="text-signature text-2xl cursor-pointer hover:text-h-signature "/>
-      <div>
-        <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/releases/1')}> Not Aired Yet! </h2>
+      <SiNiconico onClick={() => router.push('/')} className="text-signature text-2xl cursor-pointer hover:text-h-signature " />
+      <div className='flex gap-28'>
+        <div> <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2> </div>
+        <div> <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/finished')}> Finished </h2> </div>
       </div>
       <div className="flex items-center gap-7">
-        <FaUserFriends 
+        <FaUserFriends
           className="text-signature text-2xl cursor-pointer hover:text-h-signature"
-          onClick={() => { 
-            cookies 
+          onClick={() => {
+            cookies
               ? router.push('/pome/friends')
               : (router.push('/pome/signin'), toast.error('log in first!'));
-          }} 
+          }}
         />
-        <FaUserCircle 
-          onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/signin'); }} 
+        <FaUserCircle
+          onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/signin'); }}
           className="text-signature text-2xl cursor-pointer hover:text-h-signature"
         />
       </div>

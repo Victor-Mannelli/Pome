@@ -276,6 +276,20 @@ export interface friendRequests {
   requester_id: number,
   requested_id: number,
 }
+
+export interface AnimeUserStatsInterface {
+  status: string,
+  score: number,
+  progress: number,
+  rewatches: number,
+  startDate: Date,
+  finishDate: Date | null
+}
+export interface AnimeUserStatusData extends AnimeUserStatsInterface {
+  animeId: number,
+  favorite: boolean,
+}
+
 export interface ChatMessagesInterface {
   profile_picture: string
   author: {
@@ -290,3 +304,32 @@ export interface ChatMessagesInterface {
   }
   receiver_id: number // don´t think I need this one
 }
+
+export interface UserFollowingAnime {
+  anime: {
+    anime_id: number,
+    title: string,
+    status: string,
+    average_score: number,
+    banner_image: string,
+    cover_image: string, 
+    description: string,
+    start_date: number
+    end_date: number,
+    episodes: number
+    genres: string[]
+    volumes: string,
+    next_airing_episode: {
+      episode: number,
+      timeUntilAiring: number
+    }
+  }
+  favorite: false,
+  finish_date: number,
+  progress: number,
+  rewatches: number,
+  score: number,
+  start_date: number,
+  status: string,
+}
+
