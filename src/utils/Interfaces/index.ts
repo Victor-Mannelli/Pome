@@ -219,11 +219,6 @@ export interface ToastError {
     }
   }
 }
-export interface ProfileData {
-  data: {
-    username: string
-  }
-}
 
 export interface User { // being used at Users List for Friend Requests
   user_id: number,

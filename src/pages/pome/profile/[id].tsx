@@ -6,15 +6,18 @@ import { useEffect, useState } from 'react';
 import { NextPageContext } from 'next';
 import { parseCookies } from 'nookies';
 import { api } from '@/utils/axios';
-import { ProfileData } from '@/utils/Interfaces';
+import { useRouter } from 'next/router';
 
-export default function Profile(data: ProfileData) {
-  const [list, setList] = useState<string>('Whatching');
+export default function Profile(data: any) {
+  const [filter, setFilter] = useState<string>('Whatching');
   const [sort, setSort] = useState<string>('');
+  const router = useRouter();
+
+  console.log(data);
 
   const user = {
     banner: '/assets/dark_bg.jpg',
-    profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1cDnT1Q5ZrkfLfxiSgFvC2ZsjpngynJGvg&usqp=CAU',
+    profile_picture: 'https://icon2.cleanpng.com/20180319/row/kisspng-computer-icons-google-account-user-profile-iconfin-png-icons-download-profile-5ab0301d8907a6.3404305715214960935613.jpg',
     username: 'Catto',
   };
   const moc: any = [
@@ -73,7 +76,7 @@ export default function Profile(data: ProfileData) {
       progress: '10/12',
       type: 'TV',
     }, {
-      id:10,
+      id: 10,
       title: 'aaaaaaa',
       score: '10',
       progress: '10/12',
@@ -82,75 +85,79 @@ export default function Profile(data: ProfileData) {
   ];
 
   useEffect(() => {
-  
+
     //request to list type 
-  
+
   }, []);
 
   // data = _.sortBy(data, sort).reverse();
-
+  const animeList = data.userAnimeList.filter((e: any) => e.status === filter);
   return (
     <div className="flex flex-col">
       <div className={'w-full h-[20rem] flex items-end px-48'}
-        style={{backgroundImage: `url('${user.banner}')`}}
+        style={{ backgroundImage: `url('${user.banner}')` }}
       >
-        <img 
+        <img
           className="h-56"
-          src={user.profile_picture} 
+          src={user.profile_picture}
           alt="profile_pic"
         />
-        <h1 className="pl-10 pb-5"> {data.data.username} </h1>
+        <h1 className="pl-10 pb-5"> {data.userData.username} </h1>
       </div>
       <div className="flex h-screen w-full">
         <div className="w-1/4 h-screen bg-second flex p-10">
-          <Filter onChange={(e) => setSort(e.target.value)}/>
+          <Filter onChange={(e) => setSort(e.target.value)} />
         </div>
         <div className="w-3/4 h-screen flex flex-col">
           <div className="flex justify-center">
-            <Button 
-              text={'Finished'} 
-              className={`ml-5 mt-5 ${list === 'Finished' ? 'border bg-second' : 'bg-third'}`} 
-              onClick={() => setList('Finished')}
+            <Button
+              text={'Finished'}
+              className={`ml-5 mt-5 ${filter === 'Finished' ? 'border bg-second' : 'bg-third'}`}
+              onClick={() => setFilter('Finished')}
             />
-            <Button 
-              text={'Whatching'} 
-              className={`ml-5 mt-5 ${list === 'Whatching' ? 'border bg-second' : 'bg-third'}`} 
-              onClick={() => setList('Whatching')}
+            <Button
+              text={'Watching'}
+              className={`ml-5 mt-5 ${filter === 'Watching' ? 'border bg-second' : 'bg-third'}`}
+              onClick={() => setFilter('Watching')}
             />
-            <Button 
-              text={'Planning'} 
-              className={`ml-5 mt-5 ${list === 'Planning' ? 'border bg-second' : 'bg-third'}`} 
-              onClick={() => setList('Planning')}
+            <Button
+              text={'Planning'}
+              className={`ml-5 mt-5 ${filter === 'Planning' ? 'border bg-second' : 'bg-third'}`}
+              onClick={() => setFilter('Planning')}
             />
-            <Button 
-              text={'Dropped'} 
-              className={`ml-5 mt-5 ${list === 'Dropped' ? 'border bg-second' : 'bg-third'}`} 
-              onClick={() => setList('Dropped')}
+            <Button
+              text={'Dropped'}
+              className={`ml-5 mt-5 ${filter === 'Dropped' ? 'border bg-second' : 'bg-third'}`}
+              onClick={() => setFilter('Dropped')}
             />
-            <Button 
-              text={'Rewatching'} 
-              className={`ml-5 mt-5 ${list === 'Rewatching' ? 'border bg-second' : 'bg-third'}`} 
-              onClick={() => setList('Rewatching')}
+            <Button
+              text={'Rewatching'}
+              className={`ml-5 mt-5 ${filter === 'Rewatching' ? 'border bg-second' : 'bg-third'}`}
+              onClick={() => setFilter('Rewatching')}
             />
           </div>
-          <div className="bg-third rounded-2xl m-5 pb-5">
-            <div className="w-full flex pt-5">
+          <div className="bg-third rounded-2xl m-5">
+            <div className="w-full flex py-5">
               <h3 className="w-[64%] pl-7 break-all font-bold"> Title </h3>
               <h3 className="w-[12%] text-center font-bold"> Score </h3>
               <h3 className="w-[12%] text-center font-bold"> Progress </h3>
               <h3 className="w-[12%] text-center font-bold"> Type </h3>
             </div>
-            {moc.map((e: any) => (
-              <div key={e.id} className="w-full flex pt-5">
-                <h3 className="w-[64%] pl-7 break-all"> {e.title} </h3>
-                <h3 className="w-[12%] text-center"> {e.score} </h3>
-                <h3 className="w-[12%] text-center"> {e.progress} </h3>
-                <h3 className="w-[12%] text-center"> {e.type} </h3>
+            {animeList.map((e: any) => (
+              <div 
+                key={e.anime_id} 
+                className="w-full flex py-5 hover:bg-second rounded-xl cursor-pointer"
+                onClick={() => router.push(`/pome/anime/${e.anime_id}`)}
+              >
+                <h3 className="w-[64%] pl-7 break-all cursor-pointer"> {e.anime.title} </h3>
+                <h3 className="w-[12%] text-center cursor-pointer"> {e.score} </h3>
+                <h3 className="w-[12%] text-center cursor-pointer"> {e.progress} </h3>
+                <h3 className="w-[12%] text-center cursor-pointer"> {e.anime.type} </h3>
               </div>
             ))}
           </div>
         </div>
-      </div> 
+      </div>
     </div>
   );
 }
@@ -158,18 +165,23 @@ export default function Profile(data: ProfileData) {
 export async function getServerSideProps(context: NextPageContext) {
   // const id = context.query.id;
   const cookies = parseCookies(context);
+  const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
   try {
-    const { data } = await api.get('userdata', {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    });
+    const [userData, userAnimeList] = await Promise.all([
+      api.get('/users/userdata', config).then(e => e.data),
+      api.get('/anime/userlist', config).then(e => e.data),
+    ]);
+
+    const data = {
+      userData,
+      userAnimeList,
+    };
 
     if (!data) return {
       redirect: { destination: '/', permanent: false },
     };
 
-    return { props: { data }};
+    return { props: data };
   } catch (error) {
     return { redirect: { destination: '/', permanent: false } };
   }
