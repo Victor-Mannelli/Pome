@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ToastContainer
           theme="dark"
           position="top-center"
-          // autoClose={1200}
+          autoClose={1500}
         />
       </main>
     </QueryClientProvider>

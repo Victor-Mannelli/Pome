@@ -22,7 +22,7 @@ export function userSignUp({
       pending: 'Signing Up...',
       success: {
         render() {
-          router.push('/pome/signup');
+          router.push('/pome/signin');
           return 'Account created!';
         },
       },
