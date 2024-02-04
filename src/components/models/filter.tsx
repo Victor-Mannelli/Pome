@@ -1,6 +1,6 @@
-import { GiMagnifyingGlass } from 'react-icons/gi';
+import { GiMagnifyingGlass } from "@/utils";
 
-export default function Filter({ onChange } : { onChange: React.ChangeEventHandler<HTMLInputElement>}) {
+export function Filter({ onChange } : { onChange: React.ChangeEventHandler<HTMLInputElement>}) {
   return (
     <div className="relative w-full">
       <GiMagnifyingGlass className="absolute right-3 top-2 text-3xl text-eigth"/>

@@ -1,17 +1,8 @@
-import AnimeUserStats from '@/components/animeUserStats';
-import PopUp from '@/components/popup';
-import { Stars } from '@/components/stars';
-import { animeApi, api } from '@/utils/axios';
-import { SingleAnimeData } from '@/utils/Interfaces';
-import { NextPageContext } from 'next';
+import { animeApi, api, FaHeart, FaRegHeart, SingleAnimeData, addAnimeUserStatus, AnimeUserStatsInterface, RxCross2 } from '@/utils';
+import { Stars, PopUp, AnimeUserStats } from '@/components';
 import { useEffect, useState } from 'react';
-import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { RxCross2 } from 'react-icons/rx';
-import { AnimeUserStatsInterface } from '../../../utils/Interfaces';
-import { addAnimeUserStatus } from '@/utils/handlers/animeUserStatusHandler';
+import { NextPageContext } from 'next';
 import nookies from 'nookies';
-// import { useRouter } from "next/router";
-// import { BiUpArrow } from "react-icons/bi";
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
   const [favorite, setFavorite] = useState<boolean>(false);

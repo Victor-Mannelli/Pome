@@ -2,7 +2,7 @@ dev:
 	npm run dev
 
 build: 
-	next build
+	npm run build
 
 start:
 	next start

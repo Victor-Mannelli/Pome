@@ -5,7 +5,7 @@ import { SiNiconico } from 'react-icons/si';
 import { toast } from 'react-toastify';
 import nookies from 'nookies';
 
-export default function Navbar() {
+export function Navbar() {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(true);
   const cookies = nookies.get(null, 'token').token;

@@ -1,10 +1,8 @@
-import InputForm from '@/components/models/inputForm';
-import { SignupFetchData } from '@/utils/Interfaces';
-import { userSignUp } from '@/utils/handlers/signUpHandler';
+import { SignupFetchData, userSignUp } from '@/utils';
+import { InputForm } from '@/components';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
-// import { RxCross2 } from 'react-icons/rx';
+import { useState } from 'react';
 
 export default function SignUp() {
   const router = useRouter();
@@ -75,18 +73,18 @@ export default function SignUp() {
               />
             </div>
           ) : null } */}
-          <InputForm name="email" type="email" placeholder="Email" value={fetchData.email} onChange={handleChanges}/>
-          <InputForm name="username" type="text" placeholder="Username" value={fetchData.username} onChange={handleChanges}/>
-          <InputForm name="password" type="password" match={match} placeholder="Password" value={fetchData.password} onChange={handleChanges}/>
-          <InputForm name="confirmPassword" type="password" match={match} placeholder="Confirm Password" value={fetchData.confirmPassword} onChange={handleChanges}/>
+          <InputForm name="email" type="email" placeholder="Email" value={fetchData.email} onChange={handleChanges} />
+          <InputForm name="username" type="text" placeholder="Username" value={fetchData.username} onChange={handleChanges} />
+          <InputForm name="password" type="password" match={match} placeholder="Password" value={fetchData.password} onChange={handleChanges} />
+          <InputForm name="confirmPassword" type="password" match={match} placeholder="Confirm Password" value={fetchData.confirmPassword} onChange={handleChanges} />
           <button
             className="w-full md:w-full text-lg h-12 mt-7 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             type="submit"
           > Register
           </button>
         </form>
-        <h4 
-          className="text-lg pt-2 hover:cursor-pointer hover:text-sixth mt-2" 
+        <h4
+          className="text-lg pt-2 hover:cursor-pointer hover:text-sixth mt-2"
           onClick={() => router.push('/pome/signin')}
         >  Already have an account? <span className="text-signature hover:text-h-signature font-bold text-lg"> Log In! </span>
         </h4>

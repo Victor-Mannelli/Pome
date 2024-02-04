@@ -1,10 +1,9 @@
-import Navbar from '@/components/navbar';
-import Head from 'next/head';
-import type { AppProps } from 'next/app';
-import { lato } from '@/utils/fonts';
-import { ToastContainer } from 'react-toastify';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/utils/hooks';
+import { ToastContainer } from 'react-toastify';
+import { queryClient, lato } from '@/utils';
+import { Navbar } from '@/components';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
 // import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
         ? <Navbar/>
         : <></>
       } */}
-        <Navbar/>
+        <Navbar />
         <Component {...pageProps} />
         <ToastContainer
           theme="dark"

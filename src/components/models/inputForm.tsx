@@ -1,4 +1,4 @@
-export default function InputForm({ 
+export function InputForm({ 
   name,
   type,
   placeholder,

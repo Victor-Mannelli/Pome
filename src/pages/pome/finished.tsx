@@ -1,10 +1,7 @@
-import GenresList from '@/components/genres';
-import PageHandler from '@/components/pageHandler';
-import { Stars } from '@/components/stars';
-import { animeApi } from '@/utils/axios';
-import { AnimeData } from '@/utils/Interfaces';
-import { NextPageContext } from 'next';
+import { GenresList, PageHandler, Stars } from '@/components';
+import { animeApi, AnimeData } from '@/utils';
 import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
 
 export default function Releases({ data }: { data: AnimeData }) {
   const router = useRouter();
@@ -31,8 +28,8 @@ export default function Releases({ data }: { data: AnimeData }) {
               <div className="flex justify-between h-[68%] w-full pr-10">
                 <div className="lg:w-3/5">
                   {e.averageScore ? <Stars score={e.averageScore} /> : <div className="h-8"> </div>}
-                  <h3 className="overflow-auto h-3/4 cursor-pointer"> 
-                    {e.description ? e.description.replace(/(<([^>]+)>)/ig,' ').replace(/(\r\n|\n|\r)/gm, ' ') : 'No description yet'}
+                  <h3 className="overflow-auto h-3/4 cursor-pointer">
+                    {e.description ? e.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ') : 'No description yet'}
                   </h3>
                 </div>
                 {e.genres ? <GenresList genres={e.genres} /> : null}

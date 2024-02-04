@@ -1,17 +1,12 @@
-import { BsPlusSquare } from 'react-icons/bs';
-import { FiUserPlus } from 'react-icons/fi';
-import { RxCross2 } from 'react-icons/rx';
-import { GiCakeSlice } from 'react-icons/gi';
-import { Message } from '@/components/friends/message';
+
+import { BsPlusSquare, ChatMessagesInterface, FiUserPlus, FriendAsFData, FriendAsUData, FriendsData, GiCakeSlice, RxCross2, User, UsersList, friendRequests } from '@/utils';
+import { Message, PopUp, Filter, Friend } from '@/components';
 import { useEffect, useRef, useState } from 'react';
-import { NextPageContext } from 'next';
-import { ChatMessagesInterface, FriendAsFData, FriendAsUData, FriendsData, User, UsersList, friendRequests } from '@/utils/Interfaces';
-import { api } from '@/utils/axios';
 import nookies, { parseCookies } from 'nookies';
+import { NextPageContext } from 'next';
+import { api } from '@/utils';
 import Textarea from 'rc-textarea';
-import PopUp from '@/components/popup';
-import Filter from '@/components/models/filter';
-import Friend from '@/components/friends/friend';
+
 // import { getMessagesHook } from '@/utils/hooks/useGetMessages';
 // import WebSocket from 'ws';
 
@@ -82,7 +77,7 @@ export default function Friends(data: FriendsData) {
       fetchChatMessages;
       document.getElementById('last')?.scrollIntoView();
     }
-    , 1000 * 5);
+      , 1000 * 5);
 
     fetchChatMessages();
     document.getElementById('last')?.scrollIntoView();

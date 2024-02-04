@@ -1,12 +1,8 @@
-import Filter from '@/components/models/filter';
-import PageHandler from '@/components/pageHandler';
-import { Stars } from '@/components/stars';
-import { animeApi, api } from '@/utils/axios';
-import { AnimeData, UserFollowingAnime } from '@/utils/Interfaces';
-import { NextPageContext } from 'next';
-import { useRouter } from 'next/router';
+import { animeApi, api, AnimeData, UserFollowingAnime, BiMinus, BiPlus } from '@/utils';
+import { Stars, Filter, PageHandler } from '@/components';
 import { useEffect, useState } from 'react';
-import { BiMinus, BiPlus } from 'react-icons/bi';
+import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
 import nookies from 'nookies';
 
 export default function Home({ data }: { data: AnimeData }) {

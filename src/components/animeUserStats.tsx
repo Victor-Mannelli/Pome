@@ -4,7 +4,7 @@ import { FaRegCalendarAlt } from 'react-icons/fa';
 import { AnimeUserStatsInterface } from '../utils/Interfaces';
 import DatePicker from 'react-datepicker';
 
-export default function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEpisodes: number, fetchData: AnimeUserStatsInterface, setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>> }) {
+export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEpisodes: number, fetchData: AnimeUserStatsInterface, setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>> }) {
   const [showStatus, setShowStatus] = useState<boolean>(false);
   return (
     <div className='flex flex-col justify-evenly h-3/5'>

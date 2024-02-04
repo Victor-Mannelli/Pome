@@ -1,44 +1,44 @@
 import { useRouter } from 'next/router';
-import Button from './models/button';
+import { Button } from './models';
 
-export default function PageHandler({ 
-  currentPage, 
-  hasNextPage, 
-  route 
-} : { 
-  currentPage: number, 
-  hasNextPage: boolean, 
+export function PageHandler({
+  currentPage,
+  hasNextPage,
+  route
+}: {
+  currentPage: number,
+  hasNextPage: boolean,
   route: string
-}) {  
+}) {
   const router = useRouter();
   return (
     <div className="flex justify-center items-center w-full">
-      {currentPage > 1 
+      {currentPage > 1
         ? <Button
           className="bg-third"
           onClick={() => router.push({
-            pathname: `/${route}`, 
-            query: { page: `${currentPage - 1}`}
+            pathname: `/${route}`,
+            query: { page: `${currentPage - 1}` }
           })}
-          text="Back" 
-        /> 
-        : <Button 
+          text="Back"
+        />
+        : <Button
           className="bg-third"
-          onClick={() => console.log()} 
-          text="Back" 
-        /> 
+          onClick={() => console.log()}
+          text="Back"
+        />
       }
-      <h3 className="font-bold px-5"> { currentPage } </h3>
-      {hasNextPage 
-        ? <Button 
-          text="Next" 
+      <h3 className="font-bold px-5"> {currentPage} </h3>
+      {hasNextPage
+        ? <Button
+          text="Next"
           className="bg-third"
           onClick={() => router.push({
-            pathname: `/${route}`, 
-            query: { page: `${currentPage + 1}`}
+            pathname: `/${route}`,
+            query: { page: `${currentPage + 1}` }
           })}
-        /> 
-        : null 
+        />
+        : null
       }
     </div>
   );

@@ -1,7 +1,7 @@
+import { InputForm } from '@/components';
 import { useRouter } from 'next/router';
+import { userLogin } from '@/utils';
 import React, { useState } from 'react';
-import { userLogin } from '@/utils/handlers/loginHandler';
-import InputForm from '@/components/models/inputForm';
 
 export default function Login() {
   const router = useRouter();

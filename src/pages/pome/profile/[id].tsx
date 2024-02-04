@@ -1,12 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _ from 'underscore';
-import Button from '@/components/models/button';
-import Filter from '@/components/models/filter';
+import { Button, Filter } from '@/components';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
 import { parseCookies } from 'nookies';
-import { api } from '@/utils/axios';
-import { useRouter } from 'next/router';
+import { api } from '@/utils';
 
 export default function Profile(data: any) {
   const [filter, setFilter] = useState<string>('Whatching');
@@ -144,8 +143,8 @@ export default function Profile(data: any) {
               <h3 className="w-[12%] text-center font-bold"> Type </h3>
             </div>
             {animeList.map((e: any) => (
-              <div 
-                key={e.anime_id} 
+              <div
+                key={e.anime_id}
                 className="w-full flex py-5 hover:bg-second rounded-xl cursor-pointer"
                 onClick={() => router.push(`/pome/anime/${e.anime_id}`)}
               >
