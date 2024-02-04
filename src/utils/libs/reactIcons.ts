@@ -7,13 +7,13 @@ import { FiUserPlus } from 'react-icons/fi';
 import { RxCross2 } from 'react-icons/rx';
 
 export {
-    FaRegHeart,
-    FaHeart,
-    RxCross2,
-    GiMagnifyingGlass,
-    BiMinus,
-    BiPlus,
-    BsPlusSquare,
-    GiCakeSlice,
-    FiUserPlus,
+  FaRegHeart,
+  FaHeart,
+  RxCross2,
+  GiMagnifyingGlass,
+  BiMinus,
+  BiPlus,
+  BsPlusSquare,
+  GiCakeSlice,
+  FiUserPlus,
 }

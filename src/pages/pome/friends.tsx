@@ -77,7 +77,7 @@ export default function Friends(data: FriendsData) {
       fetchChatMessages;
       document.getElementById('last')?.scrollIntoView();
     }
-      , 1000 * 5);
+    , 1000 * 5);
 
     fetchChatMessages();
     document.getElementById('last')?.scrollIntoView();

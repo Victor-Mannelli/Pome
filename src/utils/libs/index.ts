@@ -1,1 +1,1 @@
-export * from "./reactIcons"
+export * from './reactIcons'

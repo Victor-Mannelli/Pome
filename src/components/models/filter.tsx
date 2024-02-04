@@ -1,4 +1,4 @@
-import { GiMagnifyingGlass } from "@/utils";
+import { GiMagnifyingGlass } from '@/utils';
 
 export function Filter({ onChange } : { onChange: React.ChangeEventHandler<HTMLInputElement>}) {
   return (
