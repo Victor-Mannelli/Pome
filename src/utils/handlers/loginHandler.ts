@@ -4,17 +4,13 @@ import { api } from '../axios';
 import { useRouter } from 'next/router';
 import { ToastError } from '../Interfaces';
 
-export function userLogin({
-  login,
-  password,
-  router
-}: {
+export function userLogin({ login, password, router }: {
   login: string,
   password: string,
   router: ReturnType<typeof useRouter>
 }) {
   toast.promise(
-    api.post('/signin', { login, password })
+    api.post('/users/login', { login, password })
       .then((response) => {
         setCookie(null, 'token', response.data.token, {
           maxAge: 1 * 60 * 60 * 60,
