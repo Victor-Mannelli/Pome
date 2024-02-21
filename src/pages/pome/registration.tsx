@@ -1,10 +1,10 @@
-import { SignupFetchData, userSignUp } from '@/utils';
+import { SignupFetchData, userRegistration } from '@/utils';
 import { InputForm } from '@/components';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
-export default function SignUp() {
+export default function Registration() {
   const router = useRouter();
   const [fetchData, setFetchData] = useState<SignupFetchData>({ email: '', username: '', password: '', confirmPassword: '', userBanner: '' });
   const [match, setMatch] = useState(true);
@@ -21,7 +21,7 @@ export default function SignUp() {
   function register(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (fetchData.password === fetchData.confirmPassword) {
-      userSignUp({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
+      userRegistration({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
       router.push('/pome/signin');
     } else {
       setMatch(false);
@@ -85,7 +85,7 @@ export default function SignUp() {
         </form>
         <h4
           className="text-lg pt-2 hover:cursor-pointer hover:text-sixth mt-2"
-          onClick={() => router.push('/pome/signin')}
+          onClick={() => router.push('/pome/login')}
         >  Already have an account? <span className="text-signature hover:text-h-signature font-bold text-lg"> Log In! </span>
         </h4>
       </div>

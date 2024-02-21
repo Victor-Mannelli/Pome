@@ -1,3 +1,3 @@
 export * from './animeUserStatusHandler'
+export * from './registrationHandler'
 export * from './loginHandler'
-export * from './signUpHandler'

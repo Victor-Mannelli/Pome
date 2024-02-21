@@ -3,13 +3,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { ToastError } from '../Interfaces';
 
-export function userSignUp({
-  email,
-  username,
-  password,
-  confirmPassword,
-  router
-}: {
+export function userRegistration({ email, username, password, confirmPassword, router }: {
   email: string,
   username: string,
   password: string,
@@ -17,7 +11,7 @@ export function userSignUp({
   router: ReturnType<typeof useRouter>
 }) {
   toast.promise(
-    api.post('/signup', { email, username, password, confirmPassword }),
+    api.post('/users/register', { email, username, password, confirmPassword }),
     {
       pending: 'Signing Up...',
       success: {

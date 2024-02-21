@@ -256,26 +256,26 @@ export default function Friends(data: FriendsData) {
   );
 }
 
-export async function getServerSideProps(context: NextPageContext) {
-  const cookies = parseCookies(context);
-  const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
-  try {
-    const [userData, friendList] = await Promise.all([
-      api.get('/users/userdata', config).then(e => e.data),
-      api.get('/friends/friendlist', config).then(e => e.data),
-    ]);
+// export async function getServerSideProps(context: NextPageContext) {
+//   const cookies = parseCookies(context);
+//   const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
+//   try {
+//     const [userData, friendList] = await Promise.all([
+//       api.get('/users/userdata', config).then(e => e.data),
+//       api.get('/friends/friendlist', config).then(e => e.data),
+//     ]);
 
-    const data = {
-      userData,
-      friendList,
-    };
+//     const data = {
+//       userData,
+//       friendList,
+//     };
 
-    if (!data) return {
-      redirect: { destination: '/', permanent: false },
-    };
+//     if (!data) return {
+//       redirect: { destination: '/', permanent: false },
+//     };
 
-    return { props: data };
-  } catch (error) {
-    return { redirect: { destination: '/', permanent: false } };
-  }
-}
+//     return { props: data };
+//   } catch (error) {
+//     return { redirect: { destination: '/', permanent: false } };
+//   }
+// }

@@ -1,7 +1,6 @@
-import { useRouter } from 'next/router';
+import { FaUserCircle, FaUserFriends, SiNiconico } from '@/utils/libs';
 import { useEffect, useState } from 'react';
-import { FaUserFriends, FaUserCircle } from 'react-icons/fa';
-import { SiNiconico } from 'react-icons/si';
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import nookies from 'nookies';
 
@@ -9,7 +8,7 @@ export function Navbar() {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(true);
   const cookies = nookies.get(null, 'token').token;
-
+  
   useEffect(() => {
     if (typeof window !== 'undefined') {
       let scrollPositionNow = window.pageYOffset;
@@ -43,11 +42,11 @@ export function Navbar() {
           onClick={() => {
             cookies
               ? router.push('/pome/friends')
-              : (router.push('/pome/signin'), toast.error('log in first!'));
+              : (router.push('/pome/login'), toast.error('log in first!'));
           }}
         />
         <FaUserCircle
-          onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/signin'); }}
+          onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/login'); }}
           className="text-signature text-2xl cursor-pointer hover:text-h-signature"
         />
       </div>

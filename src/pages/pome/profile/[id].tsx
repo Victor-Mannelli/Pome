@@ -161,27 +161,27 @@ export default function Profile(data: any) {
   );
 }
 
-export async function getServerSideProps(context: NextPageContext) {
-  // const id = context.query.id;
-  const cookies = parseCookies(context);
-  const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
-  try {
-    const [userData, userAnimeList] = await Promise.all([
-      api.get('/users/userdata', config).then(e => e.data),
-      api.get('/anime/userlist', config).then(e => e.data),
-    ]);
+// export async function getServerSideProps(context: NextPageContext) {
+//   // const id = context.query.id;
+//   const cookies = parseCookies(context);
+//   const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
+//   try {
+//     const [userData, userAnimeList] = await Promise.all([
+//       api.get('/users', config).then(e => e.data),
+//       api.get('/anime/userlist', config).then(e => e.data),
+//     ]);
 
-    const data = {
-      userData,
-      userAnimeList,
-    };
+//     const data = {
+//       userData,
+//       userAnimeList,
+//     };
 
-    if (!data) return {
-      redirect: { destination: '/', permanent: false },
-    };
+//     if (!data) return {
+//       redirect: { destination: '/', permanent: false },
+//     };
 
-    return { props: data };
-  } catch (error) {
-    return { redirect: { destination: '/', permanent: false } };
-  }
-}
+//     return { props: data };
+//   } catch (error) {
+//     return { redirect: { destination: '/', permanent: false } };
+//   }
+// }

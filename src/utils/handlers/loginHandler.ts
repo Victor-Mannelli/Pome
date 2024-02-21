@@ -28,12 +28,12 @@ export function userLogin({ login, password, router }: {
       error: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         render(e: ToastError | any) {
-          return e.data.response.data.message
-            ? e.data.response.data.message
-            : e.response.data.length > 1
+          return e.data.response?.data.message
+            ? e.data.response?.data.message
+            : e.response?.data.length > 1
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ? e.response.data.map((error: any) => toast.error(error))
-              : toast.error(e.response.data[0]);
+              ? e.response?.data.map((error: any) => toast.error(error))
+              : toast.error(e.response?.data[0]);
         }
       }
     },
