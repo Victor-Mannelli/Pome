@@ -47,7 +47,7 @@ export default function Login() {
           <div className='w-full flex justify-center'>
             <h4
               className="text-lg w-[19.5rem] hover:cursor-pointer hover:text-sixth"
-              onClick={() => router.push('/pome/signup')}
+              onClick={() => router.push('/pome/registration')}
             > Don't have an account yet? <span className="text-signature font-bold"> Create one! </span>
             </h4>
           </div>

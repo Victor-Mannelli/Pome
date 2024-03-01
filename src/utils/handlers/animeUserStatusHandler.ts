@@ -1,8 +1,7 @@
+import { AnimeUserStatusData, ToastError } from '../Interfaces';
+import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../axios';
-import { AnimeUserStatusData, ToastError } from '../Interfaces';
-import nookies from 'nookies';
-import { Dispatch, SetStateAction } from 'react';
 
 export function addAnimeUserStatus({
   body,
@@ -11,9 +10,9 @@ export function addAnimeUserStatus({
   body: AnimeUserStatusData
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>
 }) {
-  const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
+  // console.log(body, 'added')
   toast.promise(
-    api.post('/anime/userlist', body, config),
+    api.post('/animes/updateStatus', body),
     {
       pending: 'Adding to userList...',
       success: {

@@ -16,12 +16,14 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
     addAnimeUserStatus({ body, setShowAnimeSettings });
   }
   function populateDb() {
-    api.post('/anime/populate', { animeId: data.id }, config);
+    api.post('/animes/populate', { id: data.id });
   }
 
   useEffect(() => {
-    api.get('/anime/userlist', config).then((e) => {
-      const response = e.data.find((e: any) => e.anime_id === data.id);
+    api.get('/animes/userlist', config).then((e) => {
+      const response = e?.data.find((e: any) => e.anime_id === data.id);
+      console.log(response, 'reposnse')
+      console.log(e)
       if (response) {
         response.favorite === true && setFavorite(true);
         setFetchData({ ...fetchData, status: response.status, score: response.score, progress: response.progress, rewatches: response.rewatches });

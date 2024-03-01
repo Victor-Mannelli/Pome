@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
 import { parseCookies } from 'nookies';
-import { api } from '@/utils';
+import axios from 'axios';
 
 export default function Profile(data: any) {
   const [filter, setFilter] = useState<string>('Whatching');
@@ -84,13 +84,14 @@ export default function Profile(data: any) {
   ];
 
   useEffect(() => {
-
     //request to list type 
 
   }, []);
+  console.log(data)
 
   // data = _.sortBy(data, sort).reverse();
-  const animeList = data.userAnimeList.filter((e: any) => e.status === filter);
+  const animeList = data?.userAnimeList?.filter((e: any) => e.status === filter);
+  console.log(animeList)
   return (
     <div className="flex flex-col">
       <div className={'w-full h-[20rem] flex items-end px-48'}
@@ -142,7 +143,7 @@ export default function Profile(data: any) {
               <h3 className="w-[12%] text-center font-bold"> Progress </h3>
               <h3 className="w-[12%] text-center font-bold"> Type </h3>
             </div>
-            {animeList.map((e: any) => (
+            {/* {animeList.map((e: any) => (
               <div
                 key={e.anime_id}
                 className="w-full flex py-5 hover:bg-second rounded-xl cursor-pointer"
@@ -153,7 +154,7 @@ export default function Profile(data: any) {
                 <h3 className="w-[12%] text-center cursor-pointer"> {e.progress} </h3>
                 <h3 className="w-[12%] text-center cursor-pointer"> {e.anime.type} </h3>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
@@ -161,27 +162,28 @@ export default function Profile(data: any) {
   );
 }
 
-// export async function getServerSideProps(context: NextPageContext) {
-//   // const id = context.query.id;
-//   const cookies = parseCookies(context);
-//   const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
-//   try {
-//     const [userData, userAnimeList] = await Promise.all([
-//       api.get('/users', config).then(e => e.data),
-//       api.get('/anime/userlist', config).then(e => e.data),
-//     ]);
+export async function getServerSideProps(context: NextPageContext) {
+  const cookies = parseCookies(context);
+  const config = { headers: { Authorization: `Bearer ${cookies.token}` } };
+  try {
+    const [userData, userAnimeList] = await Promise.all([
+      axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, config).then(e => e.data),
+      axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/animes/userlist`, config).then(e => e.data),
+    ]);
 
-//     const data = {
-//       userData,
-//       userAnimeList,
-//     };
+    const data = {
+      userData,
+      userAnimeList,
+    };
 
-//     if (!data) return {
-//       redirect: { destination: '/', permanent: false },
-//     };
+    if (!data) return {
+      redirect: { destination: '/', permanent: false },
+    };
 
-//     return { props: data };
-//   } catch (error) {
-//     return { redirect: { destination: '/', permanent: false } };
-//   }
-// }
+    return { props: data };
+  } catch (error) {
+    return {
+      redirect: { destination: '/pome/login', permanent: false }
+    };
+  }
+}

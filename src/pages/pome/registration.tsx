@@ -22,7 +22,7 @@ export default function Registration() {
     e.preventDefault();
     if (fetchData.password === fetchData.confirmPassword) {
       userRegistration({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
-      router.push('/pome/signin');
+      router.push('/pome/login');
     } else {
       setMatch(false);
       toast.error('Password confirmation denied!');

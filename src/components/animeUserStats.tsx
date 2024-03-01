@@ -10,13 +10,13 @@ export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEp
     <div className='flex flex-col justify-evenly h-3/5'>
       <div className={`flex justify-evenly ${showStatus ? 'mb-52' : ''}`}>
         <div className='relative flex justify-evenly items-center h-14 w-80 bg-fourth rounded-md p-1 hover:cursor-pointer' onClick={() => setShowStatus(!showStatus)}>
-          <h3 className='pl-14 py-1 hover:cursor-pointer'> {fetchData.status === '' ? 'Status' : fetchData.status} </h3>
-          {showStatus ? <VscFoldDown className='text-white pt-1 text-2xl'/> : <VscFoldUp className='text-white pt-1 text-2xl'/>}
-          <div className={`absolute z-10 top-16 left-0 w-full rounded-md border border-fifth ${showStatus ? 'block' : 'hidden'}`}>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Watching' })} className='px-3 py-2 border border-fourth bg-fourthAndAHalf text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Watching </h3>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Dropped' })} className='px-3 py-2 border border-fourth bg-fourthAndAHalf text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Dropped </h3>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Finished' })} className='px-3 py-2 border border-fourth bg-fourthAndAHalf text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Finished </h3>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Rewatching' })} className='px-3 py-2 border border-fourth bg-fourthAndAHalf text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Re-Watching </h3>
+          <h3 className={`pl-14 py-1 hover:cursor-pointer ${fetchData.status === '' ? '' : 'text-green-500'}`}> {fetchData.status === '' ? 'Status' : fetchData.status} </h3>
+          {showStatus ? <VscFoldDown className='text-white pt-1 text-2xl' /> : <VscFoldUp className='text-white pt-1 text-2xl' />}
+          <div className={`absolute z-10 top-16 left-0 w-full rounded-md bg-fourthAndAHalf ${showStatus ? '' : 'hidden'}`}>
+            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Watching' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Watching </h3>
+            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Dropped' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Dropped </h3>
+            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Finished' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Finished </h3>
+            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Rewatching' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Re-Watching </h3>
           </div>
         </div>
         <div className='flex items-center justify-between h-14 w-80 bg-fourth rounded-md gap-5 pl-11'>
@@ -70,7 +70,7 @@ export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEp
               onChange={(date: Date) => setFetchData({ ...fetchData, startDate: date })}
             />
           </div>
-          <FaRegCalendarAlt className='absolute bottom-[0.95rem] right-3 text-white text-2xl cursor-pointer'/>
+          <FaRegCalendarAlt className='absolute bottom-[0.95rem] right-3 text-white text-2xl cursor-pointer' />
         </div>
         <div className='relative flex justify-between items-center w-80 pl-5 gap-5 bg-fourth rounded-md'>
           <h3 className='w-28'> Finish Date </h3>
@@ -81,7 +81,7 @@ export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEp
               onChange={(date: Date) => setFetchData({ ...fetchData, finishDate: date })}
             />
           </div>
-          <FaRegCalendarAlt className='absolute bottom-[0.95rem] right-3 text-white text-2xl cursor-pointer'/>
+          <FaRegCalendarAlt className='absolute bottom-[0.95rem] right-3 text-white text-2xl cursor-pointer' />
         </div>
       </div>
     </div >

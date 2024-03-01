@@ -5,8 +5,9 @@ import { NextPageContext } from 'next';
 
 export default function Releases({ data }: { data: AnimeData }) {
   const router = useRouter();
+  console.log(data);
   return (
-    <div className="flex flex-col  rounded-xl m-5">
+    <div className="flex flex-col rounded-xl m-5">
       {/* <div className="h-8">
         <input className="w-full h-full rounded-xl bg-sixth caret-white text-white outline-none px-4"/>
       </div> */}
@@ -50,7 +51,7 @@ export default function Releases({ data }: { data: AnimeData }) {
 export async function getServerSideProps(context: NextPageContext) {
   const variables = {
     page: Number(context.query.page),
-    year: Number(new Date().getFullYear() + '0000')
+    year: Number(new Date().getFullYear() - 1 + '0000')
   };
   const query = `
     query ($page: Int, $year: FuzzyDateInt) {

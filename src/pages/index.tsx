@@ -8,22 +8,28 @@ import nookies from 'nookies';
 export default function Home({ data }: { data: AnimeData }) {
   const router = useRouter();
   const [filter, setFilter] = useState<string>('');
-  const [userFollowedAnimes, setUserFollowedAnimes] = useState<any>();
+  const [userFollowedAnimes, setUserFollowedAnimes] = useState<any>([]);
   const [toggle, setToggle] = useState<boolean>(false);
   const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
 
   useEffect(() => {
     api
-      .get('/anime/userlist', config)
-      .then((e) => setUserFollowedAnimes(e.data));
+      .get('/animes/userlist', config)
+      .then((e) => setUserFollowedAnimes(e.data))
+      .catch(() => router.push('/pome/login'))
   }, [toggle]);
 
   function handleUpdateFollowing({ animeId, progress }: { animeId: number, progress: number }) {
-    api.put('/anime/userlist', { animeId, progress }, config);
+    api.put('/animes/userlist', { animeId, progress }, config);
     setToggle(!toggle);
   }
 
-  const animeList = data.media.filter((e) => e.title.romaji.toLocaleLowerCase().includes(filter));
+  const followdAnimesId: number[] = userFollowedAnimes.map((e: any) => e.anime_id)
+  const animeList = data.media.filter((e) => {
+    if (filter) return e.title.romaji.toLocaleLowerCase().includes(filter)
+    return !followdAnimesId.includes(e.id)
+  });
+
   return (
     <div className="flex m-7 gap-5">
       <div className="h-full flex flex-col w-[73%] rounded-xl p-5">
@@ -36,7 +42,7 @@ export default function Home({ data }: { data: AnimeData }) {
         <div className="w-full flex flex-wrap gap-5 overflow-auto">
           {animeList.map((e: any) => (
             <div
-              className="xl:w-[48.9%] w-full h-[19.5rem] bg-third rounded-xl p-4 flex cursor-pointer"
+              className="xl:w-[48.9%] w-full h-[19.5rem] bg-third rounded-xl p-4 flex cursor-pointer hover:brightness-90"
               onClick={() => router.push(`/pome/anime/${e.id}`)}
               key={e.id}
             >
@@ -62,10 +68,10 @@ export default function Home({ data }: { data: AnimeData }) {
           />
         </div>
       </div>
-      <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-10">
+      <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-3">
         <h1 className="font-bold py-5"> You are following </h1>
-        <div className="w-full flex flex-wrap gap-4 overflow-auto">
-          {userFollowedAnimes?.map((e: UserFollowingAnime) => (
+        <div className="w-full flex flex-wrap gap-4 pb-5 overflow-auto">
+          {userFollowedAnimes ? userFollowedAnimes.map((e: UserFollowingAnime) => (
             <div
               className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
               onClick={() => router.push(`/pome/anime/${e.anime.anime_id}`)}
@@ -92,7 +98,11 @@ export default function Home({ data }: { data: AnimeData }) {
                 </h3>
               </div>
             </div>
-          ))}
+          )) :
+            <div>
+              <p className='text-center'> You are not following any anime, open their pages and start following!</p>
+            </div>
+          }
         </div>
       </div>
     </div>
@@ -213,8 +223,9 @@ export async function getServerSideProps(context: NextPageContext) {
       },
     };
   } catch (error) {
+    console.log(error)
     return {
-      redirect: { destination: '/pome/signin', permanent: false }
+      redirect: { destination: '/pome/login', permanent: false }
     };
   }
 }
