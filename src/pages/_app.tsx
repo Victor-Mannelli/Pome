@@ -1,10 +1,10 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
-import { queryClient, lato } from '@/utils';
-import { Navbar } from '@/components';
+import { queryClient } from '@/utils/hooks';
 import type { AppProps } from 'next/app';
+import { Navbar } from '@/components';
+import { lato } from '@/utils/fonts';
 import Head from 'next/head';
-// import { useRouter } from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@/styles/globals.css';

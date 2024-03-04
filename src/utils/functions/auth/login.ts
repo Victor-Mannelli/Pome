@@ -1,8 +1,8 @@
 import { setCookie } from 'nookies';
 import { toast } from 'react-toastify';
-import { api } from '../axios';
+import { api } from '../../axios';
 import { useRouter } from 'next/router';
-import { ToastError } from '../Interfaces';
+import { ToastError } from '../../interfaces';
 
 export function userLogin({ login, password, router }: {
   login: string,

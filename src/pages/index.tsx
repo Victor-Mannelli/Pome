@@ -1,5 +1,7 @@
-import { animeApi, api, AnimeData, UserFollowingAnime, BiMinus, BiPlus } from '@/utils';
+import { AnimeData, UserFollowingAnime } from '@/utils/interfaces';
 import { Stars, Filter, PageHandler } from '@/components';
+import { BiMinus, BiPlus } from '@/utils/libs';
+import { api, animeApi } from '@/utils/axios';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';

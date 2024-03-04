@@ -2,7 +2,7 @@ import nookies from 'nookies';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../axios';
-import { ChatMessagesInterface } from '../Interfaces';
+import { ChatMessagesInterface } from '../interfaces';
 
 export function getMessagesHook(userChat: number) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

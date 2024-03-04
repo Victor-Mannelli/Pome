@@ -1,6 +1,6 @@
+import { userLogin } from '@/utils/functions';
 import { InputForm } from '@/components';
 import { useRouter } from 'next/router';
-import { userLogin } from '@/utils';
 import React, { useState } from 'react';
 
 export default function Login() {

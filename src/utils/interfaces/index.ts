@@ -266,7 +266,7 @@ export interface UsersList {
   user_id: number,
   username: string
 }[];
-export interface friendRequests {
+export interface FriendRequests {
   friend_request_id: number,
   requester_id: number,
   requested_id: number,

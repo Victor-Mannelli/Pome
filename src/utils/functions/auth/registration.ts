@@ -1,7 +1,7 @@
-import { api } from '../axios';
+import { api } from '../../axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import { ToastError } from '../Interfaces';
+import { ToastError } from '../../interfaces';
 
 export function userRegistration({ email, username, password, confirmPassword, router }: {
   email: string,
@@ -13,10 +13,10 @@ export function userRegistration({ email, username, password, confirmPassword, r
   toast.promise(
     api.post('/users/register', { email, username, password, confirmPassword }),
     {
-      pending: 'Signing Up...',
+      pending: 'Login in...',
       success: {
         render() {
-          router.push('/pome/signin');
+          router.push('/pome/login');
           return 'Account created!';
         },
       },
@@ -32,6 +32,6 @@ export function userRegistration({ email, username, password, confirmPassword, r
         }
       }
     },
-    { toastId: 'signUp' }
+    { toastId: 'registration' }
   );
 }

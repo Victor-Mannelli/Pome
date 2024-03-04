@@ -1,5 +1,8 @@
-import { animeApi, api, FaHeart, FaRegHeart, SingleAnimeData, addAnimeUserStatus, AnimeUserStatsInterface, RxCross2 } from '@/utils';
+import { AnimeUserStatsInterface, SingleAnimeData } from '@/utils/interfaces';
+import { FaHeart, FaRegHeart, RxCross2 } from '@/utils/libs';
 import { Stars, PopUp, AnimeUserStats } from '@/components';
+import { addAnimeUserStatus } from '@/utils/functions';
+import { api, animeApi } from '@/utils/axios';
 import { useEffect, useState } from 'react';
 import { NextPageContext } from 'next';
 import nookies from 'nookies';

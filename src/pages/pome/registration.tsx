@@ -1,4 +1,5 @@
-import { SignupFetchData, userRegistration } from '@/utils';
+import { userRegistration } from '@/utils/functions';
+import { SignupFetchData } from '@/utils/interfaces';
 import { InputForm } from '@/components';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
@@ -22,7 +23,6 @@ export default function Registration() {
     e.preventDefault();
     if (fetchData.password === fetchData.confirmPassword) {
       userRegistration({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
-      router.push('/pome/login');
     } else {
       setMatch(false);
       toast.error('Password confirmation denied!');

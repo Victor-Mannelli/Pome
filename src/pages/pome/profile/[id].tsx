@@ -87,7 +87,6 @@ export default function Profile(data: any) {
     //request to list type 
 
   }, []);
-  console.log(data)
 
   // data = _.sortBy(data, sort).reverse();
   const animeList = data?.userAnimeList?.filter((e: any) => e.status === filter);

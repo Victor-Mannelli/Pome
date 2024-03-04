@@ -1,4 +1,4 @@
-import { AnimeUserStatusData, ToastError } from '../Interfaces';
+import { AnimeUserStatusData, ToastError } from '../interfaces';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../axios';

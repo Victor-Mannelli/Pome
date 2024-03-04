@@ -1,5 +1,6 @@
 import { Stars, PageHandler, GenresList } from '@/components';
-import { animeApi, AnimeData } from '@/utils';
+import { AnimeData } from '@/utils/interfaces';
+import { animeApi } from '@/utils/axios';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
 

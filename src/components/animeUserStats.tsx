@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { VscFoldDown, VscFoldUp } from 'react-icons/vsc';
 import { FaRegCalendarAlt } from 'react-icons/fa';
-import { AnimeUserStatsInterface } from '../utils/Interfaces';
+import { AnimeUserStatsInterface } from '../utils/interfaces';
 import DatePicker from 'react-datepicker';
 
 export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEpisodes: number, fetchData: AnimeUserStatsInterface, setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>> }) {
