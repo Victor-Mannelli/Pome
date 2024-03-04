@@ -1,4 +1,4 @@
 export * from './friendRequestsWindow'
-export * from './usersListWindow'
+export * from './addFriends'
 export * from './message'
 export * from './friend'

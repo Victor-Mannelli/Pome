@@ -1,9 +1,9 @@
 
-import { FriendsData, UsersList, FriendRequests, ChatMessagesInterface, FriendAsFData, FriendAsUData, User } from '@/utils/interfaces';
-import { Message, Friend, FriendRequestsWindow, UsersListWindow } from '@/components';
-import { FaUserFriends, FiUserPlus } from '@/utils/libs';
-import { getFriendRequests, sendMessages } from '@/utils/functions';
-import { useEffect, useRef, useState } from 'react';
+import { FriendsData, ChatMessagesInterface, FriendAsFData, FriendAsUData, User } from '@/utils/interfaces';
+import { Message, Friend, FriendRequestsElement, AddFriends } from '@/components';
+import { sendMessages } from '@/utils/functions';
+import { FiUserPlus } from '@/utils/libs';
+import { useRef, useState } from 'react';
 import { parseCookies } from 'nookies';
 import { NextPageContext } from 'next';
 import Textarea from 'rc-textarea';
@@ -12,15 +12,10 @@ import axios from 'axios';
 // import WebSocket from 'ws';
 
 export default function Friends(data: FriendsData) {
-
   const [showUsers, setShowUsers] = useState<boolean>(false);
-  const [allUsers, setAllUsers] = useState<UsersList[]>([]);
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
-  const [friendRequests, setFriendRequests] = useState<FriendRequests[]>([]);
-  const [addFriendFilter, setAddFriendFilter] = useState<string>('');
   const [userChat, setUserChat] = useState<number>(data.userData.user_id);
   const [chatMessages, setChatMessages] = useState<ChatMessagesInterface[]>([]);
-
   const textArea: any = useRef();
   // const ws = new WebSocket('ws://localhost:8080');
 
@@ -48,75 +43,48 @@ export default function Friends(data: FriendsData) {
   //   }
   // }, [userChat]);
 
-  useEffect(() => {
-    getFriendRequests(setFriendRequests)
-  }, [])
-
   const friends = [
     ...data.friendList.friendshipsAsUser.map((friendship: FriendAsFData) => friendship.friend),
     ...data.friendList.friendshipsAsFriend.map((friendship: FriendAsUData) => friendship.user),
   ].sort();
-  const usersList = allUsers.filter((e: User, i: number) => {
-    e.username.includes(addFriendFilter) && e.username !== data.userData.username
-      && !friends.some(friend => friend.username === e.username)
-      && i < 10
-  });
-  const receivedFR = friendRequests.filter((e: FriendRequests) => e.requested_id === data.userData.user_id);
-
-  // console.log(receivedFR, "received FR");
-  // console.log(data.friendList, "friend list");
-  // console.log(usersList, "all users");
 
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
       <div className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5">
         <div
-          className={`flex justify-center items-center rounded-xl p-2 mb-5 w-[98%] ${userChat === data.userData.user_id ? 'bg-sixth' : 'bg-fourth'}`}
+          className={`flex justify-center items-center rounded-xl p-2 mb-5 w-full ${userChat === data.userData.user_id ? 'bg-sixth' : 'bg-fourth'}`}
           onClick={() => setUserChat(data.userData.user_id)}
         >
           <h1> Your notes </h1>
         </div>
         <div className='flex items-center justify-between pb-3'>
-          <div className='relative flex items-center gap-3'>
-            <h1 className="font-bold"> Friends </h1>
-            {receivedFR.length > 0 ?
-              <>
-                <FaUserFriends
-                  className='relative text-white text-2xl cursor-pointer'
-                  onClick={() => setShowFriendRequests(!showFriendRequests)}
-                />
-                <FriendRequestsWindow
-                  setShowFriendRequests={setShowFriendRequests}
-                  showFriendRequests={showFriendRequests}
-                  receivedFR={receivedFR}
-                  usersList={usersList}
-                />
-                <p className='absolute text-white text-sm -top-2 -right-2'> {receivedFR.length} </p>
-              </> : null
-            }
-          </div>
-          <FiUserPlus
-            className="text-signature text-2xl cursor-pointer"
-            onClick={() => {
-              setShowUsers(true);
-            }}
-          />
-          <UsersListWindow
-            showUsers={showUsers}
-            setShowUsers={setShowUsers}
-            friendRequests={friendRequests}
+          <FriendRequestsElement
+            setShowFriendRequests={setShowFriendRequests}
+            showFriendRequests={showFriendRequests}
+            userId={data.userData.user_id}
             data={data}
           />
+          <FiUserPlus
+            className="text-signature text-2xl cursor-pointer"
+            onClick={() => setShowUsers(true)}
+          />
+          {showUsers ?
+            <AddFriends
+              showUsers={showUsers}
+              setShowUsers={setShowUsers}
+              data={data}
+            /> : null
+          }
         </div>
         <div className='h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl'>
-          {data.friendList.friendshipsAsUser.length !== 0 || data.friendList.friendshipsAsFriend.length !== 0
-            ?
-            friends.map((e: User) => <Friend key={e.user_id} friend={e} userChat={userChat} setUserChat={setUserChat} />)
-            : (
+          {data.friendList.friendshipsAsUser.length !== 0 || data.friendList.friendshipsAsFriend.length !== 0 ?
+            friends.map((e: User) =>
+              <Friend key={e.user_id} friend={e} userChat={userChat} setUserChat={setUserChat} />
+            ) : (
               <div className='flex flex-col text-white pt-10'>
                 <h3> It looks a little empty, just like you on the inside :D </h3>
                 <br />
-                <h3> Add some friends at the plus button above!</h3>
+                <h3> Add some friends at the green button above!</h3>
               </div>
             )
           }
