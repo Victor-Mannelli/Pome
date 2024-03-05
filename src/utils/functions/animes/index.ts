@@ -1,5 +1,5 @@
-import { animeApi } from "@/utils/axios";
-import { useRouter } from "next/router";
+import { animeApi, api } from '@/utils/axios';
+import { useRouter } from 'next/router';
 
 export async function getAnimes({ quantity, page }: { quantity: number, page: number }) {
   const Router = useRouter();
@@ -112,4 +112,8 @@ export async function getAnimes({ quantity, page }: { quantity: number, page: nu
   } catch (error) {
     Router.push('/pome/login')
   }
+}
+
+export function populateDb(id: number) {
+  api.post('/animes/populate', { id });
 }

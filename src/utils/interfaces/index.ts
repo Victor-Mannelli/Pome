@@ -319,6 +319,7 @@ export interface UserFollowingAnime {
       timeUntilAiring: number
     }
   }
+  anime_id: number,
   favorite: false,
   finish_date: number,
   progress: number,

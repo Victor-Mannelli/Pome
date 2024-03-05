@@ -101,7 +101,7 @@ export default function Home({ data }: { data: AnimeData }) {
                   </div>
                   : null
                 }
-                <h3 className={`text-white ${e.anime.next_airing_episode.episode - 1 - e.progress > 0 ? "" : "py-1"}`}>
+                <h3 className={`text-white ${e.anime.next_airing_episode.episode - 1 - e.progress > 0 ? '' : 'py-1'}`}>
                   {
                     Math.floor(e.anime.next_airing_episode.timeUntilAiring / 86400)
                   }d {

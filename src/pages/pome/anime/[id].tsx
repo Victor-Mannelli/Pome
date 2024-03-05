@@ -1,32 +1,21 @@
 import { AnimeUserStatsInterface, SingleAnimeData } from '@/utils/interfaces';
-import { FaHeart, FaRegHeart, RxCross2 } from '@/utils/libs';
-import { Stars, PopUp, AnimeUserStats } from '@/components';
-import { addAnimeUserStatus } from '@/utils/functions';
+import { Stars, PopUp, ShowAnimeSettings } from '@/components';
+import { FaHeart, FaRegHeart } from '@/utils/libs';
+import { populateDb } from '@/utils/functions';
 import { api, animeApi } from '@/utils/axios';
 import { useEffect, useState } from 'react';
 import { NextPageContext } from 'next';
-import nookies from 'nookies';
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
-  const [favorite, setFavorite] = useState<boolean>(false);
-  const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const [fetchData, setFetchData] = useState<AnimeUserStatsInterface>({ status: '', score: 0, progress: 0, rewatches: 0, startDate: new Date(), finishDate: null });
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
+  const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
+  const [favorite, setFavorite] = useState<boolean>(false);
 
-  function handleAnimeUserStatus(fetchData: AnimeUserStatsInterface) {
-    const body = { ...fetchData, animeId: data.id, favorite: favorite };
-    addAnimeUserStatus({ body, setShowAnimeSettings });
-  }
-  function populateDb() {
-    api.post('/animes/populate', { id: data.id });
-  }
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   useEffect(() => {
-    api.get('/animes/userlist', config).then((e) => {
+    api.get('/animes/userlist').then((e) => {
       const response = e?.data.find((e: any) => e.anime_id === data.id);
-      console.log(response, 'reposnse')
-      console.log(e)
       if (response) {
         response.favorite === true && setFavorite(true);
         setFetchData({ ...fetchData, status: response.status, score: response.score, progress: response.progress, rewatches: response.rewatches });
@@ -35,66 +24,57 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
   }, []);
 
   return (
-    <div className='flex flex-col items-center gap-5 pb-7'>
+    <div className={`flex flex-col gap-5 pb-5 ${!data.bannerImage ? 'mx-5' : ''}`}>
       {data.bannerImage ? (
         <div
-          className={'w-full h-[22rem] bg-cover'}
+          className={'w-full h-80 bg-cover bg-center'}
           style={{ backgroundImage: `url(${data.bannerImage})` }}
         > </div>
       ) : null}
-      <div className={`relative ${!data.bannerImage ? 'mt-20' : 'h-1/2'} w-full rounded-xl flex gap-2 px-5 `}>
+      {/* <div className={`relative ${!data.bannerImage ? 'mt-20' : 'h-1/2'} flex w-full gap-6 `}> */}
+      <div className={`relative flex justify-start w-full gap-2 ${!data.bannerImage ? 'mt-20' : 'h-1/2'} `}>
         {favorite
           ? <FaHeart className='absolute right-1 top-0 mr-3 text-2xl text-red-500 hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
           : <FaRegHeart className='absolute right-1 top-0 mr-3 text-2xl text-white hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
         }
-        <div className={`relative ${!data.bannerImage ? 'w-64' : 'h-64 w-[19rem]'} flex flex-col justify-end items-center`}>
+        <div
+          // className="flex flex-col gap-3"
+          className={`relative ${!data.bannerImage ? 'w-64' : 'h-64 w-[19rem]'} flex flex-col justify-end items-center`}
+        >
           <img
+            // className="rounded-md w-fit h-72"
             className={`absolute ${!data.bannerImage ? 'top-0 left-0 w-[95%] h-[25.5rem]' : 'top-[-10rem]'} rounded-xl w-[80%] h-[23rem]`}
             src={data.coverImage.extraLarge}
             alt="pfp"
           />
-          <div onClick={() => (setShowAnimeSettings(!showAnimeSettings), populateDb())}
+          <div
+            // className="flex justify-center items-center h-9 w-full rounded-md hover:cursor-pointer hover:bg-fifth bg-fourthAndAHalf"
             className={`${!data.bannerImage ? 'absolute top-[26.5rem] left-0 w-[95%]' : 'w-[80%]'} flex justify-center items-center h-9 rounded-md hover:cursor-pointer hover:bg-fifth bg-fourthAndAHalf`}
+            onClick={() => {
+              setShowAnimeSettings(!showAnimeSettings);
+              populateDb(data.id);
+            }}
           >
-            <h3 className='hover:cursor-pointer text-h-signature'>
-              Did you like it?
+            <h3 className='hover:cursor-pointer text-h-signature font-bold text-lg'>
+              {fetchData.status === '' ? 'Follow' : fetchData.status}
             </h3>
           </div>
           <PopUp show={showAnimeSettings} setShow={setShowAnimeSettings} bg={true}>
-            <div
-              className='relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col gap-3'
-              onClick={(e) => e.stopPropagation()}
-            >
-              <RxCross2
-                className='absolute z-20 right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
-                onClick={() => setShowAnimeSettings(!showAnimeSettings)}
-              />
-              {/* <div>
-                <img className='rounded-t-xl h-[13.1rem]' src={data.bannerImage} alt='banner' />
-              </div> */}
-              <div
-                className={'relative rounded-t-xl h-[13.1rem] bg-cover flex flex-wrap items-end p-3'}
-                style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
-              >
-                <h3 className='font-bold'> {data.title.romaji} </h3>
-                {favorite
-                  ? <FaHeart className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
-                  : <FaRegHeart className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
-                }
-              </div>
-              <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} />
-              <div
-                className='absolute bottom-4 right-4 rounded-xl px-7 py-3 bg-fourth hover:bg-fourthAndAHalf cursor-pointer'
-                onClick={() => handleAnimeUserStatus(fetchData)}
-              >
-                <h3 className='cursor-pointer'> Save </h3>
-              </div>
-            </div>
+            <ShowAnimeSettings
+              setShowAnimeSettings={setShowAnimeSettings}
+              showAnimeSettings={showAnimeSettings}
+              setFetchData={setFetchData}
+              setFavorite={setFavorite}
+              fetchData={fetchData}
+              favorite={favorite}
+              data={data}
+            />
           </PopUp>
         </div>
-        <div className="w-[75%] flex flex-col gap-3">
-          <h1 className="font-bold text-3xl"> {data.title.romaji} </h1>
-          <div className={`w-full flex ${!data.bannerImage ? 'h-36' : ''} pr-24 gap-10 overflow-auto`}>
+        {/* <div className="flex flex-col min-w-fit gap-3"> */}
+        <div className="w-[75%] flex flex-col gap-3 ">
+          <h1 className="font-bold text-2xl"> {data.title.romaji} </h1>
+          <div className="w-full flex pr-24 gap-10 overflow-auto">
             <div className='flex flex-col w-fit'>
               <div className='flex'>
                 <h3 className='pr-2'> <span className='font-bold italic pr-1'> {data.status[0] + data.status.slice(1).toLocaleLowerCase()} </span> {data.averageScore ? 'with' : ''} </h3>
@@ -116,40 +96,47 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
                   : null
               }
               {data.genres ?
-                <div className="flex h-full gap-[0.35rem] overflow-auto">
+                <div id='genres'
+                  className="flex h-full gap-[0.35rem] mt-5 overflow-auto"
+                >
                   {data.genres.map((e: string, i: number) => (
-                    <h3 key={i} className="text-eigth text-xl border h-fit mt-5 p-2 rounded-xl"> {e} </h3>
+                    <h3 key={i} className="text-eigth text-md border h-fit p-2 rounded-xl"> {e} </h3>
                   ))}
                 </div>
                 : null
               }
             </div>
-            <div className={`flex flex-col w-auto ${!data.bannerImage ? 'h-36' : 'h-56'}  ml-2 pr-2 gap-[0.35rem] flex-wrap`}>
-              {data.tags ? data.tags.map((e: any,) => (
-                <li key={e.id} className="text-eigth text-xl pr-10"> {e.name} </li>
-              )) : null}
-            </div>
+            {data.tags ?
+              <div id='tags'
+                className={`flex flex-col flex-wrap w-auto ${!data.bannerImage ? 'h-36' : 'h-56'} `}
+              >
+                {data.tags.map((e: any,) => (
+                  <li key={e.id} className="text-eigth text-lg pr-10"> {e.name} </li>
+                ))}
+              </div>
+              : null
+            }
           </div>
         </div>
       </div >
-      <div className={`bg-fourthAndAHalf ${!data.bannerImage ? 'ml-[17.8rem] mr-3 w-fit' : 'w-[98%]'} rounded-xl p-5`}>
-        <h1 className="text-3xl font-bold pb-3"> Sinopse </h1>
-        <p className="text-2xl"> {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')} </p>
+      <div className={`${!data.bannerImage ? 'pl-[16.5rem] w-full min-h-[13.5rem]' : 'mx-5'}`}>
+        <p className="text-xl bg-fourthAndAHalf rounded-xl p-5">
+          <span className="text-2xl font-bold"> Sinopse </span> <br/> <br/> 
+          {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')}
+        </p>
       </div>
-      {
-        data.trailer && data.trailer.site === 'youtube' ? (
-          <div className="bg-fourthAndAHalf rounded-xl w-[98%] p-5">
-            <h1 className="text-3xl font-bold pb-3"> Trailer </h1>
-            <div className="flex justify-center">
-              <iframe
-                className="h-[25rem] w-[40rem]"
-                src={`https://www.youtube.com/embed/${data.trailer.id}`}
-                allowFullScreen
-              />
-            </div>
+      {data.trailer && data.trailer.site === 'youtube' ? (
+        <div className={`bg-fourthAndAHalf rounded-xl p-5 ${!data.bannerImage ? '' : 'mx-5'}`}>
+          <h1 className="text-2xl font-bold pb-3"> Trailer </h1>
+          <div className="flex justify-center">
+            <iframe
+              className="h-[25rem] w-[40rem]"
+              src={`https://www.youtube.com/embed/${data.trailer.id}`}
+              allowFullScreen
+            />
           </div>
-        ) : null
-      }
+        </div>
+      ) : null}
     </div >
   );
 }
