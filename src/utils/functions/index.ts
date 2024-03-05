@@ -1,5 +1,6 @@
 export * from './usersAnimesStatus'
 export * from './messages'
 export * from './friends'
+export * from './animes'
 export * from './users'
 export * from './auth'

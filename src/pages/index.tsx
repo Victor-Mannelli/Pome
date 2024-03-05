@@ -29,6 +29,9 @@ export default function Home({ data }: { data: AnimeData }) {
     if (filter) return e.title.romaji.toLocaleLowerCase().includes(filter)
     return !followdAnimesId.includes(e.id)
   });
+  // if (followdAnimesId.length > 0) {
+  //   data = await getAnimes({quantity: 28 + followdAnimesId.length, page: 1 })
+  // }
 
   return (
     <div className="flex m-7 gap-5">
@@ -39,22 +42,25 @@ export default function Home({ data }: { data: AnimeData }) {
           onChange={(e) => setFilter(e.target.value)}
         />
       </div>
-      <div className="flex flex-col w-full h-full rounded-xl gap-5">
+      <div className="flex flex-col w-full h-full gap-5">
         <h1 className="text-center hover:cursor-pointer"> Airing </h1>
-        <div className="w-full flex flex-wrap gap-5 overflow-auto">
+        <div className="flex flex-wrap justify-between w-full gap-y-5">
           {animeList.map((e: any) => (
             <div
-              className="xl:w-fit w-full h-64 bg-third rounded-xl p-4 flex cursor-pointer hover:brightness-90"
+              className="flex flex-col justify-end xl:w-40 w-full h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
               onClick={() => router.push(`/pome/anime/${e.id}`)}
+              style={{ backgroundImage: `url(${e.coverImage.extraLarge})` }}
               key={e.id}
             >
-              <img
-                className="h-full w-40 rounded-xl"
+              {/* <div className='flex justify-center items-center h-2/5 w-full bg-black bg-opacity-60'> */}
+              <h1 className="text-sm cursor-pointer bg-black bg-opacity-60 rounded-b-md p-2"> {e.title.romaji} </h1>
+              {/* </div> */}
+              {/* <img
+                className="h-full w-40 rounded-md"
                 src={e.coverImage.extraLarge}
                 alt="anime_image"
-              />
+              /> */}
               {/* <div className="pl-5 h-full flex flex-col">
-                <h1 className="cursor-pointer"> {e.title.romaji} </h1>
                 {e.averageScore ? <Stars className='mb-3' score={e.averageScore} /> : null}
                 <h3 className="cursor-pointer pb-3"> {e.startDate.year} </h3>
                 <h3 className="cursor-pointer h-2/3 overflow-auto">
@@ -70,17 +76,17 @@ export default function Home({ data }: { data: AnimeData }) {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-5 w-[24%] h-fit rounded-xl pb-3">
+      <div className="flex flex-col gap-5 w-2/5 h-fit rounded-md">
         <h1 className="font-bold text-center"> You are following </h1>
-        {userFollowedAnimes.length > 0 ? userFollowedAnimes.map((e: UserFollowingAnime) => (
-          <div className="bg-third w-full flex flex-wrap gap-4 pb-5 overflow-auto">
+        <div className="bg-third w-full flex flex-wrap gap-4 rounded-md p-5 overflow-auto">
+          {userFollowedAnimes.length > 0 ? userFollowedAnimes.map((e: UserFollowingAnime) => (
             <div
-              className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
+              className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
               onClick={() => router.push(`/pome/anime/${e.anime.anime_id}`)}
               style={{ backgroundImage: `url(${e.anime.cover_image})` }}
               key={e.anime.anime_id}
             >
-              <div className='flex flex-col justify-center items-center h-2/5 w-full bg-black bg-opacity-60 rounded-b-xl border-b-8 border-signature cursor-default'>
+              <div className='flex flex-col justify-center items-center h-fit w-full bg-black bg-opacity-50 rounded-b-md border-b-8 border-signature cursor-default'>
                 {e.anime.next_airing_episode.episode - 1 - e.progress > 0 ?
                   <div className='flex items-center gap-5'>
                     <BiMinus
@@ -95,7 +101,7 @@ export default function Home({ data }: { data: AnimeData }) {
                   </div>
                   : null
                 }
-                <h3 className='text-white'>
+                <h3 className={`text-white ${e.anime.next_airing_episode.episode - 1 - e.progress > 0 ? "" : "py-1"}`}>
                   {
                     Math.floor(e.anime.next_airing_episode.timeUntilAiring / 86400)
                   }d {
@@ -106,13 +112,13 @@ export default function Home({ data }: { data: AnimeData }) {
                 </h3>
               </div>
             </div>
-          </div>
-        )) :
-          <div className='w-full h-fit p-5 rounded-xl bg-third'>
-          {/* <div className='w-32 h-fit bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner'> */}
-            <p className='text-center'> You are not following any anime yet <br/> open their pages and start following!</p>
-          </div>
-        }
+          )) :
+            <div className='w-full h-fit p-5 rounded-md bg-third'>
+              {/* <div className='w-32 h-fit bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner'> */}
+              <p className='text-center'> You are not following any anime yet <br /> open their pages and start following!</p>
+            </div>
+          }
+        </div>
       </div>
     </div>
   );
@@ -125,7 +131,7 @@ export async function getServerSideProps(context: NextPageContext) {
   };
   const query = `
     query ($page: Int, $year: FuzzyDateInt) {
-      Page (page: $page, perPage: 20) {
+      Page (page: $page, perPage: 28) {
         pageInfo {
           currentPage
           hasNextPage
