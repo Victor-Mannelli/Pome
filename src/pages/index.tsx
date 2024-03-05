@@ -5,24 +5,22 @@ import { api, animeApi } from '@/utils/axios';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
-import nookies from 'nookies';
 
 export default function Home({ data }: { data: AnimeData }) {
-  const router = useRouter();
-  const [filter, setFilter] = useState<string>('');
   const [userFollowedAnimes, setUserFollowedAnimes] = useState<any>([]);
   const [toggle, setToggle] = useState<boolean>(false);
-  const config = { headers: { Authorization: `Bearer ${nookies.get(null, 'token').token}` } };
+  const [filter, setFilter] = useState<string>('');
+  const router = useRouter();
 
   useEffect(() => {
     api
-      .get('/animes/userlist', config)
+      .get('/animes/userlist')
       .then((e) => setUserFollowedAnimes(e.data))
-      .catch(() => console.log('error userlist request'))
+      .catch((e) => console.log(e))
   }, [toggle]);
 
   function handleUpdateFollowing({ animeId, progress }: { animeId: number, progress: number }) {
-    api.put('/animes/userlist', { animeId, progress }, config);
+    api.put('/animes/userlist', { animeId, progress });
     setToggle(!toggle);
   }
 
@@ -33,20 +31,20 @@ export default function Home({ data }: { data: AnimeData }) {
   });
 
   return (
-    <div className="flex mx-7 my-5 gap-5">
-      <div className='w-[10%] mt-10'>
+    <div className="flex m-7 gap-5">
+      <div className='flex flex-col gap-5 w-[15%]'>
         <h1 className="text-center"> Filters </h1>
         <Filter
           placeholder='search'
           onChange={(e) => setFilter(e.target.value)}
         />
       </div>
-      <div className="flex flex-col w-[60%] h-full rounded-xl p-5">
-        <h1 className="text-center hover:cursor-pointer" onClick={() => router.push('/pome/releases')}> Airing </h1>
+      <div className="flex flex-col w-full h-full rounded-xl gap-5">
+        <h1 className="text-center hover:cursor-pointer"> Airing </h1>
         <div className="w-full flex flex-wrap gap-5 overflow-auto">
           {animeList.map((e: any) => (
             <div
-              className="xl:w-fit w-full h-[19.5rem] bg-third rounded-xl p-4 flex cursor-pointer hover:brightness-90"
+              className="xl:w-fit w-full h-64 bg-third rounded-xl p-4 flex cursor-pointer hover:brightness-90"
               onClick={() => router.push(`/pome/anime/${e.id}`)}
               key={e.id}
             >
@@ -72,10 +70,10 @@ export default function Home({ data }: { data: AnimeData }) {
           />
         </div>
       </div>
-      <div className=" w-[25%] h-fit rounded-xl mt-10 px-8 pb-3">
-        <h1 className="font-bold py-5"> You are following </h1>
-        <div className="bg-third w-full flex flex-wrap gap-4 pb-5 overflow-auto">
-          {userFollowedAnimes ? userFollowedAnimes.map((e: UserFollowingAnime) => (
+      <div className="flex flex-col gap-5 w-[24%] h-fit rounded-xl pb-3">
+        <h1 className="font-bold text-center"> You are following </h1>
+        {userFollowedAnimes.length > 0 ? userFollowedAnimes.map((e: UserFollowingAnime) => (
+          <div className="bg-third w-full flex flex-wrap gap-4 pb-5 overflow-auto">
             <div
               className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
               onClick={() => router.push(`/pome/anime/${e.anime.anime_id}`)}
@@ -98,16 +96,23 @@ export default function Home({ data }: { data: AnimeData }) {
                   : null
                 }
                 <h3 className='text-white'>
-                  {Math.floor(e.anime.next_airing_episode.timeUntilAiring / 86400)}d {Math.floor((e.anime.next_airing_episode.timeUntilAiring % 86400) / 3600)}h {Math.floor((e.anime.next_airing_episode.timeUntilAiring % 3600) / 60)}m
+                  {
+                    Math.floor(e.anime.next_airing_episode.timeUntilAiring / 86400)
+                  }d {
+                    Math.floor((e.anime.next_airing_episode.timeUntilAiring % 86400) / 3600)
+                  }h {
+                    Math.floor((e.anime.next_airing_episode.timeUntilAiring % 3600) / 60)
+                  }m
                 </h3>
               </div>
             </div>
-          )) :
-            <div>
-              <p className='text-center'> You are not following any anime, open their pages and start following!</p>
-            </div>
-          }
-        </div>
+          </div>
+        )) :
+          <div className='w-full h-fit p-5 rounded-xl bg-third'>
+          {/* <div className='w-32 h-fit bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner'> */}
+            <p className='text-center'> You are not following any anime yet <br/> open their pages and start following!</p>
+          </div>
+        }
       </div>
     </div>
   );
