@@ -18,7 +18,7 @@ export default function Home({ data }: { data: AnimeData }) {
     api
       .get('/animes/userlist', config)
       .then((e) => setUserFollowedAnimes(e.data))
-      .catch(() => console.log("error userlist request"))
+      .catch(() => console.log('error userlist request'))
   }, [toggle]);
 
   function handleUpdateFollowing({ animeId, progress }: { animeId: number, progress: number }) {

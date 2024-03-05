@@ -2,7 +2,7 @@ import { GiMagnifyingGlass } from '@/utils/libs';
 
 export function Filter({ onChange, className, placeholder } : { 
   onChange: React.ChangeEventHandler<HTMLInputElement>;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
 }) {
   return (
