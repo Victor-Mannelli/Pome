@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { parseCookies } from 'nookies';
+import axios from 'axios';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -22,5 +22,7 @@ api.interceptors.response.use(
   (response): any => {
     return response;
   },
-  (error) => console.log(error)
+  (error) => { 
+    throw error.response?.data
+  }
 );

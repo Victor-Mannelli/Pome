@@ -8,7 +8,7 @@ export function Navbar() {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(true);
   const cookies = nookies.get(null, 'token').token;
-  
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       let scrollPositionNow = window.pageYOffset;
@@ -33,8 +33,8 @@ export function Navbar() {
     >
       <SiNiconico onClick={() => router.push('/')} className="text-signature text-2xl cursor-pointer hover:text-h-signature " />
       <div className='flex gap-28'>
-        <div> <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2> </div>
-        <div> <h2 className="hover:text-h-signature text-signature text-xl" onClick={() => router.push('/pome/finished')}> Finished </h2> </div>
+        <h2 className="hover:text-h-signature text-signature" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2>
+        <h2 className="hover:text-h-signature text-signature" onClick={() => router.push('/pome/finished')}> Finished </h2>
       </div>
       <div className="flex items-center gap-7">
         <FaUserFriends
@@ -46,7 +46,9 @@ export function Navbar() {
           }}
         />
         <FaUserCircle
-          onClick={() => { cookies ? router.push('/pome/profile/1') : router.push('/pome/login'); }}
+          onClick={() => {
+            cookies ? router.push('/pome/profile/1') : router.push('/pome/login');
+          }}
           className="text-signature text-2xl cursor-pointer hover:text-h-signature"
         />
       </div>

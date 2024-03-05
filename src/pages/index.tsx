@@ -18,7 +18,7 @@ export default function Home({ data }: { data: AnimeData }) {
     api
       .get('/animes/userlist', config)
       .then((e) => setUserFollowedAnimes(e.data))
-      .catch(() => router.push('/pome/login'))
+      .catch(() => console.log("error userlist request"))
   }, [toggle]);
 
   function handleUpdateFollowing({ animeId, progress }: { animeId: number, progress: number }) {
@@ -33,18 +33,20 @@ export default function Home({ data }: { data: AnimeData }) {
   });
 
   return (
-    <div className="flex m-7 gap-5">
-      <div className="h-full flex flex-col w-[73%] rounded-xl p-5">
-        <div className="h-[8%]">
-          <Filter onChange={(e) => setFilter(e.target.value)} />
-        </div>
-        <h1 className="py-4 text-center" onClick={() => router.push('/pome/releases')}>
-          Airing
-        </h1>
+    <div className="flex mx-7 my-5 gap-5">
+      <div className='w-[10%] mt-10'>
+        <h1 className="text-center"> Filters </h1>
+        <Filter
+          placeholder='search'
+          onChange={(e) => setFilter(e.target.value)}
+        />
+      </div>
+      <div className="flex flex-col w-[60%] h-full rounded-xl p-5">
+        <h1 className="text-center hover:cursor-pointer" onClick={() => router.push('/pome/releases')}> Airing </h1>
         <div className="w-full flex flex-wrap gap-5 overflow-auto">
           {animeList.map((e: any) => (
             <div
-              className="xl:w-[48.9%] w-full h-[19.5rem] bg-third rounded-xl p-4 flex cursor-pointer hover:brightness-90"
+              className="xl:w-fit w-full h-[19.5rem] bg-third rounded-xl p-4 flex cursor-pointer hover:brightness-90"
               onClick={() => router.push(`/pome/anime/${e.id}`)}
               key={e.id}
             >
@@ -53,14 +55,14 @@ export default function Home({ data }: { data: AnimeData }) {
                 src={e.coverImage.extraLarge}
                 alt="anime_image"
               />
-              <div className="pl-5 h-full flex flex-col">
+              {/* <div className="pl-5 h-full flex flex-col">
                 <h1 className="cursor-pointer"> {e.title.romaji} </h1>
                 {e.averageScore ? <Stars className='mb-3' score={e.averageScore} /> : null}
                 <h3 className="cursor-pointer pb-3"> {e.startDate.year} </h3>
                 <h3 className="cursor-pointer h-2/3 overflow-auto">
                   {e.description ? e.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ') : 'No description yet'}
                 </h3>
-              </div>
+              </div> */}
             </div>
           ))}
           <PageHandler
@@ -70,9 +72,9 @@ export default function Home({ data }: { data: AnimeData }) {
           />
         </div>
       </div>
-      <div className="bg-third w-[27%] h-fit rounded-xl px-8 pb-3">
+      <div className=" w-[25%] h-fit rounded-xl mt-10 px-8 pb-3">
         <h1 className="font-bold py-5"> You are following </h1>
-        <div className="w-full flex flex-wrap gap-4 pb-5 overflow-auto">
+        <div className="bg-third w-full flex flex-wrap gap-4 pb-5 overflow-auto">
           {userFollowedAnimes ? userFollowedAnimes.map((e: UserFollowingAnime) => (
             <div
               className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-xl bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"

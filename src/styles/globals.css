@@ -10,13 +10,13 @@
     @apply bg-fourth
   }
   p, h1, h2, h3, h4, h5 {
-    @apply text-eigth cursor-default text-xl
+    @apply text-white cursor-default 
   }
   h1 {
-    @apply text-2xl font-bold
+    @apply font-bold
   }
   h2 {
-    @apply cursor-pointer text-2xl font-bold hover:text-third
+    @apply cursor-pointer font-bold hover:text-third
   }
   button {
     @apply cursor-pointer

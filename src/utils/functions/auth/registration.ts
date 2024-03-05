@@ -23,12 +23,13 @@ export function userRegistration({ email, username, password, confirmPassword, r
       error: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         render(e: ToastError | any) {
-          return e.data.response.data.message
-            ? e.data.response.data.message
+          console.log(e)
+          return e.data.message
+            ? e.data.message
             : e.response.data.length > 1
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ? e.response.data.map((error: any) => toast.error(error))
-              : toast.error(e.response.data[0]);
+              ? e.response.data.map((error: any) => error)
+              : e.response.data[0];
         }
       }
     },

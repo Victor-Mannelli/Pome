@@ -23,7 +23,7 @@ module.exports = {
         'sixth': '#797776',
         'seventh': '#a29d98',
         'eigth': '#D7DCDE',
-        'signature': '#00C8A5',
+        'signature': '#00ffff',
         'h-signature': '#00FFD4',
       },
       fontFamily: {

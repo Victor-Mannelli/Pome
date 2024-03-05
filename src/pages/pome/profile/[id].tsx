@@ -174,10 +174,10 @@ export async function getServerSideProps(context: NextPageContext) {
       userData,
       userAnimeList,
     };
-
-    if (!data) return {
-      redirect: { destination: '/', permanent: false },
-    };
+    console.log(data)
+    // if (!data) return {
+    //   redirect: { destination: '/', permanent: false },
+    // };
 
     return { props: data };
   } catch (error) {
