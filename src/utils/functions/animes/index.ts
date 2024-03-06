@@ -1,8 +1,12 @@
+import { AnimeData, UserFollowingAnime } from '@/utils/interfaces';
+import { Dispatch, SetStateAction } from 'react';
 import { animeApi, api } from '@/utils/axios';
-import { useRouter } from 'next/router';
 
-export async function getAnimes({ quantity, page }: { quantity: number, page: number }) {
-  const Router = useRouter();
+export async function getAnimes({ quantity, page, setData }: {
+  setData: Dispatch<SetStateAction<AnimeData>> | any;
+  quantity: number;
+  page: any;
+}) {
   const variables = {
     page: page || 0,
     year: Number(new Date().getFullYear() + '0000'),
@@ -101,19 +105,37 @@ export async function getAnimes({ quantity, page }: { quantity: number, page: nu
       }
     }
   `;
-  try {
-    let { data } = await animeApi.post('', { query, variables }, {
+  animeApi
+    .post('', { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        // 'Access-Control-Allow-Origin': '*',
       }
-    });
-    return data = data.data.Page;
-  } catch (error) {
-    Router.push('/pome/login')
-  }
+    })
+    .then((e) => {
+      setData(e.data.data.Page)
+    })
+    .catch((e) => console.log(e, 'error'))
 }
 
 export function populateDb(id: number) {
   api.post('/animes/populate', { id });
+}
+
+export function updateFollowedAnime({ animeId, progress, toggle, setToggle }: {
+  setToggle: Dispatch<SetStateAction<boolean>>
+  progress: number;
+  animeId: number,
+  toggle: boolean;
+}) {
+  api.patch('/animes/updateProgress', { animeId, progress });
+  setToggle(!toggle);
+}
+
+export function getAnimesUserList(setUserFollowedAnimes: Dispatch<SetStateAction<UserFollowingAnime[]>>) {
+  api
+    .get('/animes/userlist')
+    .then((e) => setUserFollowedAnimes(e.data))
+    .catch((e) => console.log(e))
 }

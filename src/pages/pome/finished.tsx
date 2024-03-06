@@ -18,7 +18,7 @@ export default function Releases({ data }: { data: AnimeData }) {
           <div
             key={e.id}
             className="xl:w-[48.5%] w-full h-56 bg-third rounded-xl p-2 cursor-pointer flex"
-            onClick={() => router.push(`/pome/anime/${e.id}`)}
+            onClick={() => router.push(`/pome/animes/${e.id}`)}
           >
             <img
               src={e.coverImage.extraLarge}

@@ -1,6 +1,7 @@
 export * from './animes'
 export * from './friends'
 export * from './models'
+export * from './skeletons'
 export * from './animeUserStats'
 export * from './genres'
 export * from './inputImage'

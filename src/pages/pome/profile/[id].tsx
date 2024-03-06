@@ -146,7 +146,7 @@ export default function Profile(data: any) {
               <div
                 key={e.anime_id}
                 className="w-full flex py-5 hover:bg-second rounded-xl cursor-pointer"
-                onClick={() => router.push(`/pome/anime/${e.anime_id}`)}
+                onClick={() => router.push(`/pome/animes/${e.anime_id}`)}
               >
                 <h3 className="w-[64%] pl-7 break-all cursor-pointer"> {e.anime.title} </h3>
                 <h3 className="w-[12%] text-center cursor-pointer"> {e.score} </h3>
