@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { Button } from './models';
 
 export function PageHandler({ currentPage, hasNextPage, setToggle, toggle, route }: {
-  setToggle: Dispatch<SetStateAction<boolean>>
+  setToggle?: Dispatch<SetStateAction<boolean>>
   hasNextPage: boolean,
   currentPage: number,
-  toggle: boolean,
+  toggle?: boolean,
   route: string;
 }) {
   const router = useRouter();
@@ -22,7 +22,7 @@ export function PageHandler({ currentPage, hasNextPage, setToggle, toggle, route
               pathname: `/${route}`,
               query: { page: `${currentPage - 1}` }
             });
-            setToggle(!toggle)
+            setToggle && setToggle(!toggle)
           }
         }}
       />
@@ -36,7 +36,7 @@ export function PageHandler({ currentPage, hasNextPage, setToggle, toggle, route
               pathname: `/${route}`,
               query: { page: `${currentPage + 1}` }
             });
-            setToggle(!toggle)
+            setToggle && setToggle(!toggle)
           }}
         />
         : null
