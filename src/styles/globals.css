@@ -3,54 +3,58 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply box-border transition-all antialiased 
-  }
-  body {
-    @apply bg-fourth
-  }
-  p, h1, h2, h3, h4, h5 {
-    @apply text-white cursor-default 
-  }
-  h1 {
-    @apply font-bold
-  }
-  h2 {
-    @apply cursor-pointer font-bold hover:text-third
-  }
-  button {
-    @apply cursor-pointer
-  }
-  *::-webkit-scrollbar {
-    @apply w-2 h-2 md:w-1.5 md:h-1.5;
-  }
-  *::-webkit-scrollbar-thumb {
-    @apply bg-first;
-  } 
-  *::-webkit-scrollbar-track 
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  textarea:-webkit-autofill,
-  textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus,
-  select:-webkit-autofill,
-  select:-webkit-autofill:hover,
-  select:-webkit-autofill:focus {
-    -webkit-text-fill-color: white;
-    box-shadow: 0 0 0px 1000px #545454 inset;
-    transition: background-color 5000s ease-in-out 0s;
-    color: white;
-  }
+	* {
+		@apply box-border transition-all antialiased;
+	}
+	body {
+		@apply bg-fourth;
+	}
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5 {
+		@apply text-white cursor-default;
+	}
+	h1 {
+		@apply font-bold;
+	}
+	h2 {
+		@apply cursor-pointer font-bold hover:text-third;
+	}
+	button {
+		@apply cursor-pointer;
+	}
+	*::-webkit-scrollbar {
+		@apply w-2 h-2 md:w-1.5 md:h-1.5;
+	}
+	*::-webkit-scrollbar-thumb {
+		@apply bg-first;
+	}
+	*::-webkit-scrollbar-track input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus {
+		-webkit-text-fill-color: white;
+		box-shadow: 0 0 0px 1000px #545454 inset;
+		transition: background-color 5000s ease-in-out 0s;
+		color: white;
+	}
 
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 
-  /* Style the button background and size */
-  /* input[type=number] {
+	/* Style the button background and size */
+	/* input[type=number] {
     background-color: #f1f1f1;
     width: 100px;
     height: 40px;
@@ -58,20 +62,29 @@
     font-size: 16px;
   } */
 
-  /* Style the arrow icons */
-  input[type=number]::-webkit-inner-spin-button:before,
-  input[type=number]::-webkit-outer-spin-button:before {
-    content: '\25B2';
-    color: #999;
-    font-size: 20px;
-    padding-right: 5px;
-  }
+	/* Style the arrow icons */
+	input[type="number"]::-webkit-inner-spin-button:before,
+	input[type="number"]::-webkit-outer-spin-button:before {
+		content: "\25B2";
+		color: #999;
+		font-size: 20px;
+		padding-right: 5px;
+	}
 
-  input[type=number]::-webkit-inner-spin-button:after,
-  input[type=number]::-webkit-outer-spin-button:after {
-    content: '\25BC';
-    color: #999;
-    font-size: 20px;
-    padding-right: 5px;
-  }
+	input[type="number"]::-webkit-inner-spin-button:after,
+	input[type="number"]::-webkit-outer-spin-button:after {
+		content: "\25BC";
+		color: #999;
+		font-size: 20px;
+		padding-right: 5px;
+	}
+
+	/* Custom CSS */
+
+	.redirectIconElement:hover .iconDescription {
+		@apply flex;
+	}
+	.iconDescription {
+    @apply absolute hover:flex hidden
+	}
 }

@@ -1,7 +1,7 @@
 import { FaUserCircle, FaUserFriends, SiNiconico } from '@/utils/libs';
+import { RedirectionalIcon } from './redirectionalIcons';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
 import nookies from 'nookies';
 
 export function Navbar() {
@@ -31,25 +31,32 @@ export function Navbar() {
         ${(router.pathname.startsWith('/pome/anime') || router.pathname.startsWith('/pome/profile')) ? 'fixed opacity-70' : 'sticky opacity-100'}`}
       style={{ transition: 'top 0.3s' }}
     >
-      <SiNiconico onClick={() => router.push('/')} className="text-signature text-2xl cursor-pointer hover:text-h-signature " />
+      <RedirectionalIcon
+        Icon={SiNiconico}
+        title={'Home'}
+        onClick={() => router.push('/')}
+      />
       <div className='flex gap-28'>
-        <h2 className="hover:text-h-signature text-signature" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2>
-        <h2 className="hover:text-h-signature text-signature" onClick={() => router.push('/pome/finished')}> Finished </h2>
+        {/* <h2 className="hover:brightness-75 text-signature" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2> */}
+        {/* <h2 className="hover:brightness-75 text-signature" onClick={() => router.push('/pome/finished')}> Finished </h2> */}
       </div>
       <div className="flex items-center gap-7">
-        <FaUserFriends
-          className="text-signature text-2xl cursor-pointer hover:text-h-signature"
-          onClick={() => {
-            cookies
-              ? router.push('/pome/friends')
-              : (router.push('/pome/login'), toast.error('log in first!'));
-          }}
-        />
-        <FaUserCircle
-          onClick={() => {
-            cookies ? router.push('/pome/profile/1') : router.push('/pome/login');
-          }}
-          className="text-signature text-2xl cursor-pointer hover:text-h-signature"
+        {/* <RedirectionalIcon
+          Icon={FaUserFriends}
+          title={'Friends'}
+          onClick={() => cookies
+            ? router.push('/pome/friends')
+            : (router.push('/pome/login'), toast.error('log in first!'))
+          }
+        /> */}
+        <RedirectionalIcon
+          Icon={FaUserCircle}
+          title={'Profile'}
+          onClick={() => cookies
+            ? router.push('/pome/profile/1')
+            : router.push('/pome/login')
+          }
+          router={router}
         />
       </div>
     </div>

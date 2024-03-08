@@ -6,6 +6,7 @@ import { GiCakeSlice } from 'react-icons/gi';
 import { FiUserPlus } from 'react-icons/fi';
 import { SiNiconico } from 'react-icons/si';
 import { RxCross2 } from 'react-icons/rx';
+import { ImExit } from 'react-icons/im';
 
 export {
   FaRegHeart,
@@ -20,4 +21,5 @@ export {
   GiCakeSlice,
   SiNiconico,
   FiUserPlus,
+  ImExit,
 }

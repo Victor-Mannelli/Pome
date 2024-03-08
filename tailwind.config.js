@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line no-undef
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -31,5 +32,5 @@ module.exports = {
       }
     },
   },
-  plugins: [],
-};
+  plugins: []
+}

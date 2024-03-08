@@ -1,7 +1,7 @@
 import { FaHeart, FaRegHeart, RxCross2 } from '@/utils/libs';
 import { AnimeUserStatsInterface, SingleAnimeData } from '@/utils/interfaces';
 import { addAnimeUserStatus } from '@/utils/functions';
-import { AnimeUserStats } from '../animeUserStats';
+import { AnimeUserStats } from './animeUserStats';
 import { Dispatch, SetStateAction } from 'react';
 
 export function ShowAnimeSettings({ setShowAnimeSettings, showAnimeSettings, setFetchData, setFavorite, fetchData, favorite, data }: {

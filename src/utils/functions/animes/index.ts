@@ -1,6 +1,7 @@
 import { AnimeData, UserFollowingAnime } from '@/utils/interfaces';
 import { Dispatch, SetStateAction } from 'react';
 import { animeApi, api } from '@/utils/axios';
+import { parseCookies } from 'nookies';
 
 export async function getAnimes({ quantity, page, setData }: {
   setData: Dispatch<SetStateAction<AnimeData>> | any;
@@ -134,8 +135,11 @@ export function updateFollowedAnime({ animeId, progress, toggle, setToggle }: {
 }
 
 export function getAnimesUserList(setUserFollowedAnimes: Dispatch<SetStateAction<UserFollowingAnime[]>>) {
-  api
-    .get('/animes/userlist')
-    .then((e) => setUserFollowedAnimes(e.data))
-    .catch((e) => console.log(e))
+  const token = parseCookies(null).token;
+  if (token) {
+    api
+      .get('/animes/userlist')
+      .then((e) => setUserFollowedAnimes(e.data))
+      .catch((e) => console.log(e))
+  }
 }
