@@ -3,9 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { animeApi, api } from '@/utils/axios';
 import { parseCookies } from 'nookies';
 
-export async function getAnimes({ quantity, page, setData }: {
+export async function getAnimes({ quantity, page, setData, filter }: {
   setData: Dispatch<SetStateAction<AnimeData>> | any;
   quantity: number;
+  filter?: string;
   page: any;
 }) {
   const variables = {
@@ -19,7 +20,7 @@ export async function getAnimes({ quantity, page, setData }: {
           currentPage
           hasNextPage
         }
-        media (status: RELEASING, startDate_greater: $year, type: ANIME, format: TV, isAdult: false) {
+        media (status: RELEASING, startDate_greater: $year, type: ANIME, format: TV, isAdult: false${filter && `, search: "${filter}"`} ) {
           id
           title {
             romaji

@@ -4,14 +4,14 @@ import { FaHeart, FaRegHeart } from '@/utils/libs';
 import { populateDb } from '@/utils/functions';
 import { api, animeApi } from '@/utils/axios';
 import { useEffect, useState } from 'react';
+import { monthNames, token } from '@/utils/consts';
 import { NextPageContext } from 'next';
+import { toast } from 'react-toastify';
 
 export default function AnimePage({ data }: { data: SingleAnimeData }) {
   const [fetchData, setFetchData] = useState<AnimeUserStatsInterface>({ status: '', score: 0, progress: 0, rewatches: 0, startDate: new Date(), finishDate: null });
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const [favorite, setFavorite] = useState<boolean>(false);
-
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   useEffect(() => {
     api.get('/animes/userlist').then((e) => {
@@ -34,8 +34,14 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
       {/* <div className={`relative ${!data.bannerImage ? 'mt-20' : 'h-1/2'} flex w-full gap-6 `}> */}
       <div className={`relative flex justify-start w-full gap-2 ${!data.bannerImage ? 'mt-20' : 'h-1/2'} `}>
         {favorite
-          ? <FaHeart className='absolute right-1 top-0 mr-3 text-2xl text-red-500 hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
-          : <FaRegHeart className='absolute right-1 top-0 mr-3 text-2xl text-white hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
+          ? <FaHeart
+            className='absolute right-1 top-0 mr-3 text-2xl text-red-500 hover:cursor-pointer'
+            onClick={() => token ? setFavorite(!favorite) : toast.error('Log in first!')}
+          />
+          : <FaRegHeart
+            className='absolute right-1 top-0 mr-3 text-2xl text-white hover:cursor-pointer'
+            onClick={() => token ? setFavorite(!favorite) : toast.error('Log in first!')}
+          />
         }
         <div
           // className="flex flex-col gap-3"
@@ -51,7 +57,11 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
             // className="flex justify-center items-center h-9 w-full rounded-md hover:cursor-pointer hover:bg-fifth bg-fourthAndAHalf"
             className={`${!data.bannerImage ? 'absolute top-[26.5rem] left-0 w-[95%]' : 'w-[80%]'} flex justify-center items-center h-9 rounded-md hover:cursor-pointer hover:bg-fifth bg-fourthAndAHalf`}
             onClick={() => {
-              setShowAnimeSettings(!showAnimeSettings);
+              if (token) {
+                setShowAnimeSettings(!showAnimeSettings);
+              } else {
+                toast.error('Log in first!')
+              }
               populateDb(data.id);
             }}
           >
@@ -121,7 +131,7 @@ export default function AnimePage({ data }: { data: SingleAnimeData }) {
       </div >
       <div className={`${!data.bannerImage ? 'pl-[16.5rem] w-full min-h-[13.5rem]' : 'mx-5'}`}>
         <p className="text-xl bg-fourthAndAHalf rounded-xl p-5">
-          <span className="text-2xl font-bold"> Sinopse </span> <br/> <br/> 
+          <span className="text-2xl font-bold"> Sinopse </span> <br /> <br />
           {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')}
         </p>
       </div>

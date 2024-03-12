@@ -1,4 +1,4 @@
-import { Filter, PageHandler, HomePageAnimesSkeleton, FollowedAnimeSkeleton } from '@/components';
+import { Filter, PageHandler, HomePageAnimesSkeleton, FollowedAnimeSkeleton, PageHandlerSkeleton } from '@/components';
 import { getAnimes, getAnimesUserList, updateFollowedAnime } from '@/utils/functions';
 import { AnimeData, UserFollowingAnime } from '@/utils/interfaces';
 import { BiMinus, BiPlus } from '@/utils/libs';
@@ -31,7 +31,7 @@ export default function Home() {
   });
 
   return (
-    <div className="flex m-7 gap-5">
+    <div className="flex m-5 gap-5">
       <div className='flex flex-col gap-5 w-[15%]'>
         <h1 className="text-center"> Filters </h1>
         <Filter
@@ -41,18 +41,17 @@ export default function Home() {
       </div>
       <div className="flex flex-col w-full h-full gap-5">
         <h1 className="text-center hover:cursor-pointer"> Airing </h1>
-        <div className="flex flex-wrap justify-between w-full gap-y-5">
-          {data && animeList ?
-            <>
-              {animeList.map((e: any) =>
-                <div
-                  className="flex flex-col justify-end xl:w-40 w-full h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
-                  onClick={() => router.push(`/pome/animes/${e.id}`)}
-                  style={{ backgroundImage: `url(${e.coverImage.extraLarge})` }}
-                  key={e.id}
-                >
-                  <h1 className="text-sm cursor-pointer bg-black bg-opacity-60 rounded-b-md p-2"> {e.title.romaji} </h1>
-                  {/* <div className='flex justify-center items-center h-2/5 w-full bg-black bg-opacity-60'> </div> 
+        {data && animeList ?
+          <div className={`flex flex-wrap ${animeList && animeList.length <= 7 ? 'gap-x-2' : 'justify-between'} w-fit gap-y-5`}>
+            {animeList.map((e: any) =>
+              <div
+                className="flex flex-col justify-end xl:w-40 w-full h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
+                onClick={() => router.push(`/pome/animes/${e.id}`)}
+                style={{ backgroundImage: `url(${e.coverImage.extraLarge})` }}
+                key={e.id}
+              >
+                <h1 className="text-sm cursor-pointer bg-black bg-opacity-60 rounded-b-md p-2"> {e.title.romaji} </h1>
+                {/* <div className='flex justify-center items-center h-2/5 w-full bg-black bg-opacity-60'> </div> 
                       <img
                         className="h-full w-40 rounded-md"
                         src={e.coverImage.extraLarge}
@@ -66,19 +65,21 @@ export default function Home() {
                         </h3>
                       </div> 
                   */}
-                </div>
-              )}
-              <PageHandler
-                currentPage={data.pageInfo.currentPage}
-                hasNextPage={data.pageInfo.hasNextPage}
-                route=""
-                toggle={toggle}
-                setToggle={setToggle}
-              />
-            </>
-            : <HomePageAnimesSkeleton />
-          }
-        </div>
+              </div>
+            )}
+          </div>
+          : <HomePageAnimesSkeleton />
+        }
+        {data ?
+          <PageHandler
+            currentPage={data.pageInfo.currentPage}
+            hasNextPage={data.pageInfo.hasNextPage}
+            route=""
+            toggle={toggle}
+            setToggle={setToggle}
+          /> :
+          <PageHandlerSkeleton />
+        }
       </div>
       <div className="flex flex-col gap-5 w-2/5 h-fit rounded-md">
         <h1 className="font-bold text-center"> You are following </h1>
@@ -133,6 +134,6 @@ export default function Home() {
           }
         </div>
       </div>
-    </div>
+    </div >
   );
 }
