@@ -1,6 +1,6 @@
+import { AnimeData, UsersAnimeList } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
-import { animeApi } from "@/utils/axios";
-import { AnimeData } from "@/utils";
+import { animeApi, api } from "@/utils/axios";
 
 export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity, page, filter }: {
   setAnimeData: Dispatch<SetStateAction<AnimeData | null>>;
@@ -123,5 +123,18 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
       setFailed(false);
     })
     .catch(() => setFailed(true))
+    .finally(() => setLoading(false));
+}
+
+export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFailed }: {
+  setUsersAnimeList: Dispatch<SetStateAction<UsersAnimeList[] | null>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setFailed: Dispatch<SetStateAction<boolean>>;
+}) {
+  setLoading(true);
+  api
+    .get('/animes/userlist')
+    .then((e) => setUsersAnimeList(e.data))
+    .catch((e) => { setFailed(true); console.log(e, "user_animelist_error"); })
     .finally(() => setLoading(false));
 }

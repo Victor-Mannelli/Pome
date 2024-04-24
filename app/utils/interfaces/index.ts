@@ -223,32 +223,32 @@ export interface SingleAnimeData {
 //   receiver_id: number // don´t think I need this one
 // }
 
-// export interface UserFollowingAnime {
-//   anime: {
-//     anime_id: number,
-//     title: string,
-//     status: string,
-//     average_score: number,
-//     banner_image: string,
-//     cover_image: string, 
-//     description: string,
-//     start_date: number
-//     end_date: number,
-//     episodes: number
-//     genres: string[]
-//     volumes: string,
-//     next_airing_episode: {
-//       episode: number,
-//       timeUntilAiring: number
-//     }
-//   }
-//   anime_id: number,
-//   favorite: false,
-//   finish_date: number,
-//   progress: number,
-//   rewatches: number,
-//   score: number,
-//   start_date: number,
-//   status: string,
-// }
+export interface UsersAnimeList {
+  anime: {
+    anime_id: number,
+    title: string,
+    status: string,
+    average_score: number,
+    banner_image: string,
+    cover_image: string, 
+    description: string,
+    start_date: number
+    end_date: number,
+    episodes: number
+    genres: string[]
+    volumes: string,
+    next_airing_episode: {
+      episode: number,
+      timeUntilAiring: number
+    }
+  }
+  anime_id: number,
+  favorite: false,
+  finish_date: number,
+  progress: number,
+  rewatches: number,
+  score: number,
+  start_date: number,
+  status: string,
+}
 

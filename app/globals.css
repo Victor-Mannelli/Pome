@@ -112,4 +112,12 @@ body {
 	.iconDescription {
 		@apply absolute hover:flex hidden;
 	}
+
+	.wrapper-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+		margin: 1.5rem;
+	}
 }
