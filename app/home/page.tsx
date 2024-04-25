@@ -24,10 +24,32 @@ export default function Home() {
   useEffect(() => {
     getAnimes({ setAnimeData, setFailed, setLoading, page, quantity });
     // if (userToken) getUsersAnimeList({ setUsersAnimeList })
+    // window.addEventListener('resize', function () {
+    //   calculatePadding();
+    // });
+    // calculatePadding();
+
+    // return () => {
+    //   window.removeEventListener('resize', function () {
+    //     calculatePadding();
+    //   });
+    // }
   }, []);
 
+  // function calculatePadding() {
+  //   const flexContainer: any = document.getElementById('wrapper-container');
+  //   const children = flexContainer?.children;
+  //   const childWidth = children[0].offsetWidth; // Assuming all children have the same width
+  //   const containerWidth = flexContainer.offsetWidth;
+  //   const numChildrenPerRow = Math.floor(containerWidth / (childWidth + 24)); // 24px is the gap between children
+  //   const totalWidth = numChildrenPerRow * (childWidth + 24); // Total width of children in a row
+  //   const padding = (containerWidth - totalWidth) / 2;
+
+  //   flexContainer.style.paddingLeft = padding + 'px';
+  // }
+
   return (
-    <div className="flex flex-col lg:flex-row h-full m-5 gap-5">
+    <div className="flex flex-col lg:flex-row h-full mb-5 sm:mx-5 sm:mt-5 gap-5">
       {/* <div className='flex flex-col gap-5 w-[20%]'>
         <h1 className="text-center"> Filters </h1>
         <Filter
@@ -36,7 +58,7 @@ export default function Home() {
         />
       </div> */}
       <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} />
-      {/* {failed ? (
+      {failed ? (
         <ErrorFeedback refreshFunction={() => console.log("reload")} />
       ) : (
         <div className="flex flex-col w-full h-full gap-5">
@@ -70,7 +92,7 @@ export default function Home() {
             }
           </div>
         </div>
-      )} */}
+      )}
     </div >
   );
 }

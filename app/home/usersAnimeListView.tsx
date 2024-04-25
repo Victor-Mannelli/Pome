@@ -2,45 +2,33 @@
 
 import { FollowedAnimeSkeleton } from "@/components";
 import { UsersAnimeList } from "@/utils";
-import { useEffect } from "react";
-// import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 export function UsersAnimeListView({ usersAnimeList, router }: {
   usersAnimeList: UsersAnimeList[] | null;
   router: any;
 }) {
 
-  useEffect(() => {
-    
-    window.addEventListener('resize', function() {
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', function () {
       calculatePadding();
     });
-  
+
     return () => {
-      window.removeEventListener('resize', function() {
+      window.removeEventListener('resize', function () {
         calculatePadding();
       });
     }
   }, [])
-  
 
-  
-  // window.addEventListener('load', function() {
-  //   calculatePadding();
-  // });
-  
   function calculatePadding() {
-    var flexContainer: any = document.getElementById('wrapper-container');
-    var children = flexContainer?.children;
-    console.log(flexContainer)
-    console.log(children)
-    var childWidth = children[0].offsetWidth; // Assuming all children have the same width
-    var containerWidth = flexContainer.offsetWidth;
-    var numChildrenPerRow = Math.floor(containerWidth / (childWidth + 20)); // 20px is the gap between children
-    
-    var totalWidth = numChildrenPerRow * (childWidth + 20); // Total width of children in a row
-    var padding = (containerWidth - totalWidth) / 2;
-  
+    const flexContainer: any = document.getElementById('wrapper-container');
+    const containerWidth = flexContainer.offsetWidth;
+    const numChildrenPerRow = Math.floor(containerWidth / (128 + 24)); // 24px is the gap between children
+    const totalWidth = numChildrenPerRow * 128 + ((numChildrenPerRow - 1) * 24); // Total width of children in a row
+    const padding = (containerWidth - totalWidth) / 2;
+
     flexContainer.style.paddingLeft = padding + 'px';
   }
 
@@ -48,7 +36,7 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
     <div className="flex lg:flex-col gap-5 lg:w-2/5 w-full h-fit rounded-md">
       <div className="flex flex-col bg-third w-full gap-4 rounded-md overflow-auto">
         <h1 className="font-bold text-center pt-5"> You are following </h1>
-        <div className="wrapper-container">
+        <div id="wrapper-container" className="wrapper-container w-fit">
           {usersAnimeList ?
             usersAnimeList.length > 0 ? usersAnimeList.map((e: UsersAnimeList) => (
               <div
