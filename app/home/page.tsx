@@ -58,7 +58,7 @@ export default function Home() {
         />
       </div> */}
       <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} />
-      {failed ? (
+  {/*   {failed ? (
         <ErrorFeedback refreshFunction={() => console.log("reload")} />
       ) : (
         <div className="flex flex-col w-full h-full gap-5">
@@ -92,7 +92,7 @@ export default function Home() {
             }
           </div>
         </div>
-      )}
+      )}*/}
     </div >
   );
 }

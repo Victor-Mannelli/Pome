@@ -1,42 +1,28 @@
 "use client"
 
+import { useObserveElementWidth } from "@/utils/hooks/resizeHook";
 import { FollowedAnimeSkeleton } from "@/components";
 import { UsersAnimeList } from "@/utils";
-import { useEffect, useLayoutEffect } from "react";
 
 export function UsersAnimeListView({ usersAnimeList, router }: {
   usersAnimeList: UsersAnimeList[] | null;
   router: any;
 }) {
-
-
-  useLayoutEffect(() => {
-    window.addEventListener('resize', function () {
-      calculatePadding();
-    });
-
-    return () => {
-      window.removeEventListener('resize', function () {
-        calculatePadding();
-      });
-    }
-  }, [])
+  const { width, ref } = useObserveElementWidth<HTMLDivElement>();
 
   function calculatePadding() {
-    const flexContainer: any = document.getElementById('wrapper-container');
-    const containerWidth = flexContainer.offsetWidth;
-    const numChildrenPerRow = Math.floor(containerWidth / (128 + 24)); // 24px is the gap between children
+    const numChildrenPerRow = Math.floor(width / (128 + 24)); // 24px is the gap between children
     const totalWidth = numChildrenPerRow * 128 + ((numChildrenPerRow - 1) * 24); // Total width of children in a row
-    const padding = (containerWidth - totalWidth) / 2;
-
-    flexContainer.style.paddingLeft = padding + 'px';
+    const padding = (width - totalWidth) / 2;
+    
+    return padding
   }
 
   return (
     <div className="flex lg:flex-col gap-5 lg:w-2/5 w-full h-fit rounded-md">
       <div className="flex flex-col bg-third w-full gap-4 rounded-md overflow-auto">
         <h1 className="font-bold text-center pt-5"> You are following </h1>
-        <div id="wrapper-container" className="wrapper-container w-fit">
+        <div className="wrapper-container" style={{ paddingLeft: calculatePadding() }} ref={ref}>
           {usersAnimeList ?
             usersAnimeList.length > 0 ? usersAnimeList.map((e: UsersAnimeList) => (
               <div
