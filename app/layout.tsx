@@ -1,9 +1,8 @@
 "use client";
 
-import { Inter } from "next/font/google";
-import type { Metadata } from "next";
-import "./globals.css";
 import { ThemeProvider, TokenProvider } from "./utils/providers";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,9 +11,9 @@ export default function RootLayout({ children }: Readonly<{
 }>) {
   return (
     <html lang="en">
-      <header>
+      <head>
         <title> Pome </title>
-      </header>
+      </head>
       <body className={inter.className}>
         <TokenProvider>
           <ThemeProvider>

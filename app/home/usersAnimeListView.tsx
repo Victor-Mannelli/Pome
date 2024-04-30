@@ -1,8 +1,10 @@
 "use client"
 
-import { useObserveElementWidth } from "@/utils/hooks/resizeHook";
+import { useObserveElementWidth } from "@/utils/hooks/useResizeHook";
 import { FollowedAnimeSkeleton } from "@/components";
+import { calculatePadding } from "@/utils/functions";
 import { UsersAnimeList } from "@/utils";
+import { useLayoutEffect } from "react";
 
 export function UsersAnimeListView({ usersAnimeList, router }: {
   usersAnimeList: UsersAnimeList[] | null;
@@ -10,28 +12,28 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
 }) {
   const { width, ref } = useObserveElementWidth<HTMLDivElement>();
 
-  function calculatePadding() {
-    const numChildrenPerRow = Math.floor(width / (128 + 24)); // 24px is the gap between children
-    const totalWidth = numChildrenPerRow * 128 + ((numChildrenPerRow - 1) * 24); // Total width of children in a row
-    const padding = (width - totalWidth) / 2;
-    
-    return padding
-  }
+  useLayoutEffect(() => {
+    calculatePadding({ parentWidth: width, childWidth: 128 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="flex lg:flex-col gap-5 lg:w-2/5 w-full h-fit rounded-md">
       <div className="flex flex-col bg-third w-full gap-4 rounded-md overflow-auto">
         <h1 className="font-bold text-center pt-5"> You are following </h1>
-        <div className="wrapper-container" style={{ paddingLeft: calculatePadding() }} ref={ref}>
-          {usersAnimeList ?
-            usersAnimeList.length > 0 ? usersAnimeList.map((e: UsersAnimeList) => (
-              <div
-                className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
-                onClick={() => router.push(`/pome/animes/${e.anime.anime_id}`)}
-                style={{ backgroundImage: `url(${e.anime.cover_image})` }}
-                key={e.anime.anime_id}
-              >
-                {/* <div className='flex flex-col justify-center items-center h-fit w-full bg-black bg-opacity-50 rounded-b-md border-b-8 border-signature cursor-default'>
+        <div
+          style={{ paddingLeft: calculatePadding({ parentWidth: width, childWidth: 128 }) }}
+          className="wrapper-container"
+          ref={ref}
+        >
+          {usersAnimeList.map((e: UsersAnimeList) => (
+            <div
+              className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
+              onClick={() => router.push(`/pome/animes/${e.anime.anime_id}`)}
+              style={{ backgroundImage: `url(${e.anime.cover_image})` }}
+              key={e.anime.anime_id}
+            >
+              {/* <div className='flex flex-col justify-center items-center h-fit w-full bg-black bg-opacity-50 rounded-b-md border-b-8 border-signature cursor-default'>
                 {e.anime.next_airing_episode.episode - 1 - e.progress > 0 ?
                   <div className='flex items-center gap-5'>
                     <BiMinus
@@ -62,14 +64,8 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
                   }m
                 </h3>
               </div> */}
-              </div>
-            )) :
-              <div className='w-full h-fit p-5 rounded-md bg-third'>
-                {/* <div className='w-32 h-fit bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner'> */}
-                <p className='text-center'> You are not following any anime yet <br /> open their pages and start following!</p>
-              </div>
-            : <FollowedAnimeSkeleton />
-          }
+            </div>
+          ))}
         </div>
       </div>
     </div>

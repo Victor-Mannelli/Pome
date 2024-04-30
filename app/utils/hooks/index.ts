@@ -1,1 +1,1 @@
-export * from "./resizeHook"
+export * from "./useResizeHook"
