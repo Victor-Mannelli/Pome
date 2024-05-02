@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export const useObserveElementWidth = <T extends HTMLElement>() => {
+export const useObserveElementWidth = <T extends HTMLDivElement>() => {
   const [width, setWidth] = useState(0);
   const ref = useRef<T>(null);
 
