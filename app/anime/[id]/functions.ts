@@ -1,6 +1,12 @@
-import { animeApi } from "@/utils";
+import { animeApi, SingleAnimeData } from "@/utils";
+import { Dispatch, SetStateAction } from "react";
 
-export async function getAnimeData(animeId: string) {
+export async function getAnimeData({ animeId, setData, setFailed, setLoading }: {
+  setData: Dispatch<SetStateAction<SingleAnimeData>>
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setFailed: Dispatch<SetStateAction<boolean>>;
+  animeId: string;
+}) {
   const variables = {
     id: Number(animeId)
   };
@@ -92,23 +98,19 @@ export async function getAnimeData(animeId: string) {
       }
     }
   `;
-  try {
-    let { data } = await animeApi.post('', { query, variables }, {
+
+  setLoading(true);
+  animeApi
+    .post('', { query, variables }, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
-    });
-    data = data.data.Media;
-
-    return {
-      props: {
-        data
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: { destination: '/', permanent: false }
-    };
-  }
+    })
+    .then((e) => {
+      setData(e.data.data.Media);
+      setFailed(false);
+    })
+    .catch(() => setFailed(true))
+    .finally(() => setLoading(false));
 }

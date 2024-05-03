@@ -1,6 +1,9 @@
+import { FaRegHeart } from "@/utils/libs"
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
+
 export function FollowedAnimeSkeleton() {
   return (
-    <div className="flex flex-col bg-third lg:min-w-96 ms:max-h-[38.5rem] h-fit sm:rounded-md overflow-y-auto">
+    <div className="flex flex-col bg-third lg:min-w-96 sm:max-h-[38.5rem] h-fit sm:rounded-md overflow-y-auto">
       <h1 className="font-bold text-center p-5"> You are following </h1>
       <div className="flex flex-wrap justify-center gap-5 mb-7 px-5">
         {Array.from({ length: 6 }).map((_, i) =>
@@ -16,7 +19,7 @@ export function FollowedAnimeSkeleton() {
 
 export function HomePageAnimesSkeleton({ page }: { page: number }) {
   return (
-    <div className="flex flex-col items-center gap-7  max-w-[1446px] xl:min-w-[50rem]">
+    <div className="flex flex-col items-center gap-7 max-w-[1446px] xl:min-w-[50rem]">
       <h1 className="text-center hover:cursor-pointer"> New Animes! </h1>
       <div className="flex flex-wrap justify-center gap-5 px-5">
         {Array.from({ length: 28 }).map((_, i) =>
@@ -44,5 +47,27 @@ export function PageHandlerSkeleton({ page }: { page?: number }) {
       > Next
       </button>
     </div>
+  )
+}
+
+export function AnimePageSkeleton() {
+  return (
+    <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
+      <div className={`flex flex-col gap-5 pb-5 `}>
+        <div className={`flex flex-col gap-5 pb-5 `}>
+          <Skeleton className="w-full h-80 bg-cover bg-center" />
+          <div className="relative flex justify-start w-full gap-2">
+            <FaRegHeart
+              className='absolute right-1 top-0 mr-3 text-2xl text-white'
+            />
+            <div className="relative h-64 w-[19rem] flex flex-col justify-end items-center">
+              <Skeleton className="absolute top-[-10rem] left-[1.9rem] rounded-xl w-[80%] h-[23rem] shadow-fifth shadow" />
+              <Skeleton className="w-[15rem] h-9 shadow-fifth shadow" />
+            </div>
+          </div>
+        </div>
+        <Skeleton className="mx-10 h-48" />
+      </div>
+    </SkeletonTheme>
   )
 }

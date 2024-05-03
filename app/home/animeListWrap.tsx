@@ -13,10 +13,10 @@ export function AnimeListWrap({ animeData, setPage, router, page }: {
   const { width, ref } = useObserveElementWidth();
 
   return (
-    <div className="flex flex-col max-w-[1446px] h-full gap-5">
+    <div className="flex flex-col items-center max-w-[1446px] h-full ">
       <h1
-        className="text-center hover:cursor-pointer"
-        onClick={() => setPage(0)}
+        className="hover:cursor-pointer mt-4"
+        onClick={() => { if (page !== 0) setPage(0) }}
       >
         New Animes!
       </h1>
