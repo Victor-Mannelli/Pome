@@ -1,15 +1,12 @@
 "use client"
 
-import { ErrorFeedback, FollowedAnimeSkeleton, HomePageAnimesSkeleton, PageHandler, PageHandlerSkeleton } from '@/components';
+import { ErrorFeedback, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from '@/components';
 import { getAnimes, getUsersAnimeList } from './functions';
 import { UsersAnimeListView } from './usersAnimeListView';
-import { useContext, useEffect, useState } from 'react';
 import { AnimeData, UsersAnimeList } from '@/utils';
-import { TokenContext } from '@/utils/providers';
-import { useRouter } from 'next/navigation';
-import { useObserveElementWidth } from '@/utils/hooks';
-import { calculatePadding } from '@/utils/functions';
 import { AnimeListWrap } from './animeListWrap';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimeList[] | null>(null);
@@ -20,19 +17,23 @@ export default function Home() {
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
 
-  const [quantity, setQuantity] = useState<number>(28);
   const [filter, setFilter] = useState<string>('');
-  const [page, setPage] = useState<number>(0);
-
-  // const { userToken } = useContext(TokenContext);
-  const { width, ref } = useObserveElementWidth();
-  const animeList = animeData?.media;
+  const [page, setPage] = useState<number>(1);
   const router = useRouter();
 
   useEffect(() => {
-    // getUsersAnimeList({ setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
-    // getAnimes({ setAnimeData, setFailed: setAnimeDataFailed, setLoading: setAnimeDataLoad, page, quantity });
-  }, []);
+    getUsersAnimeList({ setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
+  }, [])
+
+  useEffect(() => {
+    getAnimes({
+      setAnimeData,
+      setFailed: setAnimeDataFailed,
+      setLoading: setAnimeDataLoad,
+      page,
+      quantity: 28
+    });
+  }, [page]);
 
   return (
     <div className="flex flex-col justify-center lg:flex-row h-full max-w-full mb-5 sm:mx-5 sm:mt-5 gap-5">
@@ -57,27 +58,20 @@ export default function Home() {
       {animeDataFailed ?
         (
           <ErrorFeedback refreshFunction={() =>
-            getAnimes({ setAnimeData, setFailed: setAnimeDataFailed, setLoading: setAnimeDataLoad, page, quantity })}
-          />
-        ) : animeDataLoad ? (
-          <HomePageAnimesSkeleton />
-        ) : (
-          <AnimeListWrap
-            animeData={animeData}
-            setPage={setPage}
-            router={router}
-            page={page}
-            getAnimes={() => getAnimes({
+            getAnimes({
               setAnimeData,
               setFailed: setAnimeDataFailed,
               setLoading: setAnimeDataLoad,
               page,
-              quantity
+              quantity: 28
             })}
           />
+        ) : animeDataLoad ? (
+          <HomePageAnimesSkeleton page={page} />
+        ) : (
+          <AnimeListWrap animeData={animeData} setPage={setPage} router={router} page={page} />
         )
       }
     </div>
   )
 }
-{/* <h1> Nenhum anime encontrado </h1> */ }

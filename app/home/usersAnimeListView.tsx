@@ -1,7 +1,6 @@
 "use client"
 
 import { useObserveElementWidth } from "@/utils/hooks/useResizeHook";
-import { FollowedAnimeSkeleton } from "@/components";
 import { calculatePadding } from "@/utils/functions";
 import { UsersAnimeList } from "@/utils";
 import { useLayoutEffect } from "react";
@@ -29,7 +28,7 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
           {usersAnimeList.map((e: UsersAnimeList) => (
             <div
               className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
-              onClick={() => router.push(`/pome/animes/${e.anime.anime_id}`)}
+              onClick={() => router.push(`/anime/${e.anime.anime_id}`)}
               style={{ backgroundImage: `url(${e.anime.cover_image})` }}
               key={e.anime.anime_id}
             >

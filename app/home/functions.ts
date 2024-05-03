@@ -11,7 +11,7 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   page: any;
 }) {
   const variables = {
-    page: page || 0,
+    page: page || 1,
     year: Number(new Date().getFullYear() + '0000'),
   };
   const query = `

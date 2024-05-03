@@ -1,45 +1,45 @@
-// export interface LoginFetchData {
-//   email: string,
-//   password: string,
-//   confirmPassword: string,
-// }
-// export interface SignupFetchData {
-//   email: string,
-//   username: string,
-//   password: string,
-//   confirmPassword: string,
-//   userBanner: string,
-// }
-// export interface AnimeInfoData {
-//   data: AnimeInfo[]
-// }
-// export interface AnimeInfo {
-//   title: string,
-//   score: number,
-//   images: {
-//     jpg: {
-//       image_url: string,
-//       large_image_url: string,
-//       small_image_url: string,
-//     },
-//   },
-//   mal_id: number,
-//   genres: {
-//     mal_id: number,
-//     name: string,
-//   }[],
-//   year: number,
-//   background: string,
-//   synopsis: string,
-//   trailer: {
-//     embed_url: string,
-//     images: {
-//       image_url: string,
-//     },
-//     url: string,
-//     youtube_id: string
-//   }
-// }
+export interface LoginFetchData {
+  email: string,
+  password: string,
+  confirmPassword: string,
+}
+export interface SignupFetchData {
+  email: string,
+  username: string,
+  password: string,
+  confirmPassword: string,
+  userBanner: string,
+}
+export interface AnimeInfoData {
+  data: AnimeInfo[]
+}
+export interface AnimeInfo {
+  title: string,
+  score: number,
+  images: {
+    jpg: {
+      image_url: string,
+      large_image_url: string,
+      small_image_url: string,
+    },
+  },
+  mal_id: number,
+  genres: {
+    mal_id: number,
+    name: string,
+  }[],
+  year: number,
+  background: string,
+  synopsis: string,
+  trailer: {
+    embed_url: string,
+    images: {
+      image_url: string,
+    },
+    url: string,
+    youtube_id: string
+  }
+}
 export interface AnimeData {
   media: SingleAnimeData[]
   pageInfo: {
@@ -129,99 +129,99 @@ export interface SingleAnimeData {
   }
 }
 
-// export interface ChatMessages {
-//   message: string
-// }
+export interface ChatMessages {
+  message: string
+}
 
-// export interface ToastError {
-//   data: {
-//     response: {
-//       data: {
-//         message: string
-//       }
-//     }
-//   }
-// }
+export interface ToastError {
+  data: {
+    response: {
+      data: {
+        message: string
+      }
+    }
+  }
+}
 
-// export interface User { // being used at Users List for Friend Requests
-//   user_id: number,
-//   username: string
-// }
-// export interface FriendAsFData { // being used at friends.tsx as the element of the friendlist
-//   friend: {
-//     user_id: number,
-//     username: string;
-//     // profile_picture: string;
-//     // timestamp: Date;
-//     // message: string
-//   }
-// }
-// export interface FriendAsUData { // being used at friends.tsx as the element of the friendlist
-//   user: {
-//     user_id: number,
-//     username: string;
-//     // profile_picture: string;
-//     // timestamp: Date;
-//     // message: string
-//   }
-// }
-// export interface FriendsData { // friends tsx pre fectched data
-//   friendList: {
-//     friendshipsAsUser: {
-//       friend: {
-//         user_id: number,
-//         username: string,
-//       }
-//     }[]
-//     friendshipsAsFriend: {
-//       user: {
-//         user_id: number,
-//         username: string,
-//       }
-//     }[]
-//   },
-//   userData: {
-//     user_id: number,
-//     username: string,
-//   }
-// }
-// export interface UsersList {
-//   user_id: number,
-//   username: string
-// }[];
-// export interface FriendRequests {
-//   friend_request_id: number,
-//   requester_id: number,
-//   requested_id: number,
-// }
+export interface User { //being used at Users List for Friend Requests
+  user_id: number,
+  username: string
+}
+export interface FriendAsFData { //being used at friends.tsx as the element of the friendlist
+  friend: {
+    user_id: number,
+    username: string;
+    profile_picture: string;
+    timestamp: Date;
+    message: string
+  }
+}
+export interface FriendAsUData { // being used at friends.tsx as the element of the friendlist
+  user: {
+    user_id: number,
+    username: string;
+    profile_picture: string;
+    timestamp: Date;
+    message: string
+  }
+}
+export interface FriendsData { // friends tsx pre fectched data
+  friendList: {
+    friendshipsAsUser: {
+      friend: {
+        user_id: number,
+        username: string,
+      }
+    }[]
+    friendshipsAsFriend: {
+      user: {
+        user_id: number,
+        username: string,
+      }
+    }[]
+  },
+  userData: {
+    user_id: number,
+    username: string,
+  }
+}
+export interface UsersList {
+  user_id: number,
+  username: string
+}[];
+export interface FriendRequests {
+  friend_request_id: number,
+  requester_id: number,
+  requested_id: number,
+}
 
-// export interface AnimeUserStatsInterface {
-//   status: string,
-//   score: number,
-//   progress: number,
-//   rewatches: number,
-//   startDate: Date,
-//   finishDate: Date | null
-// }
-// export interface AnimeUserStatusData extends AnimeUserStatsInterface {
-//   animeId: number,
-//   favorite: boolean,
-// }
+export interface AnimeUserStatsInterface {
+  status: string,
+  score: number,
+  progress: number,
+  rewatches: number,
+  startDate: Date,
+  finishDate: Date | null
+}
+export interface AnimeUserStatusData extends AnimeUserStatsInterface {
+  animeId: number,
+  favorite: boolean,
+}
 
-// export interface ChatMessagesInterface {
-//   profile_picture: string
-//   author: {
-//     username: string,
-//   },
-//   author_id: number, // don´t think I need this one
-//   created_at: string,
-//   message: string,
-//   message_id: number,
-//   receiver: {
-//     username: string,
-//   }
-//   receiver_id: number // don´t think I need this one
-// }
+export interface ChatMessagesInterface {
+  profile_picture: string
+  author: {
+    username: string,
+  },
+  author_id: number,  // don´t think I need this one
+  created_at: string,
+  message: string,
+  message_id: number,
+  receiver: {
+    username: string,
+  }
+  receiver_id: number  // don´t think I need this one
+}
 
 export interface UsersAnimeList {
   anime: {

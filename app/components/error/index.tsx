@@ -1,4 +1,4 @@
-import { IoReload } from "@/utils/reactIcons";
+import { IoReload } from "@/utils/libs";
 
 export function ErrorFeedback({ refreshFunction }: { refreshFunction: () => void }) {
 	return (

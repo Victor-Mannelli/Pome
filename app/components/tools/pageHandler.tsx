@@ -1,37 +1,32 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/models';
 
-export function PageHandler({ currentPage, hasNextPage, getAnimes, setPage }: {
+export function PageHandler({ currentPage, hasNextPage, setPage }: {
   setPage: Dispatch<SetStateAction<number>>;
-  getAnimes: () => void;
   hasNextPage: boolean;
   currentPage: number;
 }) {
-
   return (
     <div className="flex justify-center items-center w-full">
       <Button
         text="Back"
-        className="bg-third"
+        className={`${currentPage === 1 ? "cursor-default bg-third hover:bg-third opacity-50 hover:opacity-50" : "bg-third"}`}
         onClick={() => {
           if (currentPage > 1) {
             setPage(currentPage - 1)
-            getAnimes()
           }
         }}
       />
       <h3 className="font-bold px-5"> {currentPage} </h3>
-      {hasNextPage
-        ? <Button
-          text="Next"
-          className="bg-third"
-          onClick={() => {
+      <Button
+        text="Next"
+        className={`${!hasNextPage ? "cursor-default bg-third hover:bg-third opacity-50 hover:opacity-50" : "bg-third"}`}
+        onClick={() => {
+          if (hasNextPage) {
             setPage(currentPage + 1)
-            getAnimes()
-          }}
-        />
-        : null
-      }
+          }
+        }}
+      />
     </div>
   );
 }
