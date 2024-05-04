@@ -53,20 +53,56 @@ export function PageHandlerSkeleton({ page }: { page?: number }) {
 export function AnimePageSkeleton() {
   return (
     <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
-      <div className={`flex flex-col gap-5 pb-5 `}>
-        <div className={`flex flex-col gap-5 pb-5 `}>
-          <Skeleton className="w-full h-80 bg-cover bg-center" />
-          <div className="relative flex justify-start w-full gap-2">
-            <FaRegHeart
-              className='absolute right-1 top-0 mr-3 text-2xl text-white'
-            />
-            <div className="relative h-64 w-[19rem] flex flex-col justify-end items-center">
-              <Skeleton className="absolute top-[-10rem] left-[1.9rem] rounded-xl w-[80%] h-[23rem] shadow-fifth shadow" />
-              <Skeleton className="w-[15rem] h-9 shadow-fifth shadow" />
+      <div className="flex flex-col items-center w-full mb-5">
+        <div className="w-full">
+          <Skeleton key="banner" className="h-80" />
+        </div>
+        <div className="flex flex-col">
+          <div className="relative flex justify-start w-full h-72">
+            <FaRegHeart className='absolute right-1 top-0 m-3 text-2xl text-white' />
+            <div className="absolute -top-5 h-64 w-[19rem] flex flex-col justify-end items-center">
+              <Skeleton key="coverImage" className="rounded-xl w-60 h-[23rem] shadow-fifth shadow" />
+              <Skeleton key="coverImageButton" className="w-60 h-9 shadow-fifth shadow" />
+            </div>
+            <div className="flex flex-col w-full  pl-[19rem] py-5 pr-12">
+              <Skeleton className="w-full h-6" />
+              <div className="flex pt-3">
+                <div className="w-3/5">
+                  <Skeleton className="w-72 h-5 my-1" />
+                  <Skeleton className="w-56 h-5 my-1" />
+                  <Skeleton className="w-72 h-5 my-1" />
+                  <Skeleton className="w-56 h-5 my-1" />
+                  <div className="flex flex-wrap pt-2 gap-1">
+                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
+                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
+                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
+                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-1 w-2/5 overflow-auto">
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                  <Skeleton className="w-44 h-5" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <Skeleton className="mx-10 h-48" />
+        <div className="w-[calc(100%-40px)]">
+          <Skeleton className="h-48" />
+        </div>
+        <div className="w-[calc(100%-40px)] mt-5">
+          <Skeleton className="h-96" />
+        </div>
       </div>
     </SkeletonTheme>
   )
