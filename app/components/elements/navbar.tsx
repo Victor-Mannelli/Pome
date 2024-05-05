@@ -52,12 +52,12 @@ export function Navbar() {
             : (router.push('/pome/login'), toast.error('log in first!'))
           }
         /> */}
-        <RedirectionalIcon
+        {/* <RedirectionalIcon
           Icon={FaUserCircle}
           title={'Profile'}
           onClick={() => cookies ? router.push('/pome/profile/1') : router.push('/pome/login')}
           router={router}
-        />
+        /> */}
       </div>
     </div>
   );
