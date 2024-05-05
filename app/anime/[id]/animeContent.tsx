@@ -27,7 +27,8 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
         className={`${data.bannerImage ? "absolute -top-5 h-64" : "m-5"}  md:flex hidden flex-col justify-end items-center gap-2 w-[19rem]`}
       >
         <img
-          key="coverImage"
+          id="coverImage"
+          alt="coverImage"
           className="w-60 h-[23rem] rounded-lg"
           src={data.coverImage.extraLarge}
         />
@@ -73,13 +74,13 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
             {!data.genres ? null :
               <div id='genres' className="flex flex-wrap pt-2 gap-1">
                 {data.genres.map((e: string, i: number) => (
-                  <h3 key={i} className="w-32 h-9 my-1 rounded-lg text-center pt-1 text-eigth text-md border"> {e} </h3>
+                  <h3 key={e + i} className="w-32 h-9 my-1 rounded-lg text-center pt-1 text-eigth text-md border"> {e} </h3>
                 ))}
               </div>
             }
           </div>
           {!data.tags ? null :
-            <div id="tags" className="flex flex-wrap h-fit gap-2 lg:w-2/5 sm:pl-5 lg:pl-0 sm:min-w-[22.5rem]">
+            <div id="tags" className="flex flex-wrap gap-2 lg:w-2/5 sm:pl-5 lg:pl-0 sm:min-w-[22.5rem]">
               {data.tags.map((e: any,) => (
                 <li key={e.id} className="text-eigth w-[10.5rem] sm:w-44 h-5"> {e.name} </li>
               ))}

@@ -70,18 +70,18 @@ export function AnimePageSkeleton() {
             </div>
             <div className="flex flex-col lg:flex-row justify-between pt-3 gap-3 ">
               <div className="flex flex-col min-h-48 max-w-[32.75rem] sm:ml-[19rem]">
-                {Array.from({ length: 4 }).map(() => (
-                  <Skeleton className="w-72 h-5 my-1" />
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={"animeStats" + i} className="w-72 h-5 my-1" />
                 ))}
                 <div className="flex flex-wrap pt-2 gap-1">
-                  {Array.from({ length: 4 }).map(() => (
-                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <Skeleton key={"animeGenre" + i} className="w-32 h-9 my-1 rounded-lg" />
                   ))}
                 </div>
               </div>
               <div id="tags" className="flex flex-wrap gap-2 lg:w-2/5 sm:pl-5 lg:pl-0 sm:min-w-[22.5rem] overflow-auto">
-                {Array.from({ length: 12 }).map(() => (
-                  <Skeleton className="w-[10.5rem] sm:w-44 h-5" />
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <Skeleton key={"animeTags" + i} className="w-[10.5rem] sm:w-44 h-5" />
                 ))}
               </div>
             </div>

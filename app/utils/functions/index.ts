@@ -1,5 +1,7 @@
 import { AnimeUserStatusData, ToastError } from "../interfaces";
 import { Dispatch, SetStateAction } from "react";
+import { NextRouter } from "next/router";
+import { destroyCookie } from "nookies";
 import { toast } from "react-toastify";
 import { api } from "../axios";
 
@@ -29,12 +31,10 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, }: {
         },
       },
       error: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         render(e: ToastError | any) {
           return !e.response.data
             ? toast.error(e)
             : e.response.data.length > 1
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ? e.response.data.map((error: any) => toast.error(error))
               : e.response.data[0] === undefined
                 ? toast.error(e.response.data.message)
@@ -44,4 +44,10 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, }: {
     },
     { toastId: 'animeUserStatus' }
   );
+}
+
+export function logOut(router: NextRouter) {
+  destroyCookie(undefined, 'token')
+  router.pathname === '/' ? router.reload() : router.push('/')
+  toast.success('Successfully logged out!')
 }

@@ -135,6 +135,6 @@ export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFail
   api
     .get('/animes/userlist')
     .then((e) => setUsersAnimeList(e.data))
-    .catch((e) => { setFailed(true); console.log(e, "user_animelist_error"); })
+    .catch(() => setFailed(true))
     .finally(() => setLoading(false));
 }

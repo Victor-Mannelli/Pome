@@ -8,13 +8,14 @@ export const useObserveElementWidth = <T extends HTMLDivElement>() => {
     const observer = new ResizeObserver((entries) => {
       setWidth(entries[0].target.clientWidth);
     });
-
-    if (ref.current) {
-      observer.observe(ref.current);
+    
+    const savedRef = ref.current;
+    if (savedRef) {
+      observer.observe(savedRef);
     }
 
     return () => {
-      ref.current && observer.unobserve(ref.current);
+      savedRef && observer.unobserve(savedRef);
     };
   }, []);
 

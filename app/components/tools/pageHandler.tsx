@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Button } from '@/components/models';
+import { Button } from '@/components';
 
 export function PageHandler({ currentPage, hasNextPage, setPage }: {
   setPage: Dispatch<SetStateAction<number>>;

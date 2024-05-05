@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider, TokenProvider } from "./utils/providers";
+import { Navbar } from "./components/elements/navbar";
 import { ToastContainer } from "react-toastify";
 import { Inter } from "next/font/google";
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: Readonly<{
       <body className={inter.className}>
         <TokenProvider>
           <ThemeProvider>
+            <Navbar />
             {children}
           </ThemeProvider>
         </TokenProvider>

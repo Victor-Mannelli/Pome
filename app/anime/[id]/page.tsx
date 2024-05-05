@@ -3,8 +3,8 @@
 
 import { api, animeApi, monthNames, token, AnimeUserStatsInterface, SingleAnimeData } from '@/utils';
 import { Stars, PopUp, AnimePageSkeleton } from '@/components';
-import { FaHeart, FaRegHeart } from '@/utils/libs/reactIcons';
-import { UserAnimeSettings } from './userAnimeSettings';
+import { FaHeart, FaRegHeart, LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
+import { UserAnimeSettings } from './animeUserSettings';
 import { AnimeInfo } from './animeContent';
 import { useEffect, useState } from 'react';
 import { getAnimeData } from './functions';
@@ -18,6 +18,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   const [data, setData] = useState<SingleAnimeData | null>(null);
   const [dataLoad, setDataLoad] = useState<boolean>(true);
   const [dataFailed, setDataFailed] = useState<boolean>(false);
+  const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
 
   // const data: SingleAnimeData | any = await getAnimeData(params.id);
 
@@ -76,14 +77,20 @@ export default function AnimePage({ params }: { params: { id: string } }) {
             </p>
           </div>
           {data.trailer && data.trailer.site === 'youtube' ? (
-            <div className="bg-fourthAndAHalf rounded-xl w-[calc(100%-40px)] mt-5 p-5">
+            <div className="relative bg-fourthAndAHalf rounded-xl w-[calc(100%-40px)] mt-5 p-5">
               <h1 className="text-2xl font-bold pb-3"> Trailer </h1>
               <div className="flex justify-center">
                 <iframe
-                  className="h-[25rem] w-[40rem]"
+                  className={`${trailerFullScreen ? "w-[94%] h-[calc(100vh-7.5rem)]" : "h-[25rem] w-[40rem]"}`}
                   src={`https://www.youtube.com/embed/${data.trailer.id}`}
                   allowFullScreen
                 />
+              </div>
+              <div
+                className='absolute right-3 bottom-4 p-3 rounded-full bg-fourth hover:cursor-pointer hover:bg-fifth'
+                onClick={() => setTrailerFullScreen(!trailerFullScreen)}
+              >
+                <LiaExpandArrowsAltSolid className='text-white text-xl' />
               </div>
             </div>
           ) : null}
