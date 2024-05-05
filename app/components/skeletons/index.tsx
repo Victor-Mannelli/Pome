@@ -50,57 +50,47 @@ export function PageHandlerSkeleton({ page }: { page?: number }) {
   )
 }
 
+//! using: lg: '1080px',
 export function AnimePageSkeleton() {
   return (
     <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
       <div className="flex flex-col items-center w-full mb-5">
-        <div className="w-full">
-          <Skeleton key="banner" className="h-80" />
+        <div id="banner" className="w-full">
+          <Skeleton className="h-56 sm:h-80" />
         </div>
-        <div className="flex flex-col">
-          <div className="relative flex justify-start w-full h-72">
-            <FaRegHeart className='absolute right-1 top-0 m-3 text-2xl text-white' />
-            <div className="absolute -top-5 h-64 w-[19rem] flex flex-col justify-end items-center">
-              <Skeleton key="coverImage" className="rounded-xl w-60 h-[23rem] shadow-fifth shadow" />
-              <Skeleton key="coverImageButton" className="w-60 h-9 shadow-fifth shadow" />
+        <div id="animeInfo" className="relative flex justify-start w-full min-h-72 h-fit">
+          <FaRegHeart className='absolute right-1 top-0 my-3 mr-2 text-2xl text-second' />
+          <div id="coverImage" className="absolute -top-5 h-64 sm:flex hidden flex-col justify-end items-center w-[19rem]">
+            <Skeleton key="coverImage" className="w-60 h-[23rem] rounded-lg shadow-fifth shadow" />
+            <Skeleton key="coverImageButton" className="w-60 h-9 rounded-lg shadow-fifth shadow" />
+          </div>
+          <div id="animeDescription" className="flex flex-col w-full p-5 sm:pl-0">
+            <div id="title" className="w-full sm:pl-[19rem] pr-7">
+              <Skeleton className="h-6" />
             </div>
-            <div className="flex flex-col w-full  pl-[19rem] py-5 pr-12">
-              <Skeleton className="w-full h-6" />
-              <div className="flex pt-3">
-                <div className="w-3/5">
+            <div className="flex flex-col lg:flex-row justify-between pt-3 gap-3 ">
+              <div className="flex flex-col min-h-48 max-w-[32.75rem] sm:ml-[19rem]">
+                {Array.from({ length: 4 }).map(() => (
                   <Skeleton className="w-72 h-5 my-1" />
-                  <Skeleton className="w-56 h-5 my-1" />
-                  <Skeleton className="w-72 h-5 my-1" />
-                  <Skeleton className="w-56 h-5 my-1" />
-                  <div className="flex flex-wrap pt-2 gap-1">
+                ))}
+                <div className="flex flex-wrap pt-2 gap-1">
+                  {Array.from({ length: 4 }).map(() => (
                     <Skeleton className="w-32 h-9 my-1 rounded-lg" />
-                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
-                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
-                    <Skeleton className="w-32 h-9 my-1 rounded-lg" />
-                  </div>
+                  ))}
                 </div>
-                <div className="flex flex-wrap gap-1 w-2/5 overflow-auto">
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                  <Skeleton className="w-44 h-5" />
-                </div>
+              </div>
+              <div id="tags" className="flex flex-wrap gap-2 lg:w-2/5 sm:pl-5 lg:pl-0 sm:min-w-[22.5rem] overflow-auto">
+                {Array.from({ length: 12 }).map(() => (
+                  <Skeleton className="w-[10.5rem] sm:w-44 h-5" />
+                ))}
               </div>
             </div>
           </div>
         </div>
-        <div className="w-[calc(100%-40px)]">
+        <div id="description" className="w-[calc(100%-40px)]">
           <Skeleton className="h-48" />
         </div>
-        <div className="w-[calc(100%-40px)] mt-5">
+        <div id="trailer" className="w-[calc(100%-40px)] mt-5">
           <Skeleton className="h-96" />
         </div>
       </div>
