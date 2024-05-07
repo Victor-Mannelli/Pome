@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { api, animeApi, monthNames, token, AnimeUserStatsInterface, SingleAnimeData } from '@/utils';
+import { api, animeApi, monthNames, AnimeUserStatsInterface, SingleAnimeData, TokenContext } from '@/utils';
 import { Stars, PopUp, AnimePageSkeleton } from '@/components';
 import { FaHeart, FaRegHeart, LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { UserAnimeSettings } from './animeUserSettings';
 import { AnimeInfo } from './animeContent';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getAnimeData } from './functions';
 import { toast } from 'react-toastify';
 
@@ -19,6 +19,8 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   const [dataLoad, setDataLoad] = useState<boolean>(true);
   const [dataFailed, setDataFailed] = useState<boolean>(false);
   const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
+
+  const { user, token } = useContext(TokenContext);
 
   // const data: SingleAnimeData | any = await getAnimeData(params.id);
 
@@ -37,6 +39,8 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   useEffect(() => {
     getAnimeData({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log(user)
+    console.log(token)
   }, [])
 
   return (

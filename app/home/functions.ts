@@ -125,16 +125,3 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
     .catch(() => setFailed(true))
     .finally(() => setLoading(false));
 }
-
-export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFailed }: {
-  setUsersAnimeList: Dispatch<SetStateAction<UsersAnimeList[] | null>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setFailed: Dispatch<SetStateAction<boolean>>;
-}) {
-  setLoading(true);
-  api
-    .get('/animes/userlist')
-    .then((e) => setUsersAnimeList(e.data))
-    .catch(() => setFailed(true))
-    .finally(() => setLoading(false));
-}

@@ -20,10 +20,10 @@ export default function RootLayout({ children }: Readonly<{
       </head>
       <body className={inter.className}>
         <TokenProvider>
-          <ThemeProvider>
-            <Navbar />
-            {children}
-          </ThemeProvider>
+          {/* <ThemeProvider> */}
+          <Navbar />
+          {children}
+          {/* </ThemeProvider> */}
         </TokenProvider>
         <ToastContainer position="top-center" theme="dark" />
       </body>

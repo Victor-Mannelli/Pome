@@ -1,7 +1,7 @@
 import { IconType } from 'react-icons/lib';
 import { MouseEventHandler } from 'react';
 import { ImExit, logOut } from '@/utils';
-import { NextRouter } from 'next/router';
+// import { NextRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
 
 export function RedirectionalIcon({ Icon, className, title, onClick, router }: {

@@ -1,42 +1,40 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-// import * as jwt from "jsonwebtoken";
+import { parseCookies } from "nookies";
 
 export const TokenContext = createContext<any>({});
 
 export function TokenProvider({ children }: { children: React.ReactNode }) {
-  const [userToken, setUserToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const existingToken = localStorage.getItem("userToken");
-    setUserToken(existingToken || null);
+    const existingToken = parseCookies(null).token;
+    setToken(existingToken || null);
   }, []);
 
   useEffect(() => {
     try {
-      if (!userToken) return
-      const decoded = JSON.parse(Buffer.from(userToken.split('.')[1], 'base64').toString());
+      if (!token) return
+      const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
       console.log(decoded, 'decoded')
       setUser(decoded);
     } catch (error) {
-      setUserToken(null);
+      setToken(null);
       setUser(null)
-      localStorage.removeItem("userToken");
     }
-  }, [userToken]);
+  }, [token]);
 
   return (
-    <TokenContext.Provider value={{ user, setUser, userToken, setUserToken }}>
+    <TokenContext.Provider value={{ user, setUser, userToken: token, setUserToken: setToken }}>
       {children}
     </TokenContext.Provider>
   )
 }
 
 interface User {
-  id: string,
-  name: string,
+  user_id: string,
+  username: string,
   email: string;
-  role: string;
 }

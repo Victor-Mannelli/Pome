@@ -1,6 +1,5 @@
-import { AnimeUserStatusData, ToastError } from "../interfaces";
+import { AnimeUserStatusData, ToastError, UsersAnimeList } from "../interfaces";
 import { Dispatch, SetStateAction } from "react";
-import { NextRouter } from "next/router";
 import { destroyCookie } from "nookies";
 import { toast } from "react-toastify";
 import { api } from "../axios";
@@ -46,8 +45,21 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, }: {
   );
 }
 
-export function logOut(router: NextRouter) {
+export function logOut(router: any) {
   destroyCookie(undefined, 'token')
   router.pathname === '/' ? router.reload() : router.push('/')
   toast.success('Successfully logged out!')
+}
+
+export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFailed }: {
+  setUsersAnimeList: Dispatch<SetStateAction<UsersAnimeList[] | null>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setFailed: Dispatch<SetStateAction<boolean>>;
+}) {
+  setLoading(true);
+  api
+    .get('/animes/userlist')
+    .then((e) => setUsersAnimeList(e.data))
+    .catch(() => setFailed(true))
+    .finally(() => setLoading(false));
 }

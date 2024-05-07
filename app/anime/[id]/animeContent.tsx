@@ -34,14 +34,14 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
         />
         <div
           key="coverImageButton"
-          className="w-60 h-9 rounded-md hover:bg-fifth bg-fourthAndAHalf"
+          className="flex items-center justify-center w-60 h-9 rounded-md hover:bg-fifth bg-fourthAndAHalf"
           onClick={() => {
             // api.post('/animes/populate', { id: data.id });
             if (!token) return toast.error('Log in first!')
             toggleShowAnimeSettings();
           }}
         >
-          <h3 className='hover:cursor-pointer text-h-signature font-bold text-lg text-center'>
+          <h3 className='hover:cursor-pointer text-h-signature font-bold text-lg'>
             {fetchData.status === '' ? 'Follow' : fetchData.status}
           </h3>
         </div>

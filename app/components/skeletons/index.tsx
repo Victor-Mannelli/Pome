@@ -97,3 +97,10 @@ export function AnimePageSkeleton() {
     </SkeletonTheme>
   )
 }
+
+export function ProfileSkeleton() {
+  return (
+    <>
+    </>
+  )
+}
