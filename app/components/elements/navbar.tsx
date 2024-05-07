@@ -64,12 +64,12 @@ export function Navbar() {
           onClick={() => cookies ? router.push('/profile/1') : router.push('/login')}
           router={router}
         /> */}
-        <HoverDescription hoverText='Profile'>
+        {/* <HoverDescription hoverText='Profile'>
           <FaUserCircle
             className="text-signature text-2xl cursor-pointer hover:brightness-75"
             onClick={() => cookies ? router.push('/profile/1') : router.push('/login')}
           />
-        </HoverDescription>
+        </HoverDescription> */}
       </div>
     </div>
   );
