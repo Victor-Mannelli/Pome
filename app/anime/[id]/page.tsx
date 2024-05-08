@@ -38,9 +38,10 @@ export default function AnimePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     getAnimeData({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
+    
+    // console.log(user)
+    // console.log(token)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log(user)
-    console.log(token)
   }, [])
 
   return (

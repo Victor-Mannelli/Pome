@@ -3,12 +3,9 @@
 
 import { userLogin } from '@/login/LoginHook';
 import { useRouter } from 'next/navigation';
-import { InputForm } from '@/components';
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function Login() {
-  const [password, setPassword] = useState<string>('');
-  const [login, setLogin] = useState<string>('');
   const router = useRouter();
 
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {

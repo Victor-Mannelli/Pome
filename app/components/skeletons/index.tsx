@@ -3,12 +3,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 
 export function FollowedAnimeSkeleton() {
   return (
-    <div className="flex flex-col bg-third lg:min-w-96 sm:max-h-[38.5rem] h-fit sm:rounded-md overflow-y-auto">
+    <div className="flex flex-col bg-third lg:min-w-[23rem] sm:max-h-[38.5rem] h-fit sm:rounded-md">
       <h1 className="font-bold text-center p-5"> You are following </h1>
       <div className="flex flex-wrap justify-center gap-5 mb-7 px-5">
         {Array.from({ length: 6 }).map((_, i) =>
           <div
-            className="flex flex-col justify-end w-32 h-40 bg-fifth animate-pulse rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
+            className="flex flex-col justify-end w-32 h-40 bg-fifth animate-pulse rounded-md bg-cover cursor-pointer"
             key={i}
           ></div>
         )}
@@ -100,7 +100,34 @@ export function AnimePageSkeleton() {
 
 export function ProfileSkeleton() {
   return (
-    <>
-    </>
+    <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
+      <div className="flex flex-col h-full">
+        <div className='relative w-full h-60'>
+          <Skeleton key="banner" className="w-full h-full" />
+          <Skeleton key="pfp" className="absolute bottom-0 left-32 h-40 w-32 shadow-fifth shadow" />
+          <Skeleton key="userName" className="absolute bottom-3 left-72 h-6 w-32 shadow-fifth shadow" />
+        </div>
+        <div className="flex lg:flex-row flex-col">
+          <div className="flex lg:flex-col flex-row flex-wrap lg:flex-nowrap lg:w-1/5 bg-second p-10 gap-5">
+            {Array.from({ length: 7 }).map((_, i) =>
+              <Skeleton key={"filter" + i} className="shadow-fifth shadow w-48 lg:w-full h-10" />
+            )}
+          </div>
+          <div className="flex flex-col items-center w-full lg:w-4/5 h-full pb-7">
+            <div className="flex justify-center gap-3 p-5">
+              {Array.from({ length: 5 }).map((_, i) =>
+                <Skeleton key={"userAnimeStatus" + i} className="w-32 h-12 rounded-xl" />
+              )}
+            </div>
+            <div className="flex flex-col w-[calc(100%-2.5rem)] bg-third rounded-2xl p-5 gap-5">
+              {Array.from({ length: 20 }).map((_, i) =>
+                <Skeleton key={"userAnimeList" + i} className="w-full h-8" />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </SkeletonTheme >
   )
 }

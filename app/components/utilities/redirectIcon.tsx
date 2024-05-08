@@ -1,7 +1,6 @@
+import { ImExit, UseLogout } from '@/utils';
 import { IconType } from 'react-icons/lib';
 import { MouseEventHandler } from 'react';
-import { ImExit, logOut } from '@/utils';
-// import { NextRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
 
 export function RedirectionalIcon({ Icon, className, title, onClick, router }: {
@@ -45,7 +44,7 @@ export function RedirectionalIcon({ Icon, className, title, onClick, router }: {
               }
               <div
                 className='flex items-center gap-2 text-lg text-signature hover:cursor-pointer hover:brightness-75'
-                onClick={() => router && logOut(router)}
+                onClick={() => router && UseLogout(router)}
               >
                 <ImExit />
                 <h1 className='hover:cursor-pointer'> Leave </h1>

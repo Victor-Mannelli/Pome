@@ -29,11 +29,12 @@ export function userLogin({ login, password, router }: {
       error: {
         render(e: ToastError | any) {
           console.log(e)
-          return e.data.message
-            ? e.data.message
-            : e.response?.data.length > 1
-              ? e.response?.data.map((error: any) => toast.error(error))
-              : e.response?.data[0];
+          return toast.error("Error on login")
+          // return e.data.message
+          //   ? e.data.message
+          //   : e.response?.data.length > 1
+          //     ? e.response?.data.map((error: any) => toast.error(error))
+          //     : e.response?.data[0];
         }
       }
     },

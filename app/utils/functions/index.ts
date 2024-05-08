@@ -1,5 +1,7 @@
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { AnimeUserStatusData, ToastError, UsersAnimeList } from "../interfaces";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { TokenContext } from "../providers";
 import { destroyCookie } from "nookies";
 import { toast } from "react-toastify";
 import { api } from "../axios";
@@ -14,7 +16,7 @@ export function calculatePadding({ parentWidth, childWidth }: {
   return padding || 0
 }
 
-export function addAnimeUserStatus({ body, setShowAnimeSettings, }: {
+export function addAnimeUserStatus({ body, setShowAnimeSettings }: {
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   body: AnimeUserStatusData;
 }) {
@@ -45,10 +47,14 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, }: {
   );
 }
 
-export function logOut(router: any) {
-  destroyCookie(undefined, 'token')
-  router.pathname === '/' ? router.reload() : router.push('/')
-  toast.success('Successfully logged out!')
+export function UseLogout({ router }: { router: AppRouterInstance }) {
+  const { setUser, setToken } = useContext(TokenContext)
+
+  destroyCookie(undefined, 'token');
+  setUser(null);
+  setToken(null);
+  router.push("/");
+  toast.success('Successfully logged out!');
 }
 
 export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFailed }: {
@@ -60,6 +66,6 @@ export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFail
   api
     .get('/animes/userlist')
     .then((e) => setUsersAnimeList(e.data))
-    .catch(() => setFailed(true))
+    .catch((e) => { setFailed(true); console.log(e) })
     .finally(() => setLoading(false));
 }

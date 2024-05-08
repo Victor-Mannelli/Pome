@@ -27,7 +27,7 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
   }, [token]);
 
   return (
-    <TokenContext.Provider value={{ user, setUser, userToken: token, setUserToken: setToken }}>
+    <TokenContext.Provider value={{ user, setUser, token, setToken }}>
       {children}
     </TokenContext.Provider>
   )
