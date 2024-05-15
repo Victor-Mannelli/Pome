@@ -7,7 +7,7 @@ import { FaHeart, FaRegHeart, LiaExpandArrowsAltSolid } from '@/utils/libs/react
 import { UserAnimeSettings } from './animeUserSettings';
 import { AnimeInfo } from './animeContent';
 import { useContext, useEffect, useState } from 'react';
-import { getAnimeData } from './functions';
+import { getAnimeData, maximizeTrailer } from './functions';
 import { toast } from 'react-toastify';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
@@ -38,7 +38,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     getAnimeData({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
-    
+
     // console.log(user)
     // console.log(token)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -93,7 +93,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
               </div>
               <div
                 className='absolute right-3 bottom-4 p-3 rounded-full bg-fourth hover:cursor-pointer hover:bg-fifth'
-                onClick={() => setTrailerFullScreen(!trailerFullScreen)}
+                onClick={() => maximizeTrailer({ setToggle: setTrailerFullScreen, toggle: trailerFullScreen })}
               >
                 <LiaExpandArrowsAltSolid className='text-white text-xl' />
               </div>

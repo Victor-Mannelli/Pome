@@ -1,24 +1,38 @@
 "use client"
 
+import { AnimeUserStatsInterface } from '../../utils/interfaces';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { VscFoldDown, VscFoldUp } from 'react-icons/vsc';
 import { FaRegCalendarAlt } from 'react-icons/fa';
-import { AnimeUserStatsInterface } from '../../utils/interfaces';
+import { animeStatus } from '@/utils';
 import DatePicker from 'react-datepicker';
 
 export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: { maxEpisodes: number, fetchData: AnimeUserStatsInterface, setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>> }) {
   const [showStatus, setShowStatus] = useState<boolean>(false);
+
+  console.log(fetchData.status, ": anime status for user")
+
   return (
     <div className='flex flex-col justify-evenly h-3/5'>
       <div className={`flex justify-evenly ${showStatus ? 'mb-52' : ''}`}>
-        <div className='relative flex justify-evenly items-center h-14 w-80 bg-fourth rounded-md p-1 hover:cursor-pointer' onClick={() => setShowStatus(!showStatus)}>
-          <h3 className={`pl-14 py-1 hover:cursor-pointer ${fetchData.status === '' ? '' : 'text-green-500'}`}> {fetchData.status === '' ? 'Status' : fetchData.status} </h3>
-          {showStatus ? <VscFoldDown className='text-white pt-1 text-2xl' /> : <VscFoldUp className='text-white pt-1 text-2xl' />}
+        <div
+          className={`relative flex justify-center items-center h-14 w-80 bg-fourth rounded-md p-1 hover:cursor-pointer ${fetchData.status === '' ? 'text-white' : animeStatus[fetchData.status].color}`}
+          onClick={() => setShowStatus(!showStatus)}
+        >
+          {fetchData.status === '' ? 'Status' : fetchData.status}
+          {showStatus ? <VscFoldDown className='absolute right-5 text-white pt-1 text-2xl' /> : <VscFoldUp className='absolute right-5 text-white pt-1 text-2xl' />}
           <div className={`absolute z-10 top-16 left-0 w-full rounded-md bg-fourthAndAHalf ${showStatus ? '' : 'hidden'}`}>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Watching' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Watching </h3>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Dropped' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Dropped </h3>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Finished' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Finished </h3>
-            <h3 onClick={() => setFetchData({ ...fetchData, status: 'Rewatching' })} className='px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full'> Re-Watching </h3>
+            {Object.keys(animeStatus).map((e) =>
+              <div
+                key={e}
+                onClick={() => setFetchData({ ...fetchData, status: e })}
+                className={`px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full 
+                ${animeStatus[e].color}
+                `}
+              >
+                {animeStatus[e].name}
+              </div>
+            )}
           </div>
         </div>
         <div className='flex items-center justify-between h-14 w-80 bg-fourth rounded-md gap-5 pl-11'>

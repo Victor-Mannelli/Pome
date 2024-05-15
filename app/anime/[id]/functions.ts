@@ -114,3 +114,16 @@ export async function getAnimeData({ animeId, setData, setFailed, setLoading }: 
     .catch(() => setFailed(true))
     .finally(() => setLoading(false));
 }
+
+export function maximizeTrailer({ toggle, setToggle }: {
+  setToggle: Dispatch<SetStateAction<boolean>>;
+  toggle: boolean;
+}) {
+  setToggle(!toggle);
+  setTimeout(() => {
+    if (toggle) return
+    scrollBy({
+      top: 700, left: 0, behavior: "smooth"
+    })
+  }, 500);
+}

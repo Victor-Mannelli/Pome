@@ -1,5 +1,7 @@
-import { AnimeUserStatsInterface, FaHeart, FaRegHeart, monthNames, SingleAnimeData, token } from "@/utils";
+/* eslint-disable @next/next/no-img-element */
+import { animeStatus, AnimeUserStatsInterface, FaHeart, FaRegHeart, monthNames, SingleAnimeData } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
+import { parseCookies } from "nookies";
 import { Stars } from "@/components";
 
 export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeSettings, fetchData }: {
@@ -10,6 +12,8 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
   favorite: boolean;
   toast: any;
 }) {
+  const token = parseCookies(null).token;
+
   return (
     <div className="relative flex justify-start w-full min-h-72 h-fit">
       {favorite ?
@@ -34,14 +38,14 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
         />
         <div
           key="coverImageButton"
-          className="flex items-center justify-center w-60 h-9 rounded-md hover:bg-fifth bg-fourthAndAHalf"
+          className="flex items-center justify-center w-60 h-9 rounded-md hover:bg-fifth bg-fourthAndAHalf hover:cursor-pointer"
           onClick={() => {
             // api.post('/animes/populate', { id: data.id });
             if (!token) return toast.error('Log in first!')
             toggleShowAnimeSettings();
           }}
         >
-          <h3 className='hover:cursor-pointer text-h-signature font-bold text-lg'>
+          <h3 className={`${fetchData.status === '' ? "" : animeStatus[fetchData.status].color} font-bold text-lg py-3`}>
             {fetchData.status === '' ? 'Follow' : fetchData.status}
           </h3>
         </div>

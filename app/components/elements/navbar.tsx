@@ -28,8 +28,8 @@ export function Navbar() {
 
   return (
     <div
-      className={`sticky flex justify-between items-center w-full h-16 px-10 z-20 bg-second hover:opacity-100
-        ${pathname.startsWith('/anime') || pathname.startsWith('/profile') ? 'opacity-70' : 'opacity-100'}
+      className={`flex justify-between items-center w-full h-16 px-10 z-20 bg-second hover:opacity-100
+        ${pathname.startsWith('/anime') || pathname.startsWith('/profile') ? 'fixed opacity-70' : 'sticky opacity-100'}
         ${show ? 'top-0' : 'top-[-4rem]'} 
       `}
       style={{ transition: 'top 0.3s' }}

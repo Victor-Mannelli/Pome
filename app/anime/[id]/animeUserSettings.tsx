@@ -1,7 +1,9 @@
+"use client"
+
 import { AnimeUserStatsInterface, SingleAnimeData, addAnimeUserStatus } from '@/utils';
 import { FaHeart, FaRegHeart, RxCross2 } from '@/utils/libs';
 import { AnimeUserStats } from './animeUserStatus';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 export function UserAnimeSettings({ setShowAnimeSettings, showAnimeSettings, setFetchData, setFavorite, fetchData, favorite, data }: {
   setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>>;
@@ -12,10 +14,12 @@ export function UserAnimeSettings({ setShowAnimeSettings, showAnimeSettings, set
   data: SingleAnimeData;
   favorite: boolean;
 }) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [failed, setFailed] = useState<boolean>(false);
 
   function handleAnimeUserStatus(fetchData: AnimeUserStatsInterface) {
     const body = { ...fetchData, animeId: data.id, favorite };
-    addAnimeUserStatus({ body, setShowAnimeSettings });
+    addAnimeUserStatus({ body, setShowAnimeSettings, setFailed, setLoading });
   }
   return (
     <div

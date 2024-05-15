@@ -16,35 +16,52 @@ export function calculatePadding({ parentWidth, childWidth }: {
   return padding || 0
 }
 
-export function addAnimeUserStatus({ body, setShowAnimeSettings }: {
+export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, setFailed }: {
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setFailed: Dispatch<SetStateAction<boolean>>;
   body: AnimeUserStatusData;
 }) {
+  setLoading(true);
+  api
+    .post('/animes/updateStatus', body)
+    .then(() => {
+      setShowAnimeSettings(false);
+      toast.success("Anime status updated")
+      setFailed(false);
+    })
+    .catch(() => {
+      setFailed(true)
+      toast.error("An error ocurred")
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   // console.log(body, 'added')
-  toast.promise(
-    api.post('/animes/updateStatus', body),
-    {
-      pending: 'Adding to userList...',
-      success: {
-        render() {
-          setShowAnimeSettings(false);
-          return 'Added!';
-        },
-      },
-      error: {
-        render(e: ToastError | any) {
-          return !e.response.data
-            ? toast.error(e)
-            : e.response.data.length > 1
-              ? e.response.data.map((error: any) => toast.error(error))
-              : e.response.data[0] === undefined
-                ? toast.error(e.response.data.message)
-                : toast.error(e.response.data[0]);
-        }
-      }
-    },
-    { toastId: 'animeUserStatus' }
-  );
+  // toast.promise(
+  //   api.post('/animes/updateStatus', body),
+  //   {
+  //     pending: 'Adding to userList...',
+  //     success: {
+  //       render() {
+  //         setShowAnimeSettings(false);
+  //         return 'Added!';
+  //       },
+  //     },
+  //     error: {
+  //       render(e: ToastError | any) {
+  //         return !e.response.data
+  //           ? toast.error(e)
+  //           : e.response.data.length > 1
+  //             ? e.response.data.map((error: any) => toast.error(error))
+  //             : e.response.data[0] === undefined
+  //               ? toast.error(e.response.data.message)
+  //               : toast.error(e.response.data[0]);
+  //       }
+  //     }
+  //   },
+  //   { toastId: 'animeUserStatus' }
+  // );
 }
 
 export function UseLogout({ router }: { router: AppRouterInstance }) {
