@@ -237,12 +237,12 @@ export interface UsersAnimeList {
     }
   }
   anime_id: number,
-  favorite: false,
-  finish_date: number,
+  favorite: boolean,
   progress: number,
   rewatches: number,
   score: number,
-  start_date: number,
+  start_date: Date,
+  finish_date: Date,
   status: string,
 }
 

@@ -1,48 +1,40 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { api, animeApi, monthNames, AnimeUserStatsInterface, SingleAnimeData, TokenContext } from '@/utils';
-import { Stars, PopUp, AnimePageSkeleton } from '@/components';
-import { FaHeart, FaRegHeart, LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
-import { UserAnimeSettings } from './animeUserSettings';
-import { AnimeInfo } from './animeContent';
+import { AnimeUserStatsInterface, SingleAnimeData, TokenContext, UsersAnimeList } from '@/utils';
+import { getAnimeData, getUniqueUserAnimelist, maximizeTrailer } from './functions';
+import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { useContext, useEffect, useState } from 'react';
-import { getAnimeData, maximizeTrailer } from './functions';
+import { PopUp, AnimePageSkeleton } from '@/components';
+import { UserAnimeSettings } from './animeUserSettings';
+import { AnimeInfo } from './animeInfo';
 import { toast } from 'react-toastify';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
-  const [fetchData, setFetchData] = useState<AnimeUserStatsInterface>({ status: '', score: 0, progress: 0, rewatches: 0, startDate: new Date(), finishDate: null });
+  const [usersAnimeStatus, setUsersAnimeStatus] = useState<UsersAnimeList | null>(null);
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
-  const [favorite, setFavorite] = useState<boolean>(false);
-
+  const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
   const [data, setData] = useState<SingleAnimeData | null>(null);
   const [dataLoad, setDataLoad] = useState<boolean>(true);
   const [dataFailed, setDataFailed] = useState<boolean>(false);
-  const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
-
+  const [fetchData, setFetchData] = useState<AnimeUserStatsInterface>({
+    status: usersAnimeStatus ? usersAnimeStatus.status : '',
+    score: 0,
+    progress: 0,
+    rewatches: 0,
+    startDate: new Date(),
+    finishDate: null
+  });
+  const [favorite, setFavorite] = useState<boolean>(usersAnimeStatus?.favorite ? usersAnimeStatus?.favorite : false);
   const { user, token } = useContext(TokenContext);
 
-  // const data: SingleAnimeData | any = await getAnimeData(params.id);
-
-  // useEffect(() => {
-  //   api.get('/animes/userlist').then((e) => {
-  //     const response = e?.data.find((e: any) => e.anime_id === data.id);
-  //     if (response) {
-  //       response.favorite === true && setFavorite(true);
-  //       setFetchData({ ...fetchData, status: response.status, score: response.score, progress: response.progress, rewatches: response.rewatches });
-  //     }
-  //   });
-  // }, []);
-
-  // ${!data.bannerImage ? 'mx-5' : ''}`}
-
   useEffect(() => {
+    getUniqueUserAnimelist({ animeId: params.id, setData: setUsersAnimeStatus })
     getAnimeData({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
-
-    // console.log(user)
-    // console.log(token)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  console.log(usersAnimeStatus)
 
   return (
     <>
@@ -52,26 +44,23 @@ export default function AnimePage({ params }: { params: { id: string } }) {
         <div className="flex flex-col items-center w-full mb-5">
           {data.bannerImage ? (
             <div
-              className={'w-full h-80 bg-cover bg-right sm:bg-center'}
+              className={'w-full h-80 bg-cover bg-center'}
               style={{ backgroundImage: `url(${data.bannerImage})` }}
             > </div>
           ) : null}
           <AnimeInfo
             toggleShowAnimeSettings={() => setShowAnimeSettings(!showAnimeSettings)}
-            setFavorite={setFavorite}
-            favorite={favorite}
-            fetchData={fetchData}
+            setUsersAnimeStatus={setUsersAnimeStatus}
+            usersAnimeStatus={usersAnimeStatus}
             toast={toast}
             data={data}
           />
           <PopUp show={showAnimeSettings} setShow={setShowAnimeSettings} bg={true}>
             <UserAnimeSettings
+              setUsersAnimeStatus={setUsersAnimeStatus}
+              usersAnimeStatus={usersAnimeStatus}
               setShowAnimeSettings={setShowAnimeSettings}
               showAnimeSettings={showAnimeSettings}
-              setFetchData={setFetchData}
-              setFavorite={setFavorite}
-              fetchData={fetchData}
-              favorite={favorite}
               data={data}
             />
           </PopUp>

@@ -24,7 +24,7 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    getUsersAnimeList({ setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
+    getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
   }, [])
 
 

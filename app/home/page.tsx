@@ -22,7 +22,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    getUsersAnimeList({ setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
+    getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
   }, [])
 
   useEffect(() => {

@@ -1,29 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
-import { animeStatus, AnimeUserStatsInterface, FaHeart, FaRegHeart, monthNames, SingleAnimeData } from "@/utils";
+import { animeStatus, AnimeUserStatsInterface, FaHeart, FaRegHeart, monthNames, SingleAnimeData, UsersAnimeList } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
 import { parseCookies } from "nookies";
 import { Stars } from "@/components";
 
-export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeSettings, fetchData }: {
-  setFavorite: Dispatch<SetStateAction<boolean>>;
+export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStatus, setUsersAnimeStatus }: {
+  setUsersAnimeStatus: Dispatch<SetStateAction<UsersAnimeList>>
   toggleShowAnimeSettings: () => void;
-  fetchData: AnimeUserStatsInterface;
+  usersAnimeStatus: UsersAnimeList;
   data: SingleAnimeData;
-  favorite: boolean;
   toast: any;
 }) {
   const token = parseCookies(null).token;
-
   return (
     <div className="relative flex justify-start w-full min-h-72 h-fit">
-      {favorite ?
+      {usersAnimeStatus.favorite ?
         <FaHeart
           className='absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer'
-          onClick={() => token ? setFavorite(!favorite) : toast.error('Log in first!')}
+          onClick={() => token ? setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false }) : toast.error('Log in first!')}
         /> :
         <FaRegHeart
           className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
-          onClick={() => token ? setFavorite(!favorite) : toast.error('Log in first!')}
+          onClick={() => token ? setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true }) : toast.error('Log in first!')}
         />
       }
       <div
@@ -45,8 +43,8 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
             toggleShowAnimeSettings();
           }}
         >
-          <h3 className={`${fetchData.status === '' ? "" : animeStatus[fetchData.status].color} font-bold text-lg py-3`}>
-            {fetchData.status === '' ? 'Follow' : fetchData.status}
+          <h3 className={`${usersAnimeStatus.status === '' ? "" : animeStatus[usersAnimeStatus.status].color} font-bold text-lg py-3`}>
+            {usersAnimeStatus.status === '' ? 'Follow' : usersAnimeStatus.status}
           </h3>
         </div>
       </div>

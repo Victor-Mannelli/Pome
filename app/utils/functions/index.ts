@@ -74,15 +74,15 @@ export function UseLogout({ router }: { router: AppRouterInstance }) {
   toast.success('Successfully logged out!');
 }
 
-export async function getUsersAnimeList({ setUsersAnimeList, setLoading, setFailed }: {
-  setUsersAnimeList: Dispatch<SetStateAction<UsersAnimeList[] | null>>;
+export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
+  setData: Dispatch<SetStateAction<UsersAnimeList[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
 }) {
   setLoading(true);
   api
-    .get('/animes/userlist')
-    .then((e) => setUsersAnimeList(e.data))
+    .get('/animelist')
+    .then((e) => setData(e.data))
     .catch((e) => { setFailed(true); console.log(e) })
     .finally(() => setLoading(false));
 }

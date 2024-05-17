@@ -1,19 +1,16 @@
 "use client"
 
-import { AnimeUserStatsInterface, SingleAnimeData, addAnimeUserStatus, animeStatus, animeUserStatus } from '@/utils';
+import { SingleAnimeData, UsersAnimeList, animeStatus, animeUserStatus } from '@/utils';
+import { Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { AnimeUserStats } from './animeUserStatus';
-import { Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
 
-export function UserAnimeSettings({ setShowAnimeSettings, showAnimeSettings, setFetchData, setFavorite, fetchData, favorite, data }: {
-  setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>>;
+export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, showAnimeSettings, usersAnimeStatus, data }: {
+  setUsersAnimeStatus: Dispatch<SetStateAction<UsersAnimeList>>
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
-  setFavorite: Dispatch<SetStateAction<boolean>>;
-  fetchData: AnimeUserStatsInterface;
+  usersAnimeStatus: UsersAnimeList;
   showAnimeSettings: boolean;
   data: SingleAnimeData;
-  favorite: boolean;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
@@ -22,6 +19,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, showAnimeSettings, set
   //   const body = { ...fetchData, animeId: data.id, favorite };
   //   addAnimeUserStatus({ body, setShowAnimeSettings, setFailed, setLoading });
   // }
+
   return (
     <div
       className='relative lg:w-[60rem] md:w-[70%] w-full lg:h-[65%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-end'
@@ -32,48 +30,65 @@ export function UserAnimeSettings({ setShowAnimeSettings, showAnimeSettings, set
         onClick={() => setShowAnimeSettings(!showAnimeSettings)}
       />
       <div
-        className={'relative rounded-t-xl h-72 w-full bg-cover flex flex-wrap items-end p-3 bg-right'}
+        className={'relative rounded-t-xl h-72 w-full bg-cover flex items-end p-3 bg-right'}
         style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
       >
         <h3 className='font-bold'> {data.title.romaji} </h3>
-        {favorite
-          ? <FaHeart className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
-          : <FaRegHeart className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer' onClick={() => setFavorite(!favorite)} />
+        {usersAnimeStatus.favorite
+          ? <FaHeart
+            className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
+            onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false })}
+          />
+          : <FaRegHeart
+            className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
+            onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true })}
+          />
         }
       </div>
-      <form
-        className='flex flex-col items-center justify-center h-full w-full'
-        onSubmit={(e) => { e.preventDefault(); console.log(e.target); }}>
-        {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}
-        <InputGroup w={"20rem"} h={"3.5rem"}>
-          <InputLeftAddon w={"7rem"}> Status </InputLeftAddon>
-          <Select placeholder={fetchData.status === '' ? 'Follow' : fetchData.status} roundedLeft={"initial"} textColor={"white"} cursor={"pointer"}>
-            {Object.keys(animeStatus).map((e, i) =>
-              <option key={i} className='text-white' value={animeStatus[e].name}> {animeStatus[e].name} </option>
-              // <div
-              //   key={e}
-              //   onClick={() => setFetchData({ ...fetchData, status: e })}
-              //   className={`px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full ${animeStatus[e].color}`}
-              // >
-              //   {animeStatus[e].name}
-              // </div>
-            )}
-          </Select>
-        </InputGroup>
-        {Object.keys(animeUserStatus).map((e, i) => (
-          <InputGroup w={"20rem"} h={"3.5rem"} key={i}>
-            <InputLeftAddon w={"7rem"}> {e} </InputLeftAddon>
-            <Input textColor={"white"} type={animeUserStatus[e].type} />
+      <div className='flex items-center justify-center h-full w-full p-5'>
+        <form
+          className='flex flex-col flex-wrap items-center justify-center h-56 w-[45rem] gap-9'
+          onSubmit={(e) => { e.preventDefault(); console.log(e.target); }}>
+          {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}
+          <InputGroup w={"20rem"}>
+            <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> Status </InputLeftAddon>
+            <Select h={"3rem"} placeholder={usersAnimeStatus.status === '' ? 'Follow' : usersAnimeStatus.status} roundedLeft={"initial"} textColor={"white"} cursor={"pointer"}>
+              {Object.keys(animeStatus).map((e, i) =>
+                <option key={i} className='text-white' value={animeStatus[e].name}> {animeStatus[e].name} </option>
+                // <div
+                //   key={e}
+                //   onClick={() => setFetchData({ ...fetchData, status: e })}
+                //   className={`px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full ${animeStatus[e].color}`}
+                // >
+                //   {animeStatus[e].name}
+                // </div>
+              )}
+            </Select>
           </InputGroup>
-        ))}
-        <FaTrashAlt
-          className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'
-          onClick={() => console.log("remove anime status from useranimelist")}
-        />
-        <button className='absolute bottom-4 right-4 rounded-xl px-7 py-3 bg-fourth hover:bg-fourthAndAHalf text-white' type='submit'>
-          Save
-        </button>
-      </form>
+          {Object.keys(animeUserStatus).map((e, i) => (
+            <InputGroup w={"20rem"} key={i}>
+              <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> {animeUserStatus[e].title} </InputLeftAddon>
+              <Input
+                min={animeUserStatus[e].min ? animeUserStatus[e].min : null}
+                max={animeUserStatus[e].max ? animeUserStatus[e].max : null}
+                cursor={animeUserStatus[e].cursor}
+                type={animeUserStatus[e].type}
+                defaultValue={usersAnimeStatus[e]}
+                autoComplete='off'
+                textColor={"white"}
+                h={"3rem"}
+              />
+            </InputGroup>
+          ))}
+          <FaTrashAlt
+            className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'
+            onClick={() => console.log("remove anime status from useranimelist")}
+          />
+          <button className='absolute bottom-4 right-4 rounded-xl px-7 py-3 bg-fourth hover:bg-fourthAndAHalf text-white' type='submit'>
+            Save
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

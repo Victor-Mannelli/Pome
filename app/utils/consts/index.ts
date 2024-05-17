@@ -2,7 +2,7 @@ import { HTMLInputTypeAttribute } from "react";
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-export const animeStatus: {[key: string]: { name: string, color: string }} = {
+export const animeStatus: { [key: string]: { name: string, color: string } } = {
   Watching: {
     name: "Watching",
     color: "text-[#00ffff]"
@@ -21,20 +21,42 @@ export const animeStatus: {[key: string]: { name: string, color: string }} = {
   },
 }
 
-export const animeUserStatus: {[key: string]: { type: HTMLInputTypeAttribute }} = {
-  Score: {
+export const animeUserStatus: {
+  [key: string]: {
+    type: HTMLInputTypeAttribute;
+    cursor: string;
+    title: string;
+    min?: number;
+    max?: number;
+  }
+} = {
+  score: {
+    title: "Score",
     type: "number",
+    cursor: "text",
+    min: 0,
+    max: 10,
   },
-  Progress: {
+  progress: {
+    title: "Progress",
     type: "number",
+    cursor: "text",
+    min: 0,
   },
-  Rewatches: {
+  rewatches: {
+    title: "Rewatches",
     type: "number",
+    cursor: "text",
+    min: 0,
   },
-  "Start Date": {
+  start_date: {
+    title: "Start Date",
     type: "date",
+    cursor: "default",
   },
-  "Finish Date": {
+  finish_date: {
+    title: "Finish Date",
     type: "date",
+    cursor: "default",
   },
 }

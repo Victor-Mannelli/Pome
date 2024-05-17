@@ -1,4 +1,4 @@
-import { animeApi, SingleAnimeData } from "@/utils";
+import { animeApi, api, SingleAnimeData, UsersAnimeList } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
 
 export async function getAnimeData({ animeId, setData, setFailed, setLoading }: {
@@ -126,4 +126,17 @@ export function maximizeTrailer({ toggle, setToggle }: {
       top: 700, left: 0, behavior: "smooth"
     })
   }, 500);
+}
+
+export async function getUniqueUserAnimelist({ setData, animeId }: {
+  setData: Dispatch<SetStateAction<UsersAnimeList | null>>;
+  animeId: string;
+}) {
+  api
+    .get('/animelist')
+    .then((e) => {
+      const AnimeData = e.data.find((e: any) => e.anime_id === Number(animeId))
+      if (AnimeData) return setData(AnimeData);
+    })
+    .catch((e) => { console.log(e) })
 }
