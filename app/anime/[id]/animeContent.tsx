@@ -28,7 +28,7 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
       }
       <div
         id="coverImageDisplay"
-        className={`${data.bannerImage ? "absolute -top-5 h-64" : "m-5"}  md:flex hidden flex-col justify-end items-center gap-2 w-[19rem]`}
+        className={`${data.bannerImage ? "absolute -top-5 h-64" : "m-5"} md:flex hidden flex-col justify-end items-center gap-2 w-[19rem]`}
       >
         <img
           id="coverImage"
@@ -86,7 +86,7 @@ export function AnimeInfo({ data, favorite, setFavorite, toast, toggleShowAnimeS
           {!data.tags ? null :
             <div id="tags" className="flex flex-wrap gap-2 lg:w-2/5 sm:pl-5 lg:pl-0 sm:min-w-[22.5rem]">
               {data.tags.map((e: any,) => (
-                <li key={e.id} className="text-eigth w-[10.5rem] sm:w-44 h-5"> {e.name} </li>
+                <li key={e.id} className="text-eigth w-[10.7rem] sm:w-44 h-5"> {e.name} </li>
               ))}
             </div>
           }

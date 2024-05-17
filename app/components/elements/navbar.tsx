@@ -1,15 +1,17 @@
-import { FaUserCircle, FaUserFriends, SiNiconico } from '@/utils/libs';
 import { usePathname, useRouter } from 'next/navigation';
-import { RedirectionalIcon } from '../utilities';
-import { useEffect, useState } from 'react';
-import nookies from 'nookies';
+import { useContext, useEffect, useState } from 'react';
 import { HoverDescription } from './hoverDescription';
+import { SiNiconico } from '@/utils/libs';
+import { Avatar } from '@chakra-ui/react';
+import { TokenContext } from '@/utils';
+import nookies from 'nookies';
 
 export function Navbar() {
   const [show, setShow] = useState<boolean>(true);
   const cookies = nookies.get(null, 'token').token;
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useContext(TokenContext)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -64,12 +66,18 @@ export function Navbar() {
           onClick={() => cookies ? router.push('/profile/1') : router.push('/login')}
           router={router}
         /> */}
-        {/* <HoverDescription hoverText='Profile'>
-          <FaUserCircle
-            className="text-signature text-2xl cursor-pointer hover:brightness-75"
+        <div className='relative redirectIconElement'>
+          <Avatar
+            className='hover:cursor-pointer'
             onClick={() => cookies ? router.push('/profile/1') : router.push('/login')}
+            name={user ? user.username : null}
+            src={user ? user.avatar : null}
           />
-        </HoverDescription> */}
+          <div className='bg-fifth w-5 h-5 -translate-x-1/2 left-1/2 top-[3.2rem] rotate-45 iconDescription'/>
+          <div className='bg-fifth w-16 h-9 -translate-x-1/2 left-1/2 top-14 rounded-md iconDescription justify-center items-center text-white font-bold'>
+            User
+          </div>
+        </div>
       </div>
     </div>
   );

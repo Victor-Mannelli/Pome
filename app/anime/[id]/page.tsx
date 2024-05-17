@@ -52,7 +52,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
         <div className="flex flex-col items-center w-full mb-5">
           {data.bannerImage ? (
             <div
-              className={'w-full h-80 bg-cover bg-center'}
+              className={'w-full h-80 bg-cover bg-right sm:bg-center'}
               style={{ backgroundImage: `url(${data.bannerImage})` }}
             > </div>
           ) : null}
@@ -92,7 +92,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
                 />
               </div>
               <div
-                className='absolute right-3 bottom-4 p-3 rounded-full bg-fourth hover:cursor-pointer hover:bg-fifth'
+                className='absolute right-3 top-[0.6rem] sm:bottom-4 p-3 rounded-full bg-fourth hover:cursor-pointer hover:bg-fifth'
                 onClick={() => maximizeTrailer({ setToggle: setTrailerFullScreen, toggle: trailerFullScreen })}
               >
                 <LiaExpandArrowsAltSolid className='text-white text-xl' />

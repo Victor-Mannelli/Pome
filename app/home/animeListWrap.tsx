@@ -25,13 +25,13 @@ export function AnimeListWrap({ animeData, setPage, router, page }: {
           <h1> Nenhum anime encontrado </h1>
         ) : (
           <div
-            style={{ paddingLeft: calculatePadding({ parentWidth: width, childWidth: 160 }) }}
+            style={{ paddingLeft: calculatePadding({ parentWidth: width, childWidth: 155 }) }}
             className="wrapper-container"
             ref={ref}
           >
             {animeData.media.map((anime: any) => (
               <div
-                className="flex flex-col justify-end md:w-40 w-full h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
+                className="flex flex-col justify-end w-[9.7rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
                 onClick={() => router.push(`/anime/${anime.id}`)}
                 style={{ backgroundImage: `url(${anime.coverImage.extraLarge})` }}
                 key={anime.id}

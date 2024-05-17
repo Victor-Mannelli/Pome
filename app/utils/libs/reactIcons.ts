@@ -1,4 +1,4 @@
-import { FaRegHeart, FaHeart, FaUserFriends, FaUserCircle  } from 'react-icons/fa';
+import { FaRegHeart, FaHeart, FaUserFriends, FaUserCircle, FaTrashAlt } from 'react-icons/fa';
 import { LiaExpandArrowsAltSolid } from "react-icons/lia";
 import { GiMagnifyingGlass } from 'react-icons/gi';
 import { BiMinus, BiPlus } from 'react-icons/bi';
@@ -15,6 +15,7 @@ export {
   FaHeart,
   FaUserFriends,
   FaUserCircle,
+  FaTrashAlt,
 
   BiMinus,
   BiPlus,

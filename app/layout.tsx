@@ -2,16 +2,18 @@
 
 import { ThemeProvider, TokenProvider } from "./utils/providers";
 import { Navbar } from "./components/elements/navbar";
+import { ChakraProvider } from '@chakra-ui/react';
 import { Loading } from "./components/utilities";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
+import { theme } from './utils/themes';
+import router from "next/router";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";
-import router from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       router.events.off("routeChangeComplete", () => setLoading(false));
       router.events.off("routeChangeError", () => setLoading(false));
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (
@@ -45,11 +47,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className={inter.className}>
         <TokenProvider>
-          {/* <ThemeProvider> */}
-          <Navbar />
-          {loading ? <Loading /> : null}
-          {children}
-          {/* </ThemeProvider> */}
+          <ChakraProvider theme={theme}>
+            {/* <ThemeProvider> */}
+            <Navbar />
+            {loading ? <Loading /> : null}
+            {children}
+            {/* </ThemeProvider> */}
+          </ChakraProvider>
         </TokenProvider>
         <ToastContainer position="top-center" theme="dark" />
       </body>
