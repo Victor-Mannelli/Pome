@@ -39,7 +39,12 @@ body {
 	body {
 		@apply bg-fourth;
 	}
-	p, h1, h2, h3, h4, h5 {
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5 {
 		@apply text-white cursor-default;
 	}
 	h1 {
@@ -119,5 +124,16 @@ body {
 		flex-wrap: wrap;
 		gap: 1.5rem;
 		margin: 1.5rem;
+	}
+
+	.test {
+		right: 0.75rem;
+		top: 0.6rem;
+	}
+	@media (min-width: 768px) {
+		.test {
+			bottom: 1rem !important;
+			top: inherit;
+		}
 	}
 }

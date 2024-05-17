@@ -92,7 +92,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
                 />
               </div>
               <div
-                className='absolute right-3 top-[0.6rem] sm:bottom-4 p-3 rounded-full bg-fourth hover:cursor-pointer hover:bg-fifth'
+                className='absolute right-3 top-[0.6rem] md:bottom-4 md:top-[inherit] p-3 rounded-full bg-fourth hover:cursor-pointer hover:bg-fifth'
                 onClick={() => maximizeTrailer({ setToggle: setTrailerFullScreen, toggle: trailerFullScreen })}
               >
                 <LiaExpandArrowsAltSolid className='text-white text-xl' />
