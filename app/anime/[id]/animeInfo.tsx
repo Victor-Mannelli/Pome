@@ -12,13 +12,20 @@ export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStat
   toast: any;
 }) {
   const token = parseCookies(null).token;
+
   return (
     <div className="relative flex justify-start w-full min-h-72 h-fit">
-      {usersAnimeStatus.favorite ?
-        <FaHeart
-          className='absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer'
-          onClick={() => token ? setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false }) : toast.error('Log in first!')}
-        /> :
+      {usersAnimeStatus && usersAnimeStatus.favorite !== null ? (
+        usersAnimeStatus.favorite === false ?
+          <FaRegHeart
+            className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
+            onClick={() => token ? setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true }) : toast.error('Log in first!')}
+          /> :
+          <FaHeart
+            className='absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer'
+            onClick={() => token ? setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false }) : toast.error('Log in first!')}
+          />
+      ) :
         <FaRegHeart
           className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
           onClick={() => token ? setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true }) : toast.error('Log in first!')}
@@ -43,8 +50,10 @@ export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStat
             toggleShowAnimeSettings();
           }}
         >
-          <h3 className={`${usersAnimeStatus.status === '' ? "" : animeStatus[usersAnimeStatus.status].color} font-bold text-lg py-3`}>
-            {usersAnimeStatus.status === '' ? 'Follow' : usersAnimeStatus.status}
+          <h3 className={`font-bold text-lg py-3
+            ${usersAnimeStatus && usersAnimeStatus.status !== null ? animeStatus[usersAnimeStatus.status].color : ""}
+          `}>
+            {usersAnimeStatus && usersAnimeStatus.status !== null ? usersAnimeStatus.status : 'Follow'}
           </h3>
         </div>
       </div>

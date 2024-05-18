@@ -1,12 +1,13 @@
 "use client"
 
 import { SingleAnimeData, UsersAnimeList, animeStatus, animeUserStatus } from '@/utils';
-import { Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
+import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, showAnimeSettings, usersAnimeStatus, data }: {
-  setUsersAnimeStatus: Dispatch<SetStateAction<UsersAnimeList>>
+  setUsersAnimeStatus: Dispatch<SetStateAction<UsersAnimeList>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   usersAnimeStatus: UsersAnimeList;
   showAnimeSettings: boolean;
@@ -14,11 +15,6 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
-
-  // function handleAnimeUserStatus(fetchData: AnimeUserStatsInterface) {
-  //   const body = { ...fetchData, animeId: data.id, favorite };
-  //   addAnimeUserStatus({ body, setShowAnimeSettings, setFailed, setLoading });
-  // }
 
   return (
     <div
@@ -34,61 +30,101 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
         style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
       >
         <h3 className='font-bold'> {data.title.romaji} </h3>
-        {usersAnimeStatus.favorite
-          ? <FaHeart
-            className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
-            onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false })}
-          />
-          : <FaRegHeart
+        {usersAnimeStatus && usersAnimeStatus.favorite !== null ? (
+          usersAnimeStatus.favorite === true
+            ? <FaHeart
+              className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
+              onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false })}
+            />
+            : <FaRegHeart
+              className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
+              onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true })}
+            />
+        ) : (
+          <FaRegHeart
             className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
             onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true })}
           />
-        }
+        )}
       </div>
       <div className='flex items-center justify-center h-full w-full p-5'>
         <form
           className='flex flex-col flex-wrap items-center justify-center h-56 w-[45rem] gap-9'
-          onSubmit={(e) => { e.preventDefault(); console.log(e.target); }}>
+          onSubmit={(e) => {
+            e.preventDefault();
+            addAnimeToUserAnimelist({
+              animeUserStats: {
+                status: e.target["status"]?.value,
+                score: Number(e.target["score"]?.value),
+                progress: Number(e.target["progress"]?.value),
+                rewatches: Number(e.target["rewatches"]?.value),
+                startDate: e.target["start_date"]?.value,
+                finishDate: e.target["finish_date"]?.value,
+              },
+              setFailed,
+              setLoading,
+              animeId: data.id,
+            })
+          }}>
           {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}
           <InputGroup w={"20rem"}>
             <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> Status </InputLeftAddon>
-            <Select h={"3rem"} placeholder={usersAnimeStatus.status === '' ? 'Follow' : usersAnimeStatus.status} roundedLeft={"initial"} textColor={"white"} cursor={"pointer"}>
+            <Select
+              roundedLeft={"initial"}
+              textColor={"white"}
+              cursor={"pointer"}
+              h={"3rem"}
+              iconColor='white'
+              id='status'
+              required
+              placeholder={
+                usersAnimeStatus && usersAnimeStatus.status !== null ? (
+                  usersAnimeStatus.status === '' ? 'Follow' : usersAnimeStatus.status
+                ) : 'Follow'
+              }
+            >
               {Object.keys(animeStatus).map((e, i) =>
-                <option key={i} className='text-white' value={animeStatus[e].name}> {animeStatus[e].name} </option>
-                // <div
-                //   key={e}
-                //   onClick={() => setFetchData({ ...fetchData, status: e })}
-                //   className={`px-3 py-2 text-center rounded-md hover:cursor-pointer hover:bg-fourth w-full h-full ${animeStatus[e].color}`}
-                // >
-                //   {animeStatus[e].name}
-                // </div>
+                <option
+                  key={i}
+                  value={animeStatus[e].name}
+                >
+                  {animeStatus[e].name}
+                </option>
               )}
             </Select>
           </InputGroup>
-          {Object.keys(animeUserStatus).map((e, i) => (
+          {Object.keys(animeUserStatus).map((e, i) =>
             <InputGroup w={"20rem"} key={i}>
               <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> {animeUserStatus[e].title} </InputLeftAddon>
               <Input
-                min={animeUserStatus[e].min ? animeUserStatus[e].min : null}
-                max={animeUserStatus[e].max ? animeUserStatus[e].max : null}
+                id={e}
+                min={animeUserStatus[e].min}
+                max={animeUserStatus[e].max}
                 cursor={animeUserStatus[e].cursor}
+                colorScheme={"dark"}
                 type={animeUserStatus[e].type}
-                defaultValue={usersAnimeStatus[e]}
+                defaultValue={usersAnimeStatus && usersAnimeStatus[e] !== null ? usersAnimeStatus[e] : animeUserStatus[e].defaultValue}
                 autoComplete='off'
                 textColor={"white"}
                 h={"3rem"}
               />
             </InputGroup>
-          ))}
+          )}
           <FaTrashAlt
             className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'
-            onClick={() => console.log("remove anime status from useranimelist")}
+            onClick={() => removeAnimeFromUserAnimelist(data.id)}
           />
-          <button className='absolute bottom-4 right-4 rounded-xl px-7 py-3 bg-fourth hover:bg-fourthAndAHalf text-white' type='submit'>
+          <Button
+            isLoading={loading}
+            isDisabled={loading}
+            position={"absolute"}
+            className='bottom-4 right-4 rounded-xl px-7 py-3 bg-fourth hover:bg-fourthAndAHalf text-white'
+            type='submit'
+          >
             Save
-          </button>
+          </Button>
         </form>
       </div>
-    </div>
+    </div >
   )
 }

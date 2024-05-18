@@ -86,3 +86,12 @@ export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
     .catch((e) => { setFailed(true); console.log(e) })
     .finally(() => setLoading(false));
 }
+
+export function getDateAsYYYYMMDD() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1 and pad with leading zero
+  const day = String(currentDate.getDate()).padStart(2, '0'); // Pad day with leading zero
+
+  return `${year}-${month}-${day}`;
+}

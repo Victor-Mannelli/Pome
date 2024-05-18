@@ -1,3 +1,4 @@
+import { getDateAsYYYYMMDD } from "@/utils/functions"
 import { HTMLInputTypeAttribute } from "react";
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -24,6 +25,7 @@ export const animeStatus: { [key: string]: { name: string, color: string } } = {
 export const animeUserStatus: {
   [key: string]: {
     type: HTMLInputTypeAttribute;
+    defaultValue: any;
     cursor: string;
     title: string;
     min?: number;
@@ -31,6 +33,7 @@ export const animeUserStatus: {
   }
 } = {
   score: {
+    defaultValue: 0,
     title: "Score",
     type: "number",
     cursor: "text",
@@ -38,23 +41,27 @@ export const animeUserStatus: {
     max: 10,
   },
   progress: {
+    defaultValue: 0,
     title: "Progress",
     type: "number",
     cursor: "text",
     min: 0,
   },
   rewatches: {
+    defaultValue: 0,
     title: "Rewatches",
     type: "number",
     cursor: "text",
     min: 0,
   },
   start_date: {
+    defaultValue: getDateAsYYYYMMDD(),
     title: "Start Date",
     type: "date",
     cursor: "default",
   },
   finish_date: {
+    defaultValue: null,
     title: "Finish Date",
     type: "date",
     cursor: "default",

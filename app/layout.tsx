@@ -1,12 +1,11 @@
 "use client";
 
+import { ChakraProvider, ColorModeScript  } from '@chakra-ui/react';
 import { ThemeProvider, TokenProvider } from "./utils/providers";
 import { Navbar } from "./components/elements/navbar";
-import { ChakraProvider } from '@chakra-ui/react';
 import { Loading } from "./components/utilities";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
 import { theme } from './utils/themes';
 import router from "next/router";
@@ -49,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <TokenProvider>
           <ChakraProvider theme={theme}>
             {/* <ThemeProvider> */}
+            {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
             <Navbar />
             {loading ? <Loading /> : null}
             {children}

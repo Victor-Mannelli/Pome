@@ -100,13 +100,22 @@ body {
 		font-size: 20px;
 		padding-right: 5px;
 	}
-
 	input[type="number"]::-webkit-inner-spin-button:after,
 	input[type="number"]::-webkit-outer-spin-button:after {
 		content: "\25BC";
 		color: #999;
 		font-size: 20px;
 		padding-right: 5px;
+	}
+
+	/* Style the date input calendar icon */
+	input[type="date"] {
+		color-scheme: dark;
+	}
+
+	/* Style the select options */
+	select option {
+		color: #000;
 	}
 
 	/* Custom CSS */
