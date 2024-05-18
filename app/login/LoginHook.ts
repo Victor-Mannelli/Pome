@@ -1,18 +1,22 @@
+import { Dispatch, SetStateAction } from 'react';
 import { ToastError } from '@/utils/interfaces';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { setCookie } from 'nookies';
 import { api } from '@/utils/axios';
 
-export function userLogin({ login, password, router }: {
+export function userLogin({ login, password, router, setUser }: {
   router: ReturnType<typeof useRouter>;
   password: string;
   login: string;
+  setUser: Dispatch<SetStateAction<User>>
 }) {
 
   toast.promise(
     api.post('/users/login', { login, password })
       .then((response) => {
+        const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
+        setUser(decoded);
         setCookie(null, 'token', response.data.token, {
           maxAge: 1 * 60 * 60 * 24, // 24 hrs
           path: '/',
@@ -40,4 +44,10 @@ export function userLogin({ login, password, router }: {
     },
     { toastId: 'login' }
   );
+}
+
+interface User {
+  user_id: string,
+  username: string,
+  email: string;
 }

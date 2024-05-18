@@ -1,11 +1,12 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client"
 
 import { userLogin } from '@/login/LoginHook';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useContext } from 'react';
+import { TokenContext } from '@/utils';
 
 export default function Login() {
+  const { setUser } = useContext(TokenContext);
   const router = useRouter();
 
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
@@ -13,7 +14,8 @@ export default function Login() {
     userLogin({
       login: e.target["username"].value,
       password: e.target["password"].value,
-      router
+      router,
+      setUser,
     });
   }
 
