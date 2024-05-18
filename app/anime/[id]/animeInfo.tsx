@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { animeStatus, AnimeUserStatsInterface, FaHeart, FaRegHeart, monthNames, SingleAnimeData, UsersAnimeList } from "@/utils";
+import { animeStatus, FaHeart, FaRegHeart, monthNames, SingleAnimeData, UsersAnimeList } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
+import { populateDb } from "./functions"
 import { parseCookies } from "nookies";
 import { Stars } from "@/components";
 
@@ -48,6 +49,7 @@ export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStat
             // api.post('/animes/populate', { id: data.id });
             if (!token) return toast.error('Log in first!')
             toggleShowAnimeSettings();
+            populateDb(data.id);
           }}
         >
           <h3 className={`font-bold text-lg py-3

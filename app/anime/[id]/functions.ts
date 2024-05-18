@@ -179,3 +179,7 @@ export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setF
     .catch(() => { setFailed(true); toast.error("Error on updating") })
     .finally(() => setLoading(false));
 }
+
+export function populateDb(id: number) {
+  api.post('/animes/populate', { id });
+}
