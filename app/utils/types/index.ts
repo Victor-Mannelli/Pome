@@ -1,9 +1,3 @@
-// export type LoginFetchData = {
-//   email: string,
-//   password: string,
-//   confirmPassword: string,
-// }
-
 export type UsersAnimelist = {
   id: number,
   user_id: number,
@@ -123,6 +117,7 @@ export type SingleAnimeDataForSlug = {
   cover_image: string,
   banner_image: string,
   genres: string[],
+  tags: string[],
   average_score: number,
   next_airing_episode: {
     id: number,
@@ -132,20 +127,28 @@ export type SingleAnimeDataForSlug = {
   trailer_id: number,
   trailer_site: string,
   trailer_thumbnail: string,
-  UserAnimeList?: [
-    {
-      id: number,
-      user_id: number,
-      anime_id: number,
-      status: string,
-      score: number,
-      progress: number,
-      rewatches: number,
-      start_date: string,
-      finish_date: string | null,
-      favorite: boolean,
-    }
-  ]
+  UserAnimeList?: {
+    id: number,
+    user_id: number,
+    anime_id: number,
+    status: string,
+    score: number,
+    progress: number,
+    rewatches: number,
+    start_date: string,
+    finish_date: string | null,
+    favorite: boolean,
+  }
+}
+export type AnimeUserStatus = {
+  anime_id: number,
+  status: string,
+  score?: number;
+  progress?: number;
+  rewatches?: number,
+  startDate?: string,
+  finishDate?: string,
+  favorite: boolean,
 }
 
 // export type AnimeInfoData = {

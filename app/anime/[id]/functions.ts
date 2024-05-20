@@ -1,120 +1,123 @@
-import { SingleAnimeDataForSlug } from "@/utils/types"
+import { AnimeUserStatus, SingleAnimeDataForSlug } from "@/utils/types"
 import { Dispatch, SetStateAction } from "react";
 import { animeApi, api } from "@/utils";
 import { toast } from "react-toastify";
 
-export async function getAnimeData({ animeId, setData, setFailed, setLoading }: {
+export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoading }: {
   setData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;
 }) {
-  const variables = {
-    id: Number(animeId)
-  };
-  const query = `
-    query ($id: Int) {
-      Media (id: $id) {
-        id
-        title {
-          romaji
-          english
-          native
-        }
-        type
-        format
-        status
-        description
-        startDate {
-          year
-          month
-          day
-        }
-        endDate {
-          year
-          month
-          day
-        }
-        season
-        episodes
-        duration
-        chapters
-        volumes
-        source
-        hashtag
-        trailer {
-          id
-          site
-          thumbnail
-        }
-        updatedAt
-        coverImage {
-          extraLarge
-          large
-          medium
-        }
-        bannerImage
-        genres
-        synonyms 
-        averageScore
-        meanScore
-        popularity
-        trending
-        favourites
-        tags {
-          id
-          name
-          description
-          category
-          isAdult
-        }
-        characters {
-          nodes {
-            id
-            name {
-              full
-            }
-            image {
-              large
-              medium
-            }
-            gender
-            description
-            dateOfBirth {
-              year
-              month
-              day
-            }
-            age
-            bloodType
-            isFavourite
-            favourites
-          }
-        }
-        isAdult
-        nextAiringEpisode {
-          id
-          timeUntilAiring
-          episode
-        }
-      }
-    }
-  `;
+  // const variables = {
+  //   id: Number(animeId)
+  // };
+  // const query = `
+  //   query ($id: Int) {
+  //     Media (id: $id) {
+  //       id
+  //       title {
+  //         romaji
+  //         english
+  //         native
+  //       }
+  //       type
+  //       format
+  //       status
+  //       description
+  //       startDate {
+  //         year
+  //         month
+  //         day
+  //       }
+  //       endDate {
+  //         year
+  //         month
+  //         day
+  //       }
+  //       season
+  //       episodes
+  //       duration
+  //       chapters
+  //       volumes
+  //       source
+  //       hashtag
+  //       trailer {
+  //         id
+  //         site
+  //         thumbnail
+  //       }
+  //       updatedAt
+  //       coverImage {
+  //         extraLarge
+  //         large
+  //         medium
+  //       }
+  //       bannerImage
+  //       genres
+  //       synonyms 
+  //       averageScore
+  //       meanScore
+  //       popularity
+  //       trending
+  //       favourites
+  //       tags {
+  //         id
+  //         name
+  //         description
+  //         category
+  //         isAdult
+  //       }
+  //       characters {
+  //         nodes {
+  //           id
+  //           name {
+  //             full
+  //           }
+  //           image {
+  //             large
+  //             medium
+  //           }
+  //           gender
+  //           description
+  //           dateOfBirth {
+  //             year
+  //             month
+  //             day
+  //           }
+  //           age
+  //           bloodType
+  //           isFavourite
+  //           favourites
+  //         }
+  //       }
+  //       isAdult
+  //       nextAiringEpisode {
+  //         id
+  //         timeUntilAiring
+  //         episode
+  //       }
+  //     }
+  //   }
+  // `;
 
   setLoading(true);
-  animeApi
-    .post('', { query, variables }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
+  api
+    .get(`/animes/${animeId}`)
     .then((e) => {
-      setData(e.data.data.Media);
+      setData(e.data);
       setFailed(false);
     })
     .catch(() => setFailed(true))
     .finally(() => setLoading(false));
+
+  // animeApi
+  //   .post('', { query, variables }, {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //     }
+  //   })
 }
 
 export function maximizeTrailer({ toggle, setToggle }: {
@@ -155,34 +158,34 @@ export async function removeAnimeFromUserAnimelist(animeId: number) {
     .catch(() => toast.error("An error has occured"))
 }
 
-export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, setUsersAnimeStatus }: {
-  setUsersAnimeStatus: Dispatch<SetStateAction<any | null>>;
+export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, setData, setShowAnimeSettings }: {
+  setData: Dispatch<SetStateAction<SingleAnimeDataForSlug | null>>;
+  setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
-  animeUserStats: any;
+  animeUserStats: AnimeUserStatus;
 }) {
   setLoading(true);
 
-  const datePattern = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   const newData = {
     anime_id: animeUserStats.anime_id,
     status: animeUserStats.status,
+    start_date: animeUserStats.startDate,
     ...(animeUserStats.score !== 0 && { score: animeUserStats.score }),
     ...(animeUserStats.progress !== 0 && { progress: animeUserStats.progress }),
     ...(animeUserStats.rewatches !== 0 && { rewatches: animeUserStats.rewatches }),
-    start_date: animeUserStats.startDate,
-    ...(datePattern.test(animeUserStats.finishDate.toString()) && { finish_date: animeUserStats.finishDate }),
+    ...(animeUserStats.finishDate.length !== 0 && { finish_date: animeUserStats.finishDate }),
+    ...(animeUserStats.favorite && { favorite: animeUserStats.favorite }),
   }
   api
     .post("/animelist", newData)
     .then((e) => {
-      console.log(e.data)
+      setData(prevState => ({
+        ...prevState, UserAnimeList: e.data
+      }))
+      setShowAnimeSettings(false)
       toast.success("Anime status updated!")
     })
     .catch(() => { setFailed(true); toast.error("Error on updating") })
     .finally(() => setLoading(false));
-}
-
-export function populateDb(id: number) {
-  api.post('/animes/populate', { id });
 }

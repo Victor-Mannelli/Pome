@@ -1,17 +1,16 @@
 "use client"
 
-import {animeStatus, animeUserStatus } from '@/utils';
 import { Button, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { animeStatus, animeUserStatus } from '@/utils';
+import { SingleAnimeDataForSlug } from '@/utils/types';
 
-export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, showAnimeSettings, usersAnimeStatus, data }: {
-  setUsersAnimeStatus: Dispatch<SetStateAction<any>>;
+export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeData }: {
+  setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
-  usersAnimeStatus: any;
-  showAnimeSettings: boolean;
-  data: any;
+  animeData: SingleAnimeDataForSlug;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
@@ -23,27 +22,33 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
     >
       <RxCross2
         className='absolute z-20 right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth'
-        onClick={() => setShowAnimeSettings(!showAnimeSettings)}
+        onClick={() => setShowAnimeSettings(false)}
       />
       <div
         className={'relative rounded-t-xl h-72 w-full bg-cover flex items-end p-3 bg-right'}
-        style={{ backgroundImage: `url(${data.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
+        style={{ backgroundImage: `url(${animeData.banner_image})`, boxShadow: 'inset 0 0 200px black' }}
       >
-        <h3 className='font-bold'> {data.title.romaji} </h3>
-        {usersAnimeStatus && usersAnimeStatus.favorite !== null ? (
-          usersAnimeStatus.favorite === true
+        <h3 className='font-bold'> {animeData.title} </h3>
+        {animeData.UserAnimeList ? (
+          animeData.UserAnimeList.favorite === true
             ? <FaHeart
               className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
-              onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: false })}
+              onClick={() => setAnimeData(prevState => ({
+                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false }
+              }))}
             />
             : <FaRegHeart
               className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
-              onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true })}
+              onClick={() => setAnimeData(prevState => ({
+                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
+              }))}
             />
         ) : (
           <FaRegHeart
             className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
-            onClick={() => setUsersAnimeStatus({ ...usersAnimeStatus, favorite: true })}
+            onClick={() => setAnimeData(prevState => ({
+              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
+            }))}
           />
         )}
       </div>
@@ -54,16 +59,17 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
             e.preventDefault();
             addAnimeToUserAnimelist({
               animeUserStats: {
-                anime_id: data.id,
-                status: e.target["status"]?.value,
+                anime_id: animeData.anime_id,
+                status: e.target["status"].value,
                 score: Number(e.target["score"]?.value),
                 progress: Number(e.target["progress"]?.value),
                 rewatches: Number(e.target["rewatches"]?.value),
-                startDate: e.target["start_date"]?.value,
+                startDate: e.target["start_date"].value,
                 finishDate: e.target["finish_date"]?.value,
-                favorite: usersAnimeStatus.favorite !== null ? usersAnimeStatus.favorite : false
+                favorite: animeData.UserAnimeList && animeData.UserAnimeList.favorite
               },
-              setUsersAnimeStatus,
+              setShowAnimeSettings,
+              setData: setAnimeData,
               setFailed,
               setLoading,
             })
@@ -80,10 +86,11 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
               id='status'
               required
               placeholder={
-                usersAnimeStatus && usersAnimeStatus.status !== null ? (
-                  usersAnimeStatus.status === '' ? 'Follow' : usersAnimeStatus.status
+                animeData.UserAnimeList ? (
+                  animeData.UserAnimeList.status === '' ? 'Follow' : animeData.UserAnimeList.status
                 ) : 'Follow'
               }
+              defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList.status : null}
             >
               {Object.keys(animeStatus).map((e, i) =>
                 <option
@@ -105,7 +112,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
                 cursor={animeUserStatus[e].cursor}
                 colorScheme={"dark"}
                 type={animeUserStatus[e].type}
-                defaultValue={usersAnimeStatus && usersAnimeStatus[e] !== null ? usersAnimeStatus[e] : animeUserStatus[e].defaultValue}
+                defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList[e] : animeUserStatus[e].defaultValue}
                 autoComplete='off'
                 textColor={"white"}
                 h={"3rem"}
@@ -114,7 +121,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
           )}
           <FaTrashAlt
             className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'
-            onClick={() => removeAnimeFromUserAnimelist(data.id)}
+            onClick={() => removeAnimeFromUserAnimelist(animeData.id)}
           />
           <Button
             isLoading={loading}
