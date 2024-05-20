@@ -1,10 +1,10 @@
-import { animeApi, api, SingleAnimeData, UsersAnimeList } from "@/utils";
-import { AnimeUserStatsInterface } from "@/utils/interfaces"
+// import { AnimeUserStatus, SingleAnimeData, UsersAnimeList } from "@/utils/interfaces"
 import { Dispatch, SetStateAction } from "react";
+import { animeApi, api } from "@/utils";
 import { toast } from "react-toastify";
 
 export async function getAnimeData({ animeId, setData, setFailed, setLoading }: {
-  setData: Dispatch<SetStateAction<SingleAnimeData>>
+  setData: Dispatch<SetStateAction<any>>
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;
@@ -131,7 +131,7 @@ export function maximizeTrailer({ toggle, setToggle }: {
 }
 
 export async function getUniqueUserAnimelist({ setData, animeId, setFailed, setLoading }: {
-  setData: Dispatch<SetStateAction<UsersAnimeList | null>>;
+  setData: Dispatch<SetStateAction<any | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;
@@ -155,27 +155,30 @@ export async function removeAnimeFromUserAnimelist(animeId: number) {
     .catch(() => toast.error("An error has occured"))
 }
 
-export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, animeId }: {
+export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, setUsersAnimeStatus }: {
+  setUsersAnimeStatus: Dispatch<SetStateAction<any | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
-  animeUserStats: AnimeUserStatsInterface;
-  animeId: number;
+  animeUserStats: any;
 }) {
   setLoading(true);
 
   const datePattern = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   const newData = {
-    animeId,
+    anime_id: animeUserStats.anime_id,
     status: animeUserStats.status,
     ...(animeUserStats.score !== 0 && { score: animeUserStats.score }),
     ...(animeUserStats.progress !== 0 && { progress: animeUserStats.progress }),
     ...(animeUserStats.rewatches !== 0 && { rewatches: animeUserStats.rewatches }),
-    startDate: animeUserStats.startDate,
-    ...(datePattern.test(animeUserStats.finishDate.toString()) && { finishDate: animeUserStats.finishDate }),
+    start_date: animeUserStats.startDate,
+    ...(datePattern.test(animeUserStats.finishDate.toString()) && { finish_date: animeUserStats.finishDate }),
   }
   api
     .post("/animelist", newData)
-    .then(() => toast.success("Anime status updated!"))
+    .then((e) => {
+      console.log(e.data)
+      toast.success("Anime status updated!")
+    })
     .catch(() => { setFailed(true); toast.error("Error on updating") })
     .finally(() => setLoading(false));
 }

@@ -1,6 +1,6 @@
-import { api, ToastError } from '@/utils';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { api } from '@/utils';
 
 export function userRegistration({ email, username, password, confirmPassword, router }: {
   email: string,
@@ -20,7 +20,7 @@ export function userRegistration({ email, username, password, confirmPassword, r
         },
       },
       error: {
-        render(e: ToastError | any) {
+        render(e: any) {
           console.log(e)
           return e.data.message
             ? e.data.message

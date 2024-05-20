@@ -17,7 +17,6 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-
   const [loading, setLoading] = useState<boolean>(false);
   // const { pathname } = useRouter();
   // const router = useRouter();

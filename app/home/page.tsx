@@ -1,19 +1,20 @@
 "use client"
 
 import { ErrorFeedback, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from '@/components';
-import { AnimeData, getUsersAnimeList, UsersAnimeList } from '@/utils';
+// import { AnimeData, UsersAnimeList } from '@/utils/interfaces';
 import { UsersAnimeListView } from './usersAnimeListView';
 import { AnimeListWrap } from './animeListWrap';
 import { useEffect, useState } from 'react';
+import { getUsersAnimeList } from '@/utils';
 import { useRouter } from 'next/navigation';
 import { getAnimes } from './functions';
 
 export default function Home() {
-  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimeList[] | null>(null);
+  const [usersAnimeList, setUsersAnimeList] = useState<any[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
 
-  const [animeData, setAnimeData] = useState<AnimeData | null>(null);
+  const [animeData, setAnimeData] = useState<any | null>(null);
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
 

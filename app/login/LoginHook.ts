@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ToastError } from '@/utils/interfaces';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { setCookie } from 'nookies';
@@ -31,7 +30,7 @@ export function userLogin({ login, password, router, setUser }: {
         },
       },
       error: {
-        render(e: ToastError | any) {
+        render(e: any) {
           console.log(e)
           return toast.error("Error on login")
           // return e.data.message

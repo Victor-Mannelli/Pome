@@ -1,5 +1,5 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { AnimeUserStatusData, ToastError, UsersAnimeList } from "../interfaces";
+// import { AnimeUserStatusData, ToastError, UsersAnimeList } from "../interfaces";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { TokenContext } from "../providers";
 import { destroyCookie } from "nookies";
@@ -20,7 +20,7 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
-  body: AnimeUserStatusData;
+  body: any;
 }) {
   setLoading(true);
   api
@@ -75,7 +75,7 @@ export function UseLogout({ router }: { router: AppRouterInstance }) {
 }
 
 export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
-  setData: Dispatch<SetStateAction<UsersAnimeList[] | null>>;
+  setData: Dispatch<SetStateAction<any[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
 }) {

@@ -1,6 +1,5 @@
 "use client"
 
-import { AnimeUserStatsInterface } from '../../utils/interfaces';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { VscFoldDown, VscFoldUp } from 'react-icons/vsc';
 import { FaRegCalendarAlt } from 'react-icons/fa';
@@ -8,8 +7,8 @@ import { animeStatus } from '@/utils';
 import DatePicker from 'react-datepicker';
 
 export function AnimeUserStats({ maxEpisodes, fetchData, setFetchData }: {
-  setFetchData: Dispatch<SetStateAction<AnimeUserStatsInterface>>;
-  fetchData: AnimeUserStatsInterface;
+  setFetchData: Dispatch<SetStateAction<any>>;
+  fetchData: any;
   maxEpisodes: number;
 }) {
   const [showStatus, setShowStatus] = useState<boolean>(false);

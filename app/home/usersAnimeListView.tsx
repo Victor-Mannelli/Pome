@@ -2,11 +2,11 @@
 
 import { useObserveElementWidth } from "@/utils/hooks/useResizeHook";
 import { calculatePadding } from "@/utils/functions";
-import { UsersAnimeList } from "@/utils";
+// import { UsersAnimeList } from "@/utils/interfaces";
 import { useLayoutEffect } from "react";
 
 export function UsersAnimeListView({ usersAnimeList, router }: {
-  usersAnimeList: UsersAnimeList[] | null;
+  usersAnimeList: any[] | null;
   router: any;
 }) {
   const { width, ref } = useObserveElementWidth<HTMLDivElement>();
@@ -24,7 +24,7 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
         className="wrapper-container"
         ref={ref}
       >
-        {usersAnimeList.map((e: UsersAnimeList) => (
+        {usersAnimeList.map((e: any) => (
           <div
             className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
             onClick={() => router.push(`/anime/${e.anime.anime_id}`)}

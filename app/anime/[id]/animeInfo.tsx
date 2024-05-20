@@ -1,19 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
-import { animeStatus, FaHeart, FaRegHeart, monthNames, SingleAnimeData, UsersAnimeList } from "@/utils";
+import { animeStatus, FaHeart, FaRegHeart, monthNames } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
 import { populateDb } from "./functions"
 import { parseCookies } from "nookies";
 import { Stars } from "@/components";
 
 export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStatus, setUsersAnimeStatus }: {
-  setUsersAnimeStatus: Dispatch<SetStateAction<UsersAnimeList>>
+  setUsersAnimeStatus: Dispatch<SetStateAction<any>>
   toggleShowAnimeSettings: () => void;
-  usersAnimeStatus: UsersAnimeList;
-  data: SingleAnimeData;
+  usersAnimeStatus: any;
+  data: any;
   toast: any;
 }) {
   const token = parseCookies(null).token;
-
   return (
     <div className="relative flex justify-start w-full min-h-72 h-fit">
       {usersAnimeStatus && usersAnimeStatus.favorite !== null ? (
@@ -46,7 +45,6 @@ export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStat
           key="coverImageButton"
           className="flex items-center justify-center w-60 h-9 rounded-md hover:bg-fifth bg-fourthAndAHalf hover:cursor-pointer"
           onClick={() => {
-            // api.post('/animes/populate', { id: data.id });
             if (!token) return toast.error('Log in first!')
             toggleShowAnimeSettings();
             populateDb(data.id);
@@ -101,6 +99,6 @@ export function AnimeInfo({ data, toast, toggleShowAnimeSettings, usersAnimeStat
           }
         </div>
       </div>
-    </div>
+    </div >
   )
 }

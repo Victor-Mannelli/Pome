@@ -54,7 +54,7 @@ export default function Login() {
             Log In
           </button>
           <div className="flex flex-col items-center mt-5" onClick={() => router.push('/registration')}>
-            <p className='text-white text-lg cursor-pointer'> Don't have an account yet? </p>
+            <p className="text-white text-lg cursor-pointer"> Don&apos;t have an account yet? </p>
             <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Create one! </p>
           </div>
         </form>

@@ -1,17 +1,17 @@
 "use client"
 
-import { SingleAnimeData, UsersAnimeList, animeStatus, animeUserStatus } from '@/utils';
+import {animeStatus, animeUserStatus } from '@/utils';
 import { Button, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, showAnimeSettings, usersAnimeStatus, data }: {
-  setUsersAnimeStatus: Dispatch<SetStateAction<UsersAnimeList>>;
+  setUsersAnimeStatus: Dispatch<SetStateAction<any>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
-  usersAnimeStatus: UsersAnimeList;
+  usersAnimeStatus: any;
   showAnimeSettings: boolean;
-  data: SingleAnimeData;
+  data: any;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
@@ -54,16 +54,18 @@ export function UserAnimeSettings({ setShowAnimeSettings, setUsersAnimeStatus, s
             e.preventDefault();
             addAnimeToUserAnimelist({
               animeUserStats: {
+                anime_id: data.id,
                 status: e.target["status"]?.value,
                 score: Number(e.target["score"]?.value),
                 progress: Number(e.target["progress"]?.value),
                 rewatches: Number(e.target["rewatches"]?.value),
                 startDate: e.target["start_date"]?.value,
                 finishDate: e.target["finish_date"]?.value,
+                favorite: usersAnimeStatus.favorite !== null ? usersAnimeStatus.favorite : false
               },
+              setUsersAnimeStatus,
               setFailed,
               setLoading,
-              animeId: data.id,
             })
           }}>
           {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}

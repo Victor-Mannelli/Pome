@@ -4,12 +4,13 @@
 import { getUsersAnimeList, UseLogout } from '@/utils/functions';
 import { Button, Filter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
-import { TokenContext, UsersAnimeList } from '@/utils';
+// import { UsersAnimeList } from '@/utils/interfaces';
+import { TokenContext } from '@/utils';
 import { useRouter } from 'next/navigation';
 import _ from 'underscore';
 
 export default function Profile() {
-  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimeList[] | null>(null);
+  const [usersAnimeList, setUsersAnimeList] = useState<any[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
 
@@ -74,7 +75,7 @@ export default function Profile() {
                   <h3 className="w-[11%] text-center font-bold"> Status </h3>
                 </div>
                 {animeList.length > 0 ?
-                  animeList.map((e: UsersAnimeList) => (
+                  animeList.map((e: any) => (
                     <div
                       key={e.anime_id}
                       className="flex w-full items-center px-5 py-1 hover:bg-second rounded-xl cursor-pointer"

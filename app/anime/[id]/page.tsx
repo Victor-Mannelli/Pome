@@ -4,7 +4,6 @@
 import { getAnimeData, getUniqueUserAnimelist, maximizeTrailer } from './functions';
 import { PopUp, AnimePageSkeleton, ErrorFeedback } from '@/components';
 import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
-import { SingleAnimeData, UsersAnimeList } from '@/utils';
 import { UserAnimeSettings } from './animeUserSettings';
 import { useEffect, useState } from 'react';
 import { AnimeInfo } from './animeInfo';
@@ -14,23 +13,36 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
 
-  const [usersAnimeStatus, setUsersAnimeStatus] = useState<UsersAnimeList | null>(null);
+  const [usersAnimeStatus, setUsersAnimeStatus] = useState<any | null>(null);
   const [usersAnimeStatusLoad, setUsersAnimeStatusLoad] = useState<boolean>(true);
   const [usersAnimeStatusFailed, setUsersAnimeStatusFailed] = useState<boolean>(false);
 
-  const [data, setData] = useState<SingleAnimeData | null>(null);
+  const [data, setData] = useState<any | null>(null);
   const [dataLoad, setDataLoad] = useState<boolean>(true);
   const [dataFailed, setDataFailed] = useState<boolean>(false);
 
   useEffect(() => {
-    getUniqueUserAnimelist({ animeId: params.id, setData: setUsersAnimeStatus, setFailed: setUsersAnimeStatusFailed, setLoading: setUsersAnimeStatusLoad })
-    getAnimeData({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
+    // getUniqueUserAnimelist({
+    //   setFailed: setUsersAnimeStatusFailed,
+    //   setLoading: setUsersAnimeStatusLoad,
+    //   setData: setUsersAnimeStatus,
+    //   animeId: params.id,
+    // });
+    getAnimeData({
+      setFailed: setDataFailed,
+      setLoading: setDataLoad,
+      animeId: params.id,
+      setData,
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  console.log(data, "data")
+  console.log(usersAnimeStatus, "usersAnimeStatus")
+
   return (
     <>
-      {dataFailed || usersAnimeStatusFailed ?
+      {dataFailed ?
         (
           <ErrorFeedback
             refreshFunction={() => {
