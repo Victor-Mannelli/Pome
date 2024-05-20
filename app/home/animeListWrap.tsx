@@ -1,12 +1,12 @@
 import { useObserveElementWidth } from "@/utils/hooks";
+import { AnimeCatalogData } from "@/utils/types";
 import { calculatePadding } from "@/utils/functions";
 import { Dispatch, SetStateAction } from "react";
 import { PageHandler } from "@/components";
-// import { AnimeData } from "@/utils/interfaces";
 
 export function AnimeListWrap({ animeData, setPage, router, page }: {
   setPage: Dispatch<SetStateAction<number>>;
-  animeData: any;
+  animeData: AnimeCatalogData;
   page: number;
   router: any;
 }) {

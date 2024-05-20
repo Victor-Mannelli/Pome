@@ -1,10 +1,10 @@
-// import { AnimeUserStatus, SingleAnimeData, UsersAnimeList } from "@/utils/interfaces"
+import { SingleAnimeDataForSlug } from "@/utils/types"
 import { Dispatch, SetStateAction } from "react";
 import { animeApi, api } from "@/utils";
 import { toast } from "react-toastify";
 
 export async function getAnimeData({ animeId, setData, setFailed, setLoading }: {
-  setData: Dispatch<SetStateAction<any>>
+  setData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;

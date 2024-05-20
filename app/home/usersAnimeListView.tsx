@@ -2,11 +2,11 @@
 
 import { useObserveElementWidth } from "@/utils/hooks/useResizeHook";
 import { calculatePadding } from "@/utils/functions";
-// import { UsersAnimeList } from "@/utils/interfaces";
+import { UsersAnimelist } from "@/utils/types";
 import { useLayoutEffect } from "react";
 
 export function UsersAnimeListView({ usersAnimeList, router }: {
-  usersAnimeList: any[] | null;
+  usersAnimeList: UsersAnimelist[] | null;
   router: any;
 }) {
   const { width, ref } = useObserveElementWidth<HTMLDivElement>();
@@ -24,12 +24,12 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
         className="wrapper-container"
         ref={ref}
       >
-        {usersAnimeList.map((e: any) => (
+        {usersAnimeList.map((e: UsersAnimelist) => (
           <div
             className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
-            onClick={() => router.push(`/anime/${e.anime.anime_id}`)}
+            onClick={() => router.push(`/anime/${e.anime_id}`)}
             style={{ backgroundImage: `url(${e.anime.cover_image})` }}
-            key={e.anime.anime_id}
+            key={e.anime_id}
           >
             {/* <div className='flex flex-col justify-center items-center h-fit w-full bg-black bg-opacity-50 rounded-b-md border-b-8 border-signature cursor-default'>
                 {e.anime.next_airing_episode.episode - 1 - e.progress > 0 ?

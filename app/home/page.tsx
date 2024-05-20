@@ -1,7 +1,7 @@
 "use client"
 
 import { ErrorFeedback, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from '@/components';
-// import { AnimeData, UsersAnimeList } from '@/utils/interfaces';
+import { AnimeCatalogData, UsersAnimelist } from '@/utils/types';
 import { UsersAnimeListView } from './usersAnimeListView';
 import { AnimeListWrap } from './animeListWrap';
 import { useEffect, useState } from 'react';
@@ -10,11 +10,11 @@ import { useRouter } from 'next/navigation';
 import { getAnimes } from './functions';
 
 export default function Home() {
-  const [usersAnimeList, setUsersAnimeList] = useState<any[] | null>(null);
+  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
 
-  const [animeData, setAnimeData] = useState<any | null>(null);
+  const [animeData, setAnimeData] = useState<AnimeCatalogData | null>(null);
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
 
@@ -23,9 +23,12 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
+    getUsersAnimeList({
+      setData: setUsersAnimeList,
+      setLoading: usersAnimeListSetLoad,
+      setFailed: setUsersAnimeListFailed,
+    })
   }, [])
-
   useEffect(() => {
     getAnimes({
       setAnimeData,

@@ -1,9 +1,9 @@
-// import { AnimeData, UsersAnimeList } from "@/utils/interfaces";
+import { AnimeCatalogData } from "@/utils/types";
 import { Dispatch, SetStateAction } from "react";
-import { animeApi, api } from "@/utils/axios";
+import { animeApi } from "@/utils/axios";
 
 export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity, page, filter }: {
-  setAnimeData: Dispatch<SetStateAction<any | null>>;
+  setAnimeData: Dispatch<SetStateAction<AnimeCatalogData | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   quantity: number;

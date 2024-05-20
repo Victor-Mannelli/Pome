@@ -1,10 +1,10 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-// import { AnimeUserStatusData, ToastError, UsersAnimeList } from "../interfaces";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { TokenContext } from "../providers";
 import { destroyCookie } from "nookies";
 import { toast } from "react-toastify";
 import { api } from "../axios";
+import { UsersAnimelist } from "../types";
 
 export function calculatePadding({ parentWidth, childWidth }: {
   parentWidth: number, childWidth: number,
@@ -75,7 +75,7 @@ export function UseLogout({ router }: { router: AppRouterInstance }) {
 }
 
 export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
-  setData: Dispatch<SetStateAction<any[] | null>>;
+  setData: Dispatch<SetStateAction<UsersAnimelist[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
 }) {
