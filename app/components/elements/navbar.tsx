@@ -1,21 +1,18 @@
 "use client";
 
 import { usePathname, useRouter } from 'next/navigation';
-import { SiNiconico, FaUserFriends } from '@/utils/libs';
 import { useContext, useEffect, useState } from 'react';
 import { HoverDescription } from './hoverDescription';
-import { RedirectionalIcon } from '@/components';
+import { Link } from '../tools/navigationLoader';
+import { SiNiconico } from '@/utils/libs';
 import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
-import { toast } from "react-toastify";
-import nookies from 'nookies';
 
 export function Navbar() {
   const [show, setShow] = useState<boolean>(true);
-  const cookies = nookies.get(null, 'token').token;
+  const { user } = useContext(TokenContext)
   const pathname = usePathname();
   const router = useRouter();
-  const { user } = useContext(TokenContext)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -45,12 +42,11 @@ export function Navbar() {
         title={'Home'}
         onClick={() => router.push('/')}
       /> */}
-      <HoverDescription hoverText='Home'>
-        <SiNiconico
-          className="text-signature text-2xl cursor-pointer hover:brightness-75"
-          onClick={() => router.push('/')}
-        />
-      </HoverDescription>
+      <Link href={"/"}>
+        <HoverDescription hoverText='Home'>
+          <SiNiconico className="text-signature text-2xl cursor-pointer hover:brightness-75" />
+        </HoverDescription>
+      </Link>
       <div className='flex gap-28'>
         {/* <h2 className="hover:brightness-75 text-signature" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2> */}
         {/* <h2 className="hover:brightness-75 text-signature" onClick={() => router.push('/pome/finished')}> Finished </h2> */}
@@ -65,26 +61,30 @@ export function Navbar() {
           }
         /> */}
         <div className='relative redirectIconElement'>
-          <Avatar
-            className='hover:cursor-pointer'
-            onClick={() => cookies ?
-              // router.push('/profile/1')
-              null
-              : router.push('/login')
-            }
-            name={user ? user.username : null}
-            src={user ? user.avatar : null}
-          />
-          {!cookies ?
-            <>
-              <div className='bg-fifth w-5 h-5 -translate-x-1/2 left-1/2 top-[3.2rem] rotate-45 iconDescription' />
-              <div className='bg-fifth w-16 h-9 -translate-x-1/2 left-1/2 top-14 rounded-md iconDescription justify-center items-center text-white font-bold'>
-                User
-              </div>
-            </>
-            : null}
+          <Link
+            href={user ? '/profile/1' : '/login'}
+          >
+            <Avatar
+              className='hover:cursor-pointer'
+              // onClick={() => cookies ?
+              //   // router.push('/profile/1')
+              //   null
+              //   : router.push('/login')
+              // }
+              name={user ? user.username : null}
+              src={user ? user.avatar : null}
+            />
+            {user ?
+              <>
+                <div className='bg-fifth w-5 h-5 -translate-x-1/2 left-1/2 top-[3.2rem] rotate-45 iconDescription' />
+                <div className='bg-fifth w-16 h-9 -translate-x-1/2 left-1/2 top-14 rounded-md iconDescription justify-center items-center text-white font-bold'>
+                  User
+                </div>
+              </>
+              : null}
+          </Link>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -2,7 +2,7 @@
 
 import { userRegistration } from '@/registration/functions';
 import { useRouter } from 'next/navigation';
-import { InputForm } from '@/components';
+import { InputForm, Link } from '@/components';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -84,10 +84,12 @@ export default function Registration() {
           > Register
           </button>
         </form>
-        <div className="flex gap-1" onClick={() => router.push('/login')}>
-          <p className='text-white text-lg cursor-pointer'> Already have an account? </p>
-          <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Log In! </p>
-        </div>
+        <Link href={'/login'}>
+          <div className="flex gap-1">
+            <p className='text-white text-lg cursor-pointer'> Already have an account? </p>
+            <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Log In! </p>
+          </div>
+        </Link>
       </div>
     </div>
   );

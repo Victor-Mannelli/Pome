@@ -9,6 +9,7 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;
 }) {
+  let userLogged = true;
 
   setLoading(true);
   api
@@ -16,114 +17,120 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
     .then((e) => {
       setData(e.data);
       setFailed(false);
+      return;
     })
-    .catch(() => {setFailed(true); toast.error("The api is offline")})
-    .finally(() => setLoading(false));
-
+    .catch(() => {
+      userLogged = false;
+    })
+    .finally(() => userLogged && setLoading(false));
 
   const variables = {
     id: Number(animeId)
   };
   const query = `
-    query ($id: Int) {
-      Media (id: $id) {
-        id
-        title {
-          romaji
-          english
-          native
-        }
-        type
-        format
-        status
-        description
-        startDate {
-          year
-          month
-          day
-        }
-        endDate {
-          year
-          month
-          day
-        }
-        season
-        episodes
-        duration
-        chapters
-        volumes
-        source
-        hashtag
-        trailer {
+      query ($id: Int) {
+        Media (id: $id) {
           id
-          site
-          thumbnail
-        }
-        updatedAt
-        coverImage {
-          extraLarge
-          large
-          medium
-        }
-        bannerImage
-        genres
-        synonyms 
-        averageScore
-        meanScore
-        popularity
-        trending
-        favourites
-        tags {
-          id
-          name
+          title {
+            romaji
+            english
+            native
+          }
+          type
+          format
+          status
           description
-          category
-          isAdult
-        }
-        characters {
-          nodes {
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            year
+            month
+            day
+          }
+          season
+          episodes
+          duration
+          chapters
+          volumes
+          source
+          hashtag
+          trailer {
             id
-            name {
-              full
-            }
-            image {
-              large
-              medium
-            }
-            gender
+            site
+            thumbnail
+          }
+          updatedAt
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+          bannerImage
+          genres
+          synonyms 
+          averageScore
+          meanScore
+          popularity
+          trending
+          favourites
+          tags {
+            id
+            name
             description
-            dateOfBirth {
-              year
-              month
-              day
+            category
+            isAdult
+          }
+          characters {
+            nodes {
+              id
+              name {
+                full
+              }
+              image {
+                large
+                medium
+              }
+              gender
+              description
+              dateOfBirth {
+                year
+                month
+                day
+              }
+              age
+              bloodType
+              isFavourite
+              favourites
             }
-            age
-            bloodType
-            isFavourite
-            favourites
+          }
+          isAdult
+          nextAiringEpisode {
+            id
+            timeUntilAiring
+            episode
           }
         }
-        isAdult
-        nextAiringEpisode {
-          id
-          timeUntilAiring
-          episode
-        }
       }
-    }
-  `;
+    `;
+  console.log(userLogged)
 
-  animeApi
-    .post('', { query, variables }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
-    .then((e) => {
-      console.log(e.data.data.Media)
-      // setData(e.data.Media)
-    })
+  if (!userLogged) {
+    animeApi
+      .post('', { query, variables }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      })
+      .then((e) => {
+        console.log(e.data.data.Media, "fu")
+        setData(e.data.data.Media)
+      })
+      .finally(() => setLoading(false));
+  }
 }
 
 export function maximizeTrailer({ toggle, setToggle }: {

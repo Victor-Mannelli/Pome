@@ -28,7 +28,7 @@ export function UsersAnimeListView({ usersAnimeList, router }: {
           <div
             className="flex flex-col justify-end w-32 h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
             onClick={() => router.push(`/anime/${e.anime_id}`)}
-            style={{ backgroundImage: `url(${e.anime.cover_image})` }}
+            style={{ backgroundImage: `url(${e.anime.coverImage.extraLarge})` }}
             key={e.anime_id}
           >
             {/* <div className='flex flex-col justify-center items-center h-fit w-full bg-black bg-opacity-50 rounded-b-md border-b-8 border-signature cursor-default'>

@@ -26,9 +26,9 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
       />
       <div
         className={'relative rounded-t-xl h-72 w-full bg-cover flex items-end p-3 bg-right'}
-        style={{ backgroundImage: `url(${animeData.banner_image})`, boxShadow: 'inset 0 0 200px black' }}
+        style={{ backgroundImage: `url(${animeData.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
       >
-        <h3 className='font-bold'> {animeData.title} </h3>
+        <h3 className='font-bold'> {animeData.title.romaji} </h3>
         {animeData.UserAnimeList ? (
           animeData.UserAnimeList.favorite === true
             ? <FaHeart
@@ -59,7 +59,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
             e.preventDefault();
             addAnimeToUserAnimelist({
               animeUserStats: {
-                anime_id: animeData.anime_id,
+                anime_id: animeData.id,
                 status: e.target["status"].value,
                 score: Number(e.target["score"]?.value),
                 progress: Number(e.target["progress"]?.value),
@@ -94,7 +94,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
             >
               {Object.keys(animeStatus).map((e, i) =>
                 <option
-                  key={i}
+                  key={"select_options" + i}
                   value={animeStatus[e].name}
                 >
                   {animeStatus[e].name}
@@ -103,12 +103,12 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
             </Select>
           </InputGroup>
           {Object.keys(animeUserStatus).map((e, i) =>
-            <InputGroup w={"20rem"} key={i}>
+            <InputGroup w={"20rem"} key={"input" + i}>
               <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> {animeUserStatus[e].title} </InputLeftAddon>
               <Input
                 id={e}
                 min={animeUserStatus[e].min}
-                max={e === "progress" ? animeData.next_airing_episode.episode - 1 : animeUserStatus[e].max}
+                max={e === "progress" ? animeData.nextAiringEpisode.episode - 1 : animeUserStatus[e].max}
                 cursor={animeUserStatus[e].cursor}
                 colorScheme={"dark"}
                 type={animeUserStatus[e].type}

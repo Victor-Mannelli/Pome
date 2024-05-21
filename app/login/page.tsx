@@ -4,6 +4,7 @@ import { userLogin } from '@/login/LoginHook';
 import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
 import { TokenContext } from '@/utils';
+import { Link } from '@/components/tools';
 
 export default function Login() {
   const { setUser } = useContext(TokenContext);
@@ -53,10 +54,12 @@ export default function Login() {
           >
             Log In
           </button>
-          <div className="flex flex-col items-center mt-5" onClick={() => router.push('/registration')}>
-            <p className="text-white text-lg cursor-pointer"> Don&apos;t have an account yet? </p>
-            <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Create one! </p>
-          </div>
+          <Link href={'/registration'}>
+            <div className="flex flex-col items-center mt-5">
+              <p className="text-white text-lg cursor-pointer"> Don&apos;t have an account yet? </p>
+              <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Create one! </p>
+            </div>
+          </Link>
         </form>
       </div>
     </div>

@@ -28,6 +28,8 @@ export default function AnimePage({ params }: { params: { id: string } }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // console.log(data);
+
   return (
     <>
       {dataFailed ?
@@ -42,10 +44,10 @@ export default function AnimePage({ params }: { params: { id: string } }) {
           <AnimePageSkeleton />
         ) : (
           <div className="flex flex-col items-center w-full mb-5">
-            {data.banner_image ? (
+            {data.bannerImage ? (
               <div
                 className={'w-full h-80 bg-cover bg-center'}
-                style={{ backgroundImage: `url(${data.banner_image})` }}
+                style={{ backgroundImage: `url(${data.bannerImage})` }}
               > </div>
             ) : null}
             <AnimeInfo
@@ -69,13 +71,13 @@ export default function AnimePage({ params }: { params: { id: string } }) {
                 {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')}
               </p>
             </div>
-            {data.trailer_site && data.trailer_site === 'youtube' ? (
+            {data.trailer && data.trailer.site === 'youtube' ? (
               <div className="relative bg-fourthAndAHalf rounded-xl w-[calc(100%-40px)] mt-5 p-5">
                 <h1 className="text-2xl font-bold pb-3"> Trailer </h1>
                 <div className="relative flex justify-center">
                   <iframe
                     className={`${trailerFullScreen ? "w-[94%] h-[calc(100vh-7.5rem)]" : "h-[25rem] w-[40rem]"}`}
-                    src={`https://www.youtube.com/embed/${data.trailer_id}`}
+                    src={`https://www.youtube.com/embed/${data.trailer.id}`}
                     allowFullScreen
                   />
                 </div>

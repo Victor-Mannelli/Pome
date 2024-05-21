@@ -2,7 +2,7 @@
 
 export function Loading() {
   return (
-    <div className="fixed inset-0 z-[19] w-full h-screen flex items-center justify-center">
+    <div className="fixed inset-0 z-[19] w-full h-screen flex items-center justify-center bg-black">
       <h1> Loading </h1>
       {/* <motion.svg
         xmlns="http://www.w3.org/2000/svg"

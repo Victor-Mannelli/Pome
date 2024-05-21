@@ -106,7 +106,6 @@ export default function Friends(data: any) {
         <div className="relative w-full bg-third rounded-md pt-5">
           <Textarea
             ref={textArea}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onPressEnter={(e: any) => {
               e.target.value === ''
                 ? null : null

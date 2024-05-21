@@ -1,8 +1,8 @@
 import { useObserveElementWidth } from "@/utils/hooks";
-import { AnimeCatalogData } from "@/utils/types";
+import { Link, PageHandler } from "@/components/tools";
 import { calculatePadding } from "@/utils/functions";
 import { Dispatch, SetStateAction } from "react";
-import { PageHandler } from "@/components";
+import { AnimeCatalogData } from "@/utils/types";
 
 export function AnimeListWrap({ animeData, setPage, router, page }: {
   setPage: Dispatch<SetStateAction<number>>;
@@ -30,14 +30,14 @@ export function AnimeListWrap({ animeData, setPage, router, page }: {
             ref={ref}
           >
             {animeData.media.map((anime: any) => (
-              <div
-                className="flex flex-col justify-end w-[9.7rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
-                onClick={() => router.push(`/anime/${anime.id}`)}
-                style={{ backgroundImage: `url(${anime.coverImage.extraLarge})` }}
-                key={anime.id}
-              >
-                <h1 className="text-sm cursor-pointer bg-black bg-opacity-60 rounded-b-md p-2"> {anime.title.romaji} </h1>
-              </div>
+              <Link href={`/anime/${anime.id}`} key={anime.id}>
+                <div
+                  className="flex flex-col justify-end w-[9.7rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
+                  style={{ backgroundImage: `url(${anime.coverImage.extraLarge})` }}
+                >
+                  <h1 className="text-sm cursor-pointer bg-black bg-opacity-60 rounded-b-md p-2"> {anime.title.romaji} </h1>
+                </div>
+              </Link>
             ))}
           </div>
         )}

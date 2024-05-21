@@ -5,12 +5,12 @@ import { getUsersAnimeList, UseLogout } from '@/utils/functions';
 import { Button, Filter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
 // import { UsersAnimeList } from '@/utils/interfaces';
-import { TokenContext } from '@/utils';
+import { TokenContext, UsersAnimelist } from '@/utils';
 import { useRouter } from 'next/navigation';
 import _ from 'underscore';
 
 export default function Profile() {
-  const [usersAnimeList, setUsersAnimeList] = useState<any[] | null>(null);
+  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
 
@@ -28,7 +28,6 @@ export default function Profile() {
     getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
   }, [])
 
-
   const animeList = _.sortBy(usersAnimeList, sort).reverse()?.filter((e: any) => {
     if (sort.length > 0) {
       return e.anime.title.toLowerCase().includes(sort.toLowerCase())
@@ -40,7 +39,7 @@ export default function Profile() {
     usersAnimeListFailed ? UseLogout({ router }) : usersAnimeListLoad ?
       (
         <ProfileSkeleton />
-      ) : usersAnimeList && (
+      ) : usersAnimeList ? (
         <div className="flex flex-col">
           <div className={'w-full h-60 flex items-end px-44'}
             style={{ backgroundImage: `url('${user?.banner}')` }}
@@ -75,14 +74,14 @@ export default function Profile() {
                   <h3 className="w-[11%] text-center font-bold"> Status </h3>
                 </div>
                 {animeList.length > 0 ?
-                  animeList.map((e: any) => (
+                  animeList.map((e: UsersAnimelist) => (
                     <div
                       key={e.anime_id}
                       className="flex w-full items-center px-5 py-1 hover:bg-second rounded-xl cursor-pointer"
                       onClick={() => router.push(`/anime/${e.anime_id}`)}
                     >
-                      <img alt='animeCover' src={e.anime.cover_image} className='w-fit h-16 rounded-sm' />
-                      <h3 className="w-[66.5%] pl-5 break-all cursor-pointer"> {e.anime.title} </h3>
+                      <img alt='animeCover' src={e.anime.coverImage.medium} className='w-fit h-16 rounded-sm' />
+                      <h3 className="w-[66.5%] pl-5 break-all cursor-pointer"> {e.anime.title.romaji} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.score} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.progress} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.status} </h3>
@@ -97,6 +96,6 @@ export default function Profile() {
           </div>
         </div >
         // <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} />
-      )
+      ) : null
   )
 }

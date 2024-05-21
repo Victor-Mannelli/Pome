@@ -31,7 +31,6 @@ export function userLogin({ login, password, router, setUser }: {
       },
       error: {
         render(e: any) {
-          console.log(e)
           return toast.error("Error on login")
           // return e.data.message
           //   ? e.data.message

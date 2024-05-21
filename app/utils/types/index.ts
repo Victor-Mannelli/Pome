@@ -10,10 +10,41 @@ export type UsersAnimelist = {
   finish_date: string | null,
   favorite: boolean,
   anime: {
-    cover_image: string,
+    coverImage: {
+      extraLarge: string,
+      large: string,
+      medium: string,
+    },
+    title: {
+      romaji: string,
+      english: string,
+      native: string,
+    },
   }
 }
-
+// export type UsersAnimelist = {
+//   id: number,
+//   user_id: number,
+//   anime_id: number,
+//   status: string,
+//   score: number,
+//   progress: number,
+//   rewatches: number,
+//   startDate: {
+//     year: number,
+//     month: number,
+//     day: number,
+//   },
+//   finishDate: {
+//     year: number | null,
+//     month: number | null,
+//     day: number | null,
+//   },
+//   favorite: boolean,
+//   anime: {
+//     cover_image: string,
+//   }
+// }
 export type AnimeCatalogData = {
   media: SingleAnimeData[],
   pageInfo: PageInfo,
@@ -106,27 +137,51 @@ export type PageInfo = {
 export type SingleAnimeDataForSlug = {
   id: number,
   anime_id: number,
-  title: string,
+  title: {
+    romaji: string,
+    english: string,
+    native: string,
+  },
   status: string,
   description: string,
-  start_date: number,
-  end_date: number | null,
+  startDate: {
+    year: number,
+    month: number,
+    day: number,
+  },
+  endDate: {
+    year: number | null,
+    month: number | null,
+    day: number | null,
+  },
   episodes: string,
   chapters: number | null,
   volumes: number | null,
-  cover_image: string,
-  banner_image: string,
+  coverImage: {
+    extraLarge: string,
+    large: string,
+    medium: string,
+  },
+  bannerImage: string,
   genres: string[],
-  tags: string[],
-  average_score: number,
-  next_airing_episode: {
+  tags: {
+    id: number,
+    name: string,
+    description: string,
+    isAdult: boolean,
+    category: string,
+  }[],
+  averageScore: number,
+  nextAiringEpisode: {
     id: number,
     episode: number,
     timeUntilAiring: number
   },
-  trailer_id: number,
-  trailer_site: string,
-  trailer_thumbnail: string,
+  trailer: {
+    id: string,
+    site: string,
+    thumbnail: string,
+  }
   UserAnimeList?: {
     id: number,
     user_id: number,
@@ -141,7 +196,8 @@ export type SingleAnimeDataForSlug = {
   }
 }
 export type AnimeUserStatus = {
-  anime_id: number,
+  id?: number,
+  anime_id?: number,
   status: string,
   score?: number;
   progress?: number;
