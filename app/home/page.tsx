@@ -69,6 +69,7 @@ export default function Home() {
               page,
               quantity: 28
             })}
+            loading={animeDataLoad}
           />
         ) : animeDataLoad ? (
           <HomePageAnimesSkeleton page={page} />

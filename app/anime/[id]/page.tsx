@@ -36,6 +36,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
             refreshFunction={() => {
               getAnimeDataForSlug({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
             }}
+            loading={dataLoad}
           />
         ) : dataLoad ? (
           <AnimePageSkeleton />
