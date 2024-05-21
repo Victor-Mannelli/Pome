@@ -71,8 +71,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
       </div>
       <div id="animeInfo" className="flex flex-col w-full p-5 md:pl-0">
         <h1 id="title" className={`w-full pr-7 font-bold text-2xl ${animeData.banner_image ? "md:pl-[19rem]" : ""} `}> {animeData.title} </h1>
-        <div className="flex flex-col lg:flex-row justify-between pt-3 gap-3 ">
-          <div className={`flex flex-col justify-evenly min-h-48 max-w-[32.75rem] ${animeData.banner_image ? "md:ml-[19rem]" : ""}`}>
+        <div className="flex flex-col lg:flex-row pt-3 gap-7">
+          <div className={`flex flex-col justify-evenly min-h-48 ${animeData.banner_image ? "md:ml-[19rem]" : ""}`}>
             <div className='flex w-72 h-6 my-1'>
               <h3 className='pr-2 pt-[0.1rem]'>
                 <span className='font-bold italic pr-1'> {animeData.status[0] + animeData.status.slice(1).toLocaleLowerCase()} </span>
@@ -104,7 +104,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                 )
                 : null}
             {!animeData.genres ? null :
-              <div id='genres' className="flex flex-wrap pt-2 gap-1">
+              <div id='genres' className="flex flex-wrap gap-1 xl:w-[33.5rem] xx:w-fit">
                 {animeData.genres.map((e: string, i: number) => (
                   <h3 key={e + i} className="w-32 h-9 my-1 rounded-lg text-center pt-1 text-eigth text-md border"> {e} </h3>
                 ))}
@@ -112,10 +112,11 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
             }
           </div>
           {!animeData.tags ? null :
-            <div id="tags" className="flex flex-wrap gap-2 lg:w-2/5 pl-2 md:pl-7 lg:pl-0 sm:min-w-[22.5rem]">
+            <div id="tags" className="flex xl:flex-col flex-wrap items-start gap-2 pl-2 md:pl-7 lg:pl-0 xx:h-48 xl:h-[18.8rem] xl:w-[28rem] xx:pl-36">
               {animeData.tags.map((e: any,) => (
-                <li key={e} className="text-eigth w-[10.7rem] sm:w-44 h-5"> {e} </li>
+                <li key={e} className="text-eigth w-full sm:w-[13.5rem] h-5"> {e} </li>
               ))}
+              {/* <li className="text-eigth w-full sm:w-[13.5rem] h-5"> asdasd </li> */}
             </div>
           }
         </div>

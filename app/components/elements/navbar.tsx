@@ -1,9 +1,13 @@
+"use client";
+
 import { usePathname, useRouter } from 'next/navigation';
+import { SiNiconico, FaUserFriends } from '@/utils/libs';
 import { useContext, useEffect, useState } from 'react';
 import { HoverDescription } from './hoverDescription';
-import { SiNiconico } from '@/utils/libs';
+import { RedirectionalIcon } from '@/components';
 import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
+import { toast } from "react-toastify";
 import nookies from 'nookies';
 
 export function Navbar() {
@@ -56,27 +60,29 @@ export function Navbar() {
           Icon={FaUserFriends}
           title={'Friends'}
           onClick={() => cookies
-            ? router.push('/pome/friends')
-            : (router.push('/pome/login'), toast.error('log in first!'))
+            ? router.push('/friends')
+            : (router.push('login'), toast.error('log in first!'))
           }
-        /> */}
-        {/* <RedirectionalIcon
-          Icon={FaUserCircle}
-          title={'Profile'}
-          onClick={() => cookies ? router.push('/profile/1') : router.push('/login')}
-          router={router}
         /> */}
         <div className='relative redirectIconElement'>
           <Avatar
             className='hover:cursor-pointer'
-            onClick={() => cookies ? router.push('/profile/1') : router.push('/login')}
+            onClick={() => cookies ?
+              // router.push('/profile/1')
+              null
+              : router.push('/login')
+            }
             name={user ? user.username : null}
             src={user ? user.avatar : null}
           />
-          <div className='bg-fifth w-5 h-5 -translate-x-1/2 left-1/2 top-[3.2rem] rotate-45 iconDescription'/>
-          <div className='bg-fifth w-16 h-9 -translate-x-1/2 left-1/2 top-14 rounded-md iconDescription justify-center items-center text-white font-bold'>
-            User
-          </div>
+          {!cookies ?
+            <>
+              <div className='bg-fifth w-5 h-5 -translate-x-1/2 left-1/2 top-[3.2rem] rotate-45 iconDescription' />
+              <div className='bg-fifth w-16 h-9 -translate-x-1/2 left-1/2 top-14 rounded-md iconDescription justify-center items-center text-white font-bold'>
+                User
+              </div>
+            </>
+            : null}
         </div>
       </div>
     </div>

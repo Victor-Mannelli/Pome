@@ -85,7 +85,7 @@ export default function Profile() {
                       <h3 className="w-[66.5%] pl-5 break-all cursor-pointer"> {e.anime.title} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.score} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.progress} </h3>
-                      <h3 className="w-[11.5%] text-center cursor-pointer"> {e.anime.status} </h3>
+                      <h3 className="w-[11.5%] text-center cursor-pointer"> {e.status} </h3>
                     </div>
                   )) :
                   <div className='w-full h-fit p-5 rounded-md bg-third'>

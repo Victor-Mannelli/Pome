@@ -108,7 +108,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
               <Input
                 id={e}
                 min={animeUserStatus[e].min}
-                max={animeUserStatus[e].max}
+                max={e === "progress" ? animeData.next_airing_episode.episode - 1 : animeUserStatus[e].max}
                 cursor={animeUserStatus[e].cursor}
                 colorScheme={"dark"}
                 type={animeUserStatus[e].type}

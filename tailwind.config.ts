@@ -18,6 +18,7 @@ const config: Config = {
         //! lg: '976px',
         lg: '1080px',
         xl: '1440px',
+        xx: '1680px',
       },
       colors: {
         'first': '#1e1e1e',
