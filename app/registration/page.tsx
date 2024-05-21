@@ -44,7 +44,7 @@ export default function Registration() {
         <h1> Welcome! </h1>
         {/* {image ? (
           <div className="relative mb-2">
-            <img src={image} alt="user_banner" className="rounded-xl w-[23rem] h-44"/>
+            <Image src={image} alt="user_banner" className="rounded-xl w-[23rem] h-44"/>
             <RxCross2 
               className="absolute top-3 right-3 w-6 h-6 rounded-full border bg-opacity-20 bg-white text-white cursor-pointer"
               onClick={() => {

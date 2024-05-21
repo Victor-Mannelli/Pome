@@ -2,6 +2,7 @@ import { ImExit, UseLogout } from '@/utils';
 import { IconType } from 'react-icons/lib';
 import { MouseEventHandler } from 'react';
 import { parseCookies } from 'nookies';
+import Image from 'next/image';
 
 export function RedirectionalIcon({ Icon, className, title, onClick, router }: {
   onClick: MouseEventHandler;
@@ -17,10 +18,13 @@ export function RedirectionalIcon({ Icon, className, title, onClick, router }: {
       {// token && title === 'Profile' ?
         // eslint-disable-next-line no-constant-condition
         false ?
-          <img
+          <Image
             alt='profilePicture'
             // src={user.profilePicture}
+            src={''}
             className='rounded-full '
+            width={1920}
+            height={1080}
           /> :
           <Icon
             className={`${className} text-signature text-2xl cursor-pointer hover:brightness-75`}

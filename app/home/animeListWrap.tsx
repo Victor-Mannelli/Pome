@@ -4,11 +4,10 @@ import { calculatePadding } from "@/utils/functions";
 import { Dispatch, SetStateAction } from "react";
 import { AnimeCatalogData } from "@/utils/types";
 
-export function AnimeListWrap({ animeData, setPage, router, page }: {
+export function AnimeListWrap({ animeData, setPage, page }: {
   setPage: Dispatch<SetStateAction<number>>;
   animeData: AnimeCatalogData;
   page: number;
-  router: any;
 }) {
   const { width, ref } = useObserveElementWidth();
 

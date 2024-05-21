@@ -16,8 +16,8 @@ export function Link({ href, children, replace, ...rest }: Parameters<typeof Nex
           className='w-1/4 h-fit'
           src={'/loading-rikka.gif'}
           alt={'loading-rikka-giff'}
-          width={1080}
-          height={720}
+          width={1920}
+          height={1080}
         />
         <h1 className='animate-pulse text-xl'> Loading... </h1>
       </div>

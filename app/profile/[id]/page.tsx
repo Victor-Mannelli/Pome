@@ -1,12 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { getUsersAnimeList, UseLogout } from '@/utils/functions';
 import { Button, Filter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
-// import { UsersAnimeList } from '@/utils/interfaces';
 import { TokenContext, UsersAnimelist } from '@/utils';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import _ from 'underscore';
 
 export default function Profile() {
@@ -44,10 +43,12 @@ export default function Profile() {
           <div className={'w-full h-60 flex items-end px-44'}
             style={{ backgroundImage: `url('${user?.banner}')` }}
           >
-            <img
+            <Image
               className="h-40"
               src={user?.profile_picture}
               alt="profile_pic"
+              width={1920}
+              height={1080}
             />
             <h1 className="pl-10 pb-5 text-2xl"> {user?.username[0].toUpperCase() + user?.username.slice(1)} </h1>
           </div>
@@ -80,7 +81,13 @@ export default function Profile() {
                       className="flex w-full items-center px-5 py-1 hover:bg-second rounded-xl cursor-pointer"
                       onClick={() => router.push(`/anime/${e.anime_id}`)}
                     >
-                      <img alt='animeCover' src={e.anime.coverImage.medium} className='w-fit h-16 rounded-sm' />
+                      <Image
+                        alt='animeCover'
+                        src={e.anime.coverImage.medium}
+                        className='w-fit h-16 rounded-sm'
+                        width={1920}
+                        height={1080}
+                      />
                       <h3 className="w-[66.5%] pl-5 break-all cursor-pointer"> {e.anime.title.romaji} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.score} </h3>
                       <h3 className="w-[11.5%] text-center cursor-pointer"> {e.progress} </h3>

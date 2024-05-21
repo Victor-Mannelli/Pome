@@ -20,9 +20,9 @@ export default function InputImage() {
           <Image
             src={image}
             alt="user_banner"
+            className="rounded-xl"
             width={1920}
             height={1080}
-            className="rounded-xl"
           />
           <h1
             className="mb-5 mt-1 hover:cursor-pointer hover:text-fifth underline"

@@ -74,7 +74,7 @@ export default function Home() {
         ) : animeDataLoad ? (
           <HomePageAnimesSkeleton page={page} />
         ) : (
-          <AnimeListWrap animeData={animeData} setPage={setPage} router={router} page={page} />
+          <AnimeListWrap animeData={animeData} setPage={setPage} page={page} />
         )
       }
     </div>

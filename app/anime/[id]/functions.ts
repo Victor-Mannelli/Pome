@@ -1,6 +1,7 @@
 import { AnimeUserStatus, SingleAnimeDataForSlug } from "@/utils/types"
 import { Dispatch, SetStateAction, useContext } from "react";
 import { TokenContext, animeApi, api } from "@/utils";
+import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 
 export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoading }: {
@@ -9,25 +10,23 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;
 }) {
-  let userLogged = true;
-
-  setLoading(true);
-  api
-    .get(`/animes/${animeId}`)
-    .then((e) => {
-      setData(e.data);
-      setFailed(false);
-      return;
-    })
-    .catch(() => {
-      userLogged = false;
-    })
-    .finally(() => userLogged && setLoading(false));
-
-  const variables = {
-    id: Number(animeId)
-  };
-  const query = `
+  const token = parseCookies(null).token;
+  if (token) {
+    setLoading(true);
+    api
+      .get(`/animes/${animeId}`)
+      .then((e) => {
+        setData(e.data);
+        setFailed(false);
+        return;
+      })
+      .catch(() => setFailed(true))
+      .finally(() => setLoading(false));
+  } else {
+    const variables = {
+      id: Number(animeId)
+    };
+    const query = `
       query ($id: Int) {
         Media (id: $id) {
           id
@@ -115,9 +114,6 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
         }
       }
     `;
-  console.log(userLogged)
-
-  if (!userLogged) {
     animeApi
       .post('', { query, variables }, {
         headers: {
@@ -126,9 +122,9 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
         }
       })
       .then((e) => {
-        console.log(e.data.data.Media, "fu")
         setData(e.data.data.Media)
       })
+      .catch(() => setFailed(true))
       .finally(() => setLoading(false));
   }
 }

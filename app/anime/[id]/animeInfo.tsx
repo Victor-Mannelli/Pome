@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 import { animeStatus, FaHeart, FaRegHeart, monthNames } from "@/utils";
 import { SingleAnimeDataForSlug } from "@/utils/types";
 import { Dispatch, SetStateAction } from "react";
 import { parseCookies } from "nookies";
 import { Stars } from "@/components";
+import Image from "next/image";
 
 export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, toast }: {
   setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
@@ -49,11 +49,13 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
         id="coverImageDisplay"
         className={`${animeData.bannerImage ? "absolute -top-5 h-[17rem]" : "m-5"} md:flex hidden flex-col justify-end items-center gap-2 w-[19rem]`}
       >
-        <img
+        <Image
           id="coverImage"
           alt="coverImage"
           className="w-60 h-[23.5rem] rounded-lg"
           src={animeData.coverImage.extraLarge}
+          width={1920}
+          height={1080}
         />
         <button
           key="coverImageButton"

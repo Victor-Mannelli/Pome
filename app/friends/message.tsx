@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function Message({ username, timestamp, message, id
   // profile_picture, 
 }: {
@@ -15,10 +17,12 @@ export function Message({ username, timestamp, message, id
   const meridiem = hours >= 12 ? 'PM' : 'AM';
   return (
     <div id={id} className="flex p-3 bg-fifth text-sixthrounded-md rounded-lg">
-      <img
+      <Image
         className="rounded-full mr-4 mt-1 w-10 h-10"
         src="/assets/dark_bg.jpg"
         alt="profile_pic"
+        width={1920}
+        height={1080}
       />
       <div className="flex flex-col">
         <div className="flex items-center">
