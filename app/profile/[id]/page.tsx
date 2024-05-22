@@ -5,20 +5,20 @@ import { Button, Filter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
 import { TokenContext, UsersAnimelist } from '@/utils';
 import { useRouter } from 'next/navigation';
+import { Avatar } from '@chakra-ui/react';
 import Image from 'next/image';
 import _ from 'underscore';
-import { Avatar } from '@chakra-ui/react';
 
 export default function Profile() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
+  const { user, setToken, setUser } = useContext(TokenContext)
 
   const [filter, setFilter] = useState<string>('Watching');
   const [sort, setSort] = useState<string>('');
   const router = useRouter();
 
-  const { user } = useContext(TokenContext)
   if (user) {
     user.banner = '/dark_bg.jpg';
   }
@@ -35,7 +35,7 @@ export default function Profile() {
   });
 
   return (
-    usersAnimeListFailed ? UseLogout({ router }) : usersAnimeListLoad ? (
+    usersAnimeListFailed ? UseLogout({ setToken, setUser }) : usersAnimeListLoad ? (
       <ProfileSkeleton />
     ) : usersAnimeList ? (
       <div className="flex flex-col">
