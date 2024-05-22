@@ -1,13 +1,17 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
+import { User } from "../types";
 
 export const TokenContext = createContext<any>({});
 
 export function TokenProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const existingToken = parseCookies(null).token;
@@ -26,6 +30,11 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (token && pathname == "/login") router.push("/")
+  }, [token, router, pathname])
+
+
   return (
     <TokenContext.Provider value={{ user, setUser, token, setToken }}>
       {children}
@@ -33,8 +42,3 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-interface User {
-  user_id: string,
-  username: string,
-  email: string;
-}

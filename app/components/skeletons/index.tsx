@@ -6,7 +6,7 @@ export function FollowedAnimeSkeleton() {
     <div className="flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
       <h1 className="font-bold text-center p-5"> You are following </h1>
       <div className="flex flex-wrap p-5 gap-4">
-        {Array.from({ length: 6 }).map((_, i) =>
+        {Array.from({ length: 8 }).map((_, i) =>
           <div
             className="flex flex-col justify-end w-[7.125rem] h-40 bg-fifth animate-pulse rounded-md bg-cover cursor-pointer"
             key={i}
@@ -22,7 +22,7 @@ export function HomePageAnimesSkeleton({ page }: { page: number }) {
     <div className="flex flex-col items-center h-full xl:w-[52rem] md:w-[41.4rem] w-[20.2rem]">
       <h1 className="hover:cursor-pointer pt-3"> New Animes! </h1>
       <div className="flex flex-wrap gap-4 py-5">
-        {Array.from({ length: 25 }).map((_, i) =>
+        {Array.from({ length: 30 }).map((_, i) =>
           <div
             className="flex flex-col justify-end w-[9.6rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover animate-pulse bg-fifth"
             key={i}

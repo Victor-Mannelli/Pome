@@ -1,16 +1,18 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { User } from '@/utils/types';
 import { setCookie } from 'nookies';
 import { api } from '@/utils/axios';
 
-export function userLogin({ login, password, router, setUser }: {
+export function userLogin({ login, password, router, setUser, setLoading }: {
+  setLoading: Dispatch<SetStateAction<boolean>>
+  setUser: Dispatch<SetStateAction<User>>
   router: ReturnType<typeof useRouter>;
   password: string;
   login: string;
-  setUser: Dispatch<SetStateAction<User>>
 }) {
-
+  setLoading(true)
   toast.promise(
     api.post('/users/login', { login, password })
       .then((response) => {
@@ -25,13 +27,15 @@ export function userLogin({ login, password, router, setUser }: {
       pending: 'Logging in...',
       success: {
         render() {
+          setLoading(false);
           router.push('/');
           return 'Logged In!';
         },
       },
       error: {
         render(e: any) {
-          return toast.error("Error on login")
+          setLoading(false);
+          return "Error on login"
           // return e.data.message
           //   ? e.data.message
           //   : e.response?.data.length > 1
@@ -44,8 +48,3 @@ export function userLogin({ login, password, router, setUser }: {
   );
 }
 
-interface User {
-  user_id: string,
-  username: string,
-  email: string;
-}

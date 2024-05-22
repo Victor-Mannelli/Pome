@@ -135,14 +135,11 @@ body {
 		margin: 1.5rem;
 	}
 
-	.test {
-		right: 0.75rem;
-		top: 0.6rem;
-	}
-	@media (min-width: 768px) {
-		.test {
-			bottom: 1rem !important;
-			top: inherit;
-		}
+	.triangle {
+		width: 0;
+		height: 0;
+		border-bottom: 20px solid #2c2e2f;
+		border-left: 20px solid transparent;
+		border-right: 20px solid transparent;
 	}
 }

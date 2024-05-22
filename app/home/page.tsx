@@ -2,8 +2,8 @@
 
 import { ErrorFeedback, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from '@/components';
 import { AnimeCatalogData, UsersAnimelist } from '@/utils/types';
-import { UsersAnimeListView } from './usersAnimeListView';
-import { AnimeListWrap } from './animeListWrap';
+import { UsersAnimeListView } from './usersAnimelistView';
+import { AnimelistWrap } from './animelistWrap';
 import { useEffect, useState } from 'react';
 import { getUsersAnimeList } from '@/utils';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ export default function Home() {
       setFailed: setAnimeDataFailed,
       setLoading: setAnimeDataLoad,
       page,
-      quantity: 25
+      quantity: 30
     });
   }, [page]);
 
@@ -55,7 +55,7 @@ export default function Home() {
             setFailed: setAnimeDataFailed,
             setLoading: setAnimeDataLoad,
             page,
-            quantity: 28
+            quantity: 30
           })}
           setFailed={setAnimeDataFailed}
           loading={animeDataLoad}
@@ -63,7 +63,7 @@ export default function Home() {
       ) : animeDataLoad ? (
         <HomePageAnimesSkeleton page={page} />
       ) : (
-        <AnimeListWrap animeData={animeData} setPage={setPage} page={page} />
+        <AnimelistWrap animeData={animeData} setPage={setPage} page={page} usersAnimeListFailed={usersAnimeListFailed} />
       )}
       {usersAnimeListFailed ? null : usersAnimeListLoad ? (
         <FollowedAnimeSkeleton />

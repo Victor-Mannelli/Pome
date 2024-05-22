@@ -19,7 +19,7 @@ export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 			<Button
 				isLoading={loading}
 				isDisabled={loading}
-				className="w-fit h-1/3 text-white cursor-pointer hover:brightness-75"
+				className="w-fit h-1/3 text-white cursor-pointer"
 				type='submit'
 				onClick={() => {
 					destroyCookie(null, 'token', { path: "/" });

@@ -1,11 +1,10 @@
+import { BiPlus, BiMinus } from "@/utils/libs";
 import { UsersAnimelist } from "@/utils/types";
-import { BiPlus, BiMinus } from "@/utils/libs"
 
 export function UsersAnimeListView({ usersAnimeList, router }: {
   usersAnimeList: UsersAnimelist[] | null;
   router: any;
 }) {
-
   return (
     // lg:min-w-[23rem] sm:max-h-[38.5rem] md:h-fit
     <div className="flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">

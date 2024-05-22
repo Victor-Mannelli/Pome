@@ -27,29 +27,7 @@ export type UsersAnimelist = {
     }
   }
 }
-// export type UsersAnimelist = {
-//   id: number,
-//   user_id: number,
-//   anime_id: number,
-//   status: string,
-//   score: number,
-//   progress: number,
-//   rewatches: number,
-//   startDate: {
-//     year: number,
-//     month: number,
-//     day: number,
-//   },
-//   finishDate: {
-//     year: number | null,
-//     month: number | null,
-//     day: number | null,
-//   },
-//   favorite: boolean,
-//   anime: {
-//     cover_image: string,
-//   }
-// }
+
 export type AnimeCatalogData = {
   media: SingleAnimeData[],
   pageInfo: PageInfo,
@@ -212,6 +190,12 @@ export type AnimeUserStatus = {
   favorite: boolean,
 }
 
+export type User = {
+  user_id: string,
+  username: string,
+  email: string;
+}
+
 // export type AnimeInfoData = {
 //   data: AnimeInfo[]
 // }
@@ -304,4 +288,26 @@ export type AnimeUserStatus = {
 //   start_date: Date,
 //   finish_date: Date,
 // }
-
+// export type UsersAnimelist = {
+//   id: number,
+//   user_id: number,
+//   anime_id: number,
+//   status: string,
+//   score: number,
+//   progress: number,
+//   rewatches: number,
+//   startDate: {
+//     year: number,
+//     month: number,
+//     day: number,
+//   },
+//   finishDate: {
+//     year: number | null,
+//     month: number | null,
+//     day: number | null,
+//   },
+//   favorite: boolean,
+//   anime: {
+//     cover_image: string,
+//   }
+// }

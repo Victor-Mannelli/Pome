@@ -12,7 +12,7 @@ export function userRegistration({ email, username, password, confirmPassword, r
   toast.promise(
     api.post('/users/register', { email, username, password, confirmPassword }),
     {
-      pending: 'Login in...',
+      pending: 'Creating account...',
       success: {
         render() {
           router.push('/login');
@@ -21,12 +21,13 @@ export function userRegistration({ email, username, password, confirmPassword, r
       },
       error: {
         render(e: any) {
-          console.log(e)
-          return e.data.message
-            ? e.data.message
-            : e.response.data.length > 1
-              ? e.response.data.map((error: any) => error)
-              : e.response.data[0];
+          return "Error on registration"
+          // console.log(e)
+          // return e.data.message
+          //   ? e.data.message
+          //   : e.response.data.length > 1
+          //     ? e.response.data.map((error: any) => error)
+          //     : e.response.data[0];
         }
       }
     },

@@ -1,7 +1,7 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Dispatch, SetStateAction, useContext } from "react";
+import { User, UsersAnimelist } from "../types";
 import { TokenContext } from "../providers";
-import { UsersAnimelist } from "../types";
 import { destroyCookie } from "nookies";
 import { toast } from "react-toastify";
 import { api } from "../axios";
@@ -37,13 +37,14 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
     });
 }
 
-export function UseLogout({ router }: { router: AppRouterInstance }) {
-  const { setUser, setToken } = useContext(TokenContext)
+export function UseLogout({ setUser, setToken }: {
+  setToken: Dispatch<SetStateAction<string>>
+  setUser: Dispatch<SetStateAction<User>>
+ }) {
 
   destroyCookie(null, 'token', { path: "/" });
-  // destroyCookie(undefined, 'token');
-  // destroyCookie({}, 'token');
-  console.log("asd", router)
+  destroyCookie(undefined, 'token', { path: "/" });
+  destroyCookie({}, 'token', { path: "/" });
   setUser(null);
   setToken(null);
   // router.push("/");

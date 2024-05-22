@@ -1,14 +1,16 @@
 "use client"
 
-import { userLogin } from '@/login/LoginHook';
+import { userLogin } from '@/login/functions';
 import { useRouter } from 'next/navigation';
+import { Button } from '@chakra-ui/react';
 import { Link } from '@/components/tools';
 import { TokenContext } from '@/utils';
 import React from 'react';
 
 export default function Login() {
+  const [loading, setLoading] = React.useState<boolean>(false)
   const { setUser } = React.useContext(TokenContext);
-  const router = useRouter();
+  const router = useRouter(); 
 
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,6 +19,7 @@ export default function Login() {
       password: e.target["password"].value,
       router,
       setUser,
+      setLoading,
     });
   }
 
@@ -52,12 +55,17 @@ export default function Login() {
               </h2>
             </div> 
           */}
-          <button
+          <Button
+            textColor={"text-signature"}
+            bg={"bg-fourth"}
+            _hover={"hover:bg-fifth"}
             className="w-full md:w-full h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md text-lg"
             type="submit"
+            isLoading={loading}
+            isDisabled={loading}
           >
             Log In
-          </button>
+          </Button>
           <Link href={'/registration'}>
             <div className="flex flex-col items-center mt-5">
               <p className="text-white text-lg cursor-pointer"> Don&apos;t have an account yet? </p>

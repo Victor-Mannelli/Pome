@@ -5,11 +5,14 @@ import { useRouter } from 'next/navigation';
 import { InputForm, Link } from '@/components';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { Button } from '@chakra-ui/react';
 
 export default function Registration() {
-  const router = useRouter();
   const [fetchData, setFetchData] = useState<SignupFetchData>({ email: '', username: '', password: '', confirmPassword: '', userBanner: '' });
+  const [loading, setLoading] = useState<boolean>(false)
   const [match, setMatch] = useState(true);
+  const router = useRouter();
+
   // const [image, setImage] = useState<any>(null);
   // const [focus, setFocus] = useState<boolean>(false);
 
@@ -78,11 +81,17 @@ export default function Registration() {
           <InputForm name="username" type="text" placeholder="Username" value={fetchData.username} onChange={handleChanges} />
           <InputForm name="password" type="password" match={match} placeholder="Password" value={fetchData.password} onChange={handleChanges} />
           <InputForm name="confirmPassword" type="password" match={match} placeholder="Confirm Password" value={fetchData.confirmPassword} onChange={handleChanges} />
-          <button
+          <Button
+            textColor={"text-signature"}
+            bg={"bg-fourth"}
+            _hover={"hover:bg-fifth"}
             className="w-full md:w-full text-lg h-12 mt-7 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             type="submit"
-          > Register
-          </button>
+            isLoading={loading}
+            isDisabled={loading}
+          >
+            Register
+          </Button>
         </form>
         <Link href={'/login'}>
           <div className="flex gap-1">

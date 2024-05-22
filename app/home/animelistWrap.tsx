@@ -2,14 +2,17 @@ import { Link, PageHandler } from "@/components/tools";
 import { Dispatch, SetStateAction } from "react";
 import { AnimeCatalogData } from "@/utils/types";
 
-export function AnimeListWrap({ animeData, setPage, page }: {
+export function AnimelistWrap({ animeData, setPage, page, usersAnimeListFailed }: {
   setPage: Dispatch<SetStateAction<number>>;
+  usersAnimeListFailed: boolean;
   animeData: AnimeCatalogData;
   page: number;
 }) {
 
   return (
-    <div className="flex flex-col items-center h-full xl:w-[52rem] md:w-[41.4rem] w-[20.2rem]">
+    <div className={`flex flex-col items-center h-full w-[20.2rem] ${usersAnimeListFailed
+      ? "xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]" : "xl:w-[52rem] md:w-[41.4rem]"}
+    `}>
       <h1 className="hover:cursor-pointer pt-3" onClick={() => { if (page !== 0) setPage(0) }}>
         New Animes!
       </h1>
