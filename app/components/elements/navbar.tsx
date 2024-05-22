@@ -1,9 +1,9 @@
 "use client";
 
-import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { HoverDescription } from './hoverDescription';
 import { Link } from '../tools/navigationLoader';
+import { usePathname } from 'next/navigation';
 import { SiNiconico } from '@/utils/libs';
 import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
@@ -12,7 +12,6 @@ export function Navbar() {
   const [show, setShow] = useState<boolean>(true);
   const { user } = useContext(TokenContext)
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -37,40 +36,44 @@ export function Navbar() {
       `}
       style={{ transition: 'top 0.3s' }}
     >
-      {/* <RedirectionalIcon
-        Icon={SiNiconico}
-        title={'Home'}
-        onClick={() => router.push('/')}
-      /> */}
+      {/* 
+        <Link href={"/"}>
+          <RedirectionalIcon
+            Icon={SiNiconico}
+            title={'Home'}
+          />
+        </Link>
+      */}
       <Link href={"/"}>
         <HoverDescription hoverText='Home'>
           <SiNiconico className="text-signature text-2xl cursor-pointer hover:brightness-75" />
         </HoverDescription>
       </Link>
       <div className='flex gap-28'>
-        {/* <h2 className="hover:brightness-75 text-signature" onClick={() => router.push('/pome/notairedyet')}> Not Aired Yet! </h2> */}
-        {/* <h2 className="hover:brightness-75 text-signature" onClick={() => router.push('/pome/finished')}> Finished </h2> */}
+        {/* 
+          <Link href={'/notairedyet'}>
+            <h2 className="hover:brightness-75 text-signature"> Not Aired Yet! </h2>
+          </Link>
+        */}
+        {/* 
+          <Link href={'/finished'}>
+            <h2 className="hover:brightness-75 text-signature"> Finished </h2>
+          </Link>
+        */}
       </div>
       <div className="flex items-center gap-7">
-        {/* <RedirectionalIcon
-          Icon={FaUserFriends}
-          title={'Friends'}
-          onClick={() => cookies
-            ? router.push('/friends')
-            : (router.push('login'), toast.error('log in first!'))
-          }
-        /> */}
+        {/* 
+          <Link href={user ? '/friends' : '/login'}>
+            <RedirectionalIcon
+              Icon={FaUserFriends}
+              title={'Friends'}
+            />
+          </Link>
+        */}
         <div className='relative redirectIconElement'>
-          <Link
-            href={user ? '/profile/1' : '/login'}
-          >
+          <Link href={user ? '/profile/1' : '/login'}>
             <Avatar
-              className='hover:cursor-pointer'
-              // onClick={() => cookies ?
-              //   // router.push('/profile/1')
-              //   null
-              //   : router.push('/login')
-              // }
+              className='cursor-pointer'
               name={user ? user.username : null}
               src={user ? user.avatar : null}
             />

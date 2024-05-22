@@ -2,12 +2,12 @@
 
 import { userLogin } from '@/login/LoginHook';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react';
-import { TokenContext } from '@/utils';
 import { Link } from '@/components/tools';
+import { TokenContext } from '@/utils';
+import React from 'react';
 
 export default function Login() {
-  const { setUser } = useContext(TokenContext);
+  const { setUser } = React.useContext(TokenContext);
   const router = useRouter();
 
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
@@ -42,12 +42,16 @@ export default function Login() {
             placeholder="Password"
             required
           />
-          {/* <div className='w-full'> 
-            <h2  
-              className="text-lg w-[11.5rem] py-2 text-signature hover:cursor-pointer hover:text-h-signature"
-              onClick={() => console.log('wasted')}
-            > Forgot your password? </h2>
-          </div> */}
+          {/*
+            <div className='w-full'> 
+              <h2  
+                className="text-lg w-[11.5rem] py-2 text-signature hover:cursor-pointer hover:text-h-signature"
+                onClick={() => console.log('wasted')}
+              >
+                Forgot your password? 
+              </h2>
+            </div> 
+          */}
           <button
             className="w-full md:w-full h-12 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md text-lg"
             type="submit"

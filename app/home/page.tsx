@@ -18,7 +18,7 @@ export default function Home() {
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
 
-  const [filter, setFilter] = useState<string>('');
+  // const [filter, setFilter] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const router = useRouter();
 
@@ -57,6 +57,7 @@ export default function Home() {
             page,
             quantity: 28
           })}
+          setFailed={setAnimeDataFailed}
           loading={animeDataLoad}
         />
       ) : animeDataLoad ? (
