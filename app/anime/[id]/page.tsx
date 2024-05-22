@@ -1,8 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { getAnimeDataForSlug, getUniqueUserAnimelist, maximizeTrailer } from './functions';
 import { PopUp, AnimePageSkeleton, ErrorFeedback } from '@/components';
+import { getAnimeDataForSlug, maximizeTrailer } from './functions';
 import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { SingleAnimeDataForSlug } from '@/utils/types';
 import { UserAnimeSettings } from './animeUserSettings';
@@ -25,10 +24,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
       animeId: params.id,
       setData,
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // console.log(data);
 
   return (
     <>
@@ -52,9 +48,9 @@ export default function AnimePage({ params }: { params: { id: string } }) {
             ) : null}
             <AnimeInfo
               toggleShowAnimeSettings={() => setShowAnimeSettings(!showAnimeSettings)}
-              toast={toast}
-              animeData={data}
               setAnimeData={setData}
+              animeData={data}
+              toast={toast}
             />
             <PopUp show={showAnimeSettings} setShow={setShowAnimeSettings} bg={true}>
               {showAnimeSettings ?
@@ -82,8 +78,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
                   />
                 </div>
                 <div
-                  className='absolute right-3 top-[0.6rem] md:bottom-4 md:top-[inherit] p-3
-                  rounded-full bg-fourth cursor-pointer hover:bg-fifth'
+                  className='absolute right-3 top-[0.6rem] md:bottom-4 md:top-[inherit] p-3 rounded-full bg-fourth cursor-pointer hover:bg-fifth'
                   onClick={() => maximizeTrailer({ setToggle: setTrailerFullScreen, toggle: trailerFullScreen })}
                 >
                   <LiaExpandArrowsAltSolid className='text-white text-xl' />

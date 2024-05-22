@@ -59,7 +59,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
             e.preventDefault();
             addAnimeToUserAnimelist({
               animeUserStats: {
-                anime_id: animeData.id,
+                anime_id: animeData.anime_id,
                 status: e.target["status"].value,
                 score: Number(e.target["score"]?.value),
                 progress: Number(e.target["progress"]?.value),

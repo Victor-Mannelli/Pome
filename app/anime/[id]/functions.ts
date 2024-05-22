@@ -1,6 +1,6 @@
 import { AnimeUserStatus, SingleAnimeDataForSlug } from "@/utils/types"
-import { Dispatch, SetStateAction, useContext } from "react";
-import { TokenContext, animeApi, api } from "@/utils";
+import { Dispatch, SetStateAction } from "react";
+import { animeApi, api } from "@/utils";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 
@@ -153,10 +153,9 @@ export async function getUniqueUserAnimelist({ setData, animeId, setFailed, setL
     .get('/animelist')
     .then((e) => {
       const AnimeData = e.data.find((e: any) => e.anime_id === Number(animeId))
-      if (AnimeData) return setData(AnimeData);
-      return
+      if (AnimeData) setData(AnimeData)
     })
-    .catch((e) => setFailed(true))
+    .catch(() => setFailed(true))
     .finally(() => setLoading(false));
 }
 

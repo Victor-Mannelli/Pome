@@ -20,6 +20,11 @@ export type UsersAnimelist = {
       english: string,
       native: string,
     },
+    nextAiringEpisode: {
+      id: number
+      timeUntilAiring: number,
+      episode: number
+    }
   }
 }
 // export type UsersAnimelist = {

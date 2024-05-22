@@ -3,12 +3,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 
 export function FollowedAnimeSkeleton() {
   return (
-    <div className="flex flex-col bg-third lg:min-w-[23rem] sm:max-h-[38.5rem] h-fit sm:rounded-md">
+    <div className="flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
       <h1 className="font-bold text-center p-5"> You are following </h1>
-      <div className="flex flex-wrap justify-center gap-5 mb-7 px-5">
+      <div className="flex flex-wrap p-5 gap-4">
         {Array.from({ length: 6 }).map((_, i) =>
           <div
-            className="flex flex-col justify-end w-32 h-40 bg-fifth animate-pulse rounded-md bg-cover cursor-pointer"
+            className="flex flex-col justify-end w-[7.125rem] h-40 bg-fifth animate-pulse rounded-md bg-cover cursor-pointer"
             key={i}
           ></div>
         )}
@@ -19,12 +19,12 @@ export function FollowedAnimeSkeleton() {
 
 export function HomePageAnimesSkeleton({ page }: { page: number }) {
   return (
-    <div className="flex flex-col items-center gap-7 max-w-[1446px] xl:min-w-[50rem]">
-      <h1 className="text-center hover:cursor-pointer"> New Animes! </h1>
-      <div className="flex flex-wrap justify-center gap-5 px-5">
-        {Array.from({ length: 28 }).map((_, i) =>
+    <div className="flex flex-col items-center h-full xl:w-[52rem] md:w-[41.4rem] w-[20.2rem]">
+      <h1 className="hover:cursor-pointer pt-3"> New Animes! </h1>
+      <div className="flex flex-wrap gap-4 py-5">
+        {Array.from({ length: 25 }).map((_, i) =>
           <div
-            className="w-40 h-64 rounded-md cursor-pointer hover:brightness-90 animate-pulse bg-fifth"
+            className="flex flex-col justify-end w-[9.6rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover animate-pulse bg-fifth"
             key={i}
           ></div>
         )}
