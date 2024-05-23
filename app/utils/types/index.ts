@@ -196,6 +196,12 @@ export type User = {
   email: string;
 }
 
+export type FilterType = {
+  status: "RELEASING" | "FINISHED" | "NOT_YET_RELEASED",
+  search: string,
+  id_not_in: number[],
+}
+
 // export type AnimeInfoData = {
 //   data: AnimeInfo[]
 // }

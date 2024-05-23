@@ -1,5 +1,3 @@
-export * from "./defaultButton"
-export * from "./inputForm"
-export * from "./inputImage"
+export * from "./hoverDescription"
 export * from "./navbar"
 export * from "./stars"

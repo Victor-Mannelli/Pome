@@ -55,7 +55,7 @@ export default function Profile() {
         </div>
         <div className="flex h-screen w-full">
           <div className="w-1/4 h-screen bg-second flex p-10">
-            <Filter onChange={(e) => setSort(e.target.value)} />
+            {/* <Filter onChange={(e) => setSort(e.target.value)} /> */}
           </div>
           <div className="w-3/4 h-screen flex flex-col">
             <div className="flex justify-center">

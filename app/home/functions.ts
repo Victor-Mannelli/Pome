@@ -1,4 +1,4 @@
-import { AnimeCatalogData } from "@/utils/types";
+import { AnimeCatalogData, FilterType } from "@/utils/types";
 import { Dispatch, SetStateAction } from "react";
 import { animeApi } from "@/utils/axios";
 
@@ -7,21 +7,23 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   quantity: number;
-  filter?: string;
+  filter?: FilterType;
   page: any;
 }) {
   const variables = {
     page: page || 1,
     year: Number(new Date().getFullYear() + '0000'),
+    status: filter.status,
+    id_not_in: filter.id_not_in,
   };
   const query = `
-    query ($page: Int, $year: FuzzyDateInt) {
+    query ($page: Int, $year: FuzzyDateInt, $status: MediaStatus, $id_not_in: [Int]) {
       Page (page: $page, perPage: ${quantity}) {
         pageInfo {
           currentPage
           hasNextPage
         }
-        media (status: RELEASING, startDate_greater: $year, type: ANIME, format: TV, isAdult: false${filter ? `, search: "${filter}"` : ""} ) {
+        media (status: $status, startDate_greater: $year, type: ANIME, format: TV, isAdult: false${filter.search.length > 0 ? `, search: ` + filter.search : ""}, id_not_in: $id_not_in) {
           id
           title {
             romaji
@@ -108,7 +110,6 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
       }
     }
   `;
-
   setLoading(true);
   animeApi
     .post('', { query, variables }, {
@@ -122,6 +123,8 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
       setAnimeData(e.data.data.Page)
       setFailed(false);
     })
-    .catch(() => setFailed(true))
+    .catch(() => {
+      setFailed(true)
+    })
     .finally(() => setLoading(false));
 }

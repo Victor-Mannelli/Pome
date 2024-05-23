@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "axios": "^1.6.8",
     "framer-motion": "^11.2.4",
+    "lodash": "^4.17.21",
     "next": "14.2.1",
     "nookies": "^2.5.2",
     "rc-textarea": "^1.7.0",
@@ -23,7 +24,8 @@
     "react-icons": "^5.1.0",
     "react-loading-skeleton": "^3.4.0",
     "react-toastify": "^10.0.5",
-    "underscore": "^1.13.6"
+    "underscore": "^1.13.6",
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",

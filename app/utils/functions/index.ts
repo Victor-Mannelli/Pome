@@ -40,7 +40,7 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
 export function UseLogout({ setUser, setToken }: {
   setToken: Dispatch<SetStateAction<string>>
   setUser: Dispatch<SetStateAction<User>>
- }) {
+}) {
 
   destroyCookie(null, 'token', { path: "/" });
   destroyCookie(undefined, 'token', { path: "/" });
@@ -60,7 +60,7 @@ export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
   api
     .get('/animelist')
     .then((e) => setData(e.data))
-    .catch((e) => { setFailed(true); console.log(e) })
+    .catch((e) => { setFailed(true); })
     .finally(() => setLoading(false));
 }
 

@@ -10,7 +10,6 @@ export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 }) {
 	return (
 		<div className="flex flex-col justify-center items-center gap-4 bg-fourth h-screen">
-			<Navbar />
 			<h1 className="text-white text-xl text-center">
 				The button below appeared because the API is likely offline.
 				<br />
