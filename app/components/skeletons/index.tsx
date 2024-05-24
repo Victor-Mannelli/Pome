@@ -20,7 +20,6 @@ export function FollowedAnimeSkeleton() {
 export function HomePageAnimesSkeleton({ page }: { page: number }) {
   return (
     <div className="flex flex-col items-center h-full xl:w-[52rem] md:w-[41.4rem] w-[20.2rem]">
-      <h1 className="hover:cursor-pointer pt-3"> New Animes! </h1>
       <div className="flex flex-wrap gap-4 py-5">
         {Array.from({ length: 30 }).map((_, i) =>
           <div

@@ -1,5 +1,6 @@
 import { FaRegHeart, FaHeart, FaUserFriends, FaUserCircle, FaTrashAlt } from 'react-icons/fa';
 import { LiaExpandArrowsAltSolid } from "react-icons/lia";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import { GiMagnifyingGlass } from 'react-icons/gi';
 import { BiMinus, BiPlus } from 'react-icons/bi';
 import { BsPlusSquare } from 'react-icons/bs';
@@ -20,6 +21,7 @@ export {
   BiMinus,
   BiPlus,
 
+  MdKeyboardArrowDown,
   LiaExpandArrowsAltSolid,
   GiMagnifyingGlass,
   RxCross2,

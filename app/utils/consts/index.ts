@@ -67,3 +67,9 @@ export const animeUserStatus: {
     cursor: "default",
   },
 }
+
+export const titlesFilterParser = {
+  "RELEASING": "New Animes!",
+  "FINISHED": "Finished Animes!",
+  "NOT_YET_RELEASED": "Comming soon!"
+}
