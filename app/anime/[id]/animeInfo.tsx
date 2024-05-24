@@ -12,7 +12,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
   toast: any;
 }) {
   const token = parseCookies(null).token;
-
+  console.log(animeData)
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? "" : "mt-16"}`}>
       {animeData.UserAnimeList ? (
@@ -96,8 +96,9 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                 ? (
                   <>
                     <h3 className='w-72 h-6 my-1 text-h-signature'>
-                      Start Date:
-                      {' ' + monthNames[animeData.startDate.month] + ' ' + animeData.startDate.day + 'th, '}
+                      Start Date: {' '}
+                      {monthNames[animeData.startDate.month]}
+                      {animeData.startDate.day ? ' ' + animeData.startDate.day + 'th, ' : ', '}
                       {animeData.startDate.year}
                     </h3>
                     {animeData.episodes ? <h3> Total Episodes: {animeData.episodes} </h3> : null}

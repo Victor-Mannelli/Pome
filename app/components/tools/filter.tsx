@@ -1,18 +1,19 @@
 "use client"
 
-import { FilterType, GiMagnifyingGlass } from '@/utils';
+import { FilterType, GiMagnifyingGlass, TokenContext } from '@/utils';
 import { PomeSelect } from '../utilities/pomeSelect';
 import { useDebounceCallback } from 'usehooks-ts';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 
 export function Filter({ setFilter, filter }: {
   setFilter: Dispatch<SetStateAction<FilterType>>;
   filter: FilterType;
 }) {
   const setSearchDebounced = useDebounceCallback(setFilter, 1000)
+  const { user } = useContext(TokenContext)
 
   return (
-    <div className='flex gap-5'>
+    <div className='flex flex-col items-center md:flex-row gap-5'>
       <div
         className="relative w-48 h-10 rounded-sm"
         style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
@@ -36,17 +37,20 @@ export function Filter({ setFilter, filter }: {
           "FINISHED": "Finished",
         }}
       />
-      <label
-        className='flex items-center bg-third text-white w-52 h-10 pl-2 cursor-pointer active:bg-fifth hover:bg-fourth'
-        style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
-      >
-        <input
-          className=''
-          type='checkbox'
-          placeholder=''
-        />
-        <span className='pl-2'> Hide Followed Animes </span>
-      </label>
+      {user ?
+        <label
+          className='flex items-center bg-third text-white w-52 h-10 pl-2 cursor-pointer active:bg-fifth hover:bg-fourth'
+          style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
+        >
+          <input
+            className=''
+            type='checkbox'
+            placeholder=''
+          />
+          <span className='pl-2'> Hide Followed Animes </span>
+        </label>
+        : null
+      }
     </div >
   );
 }
