@@ -26,8 +26,9 @@ export function PomeSelect({ options, setFilter, filter }: {
         className={`${show ? "block" : "hidden"}`}
         style={{ boxShadow: "0 0 2px rgb(204, 204, 204)", transition: "all 0.5s ease" }}
       >
-        {Object.keys(options).map((e) => (
+        {Object.keys(options).map((e, i) => (
           <li
+            key={e + i}
             className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
             onClick={() => {
               setShow(false)
