@@ -4,12 +4,13 @@ import { ErrorFeedback, Filter, FollowedAnimeSkeleton, HomePageAnimesSkeleton } 
 import { getUsersAnimeList, titlesFilterParser, TokenContext } from '@/utils';
 import { AnimeCatalogData, FilterType, UsersAnimelist } from '@/utils/types';
 import { UsersAnimeListView } from './usersAnimelistView';
-import { useContext, useEffect, useState } from 'react';
+import { SetStateAction, useContext, useEffect, useState } from 'react';
 import { CloseButton } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { Animelist } from './animelist';
 import { getAnimes } from './functions';
 import { toast } from 'react-toastify';
+import { ShowFollowedAnime } from './showFollowedAnime';
 
 export default function Home() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
@@ -57,7 +58,13 @@ export default function Home() {
         <h1 className="hover:cursor-pointer py-3 text-xl" onClick={() => { if (page !== 0) setPage(0) }}>
           {filter.status ? titlesFilterParser[filter.status] : "Anime List"}
         </h1>
-        <Filter setFilter={setFilter} filter={filter} />
+        <Filter
+          setShowFollowedAnime={setShowFollowedAnime}
+          showFollowedAnime={showFollowedAnime}
+          setFilter={setFilter}
+          filter={filter}
+          toast={toast}
+        />
         {animeDataFailed ? (
           <ErrorFeedback refreshFunction={() =>
             getAnimes({
@@ -77,25 +84,13 @@ export default function Home() {
         )}
       </div>
       {!showFollowedAnime ? (
-        <label
-          className='fixed top-20 right-3 flex items-center bg-third rounded-md text-white h-11 px-4 cursor-pointer active:bg-fifth hover:bg-fourth'
-          style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
-        >
-          <input
-            className=''
-            type='checkbox'
-            placeholder=''
-            checked={!user || !showFollowedAnime ? false : true}
-            onChange={() => {
-              if (user) {
-                setShowFollowedAnime(true)
-              } else {
-                toast.error("Login First!")
-              }
-            }}
-          />
-          <span className='pl-3'> Show Followed Animes! </span>
-        </label>
+        <ShowFollowedAnime
+          setShowFollowedAnime={setShowFollowedAnime}
+          showFollowedAnime={showFollowedAnime}
+          mobile={false}
+          toast={toast}
+          user={user}
+        />
       ) : usersAnimeListFailed ? (
         <div className="relative flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
           <CloseButton position={"absolute"} right={2} top={2} color={"white"} onClick={() => setShowFollowedAnime(false)} />

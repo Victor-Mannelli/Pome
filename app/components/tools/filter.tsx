@@ -1,6 +1,7 @@
 "use client"
 
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { ShowFollowedAnime } from '@/home/showFollowedAnime';
 import { animeStatusOptions, genres } from '@/utils/consts';
 import { PomeSelect } from '../utilities/pomeSelect';
 import { useDebounceCallback } from 'usehooks-ts';
@@ -8,7 +9,13 @@ import { GiMagnifyingGlass } from '@/utils/libs';
 import { FilterType } from '@/utils/types';
 import { TokenContext } from '@/utils';
 
-export function Filter({ setFilter, filter }: { setFilter: Dispatch<SetStateAction<FilterType>>; filter: FilterType; }) {
+export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAnime, toast }: {
+  setShowFollowedAnime: Dispatch<SetStateAction<boolean>>;
+  setFilter: Dispatch<SetStateAction<FilterType>>;
+  showFollowedAnime: boolean;
+  filter: FilterType;
+  toast: any;
+}) {
   const [showSelectStatus, setShowSelectStatus] = useState<boolean>(false);
   const [showSelectGenres, setShowSelectGenres] = useState<boolean>(false);
   const setSearchDebounced = useDebounceCallback(setFilter, 1000)
@@ -16,6 +23,15 @@ export function Filter({ setFilter, filter }: { setFilter: Dispatch<SetStateActi
 
   return (
     <div className='flex flex-col items-center md:flex-row gap-5 py-3'>
+      {!showFollowedAnime ? (
+        <ShowFollowedAnime
+          setShowFollowedAnime={setShowFollowedAnime}
+          showFollowedAnime={showFollowedAnime}
+          toast={toast}
+          user={user}
+          mobile={true}
+        />
+      ) : null}
       <div
         className="relative w-48 h-10 rounded-sm"
         style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
