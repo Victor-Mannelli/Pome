@@ -1,17 +1,15 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
 import { MdKeyboardArrowDown } from "@/utils/libs";
-import { FilterType } from "@/utils/types";
+import React, { Dispatch, SetStateAction } from "react"
 
-export function PomeSelect({ options, setFilter, filter }: {
-  setFilter: Dispatch<SetStateAction<any>>
-  filter: FilterType;
-  options: any;
+export function PomeSelect({ children, setShow, title, show }: {
+  setShow: Dispatch<SetStateAction<boolean>>;
+  children: React.ReactNode;
+  title: string;
+  show: boolean;
 }) {
-  const [show, setShow] = useState<boolean>(false);
-
   return (
     <div
-      className="w-48 h-full bg-third text-white rounded-sm"
+      className="relative flex flex-col w-48 h-full bg-third text-white rounded-sm"
       style={{ boxShadow: "0 0 2px rgb(204, 204, 204)", transition: "all 0.5s ease" }}
     >
       <div
@@ -19,26 +17,14 @@ export function PomeSelect({ options, setFilter, filter }: {
         onClick={() => setShow(!show)}
       >
         <MdKeyboardArrowDown className="invisible text-2xl cursor-pointer" />
-        <span className=""> {filter.status ? options[filter.status] : "Select Status"} </span>
+        <span> {title} </span>
         <MdKeyboardArrowDown className="text-2xl cursor-pointer" />
       </div>
       <ul
-        className={`${show ? "block" : "hidden"}`}
+        className={`absolute top-10 bg-third w-48 max-h-60 overflow-auto ${show ? "block" : "hidden"}`}
         style={{ boxShadow: "0 0 2px rgb(204, 204, 204)", transition: "all 0.5s ease" }}
       >
-        {Object.keys(options).map((e, i) => (
-          <li
-            key={e + i}
-            className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
-            onClick={() => {
-              setShow(false)
-              setFilter((prevState: FilterType) => ({ ...prevState, status: e }));
-            }}
-            id={e}
-          >
-            {options[e]}
-          </li>
-        ))}
+        {children}
       </ul>
     </div >
   );

@@ -3,7 +3,7 @@ import { HTMLInputTypeAttribute } from "react";
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-export const animeStatus: { [key: string]: { name: string, color: string } } = {
+export const animeUserStatus: { [key: string]: { name: string, color: string } } = {
   Watching: {
     name: "Watching",
     color: "text-[#00ffff]"
@@ -22,7 +22,13 @@ export const animeStatus: { [key: string]: { name: string, color: string } } = {
   },
 }
 
-export const animeUserStatus: {
+export const animeStatusOptions: { [key: string]: string } = {
+  "NOT_YET_RELEASED": "Not yet Released",
+  "RELEASING": "Releasing",
+  "FINISHED": "Finished",
+}
+
+export const animeUserData: {
   [key: string]: {
     type: HTMLInputTypeAttribute;
     defaultValue: any;
@@ -73,3 +79,24 @@ export const titlesFilterParser = {
   "FINISHED": "Finished Animes!",
   "NOT_YET_RELEASED": "Comming soon!"
 }
+
+export const genres = [
+  "Action",
+  "Adventure",
+  "Comedy",
+  "Drama",
+  "Ecchi",
+  "Fantasy",
+  "Horror",
+  "Mahou Shoujo",
+  "Mecha",
+  "Music",
+  "Mystery",
+  "Psychological",
+  "Romance",
+  "Sci-Fi",
+  "Slice of Life",
+  "Sports",
+  "Supernatural",
+  "Thriller"
+];

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "@chakra-ui/react";
 import { destroyCookie } from "nookies";
-import { Navbar } from "../elements";
 
 export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 	setFailed: Dispatch<SetStateAction<boolean>>;
@@ -9,7 +8,7 @@ export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 	loading: boolean;
 }) {
 	return (
-		<div className="flex flex-col justify-center items-center gap-4 bg-fourth h-screen">
+		<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4 bg-fourth">
 			<h1 className="text-white text-xl text-center">
 				The button below appeared because the API is likely offline.
 				<br />

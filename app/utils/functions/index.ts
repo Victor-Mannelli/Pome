@@ -1,7 +1,5 @@
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { User, UsersAnimelist } from "../types";
-import { TokenContext } from "../providers";
 import { destroyCookie } from "nookies";
 import { toast } from "react-toastify";
 import { api } from "../axios";

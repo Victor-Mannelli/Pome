@@ -10,20 +10,34 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   filter?: FilterType;
   page: any;
 }) {
-  const variables = {
+  const variables = filter.search ? {
+    search: filter.search,
+    genre: null,
+    page: null,
+    year: 0,
+    quantity,
+    id_not_in: [],
+    status_in: ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
+  } : {
+    search: null,
+    genre: filter.genre,
     page: page || 1,
-    year: Number(new Date().getFullYear() + '0000'),
-    status: filter.status,
+    year: filter.status === "RELEASING" ? Number(new Date().getFullYear() + '0000') : 0,
+    quantity,
     id_not_in: filter.id_not_in,
-  };
+    status_in: filter.status,
+  }
+
+  console.log(variables)
+
   const query = `
-    query ($page: Int, $year: FuzzyDateInt, $status: MediaStatus, $id_not_in: [Int]) {
-      Page (page: $page, perPage: ${quantity}) {
+    query ($page: Int, $year: FuzzyDateInt, $status_in: [MediaStatus], $id_not_in: [Int], $quantity: Int, $search: String, $genre: String) {
+      Page (page: $page, perPage: $quantity) {
         pageInfo {
           currentPage
           hasNextPage
         }
-        media (status: $status, startDate_greater: $year, type: ANIME, format: TV, isAdult: false${filter.search.length > 0 ? `, search: ` + filter.search : ""}, id_not_in: $id_not_in) {
+        media (status_in: $status_in, startDate_greater: $year, type: ANIME, format: TV, isAdult: false, search: $search, id_not_in: $id_not_in, genre: $genre) {
           id
           title {
             romaji

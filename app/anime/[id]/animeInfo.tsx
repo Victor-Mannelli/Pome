@@ -1,5 +1,6 @@
-import { animeStatus, FaHeart, FaRegHeart, monthNames } from "@/utils";
+import { animeUserData, animeUserStatus, monthNames } from "@/utils/consts";
 import { SingleAnimeDataForSlug } from "@/utils/types";
+import { FaHeart, FaRegHeart } from "@/utils/libs";
 import { Dispatch, SetStateAction } from "react";
 import { parseCookies } from "nookies";
 import { Stars } from "@/components";
@@ -65,8 +66,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
             toggleShowAnimeSettings();
           }}
         >
-          <h3 className={`font-bold text-lg py-3 cursor-pointer ${animeData.UserAnimeList ? animeStatus[animeData.UserAnimeList.status].color : ""}`}>
-            {animeData.UserAnimeList ? animeStatus[animeData.UserAnimeList.status].name : 'Follow'}
+          <h3 className={`font-bold text-lg py-3 cursor-pointer ${animeData.UserAnimeList ? animeUserStatus[animeData.UserAnimeList.status].color : ""}`}>
+            {animeData.UserAnimeList ? animeUserStatus[animeData.UserAnimeList.status].name : 'Follow'}
           </h3>
         </button>
       </div>

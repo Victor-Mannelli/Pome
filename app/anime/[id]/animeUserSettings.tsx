@@ -4,8 +4,8 @@ import { Button, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/re
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { animeStatus, animeUserStatus } from '@/utils';
 import { SingleAnimeDataForSlug } from '@/utils/types';
+import { animeUserData, animeUserStatus } from '@/utils/consts';
 
 export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeData }: {
   setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
@@ -92,27 +92,27 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
               }
               defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList.status : null}
             >
-              {Object.keys(animeStatus).map((e, i) =>
+              {Object.keys(animeUserStatus).map((e, i) =>
                 <option
                   key={"select_options" + i}
-                  value={animeStatus[e].name}
+                  value={animeUserStatus[e].name}
                 >
-                  {animeStatus[e].name}
+                  {animeUserStatus[e].name}
                 </option>
               )}
             </Select>
           </InputGroup>
-          {Object.keys(animeUserStatus).map((e, i) =>
+          {Object.keys(animeUserData).map((e, i) =>
             <InputGroup w={"20rem"} key={"input" + i}>
-              <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> {animeUserStatus[e].title} </InputLeftAddon>
+              <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> {animeUserData[e].title} </InputLeftAddon>
               <Input
                 id={e}
-                min={animeUserStatus[e].min}
-                max={e === "progress" ? animeData.nextAiringEpisode.episode - 1 : animeUserStatus[e].max}
-                cursor={animeUserStatus[e].cursor}
+                min={animeUserData[e].min}
+                max={e === "progress" ? animeData.nextAiringEpisode.episode - 1 : animeUserData[e].max}
+                cursor={animeUserData[e].cursor}
                 colorScheme={"dark"}
-                type={animeUserStatus[e].type}
-                defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList[e] : animeUserStatus[e].defaultValue}
+                type={animeUserData[e].type}
+                defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList[e] : animeUserData[e].defaultValue}
                 autoComplete='off'
                 textColor={"white"}
                 h={"3rem"}
