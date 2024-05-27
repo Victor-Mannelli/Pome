@@ -24,7 +24,7 @@ export default function Home() {
   const [filter, setFilter] = useState<FilterType>({
     search: null,
     id_not_in: [],
-    status: null,
+    status: "RELEASING",
     genre: null,
   })
   const { user } = useContext(TokenContext)
