@@ -25,7 +25,7 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
     year: filter.status === "RELEASING" ? Number(new Date().getFullYear() + '0000') : 0,
     quantity,
     id_not_in: filter.id_not_in,
-    status_in: filter.status,
+    status_in: filter.status ? [filter.status] : ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
   }
 
   console.log(variables)

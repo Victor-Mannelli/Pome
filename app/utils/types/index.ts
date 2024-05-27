@@ -197,7 +197,7 @@ export type User = {
 }
 
 export type FilterType = {
-  status: "RELEASING" | "FINISHED" | "NOT_YET_RELEASED",
+  status: "FINISHED" | "RELEASING" | "NOT_YET_RELEASED" | "CANCELLED" | "HIATUS",
   search: string,
   id_not_in: number[],
   genre: string | null

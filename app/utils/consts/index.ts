@@ -23,9 +23,11 @@ export const animeUserStatus: { [key: string]: { name: string, color: string } }
 }
 
 export const animeStatusOptions: { [key: string]: string } = {
-  "NOT_YET_RELEASED": "Not yet Released",
-  "RELEASING": "Releasing",
   "FINISHED": "Finished",
+  "RELEASING": "Releasing",
+  "NOT_YET_RELEASED": "Not yet Released",
+  // "CANCELLED": "Cancelled",
+  // "HIATUS": "Hiatus"
 }
 
 export const animeUserData: {

@@ -1,4 +1,4 @@
-export function Button({ text, onClick, className }: {
+export function DefaultButton({ text, onClick, className }: {
   onClick: React.MouseEventHandler,
   className: string
   text: string,

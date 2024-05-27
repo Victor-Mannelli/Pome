@@ -1,5 +1,5 @@
+import { SignatureButton } from "../tools/signatureButton";
 import { Dispatch, SetStateAction } from "react";
-import { Button } from "@chakra-ui/react";
 import { destroyCookie } from "nookies";
 
 export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
@@ -8,25 +8,22 @@ export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 	loading: boolean;
 }) {
 	return (
-		<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4 bg-fourth">
-			<h1 className="text-white text-xl text-center">
+		<div className="flex flex-col justify-center items-center w-full gap-5">
+			<h1 className="text-white text-lg text-center">
 				The button below appeared because the API is likely offline.
 				<br />
 				Click it to reload the page in offline mode!
 			</h1>
-			<Button
-				isLoading={loading}
-				isDisabled={loading}
-				className="w-fit h-1/3 text-white cursor-pointer"
+			<SignatureButton 
 				type='submit'
+				text="Reload!"
+				loading={loading}
 				onClick={() => {
 					destroyCookie(null, 'token', { path: "/" });
 					refreshFunction()
 					setFailed(false)
 				}}
-			>
-				Reload!
-			</Button>
+			/>
 		</div >
 	)
 }

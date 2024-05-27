@@ -22,23 +22,23 @@ export function Filter({ setFilter, filter }: { setFilter: Dispatch<SetStateActi
       >
         <GiMagnifyingGlass className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-eigth" />
         <input
-          className="h-10 w-full rounded-md outline-none bg-third pl-3 pr-10 text-lg text-white"
+          className="h-10 w-full rounded-md outline-none bg-third pl-3 pr-10 text-white"
           onChange={(e) => setSearchDebounced(prevState => ({ ...prevState, search: e.target.value }))}
           placeholder='search'
         />
       </div>
       <PomeSelect
-        title={filter.status.length === 1 ? animeStatusOptions[filter.status] : "Select Status"}
+        title={filter.status ? animeStatusOptions[filter.status] : "Select Status"}
         setShow={setShowSelectStatus}
         show={showSelectStatus}
       >
-        {filter.status.length === 1 ?
+        {filter.status ?
           <li
             id={"clear status"}
             className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
             onClick={() => {
               setShowSelectStatus(false)
-              setFilter((prevState: any) => ({ ...prevState, status: ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"] }));
+              setFilter((prevState: any) => ({ ...prevState, status: null }));
             }}
           >
             Clear Status
@@ -52,7 +52,7 @@ export function Filter({ setFilter, filter }: { setFilter: Dispatch<SetStateActi
             className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
             onClick={() => {
               setShowSelectStatus(false)
-              setFilter((prevState: any) => ({ ...prevState, status: [e] }));
+              setFilter((prevState: any) => ({ ...prevState, status: e }));
             }}
           >
             {animeStatusOptions[e]}
@@ -100,6 +100,7 @@ export function Filter({ setFilter, filter }: { setFilter: Dispatch<SetStateActi
             className=''
             type='checkbox'
             placeholder=''
+            onChange={() => console.log()}
           />
           <span className='pl-2'> Hide Followed Animes </span>
         </label>

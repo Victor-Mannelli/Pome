@@ -1,7 +1,7 @@
 "use client"
 
 import { getUsersAnimeList, UseLogout } from '@/utils/functions';
-import { Button, Filter, ProfileSkeleton } from '@/components';
+import { DefaultButton, Filter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
 import { TokenContext, UsersAnimelist } from '@/utils';
 import { useRouter } from 'next/navigation';
@@ -60,7 +60,7 @@ export default function Profile() {
           <div className="w-3/4 h-screen flex flex-col">
             <div className="flex justify-center">
               {['Finished', 'Watching', 'Planning', 'Dropped', 'Rewatching'].map((e, i) =>
-                <Button
+                <DefaultButton
                   key={i}
                   text={e}
                   className={`ml-5 mt-5 ${filter === e ? 'border bg-second' : 'bg-third'}`}

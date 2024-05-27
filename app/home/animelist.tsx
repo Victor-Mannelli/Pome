@@ -1,8 +1,8 @@
 "use client"
 
 import { Link, PageHandler } from "@/components/tools";
-import { AnimeCatalogData } from "@/utils/types";
 import { Dispatch, SetStateAction } from "react";
+import { AnimeCatalogData } from "@/utils/types";
 
 export function Animelist({ animeData, setPage, page }: {
   setPage: Dispatch<SetStateAction<number>>;
