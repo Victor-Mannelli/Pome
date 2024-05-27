@@ -10,16 +10,8 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   filter?: FilterType;
   page: any;
 }) {
-  const variables = filter.search ? {
+  const variables = {
     search: filter.search,
-    genre: null,
-    page: null,
-    year: 0,
-    quantity,
-    id_not_in: [],
-    status_in: ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
-  } : {
-    search: null,
     genre: filter.genre,
     page: page || 1,
     year: filter.status === "RELEASING" ? Number(new Date().getFullYear() + '0000') : 0,
@@ -27,8 +19,17 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
     id_not_in: filter.id_not_in,
     status_in: filter.status ? [filter.status] : ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
   }
+  // const only_search_param = {
+  //   search: filter.search,
+  //   genre: null,
+  //   page: null,
+  //   year: 0,
+  //   quantity,
+  //   id_not_in: [],
+  //   status_in: ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
+  // } 
 
-  console.log(variables)
+  // console.log(variables)
 
   const query = `
     query ($page: Int, $year: FuzzyDateInt, $status_in: [MediaStatus], $id_not_in: [Int], $quantity: Int, $search: String, $genre: String) {
