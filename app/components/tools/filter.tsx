@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { ShowFollowedAnime } from '@/home/showFollowedAnime';
-import { animeStatusOptions, genres } from '@/utils/consts';
+import { airingStatusOptions, animeYearOptions, genres } from '@/utils/consts';
 import { PomeSelect } from '../utilities/pomeSelect';
 import { useDebounceCallback } from 'usehooks-ts';
 import { GiMagnifyingGlass } from '@/utils/libs';
@@ -18,8 +18,11 @@ export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAn
 }) {
   const [showSelectStatus, setShowSelectStatus] = useState<boolean>(false);
   const [showSelectGenres, setShowSelectGenres] = useState<boolean>(false);
+  const [showSelectYear, setShowSelectYear] = useState<boolean>(false);
   const setSearchDebounced = useDebounceCallback(setFilter, 1000)
   const { user } = useContext(TokenContext)
+
+  console.log(filter)
 
   return (
     <div className='flex flex-col items-center md:flex-row gap-5 py-3'>
@@ -44,69 +47,29 @@ export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAn
         />
       </div>
       <PomeSelect
-        title={filter.status ? animeStatusOptions[filter.status] : "Select Status"}
+        title={filter.status ? airingStatusOptions[filter.status] : null}
+        options={Object.keys(airingStatusOptions)}
         setShow={setShowSelectStatus}
         show={showSelectStatus}
-      >
-        {filter.status ?
-          <li
-            id={"clear status"}
-            className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
-            onClick={() => {
-              setShowSelectStatus(false)
-              setFilter((prevState: any) => ({ ...prevState, status: null }));
-            }}
-          >
-            Clear Status
-          </li>
-          : null
-        }
-        {Object.keys(animeStatusOptions).map((e, i) => (
-          <li
-            id={e}
-            key={e + i}
-            className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
-            onClick={() => {
-              setShowSelectStatus(false)
-              setFilter((prevState: any) => ({ ...prevState, status: e }));
-            }}
-          >
-            {animeStatusOptions[e]}
-          </li>
-        ))}
-      </PomeSelect>
+        selectionOf={"status"}
+        setFilter={setFilter}
+      />
       <PomeSelect
-        title={filter.genre ? filter.genre : "Select Genre"}
+        title={filter.genres}
+        options={genres}
         setShow={setShowSelectGenres}
         show={showSelectGenres}
-      >
-        {filter.genre ?
-          <li
-            id={"clear genre"}
-            className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
-            onClick={() => {
-              setShowSelectGenres(false)
-              setFilter((prevState: any) => ({ ...prevState, genre: null }));
-            }}
-          >
-            Clear Genre
-          </li>
-          : null
-        }
-        {genres.map((e, i) => (
-          <li
-            id={e}
-            key={e + i}
-            className="text-center py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
-            onClick={() => {
-              setShowSelectGenres(false)
-              setFilter((prevState: any) => ({ ...prevState, genre: e }));
-            }}
-          >
-            {e}
-          </li>
-        ))}
-      </PomeSelect>
+        selectionOf={"genres"}
+        setFilter={setFilter}
+      />
+      <PomeSelect
+        title={filter.year === 0 ? null : filter.year.toString()}
+        options={animeYearOptions}
+        setShow={setShowSelectYear}
+        show={showSelectYear}
+        selectionOf={"year"}
+        setFilter={setFilter}
+      />
       {user ?
         <label
           className='flex items-center bg-third text-white w-52 h-10 pl-2 cursor-pointer active:bg-fifth hover:bg-fourth'

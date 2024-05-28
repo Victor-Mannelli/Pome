@@ -200,5 +200,6 @@ export type FilterType = {
   status: "FINISHED" | "RELEASING" | "NOT_YET_RELEASED" | "CANCELLED" | "HIATUS",
   search: string,
   id_not_in: number[],
-  genre: string | null
+  genres: string | null,
+  year: number,
 }

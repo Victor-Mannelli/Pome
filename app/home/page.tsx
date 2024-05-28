@@ -15,16 +15,17 @@ export default function Home() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
+  const [showFollowedAnime, setShowFollowedAnime] = useState<boolean>(false);
   const [animeData, setAnimeData] = useState<AnimeCatalogData | null>(null);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
-  const [showFollowedAnime, setShowFollowedAnime] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [filter, setFilter] = useState<FilterType>({
     search: null,
     id_not_in: [],
     status: "RELEASING",
-    genre: null,
+    genres: null,
+    year: 0,
   })
   const { user } = useContext(TokenContext)
   const router = useRouter();

@@ -22,7 +22,7 @@ export const animeUserStatus: { [key: string]: { name: string, color: string } }
   },
 }
 
-export const animeStatusOptions: { [key: string]: string } = {
+export const airingStatusOptions: { [key: string]: string } = {
   "FINISHED": "Finished",
   "RELEASING": "Releasing",
   "NOT_YET_RELEASED": "Not yet Released",
@@ -102,3 +102,8 @@ export const genres = [
   "Supernatural",
   "Thriller"
 ];
+
+export const animeYearOptions: number[] = Array.from(
+  { length: new Date().getFullYear() - 1904 + 1 },
+  (_, index) => 1904 + index
+).reverse();

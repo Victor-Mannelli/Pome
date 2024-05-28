@@ -12,9 +12,13 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
 }) {
   const variables = {
     search: filter.search,
-    genre: filter.genre,
+    genre: filter.genres,
     page: page || 1,
-    year: filter.status === "RELEASING" ? Number(new Date().getFullYear() + '0000') : 0,
+    year: filter.status === "RELEASING"
+      ? Number(new Date().getFullYear() + '0000')
+      : filter.year === 0 || filter.year == null
+        ? 0
+        : filter.year + '0000',
     quantity,
     id_not_in: filter.id_not_in,
     status_in: filter.status ? [filter.status] : ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
