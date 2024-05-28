@@ -1,17 +1,17 @@
 "use client"
 
 import { userRegistration } from '@/registration/functions';
-import { useRouter } from 'next/navigation';
+import { Button, useToast } from '@chakra-ui/react';
 import { InputForm, Link } from '@/components';
-import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@chakra-ui/react';
 
 export default function Registration() {
   const [fetchData, setFetchData] = useState<SignupFetchData>({ email: '', username: '', password: '', confirmPassword: '', userBanner: '' });
   const [loading, setLoading] = useState<boolean>(false)
   const [match, setMatch] = useState(true);
   const router = useRouter();
+  const toast = useToast();
 
   // const [image, setImage] = useState<any>(null);
   // const [focus, setFocus] = useState<boolean>(false);
@@ -26,10 +26,23 @@ export default function Registration() {
   function register(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (fetchData.password === fetchData.confirmPassword) {
-      userRegistration({ email: fetchData.email, username: fetchData.username, password: fetchData.password, confirmPassword: fetchData.confirmPassword, router });
+      userRegistration({
+        email: fetchData.email,
+        username: fetchData.username,
+        password: fetchData.password,
+        confirmPassword: fetchData.confirmPassword,
+        router,
+        toast
+      });
     } else {
       setMatch(false);
-      toast.error('Password confirmation denied!');
+      toast({
+        title: 'Password confirmation denied!',
+        // description: "We've created your account for you.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
   // const handleImageInput = (event: any) => {

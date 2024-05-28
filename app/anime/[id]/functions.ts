@@ -2,7 +2,6 @@ import { AnimeUserStatus, SingleAnimeDataForSlug } from "@/utils/types"
 import { Dispatch, SetStateAction } from "react";
 import { animeApi, api } from "@/utils";
 import { parseCookies } from "nookies";
-import { toast } from "react-toastify";
 
 export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoading }: {
   setData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
@@ -129,10 +128,7 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
   }
 }
 
-export function maximizeTrailer({ toggle, setToggle }: {
-  setToggle: Dispatch<SetStateAction<boolean>>;
-  toggle: boolean;
-}) {
+export function maximizeTrailer({ toggle, setToggle }: { setToggle: Dispatch<SetStateAction<boolean>>; toggle: boolean; }) {
   setToggle(!toggle);
   setTimeout(() => {
     if (toggle) return
@@ -159,19 +155,34 @@ export async function getUniqueUserAnimelist({ setData, animeId, setFailed, setL
     .finally(() => setLoading(false));
 }
 
-export async function removeAnimeFromUserAnimelist(animeId: number) {
+export async function removeAnimeFromUserAnimelist(animeId: number, toast: any) {
   api
     .delete(`/animelist/${animeId}`)
-    .then(() => toast.success("Anime deleted from your list"))
-    .catch(() => toast.error("An error has occured"))
+    .then(() =>
+      toast({
+        title: "Anime deleted from your list",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    )
+    .catch(() =>
+      toast({
+        title: "An error has occured",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    )
 }
 
-export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, setData, setShowAnimeSettings }: {
+export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, setData, setShowAnimeSettings, toast }: {
   setData: Dispatch<SetStateAction<SingleAnimeDataForSlug | null>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeUserStats: AnimeUserStatus;
+  toast: any;
 }) {
   setLoading(true);
 
@@ -192,8 +203,21 @@ export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setF
         ...prevState, UserAnimeList: e.data
       }))
       setShowAnimeSettings(false)
-      toast.success("Anime status updated!")
+      toast({
+        title: "Anime status updated!",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
     })
-    .catch(() => { setFailed(true); toast.error("Error on updating") })
+    .catch(() => {
+      setFailed(true);
+      toast({
+        title: "Error on updating",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    })
     .finally(() => setLoading(false));
 }

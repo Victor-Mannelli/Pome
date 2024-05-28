@@ -4,8 +4,8 @@ import { getUsersAnimeList, UseLogout } from '@/utils/functions';
 import { DefaultButton, Filter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
 import { TokenContext, UsersAnimelist } from '@/utils';
+import { Avatar, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { Avatar } from '@chakra-ui/react';
 import Image from 'next/image';
 import _ from 'underscore';
 
@@ -18,6 +18,7 @@ export default function Profile() {
   const [filter, setFilter] = useState<string>('Watching');
   const [sort, setSort] = useState<string>('');
   const router = useRouter();
+  const toast = useToast();
 
   if (user) {
     user.banner = '/dark_bg.jpg';
@@ -35,7 +36,7 @@ export default function Profile() {
   });
 
   return (
-    usersAnimeListFailed ? UseLogout({ setToken, setUser }) : usersAnimeListLoad ? (
+    usersAnimeListFailed ? UseLogout({ setToken, setUser, toast }) : usersAnimeListLoad ? (
       <ProfileSkeleton />
     ) : usersAnimeList ? (
       <div className="flex flex-col">

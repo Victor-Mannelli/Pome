@@ -1,13 +1,13 @@
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 import { api } from '@/utils';
 
-export function userRegistration({ email, username, password, confirmPassword, router }: {
-  email: string,
+export function userRegistration({ email, username, password, confirmPassword, router, toast }: {
+  router: ReturnType<typeof useRouter>
+  confirmPassword: string,
   username: string,
   password: string,
-  confirmPassword: string,
-  router: ReturnType<typeof useRouter>
+  email: string,
+  toast: any;
 }) {
   toast.promise(
     api.post('/users/register', { email, username, password, confirmPassword }),
@@ -20,14 +20,8 @@ export function userRegistration({ email, username, password, confirmPassword, r
         },
       },
       error: {
-        render(e: any) {
+        render() {
           return "Error on registration"
-          // console.log(e)
-          // return e.data.message
-          //   ? e.data.message
-          //   : e.response.data.length > 1
-          //     ? e.response.data.map((error: any) => error)
-          //     : e.response.data[0];
         }
       }
     },

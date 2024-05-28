@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from '@chakra-ui/react';
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -14,6 +14,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
+  const toast = useToast();
 
   return (
     <div
@@ -66,12 +67,13 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
                 rewatches: Number(e.target["rewatches"]?.value),
                 startDate: e.target["start_date"].value,
                 finishDate: e.target["finish_date"]?.value,
-                favorite: animeData.UserAnimeList && animeData.UserAnimeList.favorite
+                favorite: animeData.UserAnimeList && animeData.UserAnimeList.favorite,
               },
               setShowAnimeSettings,
               setData: setAnimeData,
               setFailed,
               setLoading,
+              toast,
             })
           }}>
           {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}
@@ -121,7 +123,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
           )}
           <FaTrashAlt
             className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'
-            onClick={() => removeAnimeFromUserAnimelist(animeData.id)}
+            onClick={() => removeAnimeFromUserAnimelist(animeData.id, toast)}
           />
           <Button
             isLoading={loading}

@@ -24,7 +24,14 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               setAnimeData(prevState => ({
                 ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
               }))
-              : toast.error('Log in first!')
+              : (
+                toast({
+                  title: 'Log in first!',
+                  status: 'success',
+                  duration: 9000,
+                  isClosable: true,
+                })
+              )
             }
           /> :
           <FaHeart
@@ -33,7 +40,14 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               setAnimeData(prevState => ({
                 ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false }
               }))
-              : toast.error('Log in first!')
+              : (
+                toast({
+                  title: 'Log in first!',
+                  status: 'success',
+                  duration: 9000,
+                  isClosable: true,
+                })
+              )
             }
           />
       ) :
@@ -43,7 +57,13 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
             setAnimeData(prevState => ({
               ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
             }))
-            : toast.error('Log in first!')}
+            : toast({
+              title: 'Log in first!',
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+            })
+          }
         />
       }
       <div

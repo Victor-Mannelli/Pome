@@ -1,8 +1,8 @@
 "use client"
 
+import { Button, useToast } from '@chakra-ui/react';
 import { userLogin } from '@/login/functions';
 import { useRouter } from 'next/navigation';
-import { Button } from '@chakra-ui/react';
 import { Link } from '@/components/tools';
 import { TokenContext } from '@/utils';
 import React from 'react';
@@ -11,7 +11,8 @@ export default function Login() {
   const [loading, setLoading] = React.useState<boolean>(false)
   const { setUser } = React.useContext(TokenContext);
   const router = useRouter(); 
-
+  const toast = useToast();
+  
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     userLogin({
@@ -20,6 +21,7 @@ export default function Login() {
       router,
       setUser,
       setLoading,
+      toast
     });
   }
 

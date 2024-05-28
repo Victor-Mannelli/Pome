@@ -6,8 +6,8 @@ import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { SingleAnimeDataForSlug } from '@/utils/types';
 import { UserAnimeSettings } from './animeUserSettings';
 import { useEffect, useState } from 'react';
+import { useToast } from '@chakra-ui/react';
 import { AnimeInfo } from './animeInfo';
-import { toast } from 'react-toastify';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
@@ -15,6 +15,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   const [data, setData] = useState<SingleAnimeDataForSlug | null>(null);
   const [dataLoad, setDataLoad] = useState<boolean>(true);
   const [dataFailed, setDataFailed] = useState<boolean>(false);
+  const toast = useToast();
 
   useEffect(() => {
     getAnimeDataForSlug({

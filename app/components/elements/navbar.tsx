@@ -1,18 +1,19 @@
 "use client";
 
-import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { HoverDescription } from './hoverDescription';
-import { Link } from '../tools/navigationLoader';
-import { SiNiconico } from '@/utils/libs';
-import { Avatar } from '@chakra-ui/react';
+import { Avatar, useToast } from '@chakra-ui/react';
 import { TokenContext, UseLogout } from '@/utils';
+import { Link } from '../tools/navigationLoader';
+import { usePathname } from 'next/navigation';
+import { SiNiconico } from '@/utils/libs';
 import { HoverList } from '../utilities';
 
 export function Navbar() {
   const { user, setUser, setToken } = useContext(TokenContext);
   const [show, setShow] = useState<boolean>(true);
   const pathname = usePathname();
+  const toast = useToast();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -31,11 +32,11 @@ export function Navbar() {
 
   return (
     <div
+      style={{ transition: 'top 0.3s' }}
       className={`flex justify-between items-center w-full h-16 px-10 z-20 bg-[#2c2e2f] hover:opacity-100
         ${pathname.startsWith('/anime') || pathname.startsWith('/profile') ? 'fixed opacity-70' : 'sticky opacity-100'}
         ${show ? 'top-0' : 'top-[-4rem]'} 
       `}
-      style={{ transition: 'top 0.3s' }}
     >
       {/* 
         <Link href={"/"}>
@@ -88,7 +89,7 @@ export function Navbar() {
               </Link>
               <Link
                 href={'/'}
-                onClick={() => UseLogout({ setToken, setUser })}
+                onClick={() => UseLogout({ setToken, setUser, toast })}
               >
                 <div className='hover:bg-fifth w-full px-4 py-2 cursor-pointer text-white'>
                   Log out

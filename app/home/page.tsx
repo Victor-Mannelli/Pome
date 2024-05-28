@@ -4,13 +4,12 @@ import { ErrorFeedback, Filter, FollowedAnimeSkeleton, HomePageAnimesSkeleton } 
 import { getUsersAnimeList, titlesFilterParser, TokenContext } from '@/utils';
 import { AnimeCatalogData, FilterType, UsersAnimelist } from '@/utils/types';
 import { UsersAnimeListView } from './usersAnimelistView';
-import { SetStateAction, useContext, useEffect, useState } from 'react';
-import { CloseButton } from '@chakra-ui/react';
+import { useContext, useEffect, useState } from 'react';
+import { ShowFollowedAnime } from './showFollowedAnime';
+import { CloseButton, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { Animelist } from './animelist';
 import { getAnimes } from './functions';
-import { toast } from 'react-toastify';
-import { ShowFollowedAnime } from './showFollowedAnime';
 
 export default function Home() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
@@ -29,6 +28,7 @@ export default function Home() {
   })
   const { user } = useContext(TokenContext)
   const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
     if (showFollowedAnime) {

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { User, UsersAnimelist } from "../types";
 import { destroyCookie } from "nookies";
-import { toast } from "react-toastify";
 import { api } from "../axios";
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number, childWidth: number }) {
@@ -12,10 +11,11 @@ export function calculatePadding({ parentWidth, childWidth }: { parentWidth: num
   return padding || 0
 }
 
-export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, setFailed }: {
+export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, setFailed, toast }: {
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
+  toast: any;
   body: any;
 }) {
   setLoading(true);
@@ -23,21 +23,32 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
     .post('/animes/updateStatus', body)
     .then(() => {
       setShowAnimeSettings(false);
-      toast.success("Anime status updated")
       setFailed(false);
+      toast({
+        title: "Anime status updated",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
     })
     .catch(() => {
       setFailed(true)
-      toast.error("An error ocurred")
+      toast({
+        title: "An error ocurred",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     })
     .finally(() => {
       setLoading(false);
     });
 }
 
-export function UseLogout({ setUser, setToken }: {
+export function UseLogout({ setUser, setToken, toast }: {
   setToken: Dispatch<SetStateAction<string>>
   setUser: Dispatch<SetStateAction<User>>
+  toast: any;
 }) {
 
   destroyCookie(null, 'token', { path: "/" });
@@ -46,7 +57,12 @@ export function UseLogout({ setUser, setToken }: {
   setUser(null);
   setToken(null);
   // router.push("/");
-  toast.success('Successfully logged out!');
+  toast({
+    title: "logged out!",
+    status: 'success',
+    duration: 9000,
+    isClosable: true,
+  })
 }
 
 export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
