@@ -38,10 +38,10 @@ export default function Registration() {
       setMatch(false);
       toast({
         title: 'Password confirmation denied!',
-        // description: "We've created your account for you.",
         status: 'error',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     }
   }

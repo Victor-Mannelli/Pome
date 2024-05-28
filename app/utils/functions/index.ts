@@ -29,6 +29,7 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
         status: 'success',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     })
     .catch(() => {
@@ -38,6 +39,7 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
         status: 'error',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     })
     .finally(() => {
@@ -62,6 +64,7 @@ export function UseLogout({ setUser, setToken, toast }: {
     status: 'success',
     duration: 9000,
     isClosable: true,
+        position: "top"
   })
 }
 

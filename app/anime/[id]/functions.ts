@@ -164,6 +164,7 @@ export async function removeAnimeFromUserAnimelist(animeId: number, toast: any) 
         status: 'success',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     )
     .catch(() =>
@@ -172,6 +173,7 @@ export async function removeAnimeFromUserAnimelist(animeId: number, toast: any) 
         status: 'error',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     )
 }
@@ -208,6 +210,7 @@ export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setF
         status: 'success',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     })
     .catch(() => {
@@ -217,6 +220,7 @@ export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setF
         status: 'error',
         duration: 9000,
         isClosable: true,
+        position: "top"
       })
     })
     .finally(() => setLoading(false));

@@ -30,6 +30,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                   status: 'success',
                   duration: 9000,
                   isClosable: true,
+                  position: "top"
                 })
               )
             }
@@ -46,6 +47,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                   status: 'success',
                   duration: 9000,
                   isClosable: true,
+                  position: "top"
                 })
               )
             }
@@ -62,6 +64,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               status: 'success',
               duration: 9000,
               isClosable: true,
+              position: "top"
             })
           }
         />
@@ -82,7 +85,16 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
           key="coverImageButton"
           className="flex items-center justify-center w-60 h-9 rounded-md hover:bg-fifth bg-fourthAndAHalf"
           onClick={() => {
-            if (!token) return toast.error('Log in first!')
+            if (!token) {
+              toast({
+                title: 'Log in first!',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+                position: "top"
+              })
+              return
+            }
             toggleShowAnimeSettings();
           }}
         >
