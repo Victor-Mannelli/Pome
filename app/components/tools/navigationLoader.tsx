@@ -11,7 +11,7 @@ export function Link({ href, children, replace, ...rest }: Parameters<typeof Nex
 
   if (isPending) {
     return (
-      <div className="fixed z-[15] inset-0 w-full h-screen flex flex-col items-center justify-center gap-5 bg-fourth">
+      <div className="fixed z-[95] inset-0 w-full h-screen flex flex-col items-center justify-center gap-5 bg-fourth">
         <Image
           className='w-1/4 h-fit'
           src={'/loading-rikka.gif'}

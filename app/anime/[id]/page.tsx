@@ -29,13 +29,15 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   return (
     <>
       {dataFailed ? (
-        <ErrorFeedback
-          refreshFunction={() => {
-            getAnimeDataForSlug({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
-          }}
-          setFailed={setDataFailed}
-          loading={dataLoad}
-        />
+        <div className='flex justify-center items-center w-full h-screen'>
+          <ErrorFeedback
+            refreshFunction={() => {
+              getAnimeDataForSlug({ animeId: params.id, setData, setFailed: setDataFailed, setLoading: setDataLoad })
+            }}
+            setFailed={setDataFailed}
+            loading={dataLoad}
+          />
+        </div>
       ) : dataLoad ? (
         <AnimePageSkeleton />
       ) : (

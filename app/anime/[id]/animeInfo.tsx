@@ -13,7 +13,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
   toast: any;
 }) {
   const token = parseCookies(null).token;
-  console.log(animeData)
+  
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? "" : "mt-16"}`}>
       {animeData.UserAnimeList ? (

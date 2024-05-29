@@ -52,7 +52,7 @@ export default function Home() {
   }, [page, filter]);
 
   return (
-    <div className="flex flex-col-reverse justify-center items-center lg:items-start lg:flex-row m-5 gap-10">
+    <div className="relative flex flex-col-reverse justify-center items-center lg:items-start lg:flex-row m-5 lg:gap-10 gap-3">
       <div className={`flex flex-col items-center h-full w-[20.2rem] 
         ${showFollowedAnime ? "xl:w-[52rem] md:w-[41.4rem]" : "xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]"}`
       }>
@@ -111,7 +111,7 @@ export default function Home() {
       ) : usersAnimeListLoad ? (
         <FollowedAnimeSkeleton />
       ) : (
-        <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} />
+        <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} setShowFollowedAnime={setShowFollowedAnime} />
       )}
     </div>
   )

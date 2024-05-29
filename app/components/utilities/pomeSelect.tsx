@@ -19,19 +19,19 @@ export function PomeSelect({ title, options, setShow, show, selectionOf, setFilt
         style={{ boxShadow: "0 0 2px rgb(204, 204, 204)", transition: "all 0.5s ease" }}
       >
         <div
-          className="flex items-center justify-between pl-5 pr-3 w-full h-10 cursor-pointer active:bg-fifth"
+          className="flex items-center justify-between pl-3 w-full h-10 cursor-pointer text-sm active:bg-fifth"
           onClick={() => setShow(!show)}
         >
           <span> {title ? title : selectionOf[0].toLocaleUpperCase() + selectionOf.slice(1)} </span>
           {title ?
             <GiBroom
-              className="hover:text-signature hover:text-opacity-75"
+              className="hover:text-signature hover:text-opacity-75 mr-[0.9rem] text-[1rem]"
               onClick={() => {
                 setFilter((prevState: any) => ({ ...prevState, [selectionOf]: null }));
                 setShow(false)
               }}
             />
-            : <MdKeyboardArrowDown className="text-2xl cursor-pointer" />
+            : <MdKeyboardArrowDown className="text-2xl cursor-pointer mr-2" />
           }
         </div>
         <ul

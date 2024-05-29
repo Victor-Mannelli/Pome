@@ -33,7 +33,7 @@ export function Navbar() {
   return (
     <div
       style={{ transition: 'top 0.3s' }}
-      className={`flex justify-between items-center w-full h-16 px-10 z-20 bg-[#2c2e2f] hover:opacity-100
+      className={`flex justify-between items-center w-full h-16 px-10 z-[99] bg-[#2c2e2f] hover:opacity-100
         ${pathname.startsWith('/anime') || pathname.startsWith('/profile') ? 'fixed opacity-70' : 'sticky opacity-100'}
         ${show ? 'top-0' : 'top-[-4rem]'} 
       `}

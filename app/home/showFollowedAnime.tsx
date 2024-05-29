@@ -10,8 +10,8 @@ export function ShowFollowedAnime({ user, showFollowedAnime, setShowFollowedAnim
 }) {
   return (
     <label
-      className={`items-center bg-third rounded-md text-white h-11 px-4 cursor-pointer active:bg-fifth hover:bg-fourth 
-        ${mobile ? "flex md:hidden" : "fixed top-20 right-3 md:flex hidden"}
+      className={`items-center bg-third text-white w-48 h-10 px-3 cursor-pointer active:bg-fifth hover:bg-fourth 
+        ${mobile ? "flex lg:hidden rounded-sm" : "absolute top-0 right-0 lg:flex hidden rounded-md"}
       `}
       style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
     >
@@ -34,7 +34,7 @@ export function ShowFollowedAnime({ user, showFollowedAnime, setShowFollowedAnim
           }
         }}
       />
-      <span className='pl-3'> Show Followed Animes! </span>
+      <span className='pl-3 text-sm'> Show My Animes! </span>
     </label>
   )
 }
