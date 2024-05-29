@@ -1,7 +1,9 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/utils';
 
-export function userRegistration({ email, username, password, confirmPassword, router, toast }: {
+export function userRegistration({ email, username, password, confirmPassword, router, toast, setLoading }: {
+  setLoading: Dispatch<SetStateAction<boolean>>
   router: ReturnType<typeof useRouter>
   confirmPassword: string,
   username: string,
@@ -9,22 +11,23 @@ export function userRegistration({ email, username, password, confirmPassword, r
   email: string,
   toast: any;
 }) {
-  toast.promise(
-    api.post('/users/register', { email, username, password, confirmPassword }),
-    {
-      pending: 'Creating account...',
-      success: {
-        render() {
-          router.push('/login');
-          return 'Account created!';
-        },
-      },
-      error: {
-        render() {
-          return "Error on registration"
-        }
-      }
-    },
-    { toastId: 'registration' }
-  );
+  setLoading(true)
+  api
+    .post('/users/register', { email, username, password, confirmPassword })
+    .then(() => {
+      router.push('/login');
+      toast({
+        title: 'Account created!',
+        status: 'success',
+        isClosable: true,
+      })
+    })
+    .catch((e) => {
+      toast({
+        title: e.message ? e.message : 'Error on registration, API is possibly offline!',
+        status: 'error',
+        isClosable: true,
+      })
+    })
+    .finally(() => setLoading(false))
 }

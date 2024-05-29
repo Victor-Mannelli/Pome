@@ -27,9 +27,7 @@ export function ShowFollowedAnime({ user, showFollowedAnime, setShowFollowedAnim
             toast({
               title: 'Log in first!',
               status: 'error',
-              duration: 9000,
               isClosable: true,
-              position: "top"
             })
           }
         }}

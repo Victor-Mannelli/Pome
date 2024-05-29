@@ -8,7 +8,7 @@ import { TokenContext } from '@/utils';
 import React from 'react';
 
 export default function Login() {
-  const [loading, setLoading] = React.useState<boolean>(false)
+  const [loading, setLoading] = React.useState<boolean>(false);
   const { setUser } = React.useContext(TokenContext);
   const router = useRouter(); 
   const toast = useToast();

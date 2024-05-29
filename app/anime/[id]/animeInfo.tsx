@@ -28,9 +28,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                 toast({
                   title: 'Log in first!',
                   status: 'success',
-                  duration: 9000,
                   isClosable: true,
-                  position: "top"
                 })
               )
             }
@@ -45,9 +43,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                 toast({
                   title: 'Log in first!',
                   status: 'success',
-                  duration: 9000,
                   isClosable: true,
-                  position: "top"
                 })
               )
             }
@@ -62,9 +58,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
             : toast({
               title: 'Log in first!',
               status: 'success',
-              duration: 9000,
               isClosable: true,
-              position: "top"
             })
           }
         />
@@ -89,9 +83,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               toast({
                 title: 'Log in first!',
                 status: 'error',
-                duration: 9000,
                 isClosable: true,
-                position: "top"
               })
               return
             }

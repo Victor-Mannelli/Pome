@@ -32,16 +32,15 @@ export default function Registration() {
         password: fetchData.password,
         confirmPassword: fetchData.confirmPassword,
         router,
-        toast
+        toast,
+        setLoading
       });
     } else {
       setMatch(false);
       toast({
         title: 'Password confirmation denied!',
         status: 'error',
-        duration: 9000,
         isClosable: true,
-        position: "top"
       })
     }
   }

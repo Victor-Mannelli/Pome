@@ -13,33 +13,31 @@ export function userLogin({ login, password, router, setUser, setLoading, toast 
   toast: any;
 }) {
   setLoading(true)
-  toast.promise(
-    api.post('/users/login', { login, password })
-      .then((response) => {
-        const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
-        setUser(decoded);
-        setCookie(null, 'token', response.data.token, {
-          maxAge: 1 * 60 * 60 * 24, // 24 hrs
-          path: '/',
-        });
-      }),
-    {
-      pending: 'Logging in...',
-      success: {
-        render() {
-          setLoading(false);
-          router.push('/');
-          return 'Logged In!';
-        },
-      },
-      error: {
-        render() {
-          setLoading(false);
-          return "Error on login"
-        }
-      }
-    },
-    { toastId: 'login' }
-  );
+  api
+    .post('/users/login', { login, password })
+    .then((response) => {
+      const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
+      setUser(decoded);
+      setCookie(null, 'token', response.data.token, {
+        maxAge: 1 * 60 * 60 * 24, // 24 hrs
+        path: '/',
+      });
+      router.push('/');
+      toast({
+        title: 'Logged In!',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+    })
+    .catch(() => {
+      toast({
+        title: 'Error on login, API is possibly offline!',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    })
+    .finally(() => setLoading(false))
 }
 
