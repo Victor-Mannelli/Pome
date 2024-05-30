@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
 
 export function Link({ href, children, replace, ...rest }: Parameters<typeof NextLink>[0]) {
   const [isPending, startTransition] = useTransition();
+  const pathname = usePathname();
   const router = useRouter();
 
   if (isPending) {
@@ -31,6 +32,7 @@ export function Link({ href, children, replace, ...rest }: Parameters<typeof Nex
         e.preventDefault();
         startTransition(() => {
           const url = href.toString();
+          if (pathname === url) return
           if (replace) {
             router.replace(url);
           } else {

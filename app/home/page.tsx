@@ -1,8 +1,7 @@
 "use client"
 
+import { TokenContext, VariablesContext, getUsersAnimeList, titlesFilterParser, AnimeCatalogData, FilterType, UsersAnimelist } from '@/utils';
 import { ErrorFeedback, Filter, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from '@/components';
-import { getUsersAnimeList, titlesFilterParser, TokenContext } from '@/utils';
-import { AnimeCatalogData, FilterType, UsersAnimelist } from '@/utils/types';
 import { UsersAnimeListView } from './usersAnimelistView';
 import { useContext, useEffect, useState } from 'react';
 import { ShowFollowedAnime } from './showFollowedAnime';
@@ -20,14 +19,15 @@ export default function Home() {
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
+  const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext)
+  const { user } = useContext(TokenContext)
   const [filter, setFilter] = useState<FilterType>({
     search: null,
     id_not_in: [],
-    status: "RELEASING",
+    status: animelistTitle,
     genres: null,
     year: 0,
   })
-  const { user } = useContext(TokenContext)
   const router = useRouter();
   const toast = useToast();
 
@@ -49,6 +49,7 @@ export default function Home() {
       quantity: 30,
       filter
     });
+    setAnimelistTitle(filter.status)
   }, [page, filter]);
 
   return (
@@ -56,9 +57,6 @@ export default function Home() {
       <div className={`flex flex-col items-center h-full w-[20.2rem] 
         ${showFollowedAnime ? "xl:w-[52rem] md:w-[41.4rem]" : "xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]"}`
       }>
-        <h1 className="hover:cursor-pointer py-3 text-xl" onClick={() => { if (page !== 0) setPage(0) }}>
-          {filter.status ? titlesFilterParser[filter.status] : "Anime List"}
-        </h1>
         <Filter
           setShowFollowedAnime={setShowFollowedAnime}
           showFollowedAnime={showFollowedAnime}

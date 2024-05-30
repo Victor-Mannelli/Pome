@@ -173,7 +173,7 @@ body {
 		@apply flex;
 	}
 	.iconDescription {
-		@apply absolute hover:flex hidden;
+		@apply absolute hidden hover:flex;
 	}
 
 	.wrapper-container {
