@@ -23,14 +23,14 @@ export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAn
   const { user } = useContext(TokenContext)
 
   return (
-    <div className='flex flex-wrap items-center justify-center md:flex-row gap-5 py-3'>
+    <div className='flex flex-wrap items-center justify-center md:flex-row gap-3 py-3'>
       <div
-        className="relative w-48 h-10 rounded-sm"
+        className="relative w-[10.5rem] h-8 rounded-sm"
         style={{ boxShadow: "0 0 2px rgb(204, 204, 204)" }}
       >
         <GiMagnifyingGlass className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-eigth" />
         <input
-          className="h-10 w-full rounded-md outline-none bg-third pl-3 pr-10 text-sm text-white"
+          className="h-8 w-full rounded-md outline-none bg-third pl-3 pr-10 text-sm text-white"
           onChange={(e) => setSearchDebounced(prevState => ({ ...prevState, search: e.target.value }))}
           placeholder='Search'
         />
