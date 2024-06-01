@@ -8,6 +8,7 @@ import { UserAnimeSettings } from './animeUserSettings';
 import { useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { AnimeInfo } from './animeInfo';
+import { Sinopse } from './sinopse';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
@@ -63,12 +64,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
               /> : null
             }
           </PopUp>
-          <div id="sinopse" className="w-[calc(100%-40px)]">
-            <p className="text-xl bg-fourthAndAHalf rounded-xl p-5">
-              <span className="text-2xl font-bold"> Sinopse </span> <br /> <br />
-              {data.description.replace(/(<([^>]+)>)/ig, ' ').replace(/(\r\n|\n|\r)/gm, ' ')}
-            </p>
-          </div>
+          <Sinopse animeData={data} inAnimeInfo={false} />
           {data.trailer && data.trailer.site === 'youtube' ? (
             <div className="relative bg-fourthAndAHalf rounded-xl w-[calc(100%-40px)] mt-5 p-5">
               <h1 className="text-2xl font-bold pb-3"> Trailer </h1>

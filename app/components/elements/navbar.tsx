@@ -39,7 +39,7 @@ export function Navbar() {
         ${show ? 'top-0' : 'top-[-4rem]'} 
       `}
     >
-      <div className='flex justify-between items-center xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]'>
+      <div className={`flex justify-between items-center ${pathname.startsWith('/anime') ? "w-full" : "xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]"}`}>
         <Link href={"/"}>
           <HoverDescription hoverText='Home'>
             <SiNiconico className="text-signature text-3xl cursor-pointer hover:brightness-75 mr-[18px]" />
