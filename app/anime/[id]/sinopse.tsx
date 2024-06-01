@@ -1,12 +1,18 @@
 "use client"
 
 import { SingleAnimeDataForSlug } from "@/utils/types";
+import { useEffect } from "react";
 import DOMPurify from 'dompurify';
 
 export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeDataForSlug | null, inAnimeInfo: boolean }) {
   const sinopseDiv = document.getElementById(inAnimeInfo ? "sinopseAI" : "sinopsePG");
   const cleanedDescription = DOMPurify.sanitize(animeData.description)
-  if (sinopseDiv) sinopseDiv.innerHTML = cleanedDescription;
+
+  useEffect(() => {
+    if (sinopseDiv && sinopseDiv.innerHTML !== cleanedDescription) {
+      sinopseDiv.innerHTML = cleanedDescription
+    };
+  }, [sinopseDiv])
 
   return (
     <>
