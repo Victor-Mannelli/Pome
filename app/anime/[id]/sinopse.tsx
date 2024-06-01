@@ -5,14 +5,14 @@ import { useEffect } from "react";
 import DOMPurify from 'dompurify';
 
 export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeDataForSlug | null, inAnimeInfo: boolean }) {
-  const sinopseDiv = document.getElementById(inAnimeInfo ? "sinopseAI" : "sinopsePG");
-  const cleanedDescription = DOMPurify.sanitize(animeData.description)
-
+  const cleanedDescription = DOMPurify.sanitize(animeData?.description || "");
+  
   useEffect(() => {
+    const sinopseDiv = document.getElementById(inAnimeInfo ? "sinopseAI" : "sinopsePG");
     if (sinopseDiv && sinopseDiv.innerHTML !== cleanedDescription) {
       sinopseDiv.innerHTML = cleanedDescription
     };
-  }, [sinopseDiv])
+  }, [cleanedDescription, inAnimeInfo])
 
   return (
     <>
