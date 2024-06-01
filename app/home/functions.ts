@@ -1,6 +1,6 @@
 import { AnimeCatalogData, FilterType } from "@/utils/types";
 import { Dispatch, SetStateAction } from "react";
-import { animeApi } from "@/utils/axios";
+import { animeApi } from "@/utils/libs/axios";
 
 export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity, page, filter }: {
   setAnimeData: Dispatch<SetStateAction<AnimeCatalogData | null>>;
@@ -16,24 +16,13 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
     page: page || 1,
     year: filter.status === "RELEASING"
       ? Number(new Date().getFullYear() + '0000')
-      : filter.year === 0 || filter.year == null
+      : filter.year == null
         ? 0
         : filter.year + '0000',
     quantity,
     id_not_in: filter.id_not_in,
     status_in: filter.status ? [filter.status] : ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
   }
-  // const only_search_param = {
-  //   search: filter.search,
-  //   genre: null,
-  //   page: null,
-  //   year: 0,
-  //   quantity,
-  //   id_not_in: [],
-  //   status_in: ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
-  // } 
-
-  // console.log(variables)
 
   const query = `
     query ($page: Int, $year: FuzzyDateInt, $status_in: [MediaStatus], $id_not_in: [Int], $quantity: Int, $search: String, $genre: String) {

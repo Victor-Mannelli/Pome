@@ -1,4 +1,3 @@
-export * from "./axios"
 export * from "./consts"
 export * from "./functions"
 export * from "./hooks"

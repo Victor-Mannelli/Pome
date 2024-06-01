@@ -1,7 +1,7 @@
 "use client"
 
 import { airingStatusOptions, animeYearOptions, genres } from '@/utils/consts';
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { ShowFollowedAnime } from '@/home/showFollowedAnime';
 import { PomeSelect } from '../utilities/pomeSelect';
 import { useDebounceCallback } from 'usehooks-ts';
@@ -52,7 +52,7 @@ export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAn
         setFilter={setFilter}
       />
       <PomeSelect
-        title={filter.year === 0 ? null : filter.year.toString()}
+        title={filter.year ? filter.year.toString() : null}
         options={animeYearOptions}
         setShow={setShowSelectYear}
         show={showSelectYear}

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { User, UsersAnimelist } from "../types";
+import { api } from "@/utils/libs/axios";
 import { destroyCookie } from "nookies";
-import { api } from "../axios";
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number, childWidth: number }) {
   const numChildrenPerRow = parentWidth - childWidth < 24 ? 1 : Math.floor(parentWidth / (childWidth + 24)); // 24px is the gap between children

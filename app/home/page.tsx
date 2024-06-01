@@ -26,7 +26,7 @@ export default function Home() {
     id_not_in: [],
     status: animelistTitle,
     genres: null,
-    year: 0,
+    year: null,
   })
   const router = useRouter();
   const toast = useToast();

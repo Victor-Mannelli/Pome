@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
+import { api } from "@/utils/libs/axios";
 import { User } from '@/utils/types';
 import { setCookie } from 'nookies';
-import { api } from '@/utils/axios';
+
 
 export function userLogin({ login, password, router, setUser, setLoading, toast }: {
   setLoading: Dispatch<SetStateAction<boolean>>
