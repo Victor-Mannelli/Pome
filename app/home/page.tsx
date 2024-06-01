@@ -15,9 +15,11 @@ export default function Home() {
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
   const [showFollowedAnime, setShowFollowedAnime] = useState<boolean>(false);
+
   const [animeData, setAnimeData] = useState<AnimeCatalogData | null>(null);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
+  
   const [page, setPage] = useState<number>(1);
   const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext)
   const { user } = useContext(TokenContext)
