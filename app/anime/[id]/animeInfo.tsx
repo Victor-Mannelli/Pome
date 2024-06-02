@@ -1,19 +1,21 @@
 import { animeUserStatus, monthNames } from "@/utils/consts";
-import { SingleAnimeDataForSlug } from "@/utils/types";
+import { AnimeTags, SingleAnimeDataForSlug } from "@/utils/types";
 import { FaHeart, FaRegHeart } from "@/utils/libs";
 import { Dispatch, SetStateAction } from "react";
+import { useToast } from "@chakra-ui/react";
 import { parseCookies } from "nookies";
 import { Stars } from "@/components";
 import { Sinopse } from "./sinopse";
 import Image from "next/image";
+import React from "react";
 
-export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, toast }: {
+export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: {
   setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
   toggleShowAnimeSettings: () => void;
   animeData: SingleAnimeDataForSlug;
-  toast: any;
 }) {
   const token = parseCookies(null).token;
+  const toast = useToast();
 
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? "" : "mt-16"}`}>
@@ -27,8 +29,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               }))
               : (
                 toast({
-                  title: 'Log in first!',
-                  status: 'success',
+                  title: "Log in first!",
+                  status: "success",
                   isClosable: true,
                 })
               )
@@ -42,8 +44,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               }))
               : (
                 toast({
-                  title: 'Log in first!',
-                  status: 'success',
+                  title: "Log in first!",
+                  status: "success",
                   isClosable: true,
                 })
               )
@@ -57,8 +59,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
             }))
             : toast({
-              title: 'Log in first!',
-              status: 'success',
+              title: "Log in first!",
+              status: "success",
               isClosable: true,
             })
           }
@@ -84,16 +86,16 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
           onClick={() => {
             if (!token) {
               toast({
-                title: 'Log in first!',
-                status: 'error',
+                title: "Log in first!",
+                status: "error",
                 isClosable: true,
-              })
-              return
+              });
+              return;
             }
             toggleShowAnimeSettings();
           }}
         >
-          {animeData.UserAnimeList ? animeUserStatus[animeData.UserAnimeList.status].name : 'Follow'}
+          {animeData.UserAnimeList ? animeUserStatus[animeData.UserAnimeList.status].name : "Follow"}
         </button>
       </div>
       <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? "m-5" : "my-5 mr-5 ml-1"}`}>
@@ -104,11 +106,11 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               <div className='flex w-72 h-6'>
                 <h3 className='pr-2 pt-[0.1rem]'>
                   <span className='font-bold italic pr-1'> {animeData.status[0] + animeData.status.slice(1).toLocaleLowerCase()} </span>
-                  {animeData.averageScore ? 'with' : ''}
+                  {animeData.averageScore ? "with" : ""}
                 </h3>
                 {animeData.averageScore ? <Stars className='' score={animeData.averageScore} /> : null}
               </div>
-              {animeData.status === 'RELEASING' ? (
+              {animeData.status === "RELEASING" ? (
                 <>
                   <h3 className='w-72 h-6'> Current Episode: {animeData.nextAiringEpisode.episode - 1} </h3>
                   <h3 className='w-72 h-6 text-h-signature'>
@@ -118,12 +120,12 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
                   </h3>
                   <h3 className='w-72 h-6'> Total Episodes: {animeData.episodes} </h3>
                 </>
-              ) : animeData.status === 'NOT_YET_RELEASED' ? (
+              ) : animeData.status === "NOT_YET_RELEASED" ? (
                 <>
                   <h3 className='w-72 h-6 text-h-signature'>
-                    Start Date: {' '}
+                    Start Date: {" "}
                     {monthNames[animeData.startDate.month]}
-                    {animeData.startDate.day ? ' ' + animeData.startDate.day + 'th, ' : ', '}
+                    {animeData.startDate.day ? " " + animeData.startDate.day + "th, " : ", "}
                     {animeData.startDate.year}
                   </h3>
                   {animeData.episodes ? <h3> Total Episodes: {animeData.episodes} </h3> : null}
@@ -142,7 +144,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
               <div id="tags"
                 className={`flex flex-wrap ${animeData.bannerImage ? "xl:flex-col " : "flex-col"} items-start gap-2 pl-2 md:pl-7 lg:pl-0 xx:pl-36 xl:h-52 xx:h-48 xl:w-[28rem]`}
               >
-                {animeData.tags.slice(0, window.innerWidth < 1780 && 1080 < window.innerWidth ? 21 : 28).map((e: any) => (
+                {animeData.tags.slice(0, window.innerWidth < 1780 && 1080 < window.innerWidth ? 21 : 28).map((e: AnimeTags) => (
                   <>
                     <li key={e.id + "desktop"} className="hidden sm:list-item w-full cursor-default sm:w-[13.5rem] h-[1.35rem] text-eigth">
                       {e.name.replace(" ", "_").length >= 20 ? e.name.slice(0, 20) + "..." : e.name}
@@ -159,5 +161,5 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData, to
         </div>
       </div>
     </div >
-  )
+  );
 }

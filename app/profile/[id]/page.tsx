@@ -1,46 +1,46 @@
-"use client"
+"use client";
 
-import { getUsersAnimeList, UseLogout } from '@/utils/functions';
-import { DefaultButton, Filter, ProfileSkeleton } from '@/components';
-import { useContext, useEffect, useState } from 'react';
-import { TokenContext, UsersAnimelist } from '@/utils';
-import { Avatar, useToast } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import _ from 'underscore';
+import { TokenContext, UseLogout, UsersAnimelist } from "@/utils";
+import { DefaultButton, ProfileSkeleton } from "@/components";
+import { useContext, useEffect, useState } from "react";
+import { getUsersAnimeList } from "@/utils/functions";
+import { useRouter } from "next/navigation";
+import { Avatar } from "@chakra-ui/react";
+import Image from "next/image";
+import _ from "underscore";
+import React from "react";
 
 export default function Profile() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
-  const { user, setToken, setUser } = useContext(TokenContext)
-
-  const [filter, setFilter] = useState<string>('Watching');
-  const [sort, setSort] = useState<string>('');
+  const { user, setToken, setUser } = useContext(TokenContext);
+  const [filter, setFilter] = useState<string>("Watching");
+  // const [sort, setSort] = useState<string>("");
   const router = useRouter();
-  const toast = useToast();
 
   if (user) {
-    user.banner = '/dark_bg.jpg';
+    user.banner = "/dark_bg.jpg";
   }
 
   useEffect(() => {
-    getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed })
-  }, [])
+    getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed });
+  }, []);
 
-  const animeList = _.sortBy(usersAnimeList, sort).reverse()?.filter((e: any) => {
+  const sort = "";
+  const animeList = _.sortBy(usersAnimeList, sort).reverse()?.filter((e: UsersAnimelist) => {
     if (sort.length > 0) {
-      return e.anime.title.toLowerCase().includes(sort.toLowerCase())
+      return e.anime.title.romaji.toLowerCase().includes(sort.toLowerCase());
     }
-    return e.status === filter
+    return e.status === filter;
   });
 
   return (
-    usersAnimeListFailed ? UseLogout({ setToken, setUser, toast }) : usersAnimeListLoad ? (
+    usersAnimeListFailed ? UseLogout({ setToken, setUser }) : usersAnimeListLoad ? (
       <ProfileSkeleton />
     ) : usersAnimeList ? (
       <div className="flex flex-col">
-        <div className={'flex items-end w-full h-60 '}
+        <div className={"flex items-end w-full h-60 "}
           style={{ backgroundImage: `url('${user?.banner}')` }}
         >
           <div className='flex justify-end w-1/4'>
@@ -60,11 +60,11 @@ export default function Profile() {
           </div>
           <div className="w-3/4 h-screen flex flex-col">
             <div className="flex justify-center">
-              {['Finished', 'Watching', 'Planning', 'Dropped', 'Rewatching'].map((e, i) =>
+              {["Finished", "Watching", "Planning", "Dropped", "Rewatching"].map((e, i) =>
                 <DefaultButton
                   key={i}
                   text={e}
-                  className={`ml-5 mt-5 ${filter === e ? 'border bg-second' : 'bg-third'}`}
+                  className={`ml-5 mt-5 ${filter === e ? "border bg-second" : "bg-third"}`}
                   onClick={() => setFilter(e)}
                 />
               )}
@@ -106,5 +106,5 @@ export default function Profile() {
       </div >
       // <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} />
     ) : null
-  )
+  );
 }

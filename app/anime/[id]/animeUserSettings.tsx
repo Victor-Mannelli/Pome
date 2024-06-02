@@ -1,11 +1,12 @@
-"use client"
+"use client";
 
-import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from "@chakra-ui/react";
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
-import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { SingleAnimeDataForSlug } from '@/utils/types';
-import { animeUserData, animeUserStatus } from '@/utils/consts';
+import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from "@/utils/libs";
+import { Dispatch, SetStateAction, useState } from "react";
+import { SingleAnimeDataForSlug } from "@/utils/types";
+import { animeUserData, animeUserStatus } from "@/utils/consts";
+import React from "react";
 
 export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeData }: {
   setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
@@ -15,6 +16,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
   const [loading, setLoading] = useState<boolean>(false);
   const [failed, setFailed] = useState<boolean>(false);
   const toast = useToast();
+  console.log(failed);
 
   return (
     <div
@@ -26,8 +28,8 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
         onClick={() => setShowAnimeSettings(false)}
       />
       <div
-        className={'relative rounded-t-xl h-72 w-full bg-cover flex items-end p-3 bg-right'}
-        style={{ backgroundImage: `url(${animeData.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
+        className={"relative rounded-t-xl h-72 w-full bg-cover flex items-end p-3 bg-right"}
+        style={{ backgroundImage: `url(${animeData.bannerImage})`, boxShadow: "inset 0 0 200px black" }}
       >
         <h3 className='font-bold'> {animeData.title.romaji} </h3>
         {animeData.UserAnimeList ? (
@@ -74,7 +76,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
               setFailed,
               setLoading,
               toast,
-            })
+            });
           }}>
           {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}
           <InputGroup w={"20rem"}>
@@ -89,8 +91,8 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
               required
               placeholder={
                 animeData.UserAnimeList ? (
-                  animeData.UserAnimeList.status === '' ? 'Follow' : animeData.UserAnimeList.status
-                ) : 'Follow'
+                  animeData.UserAnimeList.status === "" ? "Follow" : animeData.UserAnimeList.status
+                ) : "Follow"
               }
               defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList.status : null}
             >
@@ -123,7 +125,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
           )}
           <FaTrashAlt
             className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'
-            onClick={() => removeAnimeFromUserAnimelist(animeData.id, toast)}
+            onClick={() => removeAnimeFromUserAnimelist({ animeId: animeData.id, toast })}
           />
           <Button
             isLoading={loading}
@@ -137,5 +139,5 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
         </form>
       </div>
     </div >
-  )
+  );
 }

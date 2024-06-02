@@ -1,1 +1,2 @@
-export * from "./useResizeHook"
+export * from "./useResizeHook";
+export * from "./useLogout";

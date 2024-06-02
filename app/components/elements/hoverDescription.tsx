@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import React from "react";
 
 export function HoverDescription({ children, hoverText }: {
   children: ReactNode;
@@ -14,5 +15,5 @@ export function HoverDescription({ children, hoverText }: {
         <h1> {hoverText} </h1>
       </div>
     </div >
-  )
+  );
 }

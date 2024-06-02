@@ -1,5 +1,5 @@
-import { parseCookies } from 'nookies';
-import axios from 'axios';
+import { parseCookies } from "nookies";
+import axios from "axios";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -11,7 +11,7 @@ export const animeApi = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = parseCookies(null).token;
-    config.headers.Authorization = `Bearer ${token || ''}`;
+    config.headers.Authorization = `Bearer ${token || ""}`;
     return config;
   },
   (error) => {
@@ -19,10 +19,10 @@ api.interceptors.request.use(
   }
 );
 api.interceptors.response.use(
-  (response): any => {
+  (response) => {
     return response;
   },
-  (error) => { 
-    throw error.response?.data
+  (error) => {
+    throw error.response?.data;
   }
 );

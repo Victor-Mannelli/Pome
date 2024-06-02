@@ -1,18 +1,19 @@
-"use client"
+"use client";
 
 import { SingleAnimeDataForSlug } from "@/utils/types";
 import { useEffect } from "react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
+import React from "react";
 
-export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeDataForSlug | null, inAnimeInfo: boolean }) {
+export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeDataForSlug | null; inAnimeInfo: boolean; }) {
   const cleanedDescription = DOMPurify.sanitize(animeData?.description || "");
-  
+
   useEffect(() => {
     const sinopseDiv = document.getElementById(inAnimeInfo ? "sinopseAI" : "sinopsePG");
     if (sinopseDiv && sinopseDiv.innerHTML !== cleanedDescription) {
-      sinopseDiv.innerHTML = cleanedDescription
+      sinopseDiv.innerHTML = cleanedDescription;
     };
-  }, [cleanedDescription, inAnimeInfo])
+  }, [cleanedDescription, inAnimeInfo]);
 
   return (
     <>
@@ -25,5 +26,5 @@ export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeData
         </div>
       </div>
     </>
-  )
+  );
 }

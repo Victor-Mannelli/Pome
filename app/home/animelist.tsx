@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
+import { AnimeCatalogData, SingleAnimeData } from "@/utils/types";
 import { Link, PageHandler } from "@/components/tools";
 import { Dispatch, SetStateAction } from "react";
-import { AnimeCatalogData } from "@/utils/types";
+import React from "react";
 
 export function Animelist({ animeData, setPage, page }: {
   setPage: Dispatch<SetStateAction<number>>;
@@ -19,7 +20,7 @@ export function Animelist({ animeData, setPage, page }: {
         ) : (
           <>
             <div className="flex flex-wrap gap-4 py-5">
-              {animeData.media.map((anime: any) => (
+              {animeData.media.map((anime: SingleAnimeData) => (
                 <Link href={`/anime/${anime.id}`} key={anime.id}>
                   <div
                     className="flex flex-col justify-end w-[9.6rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover"
@@ -38,5 +39,5 @@ export function Animelist({ animeData, setPage, page }: {
           </>
         )}
     </>
-  )
+  );
 }

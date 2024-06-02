@@ -1,26 +1,26 @@
-"use client"
+"use client";
 
-import { airingStatusOptions, animeYearOptions, genres } from '@/utils/consts';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
-import { ShowFollowedAnime } from '@/home/showFollowedAnime';
-import { PomeSelect } from '../utilities/pomeSelect';
-import { useDebounceCallback } from 'usehooks-ts';
-import { GiMagnifyingGlass } from '@/utils/libs';
-import { FilterType } from '@/utils/types';
-import { TokenContext } from '@/utils';
+import { airingStatusOptions, animeYearOptions, genres } from "@/utils/consts";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { ShowFollowedAnime } from "@/home/showFollowedAnime";
+import { PomeSelect } from "../utilities/pomeSelect";
+import { useDebounceCallback } from "usehooks-ts";
+import { GiMagnifyingGlass } from "@/utils/libs";
+import { FilterType } from "@/utils/types";
+import { TokenContext } from "@/utils";
+import React from "react";
 
-export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAnime, toast }: {
+export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAnime }: {
   setShowFollowedAnime: Dispatch<SetStateAction<boolean>>;
   setFilter: Dispatch<SetStateAction<FilterType>>;
   showFollowedAnime: boolean;
   filter: FilterType;
-  toast: any;
 }) {
   const [showSelectStatus, setShowSelectStatus] = useState<boolean>(false);
   const [showSelectGenres, setShowSelectGenres] = useState<boolean>(false);
   const [showSelectYear, setShowSelectYear] = useState<boolean>(false);
-  const setSearchDebounced = useDebounceCallback(setFilter, 1000)
-  const { user } = useContext(TokenContext)
+  const setSearchDebounced = useDebounceCallback(setFilter, 1000);
+  const { user } = useContext(TokenContext);
 
   return (
     <div className='flex flex-wrap items-center justify-center md:flex-row gap-3 py-3'>
@@ -63,7 +63,6 @@ export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAn
         <ShowFollowedAnime
           setShowFollowedAnime={setShowFollowedAnime}
           showFollowedAnime={showFollowedAnime}
-          toast={toast}
           user={user}
           mobile={true}
         />

@@ -1,13 +1,17 @@
 import { Dispatch, SetStateAction } from "react";
-import { User } from "@/utils"
+import { useToast } from "@chakra-ui/react";
+import { User } from "@/utils";
+import React from "react";
 
-export function ShowFollowedAnime({ user, showFollowedAnime, setShowFollowedAnime, toast, mobile }: {
+export function ShowFollowedAnime({ user, showFollowedAnime, setShowFollowedAnime, mobile }: {
   setShowFollowedAnime: Dispatch<SetStateAction<boolean>>;
   showFollowedAnime: boolean;
   mobile: boolean;
-  toast: any;
+  // toast: (options?: UseToastOptions) => void;
   user: User;
 }) {
+  const toast = useToast();
+
   return (
     <label
       className={`items-center bg-third text-white w-[10.5rem] h-8 px-3 cursor-pointer active:bg-fifth hover:bg-fourth 
@@ -22,17 +26,17 @@ export function ShowFollowedAnime({ user, showFollowedAnime, setShowFollowedAnim
         checked={!user || !showFollowedAnime ? false : true}
         onChange={() => {
           if (user) {
-            setShowFollowedAnime(true)
+            setShowFollowedAnime(true);
           } else {
             toast({
-              title: 'Log in first!',
-              status: 'error',
+              title: "Log in first!",
+              status: "error",
               isClosable: true,
-            })
+            });
           }
         }}
       />
       <span className='pl-3 text-sm'> Show My Animes! </span>
     </label>
-  )
+  );
 }

@@ -1,4 +1,5 @@
 import { Button } from "@chakra-ui/react";
+import React from "react";
 
 export function SignatureButton({ loading, onClick, text, type }: {
   type: "submit" | "reset" | "button";
@@ -20,5 +21,5 @@ export function SignatureButton({ loading, onClick, text, type }: {
     >
       {text}
     </Button>
-  )
+  );
 }

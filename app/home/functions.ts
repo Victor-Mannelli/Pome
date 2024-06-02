@@ -8,21 +8,21 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   setFailed: Dispatch<SetStateAction<boolean>>;
   quantity: number;
   filter?: FilterType;
-  page: any;
+  page: number;
 }) {
   const variables = {
     search: filter.search,
     genre: filter.genres,
     page: page || 1,
     year: filter.status === "RELEASING"
-      ? Number(new Date().getFullYear() + '0000')
+      ? Number(new Date().getFullYear() + "0000")
       : filter.year == null
         ? 0
-        : filter.year + '0000',
+        : filter.year + "0000",
     quantity,
     id_not_in: filter.id_not_in,
     status_in: filter.status ? [filter.status] : ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
-  }
+  };
 
   const query = `
     query ($page: Int, $year: FuzzyDateInt, $status_in: [MediaStatus], $id_not_in: [Int], $quantity: Int, $search: String, $genre: String) {
@@ -120,19 +120,19 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   `;
   setLoading(true);
   animeApi
-    .post('', { query, variables }, {
+    .post("", { query, variables }, {
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        "Accept": "application/json",
         // 'Access-Control-Allow-Origin': '*',
       }
     })
     .then((e) => {
-      setAnimeData(e.data.data.Page)
+      setAnimeData(e.data.data.Page);
       setFailed(false);
     })
     .catch(() => {
-      setFailed(true)
+      setFailed(true);
     })
     .finally(() => setLoading(false));
 }

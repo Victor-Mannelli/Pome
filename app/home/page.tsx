@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { TokenContext, VariablesContext, getUsersAnimeList, titlesFilterParser, AnimeCatalogData, FilterType, UsersAnimelist } from '@/utils';
-import { ErrorFeedback, Filter, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from '@/components';
-import { UsersAnimeListView } from './usersAnimelistView';
-import { useContext, useEffect, useState } from 'react';
-import { ShowFollowedAnime } from './showFollowedAnime';
-import { CloseButton, useToast } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
-import { Animelist } from './animelist';
-import { getAnimes } from './functions';
+import { TokenContext, VariablesContext, getUsersAnimeList, AnimeCatalogData, FilterType, UsersAnimelist } from "@/utils";
+import { ErrorFeedback, Filter, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from "@/components";
+import { UsersAnimeListView } from "./usersAnimelistView";
+import { useContext, useEffect, useState } from "react";
+import { ShowFollowedAnime } from "./showFollowedAnime";
+import { CloseButton } from "@chakra-ui/react";
+import { Animelist } from "./animelist";
+import { getAnimes } from "./functions";
+import React from "react";
 
 export default function Home() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
@@ -19,19 +19,17 @@ export default function Home() {
   const [animeData, setAnimeData] = useState<AnimeCatalogData | null>(null);
   const [animeDataFailed, setAnimeDataFailed] = useState<boolean>(false);
   const [animeDataLoad, setAnimeDataLoad] = useState<boolean>(true);
-  
+
   const [page, setPage] = useState<number>(1);
-  const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext)
-  const { user } = useContext(TokenContext)
+  const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext);
+  const { user } = useContext(TokenContext);
   const [filter, setFilter] = useState<FilterType>({
-    search: null,
-    id_not_in: [],
     status: animelistTitle,
+    id_not_in: [],
+    search: null,
     genres: null,
     year: null,
-  })
-  const router = useRouter();
-  const toast = useToast();
+  });
 
   useEffect(() => {
     if (showFollowedAnime) {
@@ -39,9 +37,9 @@ export default function Home() {
         setData: setUsersAnimeList,
         setLoading: usersAnimeListSetLoad,
         setFailed: setUsersAnimeListFailed,
-      })
+      });
     }
-  }, [showFollowedAnime])
+  }, [showFollowedAnime]);
   useEffect(() => {
     getAnimes({
       setAnimeData,
@@ -51,8 +49,8 @@ export default function Home() {
       quantity: 30,
       filter
     });
-    setAnimelistTitle(filter.status)
-  }, [page, filter]);
+    setAnimelistTitle(filter.status);
+  }, [page, filter, setAnimelistTitle]);
 
   return (
     <div className="relative flex flex-col-reverse justify-center items-center lg:items-start lg:flex-row m-5 lg:gap-10 gap-3">
@@ -64,7 +62,6 @@ export default function Home() {
           showFollowedAnime={showFollowedAnime}
           setFilter={setFilter}
           filter={filter}
-          toast={toast}
         />
         {animeDataFailed ? (
           <ErrorFeedback refreshFunction={() =>
@@ -89,7 +86,7 @@ export default function Home() {
           setShowFollowedAnime={setShowFollowedAnime}
           showFollowedAnime={showFollowedAnime}
           mobile={false}
-          toast={toast}
+          // toast={toast}
           user={user}
         />
       ) : usersAnimeListFailed ? (
@@ -111,8 +108,8 @@ export default function Home() {
       ) : usersAnimeListLoad ? (
         <FollowedAnimeSkeleton />
       ) : (
-        <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} setShowFollowedAnime={setShowFollowedAnime} />
+        <UsersAnimeListView usersAnimeList={usersAnimeList} setShowFollowedAnime={setShowFollowedAnime} />
       )}
     </div>
-  )
+  );
 }

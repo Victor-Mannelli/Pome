@@ -1,6 +1,7 @@
 import { SignatureButton } from "../tools/signatureButton";
 import { Dispatch, SetStateAction } from "react";
 import { destroyCookie } from "nookies";
+import React from "react";
 
 export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 	setFailed: Dispatch<SetStateAction<boolean>>;
@@ -14,16 +15,16 @@ export function ErrorFeedback({ refreshFunction, loading, setFailed }: {
 				<br />
 				Click it to reload the page in offline mode!
 			</h1>
-			<SignatureButton 
+			<SignatureButton
 				type='submit'
 				text="Reload!"
 				loading={loading}
 				onClick={() => {
-					destroyCookie(null, 'token', { path: "/" });
-					refreshFunction()
-					setFailed(false)
+					destroyCookie(null, "token", { path: "/" });
+					refreshFunction();
+					setFailed(false);
 				}}
 			/>
 		</div >
-	)
+	);
 }

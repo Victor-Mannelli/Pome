@@ -1,2 +1,2 @@
-export * from './reactIcons'
-export * from './axios'
+export * from "./reactIcons";
+export * from "./axios";

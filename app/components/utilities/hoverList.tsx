@@ -1,3 +1,5 @@
+import React from "react";
+
 export function HoverList({ children, className }: {
   children: React.ReactNode;
   className?: string;
@@ -11,5 +13,5 @@ export function HoverList({ children, className }: {
         {children}
       </div>
     </div>
-  )
+  );
 }

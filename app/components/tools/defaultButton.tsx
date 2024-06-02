@@ -1,7 +1,10 @@
+import { MouseEventHandler } from "react";
+import React from "react";
+
 export function DefaultButton({ text, onClick, className }: {
-  onClick: React.MouseEventHandler,
-  className: string
-  text: string,
+  onClick: MouseEventHandler;
+  className: string;
+  text: string;
 }) {
   return (
     <button

@@ -1,5 +1,6 @@
-import { FaRegHeart } from "@/utils/libs"
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { FaRegHeart } from "@/utils/libs";
+import React from "react";
 
 export function FollowedAnimeSkeleton() {
   return (
@@ -14,10 +15,10 @@ export function FollowedAnimeSkeleton() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export function HomePageAnimesSkeleton({ page }: { page: number }) {
+export function HomePageAnimesSkeleton({ page }: { page: number; }) {
   return (
     <div className="flex flex-col items-center h-full xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[20.2rem]">
       <div className="flex flex-wrap gap-4 py-5">
@@ -30,10 +31,10 @@ export function HomePageAnimesSkeleton({ page }: { page: number }) {
       </div>
       <PageHandlerSkeleton page={page} />
     </div>
-  )
+  );
 }
 
-export function PageHandlerSkeleton({ page }: { page?: number }) {
+export function PageHandlerSkeleton({ page }: { page?: number; }) {
   return (
     <div className="flex justify-center items-center w-full">
       <button
@@ -46,7 +47,7 @@ export function PageHandlerSkeleton({ page }: { page?: number }) {
       > Next
       </button>
     </div>
-  )
+  );
 }
 
 //! using: lg: '1080px',
@@ -94,7 +95,7 @@ export function AnimePageSkeleton() {
         </div>
       </div>
     </SkeletonTheme>
-  )
+  );
 }
 
 export function ProfileSkeleton() {
@@ -128,5 +129,5 @@ export function ProfileSkeleton() {
       </div>
 
     </SkeletonTheme >
-  )
+  );
 }

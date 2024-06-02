@@ -6,7 +6,8 @@ import { Navbar } from "./components/elements/navbar";
 import { useContext, useEffect } from "react";
 import { Inter } from "next/font/google";
 import "react-datepicker/dist/react-datepicker.css";
-import 'react-loading-skeleton/dist/skeleton.css'
+import "react-loading-skeleton/dist/skeleton.css";
+import React from "react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,8 +17,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!user && pathname.includes("/profile")) redirect("/")
-  }, [])
+    if (!user && pathname.includes("/profile")) redirect("/");
+  }, [pathname, user]);
 
   return (
     <html lang="en">

@@ -1,49 +1,26 @@
-"use client"
+"use client";
 
-import { userRegistration } from '@/registration/functions';
-import { Button, useToast } from '@chakra-ui/react';
-import { InputForm, Link } from '@/components';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Button, useToast } from "@chakra-ui/react";
+import { userRegistration } from "./functions";
+import { useRouter } from "next/navigation";
+import { Link } from "@/components/tools";
+import React, { useState } from "react";
 
 export default function Registration() {
-  const [fetchData, setFetchData] = useState<SignupFetchData>({ email: '', username: '', password: '', confirmPassword: '', userBanner: '' });
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const [match, setMatch] = useState(true);
   const router = useRouter();
   const toast = useToast();
-
   // const [image, setImage] = useState<any>(null);
   // const [focus, setFocus] = useState<boolean>(false);
 
-  function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.name === 'userBanner') {
-      // setFetchData({ ...fetchData, [e.target.name]: e.});
-    } else {
-      setFetchData({ ...fetchData, [e.target.name]: e.target.value });
-    }
-  }
-  function register(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (fetchData.password === fetchData.confirmPassword) {
-      userRegistration({
-        email: fetchData.email,
-        username: fetchData.username,
-        password: fetchData.password,
-        confirmPassword: fetchData.confirmPassword,
-        router,
-        toast,
-        setLoading
-      });
-    } else {
-      setMatch(false);
-      toast({
-        title: 'Password confirmation denied!',
-        status: 'error',
-        isClosable: true,
-      })
-    }
-  }
+  // function handleChanges(e: React.ChangeEvent<HTMLInputElement>) {
+  //   if (e.target.name === "userBanner") {
+  //     // setFetchData({ ...fetchData, [e.target.name]: e.});
+  //   } else {
+  //     setFetchData({ ...fetchData, [e.target.name]: e.target.value });
+  //   }
+  // }
   // const handleImageInput = (event: any) => {
   //   const file = event.target.files[0];
   //   const reader = new FileReader();
@@ -52,6 +29,31 @@ export default function Registration() {
   //   };
   //   reader.readAsDataURL(file);
   // };
+
+  function register(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (e.target["Password"].value !== e.target["Confirm Password"].value) {
+      setMatch(false);
+      toast({
+        title: "Password confirmation denied!",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+    const userData = {
+      email: e.target["Email"].value,
+      username: e.target["Username"].value,
+      password: e.target["Password"].value,
+      confirmPassword: e.target["Confirm Password"].value,
+    };
+    userRegistration({
+      setLoading,
+      userData,
+      router,
+      toast
+    });
+  }
 
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
@@ -89,10 +91,22 @@ export default function Registration() {
               />
             </div>
           ) : null } */}
-          <InputForm name="email" type="email" placeholder="Email" value={fetchData.email} onChange={handleChanges} />
-          <InputForm name="username" type="text" placeholder="Username" value={fetchData.username} onChange={handleChanges} />
-          <InputForm name="password" type="password" match={match} placeholder="Password" value={fetchData.password} onChange={handleChanges} />
-          <InputForm name="confirmPassword" type="password" match={match} placeholder="Confirm Password" value={fetchData.confirmPassword} onChange={handleChanges} />
+          {["Email", "Username", "Password", "Confirm Password"].map((e: string) => {
+            const type = e === "Email" ? "email" : e === "Password" || e === "Confirm Password" ? "password" : "text";
+            return (
+              <input
+                key={e}
+                id={e}
+                placeholder={e}
+                type={type}
+                required
+                onChange={() => { if (!match && type === "password") setMatch(true); }}
+                className={`w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white pl-2
+                  ${type === "password" && match === false ? "border-red-600" : "border-white"}`
+                }
+              />
+            );
+          })}
           <Button
             textColor={"text-signature"}
             bg={"bg-fourth"}
@@ -105,7 +119,7 @@ export default function Registration() {
             Register
           </Button>
         </form>
-        <Link href={'/login'}>
+        <Link href={"/login"}>
           <div className="flex gap-1">
             <p className='text-white text-lg cursor-pointer'> Already have an account? </p>
             <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Log In! </p>
@@ -114,12 +128,4 @@ export default function Registration() {
       </div>
     </div>
   );
-}
-
-export interface SignupFetchData {
-  email: string,
-  username: string,
-  password: string,
-  confirmPassword: string,
-  userBanner: string,
 }

@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { Button, useToast } from '@chakra-ui/react';
-import { userLogin } from '@/login/functions';
-import { useRouter } from 'next/navigation';
-import { Link } from '@/components/tools';
-import { TokenContext } from '@/utils';
-import React from 'react';
+import { Button, useToast } from "@chakra-ui/react";
+import { userLogin } from "@/login/functions";
+import { useRouter } from "next/navigation";
+import { Link } from "@/components/tools";
+import { TokenContext } from "@/utils";
+import React from "react";
 
 export default function Login() {
   const [loading, setLoading] = React.useState<boolean>(false);
   const { setUser } = React.useContext(TokenContext);
-  const router = useRouter(); 
+  const router = useRouter();
   const toast = useToast();
-  
+
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     userLogin({
@@ -68,7 +68,7 @@ export default function Login() {
           >
             Log In
           </Button>
-          <Link href={'/registration'}>
+          <Link href={"/registration"}>
             <div className="flex flex-col items-center mt-5">
               <p className="text-white text-lg cursor-pointer"> Don&apos;t have an account yet? </p>
               <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Create one! </p>

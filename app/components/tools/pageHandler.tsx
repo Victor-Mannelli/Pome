@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction } from 'react';
-import { DefaultButton } from '@/components';
+import { Dispatch, SetStateAction } from "react";
+import { DefaultButton } from "@/components";
+import React from "react";
 
 export function PageHandler({ currentPage, hasNextPage, setPage }: {
   setPage: Dispatch<SetStateAction<number>>;
@@ -13,7 +14,7 @@ export function PageHandler({ currentPage, hasNextPage, setPage }: {
         className={`${currentPage === 1 ? "cursor-default bg-third hover:bg-third opacity-50 hover:opacity-50" : "bg-third"}`}
         onClick={() => {
           if (currentPage > 1) {
-            setPage(currentPage - 1)
+            setPage(currentPage - 1);
           }
         }}
       />
@@ -23,7 +24,7 @@ export function PageHandler({ currentPage, hasNextPage, setPage }: {
         className={`${!hasNextPage ? "cursor-default bg-third hover:bg-third opacity-50 hover:opacity-50" : "bg-third"}`}
         onClick={() => {
           if (hasNextPage) {
-            setPage(currentPage + 1)
+            setPage(currentPage + 1);
           }
         }}
       />
