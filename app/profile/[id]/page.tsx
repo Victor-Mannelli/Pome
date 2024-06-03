@@ -14,9 +14,9 @@ export default function Profile() {
   const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
-  const { user, setToken, setUser } = useContext(TokenContext);
   const [filter, setFilter] = useState<string>("Watching");
   // const [sort, setSort] = useState<string>("");
+  const { user } = useContext(TokenContext);
   const router = useRouter();
 
   if (user) {
@@ -36,7 +36,7 @@ export default function Profile() {
   });
 
   return (
-    usersAnimeListFailed ? UseLogout({ setToken, setUser }) : usersAnimeListLoad ? (
+    usersAnimeListFailed ? UseLogout() : usersAnimeListLoad ? (
       <ProfileSkeleton />
     ) : usersAnimeList ? (
       <div className="flex flex-col">

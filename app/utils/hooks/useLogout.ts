@@ -1,20 +1,22 @@
-import { Dispatch, SetStateAction } from "react";
+import { TokenContext } from "../providers";
 import { useToast } from "@chakra-ui/react";
-import { destroyCookie } from "nookies";
-import { User } from "../types";
+import { useRouter } from "next/router";
+import { useContext } from "react";
 
-export function UseLogout({ setUser, setToken }: {
-  setToken: Dispatch<SetStateAction<string>>;
-  setUser: Dispatch<SetStateAction<User>>;
-  // toast: (options?: UseToastOptions) => void;
-}) {
+export function UseLogout() {
+  const { setToken, setUser } = useContext(TokenContext);
+  const router = useRouter();
   const toast = useToast();
-  destroyCookie(null, "token", { path: "/" });
-  destroyCookie(undefined, "token", { path: "/" });
-  destroyCookie({}, "token", { path: "/" });
+
+  localStorage.removeItem("token");
+  localStorage.clear();
+  // destroyCookie(null, "token", { path: "/" });
+  // destroyCookie(undefined, "token", { path: "/" });
+  // destroyCookie({}, "token", { path: "/" });
   setUser(null);
   setToken(null);
-  // router.push("/");
+  router.push("/");
+
   toast({
     title: "logged out!",
     status: "success",

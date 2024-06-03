@@ -5,9 +5,9 @@ import { usePathname, redirect } from "next/navigation";
 import { Navbar } from "./components/elements/navbar";
 import { useContext, useEffect } from "react";
 import { Inter } from "next/font/google";
+import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import React from "react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });

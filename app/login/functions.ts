@@ -3,7 +3,6 @@ import { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/utils/libs/axios";
 import { User } from "@/utils/types";
-import { setCookie } from "nookies";
 
 export function userLogin({ login, password, router, setUser, setLoading, toast }: {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -19,10 +18,11 @@ export function userLogin({ login, password, router, setUser, setLoading, toast 
     .then((response) => {
       const decoded = JSON.parse(Buffer.from(response.data.token.split(".")[1], "base64").toString());
       setUser(decoded);
-      setCookie(null, "token", response.data.token, {
-        maxAge: 1 * 60 * 60 * 24, // 24 hrs
-        path: "/",
-      });
+      localStorage.setItem("token", response.data.token);
+      // setCookie(null, "token", response.data.token, {
+      //   maxAge: 1 * 60 * 60 * 24, // 24 hrs
+      //   path: "/",
+      // });
       router.push("/");
       toast({
         title: "Logged In!",

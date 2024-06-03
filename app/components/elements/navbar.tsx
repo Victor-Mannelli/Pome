@@ -11,8 +11,8 @@ import { HoverList } from "../utilities";
 import React from "react";
 
 export function Navbar() {
-  const { user, setUser, setToken } = useContext(TokenContext);
   const { animelistTitle } = useContext(VariablesContext);
+  const { user } = useContext(TokenContext);
   const [show, setShow] = useState<boolean>(true);
   const pathname = usePathname();
 
@@ -82,7 +82,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href={"/"}
-                  onClick={() => UseLogout({ setToken, setUser })}
+                  onClick={() => UseLogout()}
                 >
                   <div className='hover:bg-fifth w-full px-4 py-2 cursor-pointer text-white'>
                     Log out

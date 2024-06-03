@@ -2,9 +2,8 @@
 
 import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { parseCookies } from "nookies";
-import { User } from "../types";
 import { Buffer } from "buffer";
+import { User } from "../types";
 import React from "react";
 
 interface TokenContextType {
@@ -29,12 +28,14 @@ export function TokenProvider({ children }: { children: ReactNode; }) {
   const router = useRouter();
 
   useEffect(() => {
-    const existingToken = parseCookies(null).token;
+    // const existingToken = parseCookies(null).token;
+    const existingToken = JSON.parse(localStorage.getItem("token") || "{}");
     setToken(existingToken || null);
   }, []);
 
   useEffect(() => {
     try {
+      console.log(token, "token");
       if (!token) return;
       const decoded = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
       // console.log(decoded, "decoded");
