@@ -36,6 +36,7 @@ export default function AnimePage({ params }: { params: { id: string; }; }) {
             }}
             setFailed={setDataFailed}
             loading={dataLoad}
+            animeApi={false}
           />
         </div>
       ) : dataLoad ? (

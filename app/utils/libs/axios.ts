@@ -5,7 +5,7 @@ export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 export const animeApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_ANIME
+  baseURL: process.env.NEXT_PUBLIC_ANIME_API
 });
 
 api.interceptors.request.use(

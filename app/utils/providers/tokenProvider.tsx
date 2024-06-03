@@ -29,7 +29,8 @@ export function TokenProvider({ children }: { children: ReactNode; }) {
 
   useEffect(() => {
     // const existingToken = parseCookies(null).token;
-    const existingToken = JSON.parse(localStorage.getItem("token") || "{}");
+    // const existingToken = JSON.parse(localStorage.getItem("token") || "{}");
+    const existingToken = localStorage.getItem("token");
     setToken(existingToken || null);
   }, []);
 

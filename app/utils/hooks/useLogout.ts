@@ -1,3 +1,5 @@
+"use client";
+
 import { TokenContext } from "../providers";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";

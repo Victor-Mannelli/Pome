@@ -28,6 +28,9 @@ export type UsersAnimelist = {
   };
 }
 
+export type AnimeData = {
+  Page: AnimeCatalogData;
+}
 export type AnimeCatalogData = {
   media: SingleAnimeData[];
   pageInfo: PageInfo;

@@ -11,6 +11,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.4",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -20,8 +21,10 @@
     "dompurify": "^3.1.5",
     "eslint": "^8.57.0",
     "framer-motion": "^11.2.4",
+    "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "next": "14.2.1",
+    "node": "^20.14.0",
     "nookies": "^2.5.2",
     "rc-textarea": "^1.7.0",
     "react": "^18",

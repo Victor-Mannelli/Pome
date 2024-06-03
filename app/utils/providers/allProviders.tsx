@@ -1,4 +1,5 @@
 import { VariablesProvider } from "./variablesProvider";
+import { ApolloGqlProvider } from "./apolloProvider";
 import { ChakraProvider } from "@chakra-ui/react";
 import { TokenProvider } from "./tokenProvider";
 import { ThemeProvider } from "./themeProvider";
@@ -10,11 +11,13 @@ export function Providers({ children }: { children: ReactNode; }) {
   return (
     <ChakraProvider theme={theme} toastOptions={{ defaultOptions: { position: "top", duration: 5000 } }}>
       <ThemeProvider>
-        <VariablesProvider>
-          <TokenProvider>
-            {children}
-          </TokenProvider>
-        </VariablesProvider>
+        <ApolloGqlProvider>
+          <VariablesProvider>
+            <TokenProvider>
+              {children}
+            </TokenProvider>
+          </VariablesProvider>
+        </ApolloGqlProvider>
       </ThemeProvider>
     </ChakraProvider>
   );
