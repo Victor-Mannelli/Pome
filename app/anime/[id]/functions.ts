@@ -2,7 +2,7 @@ import { AnimeUserStatus, SingleAnimeDataForSlug } from "@/utils/types";
 import { UseToastOptions } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 import { animeApi, api } from "@/utils";
-import { parseCookies } from "nookies";
+// import { parseCookies } from "nookies";
 
 export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoading }: {
   setData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
@@ -10,7 +10,8 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
   setFailed: Dispatch<SetStateAction<boolean>>;
   animeId: string;
 }) {
-  const token = parseCookies(null).token;
+  // const token = parseCookies(null).token;
+  const token = localStorage.getItem("token");
   if (token) {
     setLoading(true);
     api

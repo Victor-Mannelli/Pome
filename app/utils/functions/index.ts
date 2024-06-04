@@ -1,6 +1,6 @@
 import { UseToastOptions } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { UsersAnimelist } from "../types";
+import { User, UsersAnimeData } from "../types";
 import { api } from "@/utils/libs/axios";
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number; childWidth: number; }) {
@@ -44,7 +44,7 @@ export function addAnimeUserStatus({ body, setShowAnimeSettings, setLoading, set
 }
 
 export async function getUsersAnimeList({ setData, setLoading, setFailed }: {
-  setData: Dispatch<SetStateAction<UsersAnimelist[] | null>>;
+  setData: Dispatch<SetStateAction<UsersAnimeData[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -63,4 +63,19 @@ export function getDateAsYYYYMMDD() {
   const day = String(currentDate.getDate()).padStart(2, "0"); // Pad day with leading zero
 
   return `${year}-${month}-${day}`;
+}
+
+export function logout({ setToken, setUser, toast }: {
+  setToken: Dispatch<SetStateAction<string>>;
+  toast: (options?: UseToastOptions) => void;
+  setUser: Dispatch<SetStateAction<User>>;
+}) {
+  localStorage.removeItem("token");
+  setUser(null);
+  setToken(null);
+  toast({
+    title: "logged out!",
+    status: "success",
+    isClosable: true,
+  });
 }

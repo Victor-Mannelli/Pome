@@ -1,8 +1,8 @@
 "use client";
 
-import { TokenContext, VariablesContext, getUsersAnimeList, FilterType, UsersAnimelist, AnimeData } from "@/utils";
+import { TokenContext, VariablesContext, getUsersAnimeList, FilterType, UsersAnimeData, AnimeData } from "@/utils";
 import { ErrorFeedback, Filter, FollowedAnimeSkeleton, HomePageAnimesSkeleton } from "@/components";
-import { getAnimesQuery, getAnimesVariables } from "./queries";
+import { getAnimesQuery, getAnimesVariables } from "@/utils/queries";
 import { UsersAnimeListView } from "./usersAnimelistView";
 import { useContext, useEffect, useState } from "react";
 import { ShowFollowedAnime } from "./showFollowedAnime";
@@ -13,14 +13,14 @@ import { Animelist } from "./animelist";
 import React from "react";
 
 export default function Home() {
-  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
+  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimeData[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
   const [showFollowedAnime, setShowFollowedAnime] = useState<boolean>(false);
-  const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext);
   const [page, setPage] = useState<number>(1);
-  const { user } = useContext(TokenContext);
   const router = useRouter();
+  const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext);
+  const { user } = useContext(TokenContext);
   const [filter, setFilter] = useState<FilterType>({
     status: animelistTitle,
     id_not_in: [],
@@ -28,13 +28,10 @@ export default function Home() {
     genres: null,
     year: null,
   });
-  const { loading: animeDataLoading, error: animeDataError, data: animeData } = useQuery<AnimeData>(getAnimesQuery, {
-    variables: getAnimesVariables({
-      quantity: 30,
-      page,
-      filter,
-    })
-  });
+  const { loading: animeDataLoading, error: animeDataError, data: animeData } = useQuery<AnimeData>(
+    getAnimesQuery,
+    { variables: getAnimesVariables({ quantity: 30, page, filter }) }
+  );
 
   useEffect(() => {
     if (showFollowedAnime) {

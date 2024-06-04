@@ -3,7 +3,7 @@ import { AnimeTags, SingleAnimeDataForSlug } from "@/utils/types";
 import { FaHeart, FaRegHeart } from "@/utils/libs";
 import { Dispatch, SetStateAction } from "react";
 import { useToast } from "@chakra-ui/react";
-import { parseCookies } from "nookies";
+// import { parseCookies } from "nookies";
 import { Stars } from "@/components";
 import { Sinopse } from "./sinopse";
 import Image from "next/image";
@@ -14,7 +14,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
   toggleShowAnimeSettings: () => void;
   animeData: SingleAnimeDataForSlug;
 }) {
-  const token = parseCookies(null).token;
+  // const token = parseCookies(null).token;
+  const token = localStorage.getItem("token");
   const toast = useToast();
 
   return (

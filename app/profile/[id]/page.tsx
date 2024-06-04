@@ -1,23 +1,24 @@
 "use client";
 
-import { TokenContext, UseLogout, UsersAnimelist } from "@/utils";
 import { DefaultButton, ProfileSkeleton } from "@/components";
+import { getUsersAnimeList, logout } from "@/utils/functions";
 import { useContext, useEffect, useState } from "react";
-import { getUsersAnimeList } from "@/utils/functions";
+import { TokenContext, UsersAnimeData } from "@/utils";
+import { Avatar, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { Avatar } from "@chakra-ui/react";
 import Image from "next/image";
 import _ from "underscore";
 import React from "react";
 
 export default function Profile() {
-  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimelist[] | null>(null);
+  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimeData[] | null>(null);
   const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
   const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>("Watching");
   // const [sort, setSort] = useState<string>("");
-  const { user } = useContext(TokenContext);
+  const { user, setToken, setUser } = useContext(TokenContext);
   const router = useRouter();
+  const toast = useToast();
 
   if (user) {
     user.banner = "/dark_bg.jpg";
@@ -28,7 +29,7 @@ export default function Profile() {
   }, []);
 
   const sort = "";
-  const animeList = _.sortBy(usersAnimeList, sort).reverse()?.filter((e: UsersAnimelist) => {
+  const animeList = _.sortBy(usersAnimeList, sort).reverse()?.filter((e: UsersAnimeData) => {
     if (sort.length > 0) {
       return e.anime.title.romaji.toLowerCase().includes(sort.toLowerCase());
     }
@@ -36,7 +37,7 @@ export default function Profile() {
   });
 
   return (
-    usersAnimeListFailed ? UseLogout() : usersAnimeListLoad ? (
+    usersAnimeListFailed ? logout({ setToken, setUser, toast }) : usersAnimeListLoad ? (
       <ProfileSkeleton />
     ) : usersAnimeList ? (
       <div className="flex flex-col">
@@ -77,7 +78,7 @@ export default function Profile() {
                 <h3 className="w-[11%] text-center font-bold"> Status </h3>
               </div>
               {animeList.length > 0 ?
-                animeList.map((e: UsersAnimelist) => (
+                animeList.map((e: UsersAnimeData) => (
                   <div
                     key={e.anime_id}
                     className="flex w-full items-center px-5 py-1 hover:bg-second rounded-xl cursor-pointer"

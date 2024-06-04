@@ -1,20 +1,21 @@
 "use client";
 
-import { TokenContext, UseLogout, VariablesContext, titlesFilterParser } from "@/utils";
+import { TokenContext, VariablesContext, logout, titlesFilterParser } from "@/utils";
 import { useContext, useEffect, useState } from "react";
 import { HoverDescription } from "./hoverDescription";
+import { Avatar, useToast } from "@chakra-ui/react";
 import { Link } from "../tools/navigationLoader";
 import { usePathname } from "next/navigation";
 import { SiNiconico } from "@/utils/libs";
-import { Avatar } from "@chakra-ui/react";
 import { HoverList } from "../utilities";
 import React from "react";
 
 export function Navbar() {
+  const { user, setUser, setToken } = useContext(TokenContext);
   const { animelistTitle } = useContext(VariablesContext);
-  const { user } = useContext(TokenContext);
   const [show, setShow] = useState<boolean>(true);
   const pathname = usePathname();
+  const toast = useToast();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,7 +83,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href={"/"}
-                  onClick={() => UseLogout()}
+                  onClick={() => logout({ setToken, setUser, toast })}
                 >
                   <div className='hover:bg-fifth w-full px-4 py-2 cursor-pointer text-white'>
                     Log out

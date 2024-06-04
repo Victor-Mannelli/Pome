@@ -1,4 +1,4 @@
-import { parseCookies } from "nookies";
+// import { parseCookies } from "nookies";
 import axios from "axios";
 
 export const api = axios.create({
@@ -10,7 +10,8 @@ export const animeApi = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = parseCookies(null).token;
+    // const token = parseCookies(null).token;
+    const token = localStorage.getItem("token");
     config.headers.Authorization = `Bearer ${token || ""}`;
     return config;
   },

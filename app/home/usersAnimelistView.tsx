@@ -1,20 +1,20 @@
 import { Dispatch, SetStateAction } from "react";
 import { BiPlus, BiMinus } from "@/utils/libs";
-import { UsersAnimelist } from "@/utils/types";
+import { UsersAnimeData } from "@/utils/types";
 import { CloseButton } from "@chakra-ui/react";
 import { Link } from "@/components";
 import React from "react";
 
 export function UsersAnimeListView({ usersAnimeList, setShowFollowedAnime }: {
   setShowFollowedAnime: Dispatch<SetStateAction<boolean>>;
-  usersAnimeList: UsersAnimelist[] | null;
+  usersAnimeList: UsersAnimeData[] | null;
 }) {
   return (
     <div className="relative flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
       <CloseButton position={"absolute"} right={2} top={2} color={"white"} onClick={() => setShowFollowedAnime(false)} />
       <h1 className="font-bold text-center pt-5"> You are following </h1>
       <div className="flex flex-wrap p-5 gap-4">
-        {usersAnimeList.length > 0 ? usersAnimeList.map((e: UsersAnimelist) => (
+        {usersAnimeList.length > 0 ? usersAnimeList.map((e: UsersAnimeData) => (
           <Link
             href={`/anime/${e.anime_id}`}
             key={e.anime_id}

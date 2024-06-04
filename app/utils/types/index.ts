@@ -1,4 +1,4 @@
-export type UsersAnimelist = {
+export type UsersAnimeData = {
   id: number;
   user_id: number;
   anime_id: number;
