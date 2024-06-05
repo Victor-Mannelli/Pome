@@ -21,7 +21,7 @@ export default function Login() {
       router,
       setUser,
       setLoading,
-      toast
+      toast,
     });
   }
 

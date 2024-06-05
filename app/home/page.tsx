@@ -30,7 +30,7 @@ export default function Home() {
   });
   const { loading: animeDataLoading, error: animeDataError, data: animeData } = useQuery<AnimeData>(
     getAnimesQuery,
-    { variables: getAnimesVariables({ quantity: 30, page, filter }) }
+    { variables: getAnimesVariables({ quantity: 30, page, filter }) },
   );
 
   useEffect(() => {
@@ -91,9 +91,9 @@ export default function Home() {
                 setLoading: usersAnimeListSetLoad,
                 setFailed: setUsersAnimeListFailed,
               })}
-              setFailed={setUsersAnimeListFailed}
-              loading={usersAnimeListLoad}
-              animeApi={false}
+            setFailed={setUsersAnimeListFailed}
+            loading={usersAnimeListLoad}
+            animeApi={false}
             />
           </div>
         </div>

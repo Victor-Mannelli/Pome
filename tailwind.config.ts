@@ -33,8 +33,8 @@ const config: Config = {
         "h-signature": "#00FFD4",
       },
       fontFamily: {
-        sans: ["var(--font-lato)"]
-      }
+        sans: ["var(--font-lato)"],
+      },
     },
   },
   plugins: [],

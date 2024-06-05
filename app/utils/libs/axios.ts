@@ -5,7 +5,7 @@ export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 export const animeApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_ANIME_API
+  baseURL: process.env.NEXT_PUBLIC_ANIME_API,
 });
 
 api.interceptors.request.use(
@@ -17,7 +17,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 api.interceptors.response.use(
   (response) => {
@@ -25,5 +25,5 @@ api.interceptors.response.use(
   },
   (error) => {
     throw error.response?.data;
-  }
+  },
 );

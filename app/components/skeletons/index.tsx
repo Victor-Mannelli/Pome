@@ -110,18 +110,18 @@ export function ProfileSkeleton() {
         <div className="flex lg:flex-row flex-col">
           <div className="flex lg:flex-col flex-row flex-wrap lg:flex-nowrap lg:w-1/5 bg-second p-10 gap-5">
             {Array.from({ length: 7 }).map((_, i) =>
-              <Skeleton key={"filter" + i} className="shadow-fifth shadow w-48 lg:w-full h-10" />
+              <Skeleton key={"filter" + i} className="shadow-fifth shadow w-48 lg:w-full h-10" />,
             )}
           </div>
           <div className="flex flex-col items-center w-full lg:w-4/5 h-full pb-7">
             <div className="flex justify-center gap-3 p-5">
               {Array.from({ length: 5 }).map((_, i) =>
-                <Skeleton key={"userAnimeStatus" + i} className="w-32 h-12 rounded-xl" />
+                <Skeleton key={"userAnimeStatus" + i} className="w-32 h-12 rounded-xl" />,
               )}
             </div>
             <div className="flex flex-col w-[calc(100%-2.5rem)] bg-third rounded-2xl p-5 gap-5">
               {Array.from({ length: 20 }).map((_, i) =>
-                <Skeleton key={"userAnimeList" + i} className="w-full h-8" />
+                <Skeleton key={"userAnimeList" + i} className="w-full h-8" />,
               )}
             </div>
           </div>

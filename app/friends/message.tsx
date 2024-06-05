@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-export function Message({ username, timestamp, message, id
+export function Message({ username, timestamp, message, id,
   // profile_picture, 
 }: {
   // profile_picture: string;

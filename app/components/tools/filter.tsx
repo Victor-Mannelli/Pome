@@ -31,7 +31,7 @@ export function Filter({ setFilter, filter, setShowFollowedAnime, showFollowedAn
         <GiMagnifyingGlass className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-eigth" />
         <input
           className="h-8 w-full rounded-md outline-none bg-third pl-3 pr-10 text-sm text-white"
-          onChange={(e) => setSearchDebounced(prevState => ({ ...prevState, search: e.target.value }))}
+          onChange={(e) => setSearchDebounced((prevState) => ({ ...prevState, search: e.target.value }))}
           placeholder='Search'
         />
       </div>

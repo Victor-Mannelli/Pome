@@ -25,7 +25,7 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
       .finally(() => setLoading(false));
   } else {
     const variables = {
-      id: Number(animeId)
+      id: Number(animeId),
     };
     const query = `
       query ($id: Int) {
@@ -116,12 +116,16 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
       }
     `;
     animeApi
-      .post("", { query, variables }, {
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
+      .post(
+        "",
+        { query, variables },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
         }
-      })
+      )
       .then((e) => {
         setData(e.data.data.Media);
       })
@@ -130,12 +134,20 @@ export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoad
   }
 }
 
-export function maximizeTrailer({ toggle, setToggle }: { setToggle: Dispatch<SetStateAction<boolean>>; toggle: boolean; }) {
+export function maximizeTrailer({
+  toggle,
+  setToggle,
+}: {
+  setToggle: Dispatch<SetStateAction<boolean>>;
+  toggle: boolean;
+}) {
   setToggle(!toggle);
   setTimeout(() => {
     if (toggle) return;
     scrollBy({
-      top: 700, left: 0, behavior: "smooth"
+      top: 700,
+      left: 0,
+      behavior: "smooth",
     });
   }, 500);
 }
@@ -157,7 +169,10 @@ export function maximizeTrailer({ toggle, setToggle }: { setToggle: Dispatch<Set
 //     .finally(() => setLoading(false));
 // }
 
-export async function removeAnimeFromUserAnimelist({ animeId, toast }: {
+export async function removeAnimeFromUserAnimelist({
+  animeId,
+  toast,
+}: {
   toast: (options?: UseToastOptions) => void;
   animeId: number;
 }) {
@@ -179,7 +194,14 @@ export async function removeAnimeFromUserAnimelist({ animeId, toast }: {
     );
 }
 
-export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setFailed, setData, setShowAnimeSettings, toast }: {
+export async function addAnimeToUserAnimelist({
+  animeUserStats,
+  setLoading,
+  setFailed,
+  setData,
+  setShowAnimeSettings,
+  toast,
+}: {
   setData: Dispatch<SetStateAction<SingleAnimeDataForSlug | null>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -195,15 +217,20 @@ export async function addAnimeToUserAnimelist({ animeUserStats, setLoading, setF
     start_date: animeUserStats.startDate,
     ...(animeUserStats.score !== 0 && { score: animeUserStats.score }),
     ...(animeUserStats.progress !== 0 && { progress: animeUserStats.progress }),
-    ...(animeUserStats.rewatches !== 0 && { rewatches: animeUserStats.rewatches }),
-    ...(animeUserStats.finishDate.length !== 0 && { finish_date: animeUserStats.finishDate }),
+    ...(animeUserStats.rewatches !== 0 && {
+      rewatches: animeUserStats.rewatches,
+    }),
+    ...(animeUserStats.finishDate.length !== 0 && {
+      finish_date: animeUserStats.finishDate,
+    }),
     ...(animeUserStats.favorite && { favorite: animeUserStats.favorite }),
   };
   api
     .post("/animelist", newData)
     .then((e) => {
-      setData(prevState => ({
-        ...prevState, UserAnimeList: e.data
+      setData((prevState) => ({
+        ...prevState,
+        UserAnimeList: e.data,
       }));
       setShowAnimeSettings(false);
       toast({

@@ -36,21 +36,21 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
           animeData.UserAnimeList.favorite === true
             ? <FaHeart
               className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
-              onClick={() => setAnimeData(prevState => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false }
+              onClick={() => setAnimeData((prevState) => ({
+                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false },
               }))}
             />
             : <FaRegHeart
               className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
-              onClick={() => setAnimeData(prevState => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
+              onClick={() => setAnimeData((prevState) => ({
+                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
               }))}
             />
         ) : (
           <FaRegHeart
             className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
-            onClick={() => setAnimeData(prevState => ({
-              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
+            onClick={() => setAnimeData((prevState) => ({
+              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
             }))}
           />
         )}
@@ -102,7 +102,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
                   value={animeUserStatus[e].name}
                 >
                   {animeUserStatus[e].name}
-                </option>
+                </option>,
               )}
             </Select>
           </InputGroup>
@@ -121,7 +121,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
                 textColor={"white"}
                 h={"3rem"}
               />
-            </InputGroup>
+            </InputGroup>,
           )}
           <FaTrashAlt
             className='absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer'

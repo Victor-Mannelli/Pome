@@ -67,7 +67,7 @@ export default function Profile() {
                   text={e}
                   className={`ml-5 mt-5 ${filter === e ? "border bg-second" : "bg-third"}`}
                   onClick={() => setFilter(e)}
-                />
+                />,
               )}
             </div>
             <div className="bg-third rounded-2xl m-5 pb-5">

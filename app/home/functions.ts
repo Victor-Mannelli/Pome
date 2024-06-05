@@ -125,7 +125,7 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
         "Content-Type": "application/json",
         "Accept": "application/json",
         // 'Access-Control-Allow-Origin': '*',
-      }
+      },
     })
     .then((e) => {
       setAnimeData(e.data.data.Page);

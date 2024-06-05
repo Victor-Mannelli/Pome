@@ -21,6 +21,6 @@ export const useObserveElementWidth = <T extends HTMLDivElement>() => {
 
   return {
     width,
-    ref
+    ref,
   };
 };

@@ -6,19 +6,19 @@ export const monthNames = ["January", "February", "March", "April", "May", "June
 export const animeUserStatus: { [key: string]: { name: string; color: string; }; } = {
   Watching: {
     name: "Watching",
-    color: "text-[#00ffff]"
+    color: "text-[#00ffff]",
   },
   Dropped: {
     name: "Dropped",
-    color: "text-orange-500"
+    color: "text-orange-500",
   },
   Finished: {
     name: "Finished",
-    color: "text-green-500"
+    color: "text-green-500",
   },
   Rewatching: {
     name: "Re-Watching",
-    color: "text-purple-400"
+    color: "text-purple-400",
   },
 };
 
@@ -79,7 +79,7 @@ export const animeUserData: {
 export const titlesFilterParser = {
   "RELEASING": "New Animes!",
   "FINISHED": "Finished Animes!",
-  "NOT_YET_RELEASED": "Comming soon!"
+  "NOT_YET_RELEASED": "Comming soon!",
 };
 
 export const genres = [
@@ -100,10 +100,10 @@ export const genres = [
   "Slice of Life",
   "Sports",
   "Supernatural",
-  "Thriller"
+  "Thriller",
 ];
 
 export const animeYearOptions: number[] = Array.from(
   { length: new Date().getFullYear() - 1904 + 1 },
-  (_, index) => 1904 + index
+  (_, index) => 1904 + index,
 ).reverse();

@@ -25,8 +25,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
           <FaRegHeart
             className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
             onClick={() => token ?
-              setAnimeData(prevState => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
+              setAnimeData((prevState) => ({
+                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
               }))
               : (
                 toast({
@@ -40,8 +40,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
           <FaHeart
             className='absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer'
             onClick={() => token ?
-              setAnimeData(prevState => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false }
+              setAnimeData((prevState) => ({
+                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false },
               }))
               : (
                 toast({
@@ -56,8 +56,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
         <FaRegHeart
           className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
           onClick={() => token ?
-            setAnimeData(prevState => ({
-              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true }
+            setAnimeData((prevState) => ({
+              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
             }))
             : toast({
               title: "Log in first!",

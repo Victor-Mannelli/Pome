@@ -9,27 +9,27 @@ export function ErrorFeedback({ refreshFunction, loading, setFailed, animeApi }:
 	loading: boolean;
 	animeApi: boolean;
 }) {
-	return (
-		<div className="flex flex-col justify-center items-center w-full gap-5">
-			{animeApi ? (
-				<h1 className="text-white text-lg text-center">
+  return (
+    <div className="flex flex-col justify-center items-center w-full gap-5">
+      {animeApi ? (
+        <h1 className="text-white text-lg text-center">
 					The button below appeared because the API is likely offline.
-					<br />
+          <br />
 					Click it to reload the page in offline mode!
-				</h1>
-			) : (
-				<h1 className="text-white text-lg text-center"> An error has occurred, Click it to reload </h1>
-			)}
-			<SignatureButton
-				type='submit'
-				text="Reload!"
-				loading={loading}
-				onClick={() => {
-					destroyCookie(null, "token", { path: "/" });
-					refreshFunction();
-					setFailed && setFailed(false);
-				}}
-			/>
-		</div >
-	);
+        </h1>
+      ) : (
+        <h1 className="text-white text-lg text-center"> An error has occurred, Click it to reload </h1>
+      )}
+      <SignatureButton
+        type='submit'
+        text="Reload!"
+        loading={loading}
+        onClick={() => {
+          destroyCookie(null, "token", { path: "/" });
+          refreshFunction();
+          setFailed && setFailed(false);
+        }}
+      />
+    </div >
+  );
 }

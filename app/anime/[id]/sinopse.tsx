@@ -12,7 +12,7 @@ export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeData
     const sinopseDiv = document.getElementById(inAnimeInfo ? "sinopseAI" : "sinopsePG");
     if (sinopseDiv && sinopseDiv.innerHTML !== cleanedDescription) {
       sinopseDiv.innerHTML = cleanedDescription;
-    };
+    }
   }, [cleanedDescription, inAnimeInfo]);
 
   return (
