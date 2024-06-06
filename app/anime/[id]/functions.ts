@@ -1,143 +1,25 @@
-import { AnimeUserStatus, SingleAnimeDataForSlug } from "@/utils/types";
+import { AnimeUserStatus, UsersAnimeData } from "@/utils/types";
 import { UseToastOptions } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { animeApi, api } from "@/utils";
-// import { parseCookies } from "nookies";
+import { api } from "@/utils";
 
-export async function getAnimeDataForSlug({ animeId, setData, setFailed, setLoading }: {
-  setData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
+export function getUserAnimeData({ setUserAnimeData, setLoading, setFailed, animeId }: {
+  setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
-  animeId: string;
+  animeId: number;
 }) {
-  // const token = parseCookies(null).token;
-  const token = localStorage.getItem("token");
-  if (token) {
-    setLoading(true);
-    api
-      .get(`/animes/${animeId}`)
-      .then((e) => {
-        setData(e.data);
-        setFailed(false);
-        return;
-      })
-      .catch(() => setFailed(true))
-      .finally(() => setLoading(false));
-  } else {
-    const variables = {
-      id: Number(animeId),
-    };
-    const query = `
-      query ($id: Int) {
-        Media (id: $id) {
-          id
-          title {
-            romaji
-            english
-            native
-          }
-          type
-          format
-          status
-          description
-          startDate {
-            year
-            month
-            day
-          }
-          endDate {
-            year
-            month
-            day
-          }
-          season
-          episodes
-          duration
-          chapters
-          volumes
-          source
-          hashtag
-          trailer {
-            id
-            site
-            thumbnail
-          }
-          updatedAt
-          coverImage {
-            extraLarge
-            large
-            medium
-          }
-          bannerImage
-          genres
-          synonyms 
-          averageScore
-          meanScore
-          popularity
-          trending
-          favourites
-          tags {
-            id
-            name
-            description
-            category
-            isAdult
-          }
-          characters {
-            nodes {
-              id
-              name {
-                full
-              }
-              image {
-                large
-                medium
-              }
-              gender
-              description
-              dateOfBirth {
-                year
-                month
-                day
-              }
-              age
-              bloodType
-              isFavourite
-              favourites
-            }
-          }
-          isAdult
-          nextAiringEpisode {
-            id
-            timeUntilAiring
-            episode
-          }
-        }
-      }
-    `;
-    animeApi
-      .post(
-        "",
-        { query, variables },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
-      .then((e) => {
-        setData(e.data.data.Media);
-      })
-      .catch(() => setFailed(true))
-      .finally(() => setLoading(false));
-  }
+  setLoading(true);
+  api
+    .get("/animelist")
+    .then((e) => {
+      setUserAnimeData(e.data.find((anime: UsersAnimeData) => anime.anime_id === animeId));
+    })
+    .catch(() => setFailed(true))
+    .finally(() => setLoading(false));
 }
 
-export function maximizeTrailer({
-  toggle,
-  setToggle,
-}: {
+export function maximizeTrailer({ toggle, setToggle }: {
   setToggle: Dispatch<SetStateAction<boolean>>;
   toggle: boolean;
 }) {
@@ -152,27 +34,7 @@ export function maximizeTrailer({
   }, 500);
 }
 
-// export async function getUniqueUserAnimelist({ setData, animeId, setFailed, setLoading }: {
-//   setData: Dispatch<SetStateAction<any | null>>;
-//   setLoading: Dispatch<SetStateAction<boolean>>;
-//   setFailed: Dispatch<SetStateAction<boolean>>;
-//   animeId: string;
-// }) {
-//   setLoading(true);
-//   api
-//     .get("/animelist")
-//     .then((e) => {
-//       const AnimeData = e.data.find((e: any) => e.anime_id === Number(animeId));
-//       if (AnimeData) setData(AnimeData);
-//     })
-//     .catch(() => setFailed(true))
-//     .finally(() => setLoading(false));
-// }
-
-export async function removeAnimeFromUserAnimelist({
-  animeId,
-  toast,
-}: {
+export async function removeAnimeFromUserAnimelist({ animeId, toast }: {
   toast: (options?: UseToastOptions) => void;
   animeId: number;
 }) {
@@ -195,17 +57,15 @@ export async function removeAnimeFromUserAnimelist({
 }
 
 export async function addAnimeToUserAnimelist({
+  setShowAnimeSettings,
   animeUserStats,
   setLoading,
-  setFailed,
   setData,
-  setShowAnimeSettings,
   toast,
 }: {
-  setData: Dispatch<SetStateAction<SingleAnimeDataForSlug | null>>;
+  setData: Dispatch<SetStateAction<UsersAnimeData>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setFailed: Dispatch<SetStateAction<boolean>>;
   toast: (options?: UseToastOptions) => void;
   animeUserStats: AnimeUserStatus;
 }) {
@@ -228,10 +88,7 @@ export async function addAnimeToUserAnimelist({
   api
     .post("/animelist", newData)
     .then((e) => {
-      setData((prevState) => ({
-        ...prevState,
-        UserAnimeList: e.data,
-      }));
+      setData(e.data);
       setShowAnimeSettings(false);
       toast({
         title: "Anime status updated!",
@@ -240,7 +97,6 @@ export async function addAnimeToUserAnimelist({
       });
     })
     .catch(() => {
-      setFailed(true);
       toast({
         title: "Error on updating",
         status: "error",

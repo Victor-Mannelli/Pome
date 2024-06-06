@@ -3,20 +3,19 @@
 import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from "@chakra-ui/react";
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from "./functions";
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from "@/utils/libs";
-import { Dispatch, SetStateAction, useState } from "react";
-import { SingleAnimeDataForSlug } from "@/utils/types";
+import { SingleAnimeDataForSlug, UsersAnimeData } from "@/utils/types";
 import { animeUserData, animeUserStatus } from "@/utils/consts";
+import { Dispatch, SetStateAction, useState } from "react";
 import React from "react";
 
-export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeData }: {
-  setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
+export function AnimeUserSettings({ setShowAnimeSettings, setUserAnimeData, animeData, userAnimeData }: {
+  setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   animeData: SingleAnimeDataForSlug;
+  userAnimeData: UsersAnimeData;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [failed, setFailed] = useState<boolean>(false);
   const toast = useToast();
-  console.log(failed);
 
   return (
     <div
@@ -32,26 +31,20 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
         style={{ backgroundImage: `url(${animeData.bannerImage})`, boxShadow: "inset 0 0 200px black" }}
       >
         <h3 className='font-bold'> {animeData.title.romaji} </h3>
-        {animeData.UserAnimeList ? (
-          animeData.UserAnimeList.favorite === true
-            ? <FaHeart
-              className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
-              onClick={() => setAnimeData((prevState) => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false },
-              }))}
-            />
-            : <FaRegHeart
-              className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
-              onClick={() => setAnimeData((prevState) => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
-              }))}
-            />
+        {userAnimeData ? userAnimeData.favorite === true ? (
+          <FaHeart
+            className='absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer'
+            onClick={() => setUserAnimeData((prevState) => ({...prevState, favorite: false }))}
+          />
         ) : (
           <FaRegHeart
             className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
-            onClick={() => setAnimeData((prevState) => ({
-              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
-            }))}
+            onClick={() => setUserAnimeData((prevState) => ({...prevState, favorite: true }))}
+          />
+          ) : (
+          <FaRegHeart
+            className='absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer'
+            onClick={() => setUserAnimeData((prevState) => ({...prevState, favorite: true }))}
           />
         )}
       </div>
@@ -62,23 +55,21 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
             e.preventDefault();
             addAnimeToUserAnimelist({
               animeUserStats: {
-                anime_id: animeData.anime_id,
+                anime_id: animeData.id,
                 status: e.target["status"].value,
                 score: Number(e.target["score"]?.value),
                 progress: Number(e.target["progress"]?.value),
                 rewatches: Number(e.target["rewatches"]?.value),
                 startDate: e.target["start_date"].value,
                 finishDate: e.target["finish_date"]?.value,
-                favorite: animeData.UserAnimeList && animeData.UserAnimeList.favorite,
+                favorite: userAnimeData && userAnimeData.favorite,
               },
               setShowAnimeSettings,
-              setData: setAnimeData,
-              setFailed,
+              setData: setUserAnimeData,
               setLoading,
               toast,
             });
           }}>
-          {/* <AnimeUserStats maxEpisodes={data.episodes} fetchData={fetchData} setFetchData={setFetchData} /> */}
           <InputGroup w={"20rem"}>
             <InputLeftAddon cursor={"default"} w={"7rem"} h={"3rem"}> Status </InputLeftAddon>
             <Select
@@ -89,12 +80,8 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
               iconColor='white'
               id='status'
               required
-              placeholder={
-                animeData.UserAnimeList ? (
-                  animeData.UserAnimeList.status === "" ? "Follow" : animeData.UserAnimeList.status
-                ) : "Follow"
-              }
-              defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList.status : null}
+              placeholder={userAnimeData ? userAnimeData.status : "Follow"}
+              defaultValue={userAnimeData ? userAnimeData.status : null}
             >
               {Object.keys(animeUserStatus).map((e, i) =>
                 <option
@@ -116,7 +103,7 @@ export function UserAnimeSettings({ setShowAnimeSettings, setAnimeData, animeDat
                 cursor={animeUserData[e].cursor}
                 colorScheme={"dark"}
                 type={animeUserData[e].type}
-                defaultValue={animeData.UserAnimeList ? animeData.UserAnimeList[e] : animeUserData[e].defaultValue}
+                defaultValue={userAnimeData ? userAnimeData[e] : animeUserData[e].defaultValue}
                 autoComplete='off'
                 textColor={"white"}
                 h={"3rem"}

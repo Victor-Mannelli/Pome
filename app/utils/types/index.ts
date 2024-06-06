@@ -9,23 +9,23 @@ export type UsersAnimeData = {
   start_date: string;
   finish_date: string | null;
   favorite: boolean;
-  anime: {
-    coverImage: {
-      extraLarge: string;
-      large: string;
-      medium: string;
-    };
-    title: {
-      romaji: string;
-      english: string;
-      native: string;
-    };
-    nextAiringEpisode: {
-      id: number;
-      timeUntilAiring: number;
-      episode: number;
-    };
-  };
+  // anime: {
+  //   coverImage: {
+  //     extraLarge: string;
+  //     large: string;
+  //     medium: string;
+  //   };
+  //   title: {
+  //     romaji: string;
+  //     english: string;
+  //     native: string;
+  //   };
+  //   nextAiringEpisode: {
+  //     id: number;
+  //     timeUntilAiring: number;
+  //     episode: number;
+  //   };
+  // };
 }
 
 export type AnimeData = {

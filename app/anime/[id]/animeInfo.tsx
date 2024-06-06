@@ -1,32 +1,32 @@
+import { AnimeTags, SingleAnimeDataForSlug, UsersAnimeData } from "@/utils/types";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { animeUserStatus, monthNames } from "@/utils/consts";
-import { AnimeTags, SingleAnimeDataForSlug } from "@/utils/types";
 import { FaHeart, FaRegHeart } from "@/utils/libs";
-import { Dispatch, SetStateAction } from "react";
 import { useToast } from "@chakra-ui/react";
-// import { parseCookies } from "nookies";
+import { TokenContext } from "@/utils";
 import { Stars } from "@/components";
 import { Sinopse } from "./sinopse";
 import Image from "next/image";
 import React from "react";
 
-export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: {
-  setAnimeData: Dispatch<SetStateAction<SingleAnimeDataForSlug>>;
+export function AnimeInfo({ toggleShowAnimeSettings, setUserAnimeData, animeData, userAnimeData }: {
+  setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   toggleShowAnimeSettings: () => void;
   animeData: SingleAnimeDataForSlug;
+  userAnimeData: UsersAnimeData;
 }) {
-  // const token = parseCookies(null).token;
-  const token = localStorage.getItem("token");
+  const { token } = useContext(TokenContext);
   const toast = useToast();
 
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? "" : "mt-16"}`}>
-      {animeData.UserAnimeList ? (
-        animeData.UserAnimeList.favorite === false ?
+      {userAnimeData ? (
+        userAnimeData.favorite === false ?
           <FaRegHeart
             className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
             onClick={() => token ?
-              setAnimeData((prevState) => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
+              setUserAnimeData((prevState) => ({
+                ...prevState, favorite: true,
               }))
               : (
                 toast({
@@ -40,8 +40,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
           <FaHeart
             className='absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer'
             onClick={() => token ?
-              setAnimeData((prevState) => ({
-                ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: false },
+              setUserAnimeData((prevState) => ({
+                ...prevState, favorite: false,
               }))
               : (
                 toast({
@@ -56,8 +56,8 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
         <FaRegHeart
           className='absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer'
           onClick={() => token ?
-            setAnimeData((prevState) => ({
-              ...prevState, UserAnimeList: { ...prevState.UserAnimeList, favorite: true },
+            setUserAnimeData((prevState) => ({
+              ...prevState, favorite: true,
             }))
             : toast({
               title: "Log in first!",
@@ -82,7 +82,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
         <button
           key="coverImageButton"
           className={`flex items-center justify-center w-60 h-9 py-3 rounded-md hover:bg-fifth bg-fourthAndAHalf cursor-pointer font-bold text-lg
-            ${animeData.UserAnimeList ? animeUserStatus[animeData.UserAnimeList.status].color : "text-white"}
+            ${userAnimeData ? animeUserStatus[userAnimeData.status].color : "text-white"}
           `}
           onClick={() => {
             if (!token) {
@@ -96,7 +96,7 @@ export function AnimeInfo({ toggleShowAnimeSettings, setAnimeData, animeData }: 
             toggleShowAnimeSettings();
           }}
         >
-          {animeData.UserAnimeList ? animeUserStatus[animeData.UserAnimeList.status].name : "Follow"}
+          {userAnimeData ? animeUserStatus[userAnimeData.status].name : "Follow"}
         </button>
       </div>
       <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? "m-5" : "my-5 mr-5 ml-1"}`}>

@@ -36,7 +36,7 @@ export function TokenProvider({ children }: { children: ReactNode; }) {
 
   useEffect(() => {
     try {
-      console.log(token, "token");
+      // console.log(token, "token");
       if (!token) return;
       const decoded = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
       // console.log(decoded, "decoded");
