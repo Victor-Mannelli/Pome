@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { Buffer } from "buffer";
-import { User } from "../types";
-import React from "react";
+import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Buffer } from 'buffer';
+import { User } from '../types';
+import React from 'react';
 
 interface TokenContextType {
   setToken: Dispatch<SetStateAction<string | null>>;
@@ -13,15 +13,15 @@ interface TokenContextType {
   user: User | null;
 }
 const defaultTokenContext: TokenContextType = {
-  setToken: () => { },
-  setUser: () => { },
+  setToken: () => {},
+  setUser: () => {},
   token: null,
   user: null,
 };
 
 export const TokenContext = createContext<TokenContextType>(defaultTokenContext);
 
-export function TokenProvider({ children }: { children: ReactNode; }) {
+export function TokenProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
@@ -30,7 +30,7 @@ export function TokenProvider({ children }: { children: ReactNode; }) {
   useEffect(() => {
     // const existingToken = parseCookies(null).token;
     // const existingToken = JSON.parse(localStorage.getItem("token") || "{}");
-    const existingToken = localStorage.getItem("token");
+    const existingToken = localStorage.getItem('token');
     setToken(existingToken || null);
   }, []);
 
@@ -38,7 +38,7 @@ export function TokenProvider({ children }: { children: ReactNode; }) {
     try {
       // console.log(token, "token");
       if (!token) return;
-      const decoded = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+      const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
       // console.log(decoded, "decoded");
       setUser(decoded);
     } catch (error) {
@@ -48,14 +48,8 @@ export function TokenProvider({ children }: { children: ReactNode; }) {
   }, [token]);
 
   useEffect(() => {
-    if (token && pathname == "/login") router.push("/");
+    if (token && pathname == '/login') router.push('/');
   }, [token, router, pathname]);
 
-
-  return (
-    <TokenContext.Provider value={{ user, setUser, token, setToken }}>
-      {children}
-    </TokenContext.Provider>
-  );
+  return <TokenContext.Provider value={{ user, setUser, token, setToken }}>{children}</TokenContext.Provider>;
 }
-

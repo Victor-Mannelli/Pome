@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 
 export const useObserveElementWidth = <T extends HTMLDivElement>() => {
   const [width, setWidth] = useState(0);
@@ -8,7 +8,7 @@ export const useObserveElementWidth = <T extends HTMLDivElement>() => {
     const observer = new ResizeObserver((entries) => {
       setWidth(entries[0].target.clientWidth);
     });
-    
+
     const savedRef = ref.current;
     if (savedRef) {
       observer.observe(savedRef);

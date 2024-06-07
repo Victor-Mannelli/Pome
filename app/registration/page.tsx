@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Button, useToast } from "@chakra-ui/react";
-import { userRegistration } from "./functions";
-import { useRouter } from "next/navigation";
-import { Link } from "@/components/tools";
-import React, { useState } from "react";
+import { Button, useToast } from '@chakra-ui/react';
+import { userRegistration } from './functions';
+import { useRouter } from 'next/navigation';
+import { Link } from '@/components/tools';
+import React, { useState } from 'react';
 
 export default function Registration() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,20 +32,20 @@ export default function Registration() {
 
   function register(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (e.target["Password"].value !== e.target["Confirm Password"].value) {
+    if (e.target['Password'].value !== e.target['Confirm Password'].value) {
       setMatch(false);
       toast({
-        title: "Password confirmation denied!",
-        status: "error",
+        title: 'Password confirmation denied!',
+        status: 'error',
         isClosable: true,
       });
       return;
     }
     const userData = {
-      email: e.target["Email"].value,
-      username: e.target["Username"].value,
-      password: e.target["Password"].value,
-      confirmPassword: e.target["Confirm Password"].value,
+      email: e.target['Email'].value,
+      username: e.target['Username'].value,
+      password: e.target['Password'].value,
+      confirmPassword: e.target['Confirm Password'].value,
     };
     userRegistration({
       setLoading,
@@ -91,8 +91,8 @@ export default function Registration() {
               />
             </div>
           ) : null } */}
-          {["Email", "Username", "Password", "Confirm Password"].map((e: string) => {
-            const type = e === "Email" ? "email" : e === "Password" || e === "Confirm Password" ? "password" : "text";
+          {['Email', 'Username', 'Password', 'Confirm Password'].map((e: string) => {
+            const type = e === 'Email' ? 'email' : e === 'Password' || e === 'Confirm Password' ? 'password' : 'text';
             return (
               <input
                 key={e}
@@ -100,17 +100,18 @@ export default function Registration() {
                 placeholder={e}
                 type={type}
                 required
-                onChange={() => { if (!match && type === "password") setMatch(true); }}
+                onChange={() => {
+                  if (!match && type === 'password') setMatch(true);
+                }}
                 className={`w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white pl-2
-                  ${type === "password" && match === false ? "border-red-600" : "border-white"}`
-                }
+                  ${type === 'password' && match === false ? 'border-red-600' : 'border-white'}`}
               />
             );
           })}
           <Button
-            textColor={"text-signature"}
-            bg={"bg-fourth"}
-            _hover={"hover:bg-fifth"}
+            textColor={'text-signature'}
+            bg={'bg-fourth'}
+            _hover={'hover:bg-fifth'}
             className="w-full md:w-full text-lg h-12 mt-7 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             type="submit"
             isLoading={loading}
@@ -119,9 +120,9 @@ export default function Registration() {
             Register
           </Button>
         </form>
-        <Link href={"/login"}>
+        <Link href={'/login'}>
           <div className="flex gap-1">
-            <p className='text-white text-lg cursor-pointer'> Already have an account? </p>
+            <p className="text-white text-lg cursor-pointer"> Already have an account? </p>
             <p className="text-signature cursor-pointer hover:text-h-signature font-bold text-lg"> Log In! </p>
           </div>
         </Link>

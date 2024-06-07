@@ -1,9 +1,14 @@
-import { UseToastOptions } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
-import { useRouter } from "next/navigation";
-import { api } from "@/utils";
+import { UseToastOptions } from '@chakra-ui/react';
+import { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/navigation';
+import { api } from '@/utils';
 
-export function userRegistration({ setLoading, userData, router, toast }: {
+export function userRegistration({
+  setLoading,
+  userData,
+  router,
+  toast,
+}: {
   setLoading: Dispatch<SetStateAction<boolean>>;
   toast: (options?: UseToastOptions) => void;
   router: ReturnType<typeof useRouter>;
@@ -16,19 +21,19 @@ export function userRegistration({ setLoading, userData, router, toast }: {
 }) {
   setLoading(true);
   api
-    .post("/users/register", userData)
+    .post('/users/register', userData)
     .then(() => {
-      router.push("/login");
+      router.push('/login');
       toast({
-        title: "Account created!",
-        status: "success",
+        title: 'Account created!',
+        status: 'success',
         isClosable: true,
       });
     })
     .catch((e) => {
       toast({
-        title: e.message ? e.message : "Error on registration, API is possibly offline!",
-        status: "error",
+        title: e.message ? e.message : 'Error on registration, API is possibly offline!',
+        status: 'error',
         isClosable: true,
       });
     })

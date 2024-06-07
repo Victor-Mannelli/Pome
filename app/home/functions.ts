@@ -1,8 +1,15 @@
-import { AnimeCatalogData, FilterType } from "@/utils/types";
-import { Dispatch, SetStateAction } from "react";
-import { animeApi } from "@/utils/libs/axios";
+import { AnimeCatalogData, FilterType } from '@/utils/types';
+import { Dispatch, SetStateAction } from 'react';
+import { animeApi } from '@/utils/libs/axios';
 
-export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity, page, filter }: {
+export async function getAnimes({
+  setAnimeData,
+  setFailed,
+  setLoading,
+  quantity,
+  page,
+  filter,
+}: {
   setAnimeData: Dispatch<SetStateAction<AnimeCatalogData | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
@@ -14,14 +21,10 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
     search: filter.search,
     genre: filter.genres,
     page: page || 1,
-    year: filter.status === "RELEASING"
-      ? Number(new Date().getFullYear() + "0000")
-      : filter.year == null
-        ? 0
-        : filter.year + "0000",
+    year: filter.status === 'RELEASING' ? Number(new Date().getFullYear() + '0000') : filter.year == null ? 0 : filter.year + '0000',
     quantity,
     id_not_in: filter.id_not_in,
-    status_in: filter.status ? [filter.status] : ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"],
+    status_in: filter.status ? [filter.status] : ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED', 'HIATUS'],
   };
 
   const query = `
@@ -120,13 +123,17 @@ export async function getAnimes({ setAnimeData, setFailed, setLoading, quantity,
   `;
   setLoading(true);
   animeApi
-    .post("", { query, variables }, {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        // 'Access-Control-Allow-Origin': '*',
+    .post(
+      '',
+      { query, variables },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          // 'Access-Control-Allow-Origin': '*',
+        },
       },
-    })
+    )
     .then((e) => {
       setAnimeData(e.data.data.Page);
       setFailed(false);

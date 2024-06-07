@@ -26,15 +26,15 @@ export type UsersAnimeData = {
   //     episode: number;
   //   };
   // };
-}
+};
 
 export type AnimeData = {
   Page: AnimeCatalogData;
-}
+};
 export type AnimeCatalogData = {
   media: SingleAnimeData[];
   pageInfo: PageInfo;
-}
+};
 export type SingleAnimeData = {
   id: number;
   title: {
@@ -108,11 +108,11 @@ export type SingleAnimeData = {
     timeUntilAiring: number;
     episode: number;
   };
-}
+};
 export type PageInfo = {
   currentPage: number;
   hasNextPage: boolean;
-}
+};
 
 export type SingleAnimeDataForSlug = {
   id: number;
@@ -168,14 +168,14 @@ export type SingleAnimeDataForSlug = {
     finish_date: string | null;
     favorite: boolean;
   };
-}
+};
 export type AnimeTags = {
   id: number;
   name: string;
   description: string;
   isAdult: boolean;
   category: string;
-}
+};
 
 export type AnimeUserStatus = {
   id?: number;
@@ -187,7 +187,7 @@ export type AnimeUserStatus = {
   startDate?: string;
   finishDate?: string;
   favorite: boolean;
-}
+};
 
 export type User = {
   user_id: string;
@@ -195,12 +195,12 @@ export type User = {
   email: string;
   banner: string;
   avatar: string;
-}
+};
 
 export type FilterType = {
-  status: "FINISHED" | "RELEASING" | "NOT_YET_RELEASED" | "CANCELLED" | "HIATUS";
+  status: 'FINISHED' | 'RELEASING' | 'NOT_YET_RELEASED' | 'CANCELLED' | 'HIATUS';
   search: string;
   id_not_in: number[];
   genres: string | null;
   year: number;
-}
+};

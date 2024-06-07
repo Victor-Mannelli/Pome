@@ -1,8 +1,8 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const getAnimeQuery = gql`
   query ($id: Int) {
-    Media (id: $id) {
+    Media(id: $id) {
       id
       title {
         romaji
@@ -43,7 +43,7 @@ export const getAnimeQuery = gql`
       }
       bannerImage
       genres
-      synonyms 
+      synonyms
       averageScore
       meanScore
       popularity

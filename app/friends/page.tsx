@@ -1,4 +1,4 @@
-"use client";
+'use client';
 // import { FriendsData, ChatMessagesInterface, FriendAsFData, FriendAsUData, User } from "./types";
 // import { Message, Friend, FriendRequestsElement, AddFriends } from '@/components';
 // import { sendMessages } from '@/utils/functions';
@@ -6,7 +6,7 @@
 // import { useRef, useState } from "react";
 // import { Message } from "./message";
 // import Textarea from "rc-textarea";
-import React from "react";
+import React from 'react';
 // import { getMessagesHook } from '@/utils/hooks/useGetMessages';
 // import WebSocket from 'ws';
 
@@ -49,13 +49,12 @@ export default function Friends() {
   // ].sort();
 
   return (
-    <>
-    </>
+    <></>
     // <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
     //   <div className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5">
     //     <div
     //       // ${userChat === data.userData.user_id ? 'bg-sixth' : 'bg-fourth'}
-    //       className={`flex justify-center items-center rounded-xl p-2 mb-5 w-full 
+    //       className={`flex justify-center items-center rounded-xl p-2 mb-5 w-full
     //       `}
     //       onClick={() => setUserChat(data.userData.user_id)}
     //     >
