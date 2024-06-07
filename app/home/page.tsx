@@ -1,6 +1,6 @@
 'use client';
 
-import { TokenContext, VariablesContext, FilterType, AnimeData } from '@/utils';
+import { TokenContext, VariablesContext, FilterType, AnimeData, UsersAnimeData, getUsersFollewedAnime } from '@/utils';
 import { ErrorFeedback, Filter, HomePageAnimesSkeleton } from '@/components';
 import { getAnimesQuery, getAnimesVariables } from '@/utils/queries';
 import { useContext, useEffect, useState } from 'react';
@@ -13,9 +13,12 @@ import React from 'react';
 
 export default function Home() {
   const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext);
-  const [showFollowedAnime, setShowFollowedAnime] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
+  const [usersAnimelist, setUsersAnimelist] = useState<UsersAnimeData[] | null>(null);
+  const [usersAnimelistLoading, setUsersAnimelistLoading] = useState<boolean>(true);
+  const [usersAnimelistFailed, setUsersAnimelistFailed] = useState<boolean>(false);
+  const { showFollowedAnime, setShowFollowedAnime } = useContext(VariablesContext);
   const { user } = useContext(TokenContext);
+  const [page, setPage] = useState<number>(1);
   const [filter, setFilter] = useState<FilterType>({
     status: animelistTitle,
     id_not_in: [],
@@ -29,6 +32,17 @@ export default function Home() {
     data: animeData,
   } = useQuery<AnimeData>(getAnimesQuery, { variables: getAnimesVariables({ quantity: 30, page, filter }) });
   const router = useRouter();
+
+  useEffect(() => {
+    if (showFollowedAnime) {
+      getUsersFollewedAnime({
+        setData: setUsersAnimelist,
+        setLoading: setUsersAnimelistLoading,
+        setFailed: setUsersAnimelistFailed,
+        setFilter,
+      });
+    }
+  }, [showFollowedAnime]);
 
   useEffect(() => {
     setAnimelistTitle(filter.status);
@@ -45,7 +59,8 @@ export default function Home() {
           <div className="h-[calc(100vh-20rem)] flex items-center justify-center">
             <ErrorFeedback animeApi={true} loading={animeDataLoading} refreshFunction={() => router.refresh()} />
           </div>
-        ) : animeDataLoading ? (
+        ) : // eslint-disable-next-line no-constant-condition
+        animeDataLoading ? (
           <HomePageAnimesSkeleton page={page} />
         ) : (
           <Animelist animeData={animeData.Page} setPage={setPage} page={page} />
@@ -60,7 +75,22 @@ export default function Home() {
           user={user}
         />
       ) : (
-        <UsersAnimeList setShowFollowedAnime={setShowFollowedAnime} showFollowedAnime={showFollowedAnime} />
+        <UsersAnimeList
+          setUsersAnimelistFailed={setUsersAnimelistFailed}
+          setShowFollowedAnime={setShowFollowedAnime}
+          setUsersAnimelist={setUsersAnimelist}
+          usersAnimelistLoading={usersAnimelistLoading}
+          usersAnimelistFailed={usersAnimelistFailed}
+          usersAnimelist={usersAnimelist}
+          getDataFunction={() =>
+            getUsersFollewedAnime({
+              setData: setUsersAnimelist,
+              setLoading: setUsersAnimelistLoading,
+              setFailed: setUsersAnimelistFailed,
+              setFilter,
+            })
+          }
+        />
       )}
     </div>
   );

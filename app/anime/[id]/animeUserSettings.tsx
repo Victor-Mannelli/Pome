@@ -65,7 +65,7 @@ export function AnimeUserSettings({
                 anime_id: animeData.id,
                 status: e.target['status'].value,
                 score: Number(e.target['score']?.value),
-                progress: Number(e.target['progress']?.value),
+                progress: e.target['status'].value === 'Finished' ? Number(animeData.episodes) : Number(e.target['progress']?.value),
                 rewatches: Number(e.target['rewatches']?.value),
                 startDate: e.target['start_date'].value,
                 finishDate: e.target['finish_date']?.value,
@@ -110,7 +110,13 @@ export function AnimeUserSettings({
               <Input
                 id={e}
                 min={animeUserData[e].min}
-                max={e === 'progress' ? animeData.nextAiringEpisode.episode - 1 : animeUserData[e].max}
+                max={
+                  e === 'progress'
+                    ? animeData.nextAiringEpisode
+                      ? animeData.nextAiringEpisode.episode - 1
+                      : animeData.episodes
+                    : animeUserData[e].max
+                }
                 cursor={animeUserData[e].cursor}
                 colorScheme={'dark'}
                 type={animeUserData[e].type}

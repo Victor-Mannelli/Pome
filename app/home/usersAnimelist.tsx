@@ -2,40 +2,35 @@
 
 import { AnimeData, SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { ErrorFeedback, FollowedAnimeSkeleton, Link } from '@/components';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { BiMinus, BiPlus, getUsersAnimeList } from '@/utils';
 import { getAnimelistQuery } from '@/utils/queries';
+import { Dispatch, SetStateAction } from 'react';
 import { CloseButton } from '@chakra-ui/react';
+import { BiMinus, BiPlus } from '@/utils';
 import { useQuery } from '@apollo/client';
 import React from 'react';
 
 export function UsersAnimeList({
   setShowFollowedAnime,
-  showFollowedAnime,
+  usersAnimelist,
+  usersAnimelistFailed,
+  usersAnimelistLoading,
+  setUsersAnimelistFailed,
+  getDataFunction,
 }: {
+  setUsersAnimelist: Dispatch<SetStateAction<UsersAnimeData[] | null>>;
+  setUsersAnimelistFailed: Dispatch<SetStateAction<boolean>>;
   setShowFollowedAnime: Dispatch<SetStateAction<boolean>>;
-  showFollowedAnime: boolean;
+  usersAnimelist: UsersAnimeData[] | null;
+  usersAnimelistLoading: boolean;
+  usersAnimelistFailed: boolean;
+  getDataFunction: () => void;
 }) {
-  const [usersAnimelist, setUsersAnimelist] = useState<UsersAnimeData[] | null>(null);
-  const [usersAnimelistLoading, setUsersAnimelistLoading] = useState<boolean>(true);
-  const [usersAnimelistFailed, setUsersAnimelistFailed] = useState<boolean>(false);
-
   const { loading, error, data } = useQuery<AnimeData>(getAnimelistQuery, {
     variables: {
       quantity: usersAnimelist ? usersAnimelist.length : 0,
       id_in: usersAnimelist ? usersAnimelist.map((anime: UsersAnimeData) => anime.anime_id) : [],
     },
   });
-
-  useEffect(() => {
-    if (showFollowedAnime) {
-      getUsersAnimeList({
-        setData: setUsersAnimelist,
-        setLoading: setUsersAnimelistLoading,
-        setFailed: setUsersAnimelistFailed,
-      });
-    }
-  }, [showFollowedAnime]);
 
   return (
     <div className="relative flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
@@ -46,13 +41,7 @@ export function UsersAnimeList({
           <div className="relative flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
             <div className="flex flex-wrap p-5 gap-4">
               <ErrorFeedback
-                refreshFunction={() =>
-                  getUsersAnimeList({
-                    setData: setUsersAnimelist,
-                    setLoading: setUsersAnimelistLoading,
-                    setFailed: setUsersAnimelistFailed,
-                  })
-                }
+                refreshFunction={getDataFunction}
                 setFailed={setUsersAnimelistFailed}
                 loading={usersAnimelistLoading || loading}
                 animeApi={false}

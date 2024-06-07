@@ -1,9 +1,7 @@
 'use client';
 
-import { Providers, TokenContext } from './utils/providers';
-import { usePathname, redirect } from 'next/navigation';
 import { Navbar } from './components/elements/navbar';
-import { useContext, useEffect } from 'react';
+import { Providers } from './utils/providers';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -13,13 +11,6 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { user } = useContext(TokenContext);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (!user && pathname.includes('/profile')) redirect('/');
-  }, [pathname, user]);
-
   return (
     <html lang="en">
       <head>

@@ -110,8 +110,7 @@ export function AnimeInfo({
       </div>
       <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'my-5 mr-5 ml-1'}`}>
         <h1 id="title" className={`w-full pr-7 font-bold text-2xl ${animeData.bannerImage ? 'md:pl-[17.75rem]' : ''} `}>
-          {' '}
-          {animeData.title.romaji}{' '}
+          {animeData.title.romaji}
         </h1>
         <div className="flex flex-col gap-3">
           <div className="flex flex-row lg:flex-row pt-3 gap-7">

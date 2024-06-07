@@ -1,48 +1,57 @@
 'use client';
 
+import { AnimeData, TokenContext, UsersAnimeData, getAnimelistQuery } from '@/utils';
 import { DefaultButton, ProfileSkeleton } from '@/components';
-import { getUsersAnimeList, logout } from '@/utils/functions';
 import { useContext, useEffect, useState } from 'react';
-import { TokenContext, UsersAnimeData } from '@/utils';
 import { Avatar, useToast } from '@chakra-ui/react';
+import { getUsersAnimelist } from './functions';
 import { useRouter } from 'next/navigation';
+import { logout } from '@/utils/functions';
+import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import _ from 'underscore';
 import React from 'react';
 
 export default function Profile() {
-  const [usersAnimeList, setUsersAnimeList] = useState<UsersAnimeData[] | null>(null);
-  const [usersAnimeListFailed, setUsersAnimeListFailed] = useState<boolean>(false);
-  const [usersAnimeListLoad, usersAnimeListSetLoad] = useState<boolean>(true);
+  const [usersAnimelist, setUsersAnimelist] = useState<UsersAnimeData[] | null>(null);
+  const [usersAnimelistFailed, setUsersAnimelistFailed] = useState<boolean>(false);
+  const [usersAnimelistLoad, usersAnimelistSetLoad] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>('Watching');
-  // const [sort, setSort] = useState<string>("");
   const { user, setToken, setUser } = useContext(TokenContext);
   const router = useRouter();
   const toast = useToast();
+
+  const { loading, error, data } = useQuery<AnimeData>(getAnimelistQuery, {
+    variables: {
+      quantity: usersAnimelist ? usersAnimelist.length : 0,
+      id_in: usersAnimelist ? usersAnimelist.map((anime: UsersAnimeData) => anime.anime_id) : [],
+    },
+  });
 
   if (user) {
     user.banner = '/dark_bg.jpg';
   }
 
   useEffect(() => {
-    getUsersAnimeList({ setData: setUsersAnimeList, setLoading: usersAnimeListSetLoad, setFailed: setUsersAnimeListFailed });
+    getUsersAnimelist({ setData: setUsersAnimelist, setLoading: usersAnimelistSetLoad, setFailed: setUsersAnimelistFailed });
   }, []);
 
-  const sort = '';
-  const animeList = _.sortBy(usersAnimeList, sort)
+  // const sort = '';
+  const animelist = _.sortBy(usersAnimelist, '')
     .reverse()
     ?.filter((e: UsersAnimeData) => {
-      if (sort.length > 0) {
-        return e.anime.title.romaji.toLowerCase().includes(sort.toLowerCase());
-      }
+      // if (sort.length > 0) {
+      //   return e.anime.title.romaji.toLowerCase().includes(sort.toLowerCase());
+      // }
       return e.status === filter;
     });
+  // console.log(animelist)
 
-  return usersAnimeListFailed ? (
+  return usersAnimelistFailed || error ? (
     logout({ setToken, setUser, toast })
-  ) : usersAnimeListLoad ? (
+  ) : usersAnimelistLoad || loading ? (
     <ProfileSkeleton />
-  ) : usersAnimeList ? (
+  ) : usersAnimelist ? (
     <div className="flex flex-col">
       <div className={'flex items-end w-full h-60 '} style={{ backgroundImage: `url('${user?.banner}')` }}>
         <div className="flex justify-end w-1/4">
@@ -70,20 +79,29 @@ export default function Profile() {
               <h3 className="w-[11%] text-center font-bold"> Progress </h3>
               <h3 className="w-[11%] text-center font-bold"> Status </h3>
             </div>
-            {animeList.length > 0 ? (
-              animeList.map((e: UsersAnimeData) => (
-                <div
-                  key={e.anime_id}
-                  className="flex w-full items-center px-5 py-1 hover:bg-second rounded-xl cursor-pointer"
-                  onClick={() => router.push(`/anime/${e.anime_id}`)}
-                >
-                  <Image alt="animeCover" src={e.anime.coverImage.medium} className="w-fit h-16 rounded-sm" width={1920} height={1080} />
-                  <h3 className="w-[66.5%] pl-5 break-all cursor-pointer"> {e.anime.title.romaji} </h3>
-                  <h3 className="w-[11.5%] text-center cursor-pointer"> {e.score} </h3>
-                  <h3 className="w-[11.5%] text-center cursor-pointer"> {e.progress} </h3>
-                  <h3 className="w-[11.5%] text-center cursor-pointer"> {e.status} </h3>
-                </div>
-              ))
+            {usersAnimelist && usersAnimelist.length > 0 ? (
+              animelist.map((e: UsersAnimeData) => {
+                const animeData = data.Page.media;
+                return (
+                  <div
+                    key={e.anime_id}
+                    className="flex w-full items-center px-5 py-1 hover:bg-second rounded-xl cursor-pointer"
+                    onClick={() => router.push(`/anime/${e.anime_id}`)}
+                  >
+                    <Image
+                      alt="animeCover"
+                      src={animeData.find((anime) => anime.id === e.anime_id).coverImage.medium}
+                      className="w-fit h-16 rounded-sm"
+                      width={1920}
+                      height={1080}
+                    />
+                    <h3 className="w-[66.5%] pl-5 break-all cursor-pointer"> {animeData.find((anime) => anime.id === e.anime_id).title.romaji} </h3>
+                    <h3 className="w-[11.5%] text-center cursor-pointer"> {e.score} </h3>
+                    <h3 className="w-[11.5%] text-center cursor-pointer"> {e.progress} </h3>
+                    <h3 className="w-[11.5%] text-center cursor-pointer"> {e.status} </h3>
+                  </div>
+                );
+              })
             ) : (
               <div className="w-full h-fit p-5 rounded-md bg-third">
                 <p className="text-center">
@@ -96,6 +114,5 @@ export default function Profile() {
         </div>
       </div>
     </div>
-  ) : // <UsersAnimeListView usersAnimeList={usersAnimeList} router={router} />
-  null;
+  ) : null;
 }

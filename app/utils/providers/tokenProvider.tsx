@@ -1,7 +1,7 @@
 'use client';
 
 import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import { Buffer } from 'buffer';
 import { User } from '../types';
 import React from 'react';
@@ -28,18 +28,15 @@ export function TokenProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // const existingToken = parseCookies(null).token;
-    // const existingToken = JSON.parse(localStorage.getItem("token") || "{}");
     const existingToken = localStorage.getItem('token');
     setToken(existingToken || null);
   }, []);
 
   useEffect(() => {
     try {
-      // console.log(token, "token");
       if (!token) return;
       const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-      // console.log(decoded, "decoded");
+      console.log(decoded, 'decoded');
       setUser(decoded);
     } catch (error) {
       setToken(null);
@@ -48,7 +45,8 @@ export function TokenProvider({ children }: { children: ReactNode }) {
   }, [token]);
 
   useEffect(() => {
-    if (token && pathname == '/login') router.push('/');
+    if (token && pathname == '/login') redirect('/');
+    if (!token && pathname.includes('/profile')) redirect('/');
   }, [token, router, pathname]);
 
   return <TokenContext.Provider value={{ user, setUser, token, setToken }}>{children}</TokenContext.Provider>;

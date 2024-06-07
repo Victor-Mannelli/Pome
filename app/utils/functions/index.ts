@@ -1,6 +1,6 @@
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
-import { User, UsersAnimeData } from '../types';
+import { FilterType, User, UsersAnimeData } from '../types';
 import { api } from '@/utils/libs/axios';
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number; childWidth: number }) {
@@ -49,19 +49,24 @@ export function addAnimeUserStatus({
     });
 }
 
-export async function getUsersAnimeList({
+export async function getUsersFollewedAnime({
   setData,
   setLoading,
   setFailed,
+  setFilter,
 }: {
   setData: Dispatch<SetStateAction<UsersAnimeData[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
+  setFilter: Dispatch<SetStateAction<FilterType>>;
 }) {
   setLoading(true);
   api
-    .get('/animelist')
-    .then((e) => setData(e.data))
+    .get('/animelist/watching')
+    .then((e) => {
+      setData(e.data);
+      setFilter((prevState) => ({ ...prevState, id_not_in: e.data.map((e: UsersAnimeData) => e.anime_id) }));
+    })
     .catch(() => {
       setFailed(true);
     })

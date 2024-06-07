@@ -3,10 +3,6 @@ import { gql } from '@apollo/client';
 export const getAnimelistQuery = gql`
   query ($id_in: [Int], $quantity: Int) {
     Page(page: 1, perPage: $quantity) {
-      pageInfo {
-        currentPage
-        hasNextPage
-      }
       media(id_in: $id_in) {
         id
         title {
