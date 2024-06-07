@@ -1,35 +1,13 @@
-import { FilterType } from '@/utils';
 import { gql } from '@apollo/client';
 
-export const getAnimesVariables = ({ quantity, page, filter }: { filter: FilterType; quantity: number; page?: number }) => {
-  return {
-    search: filter.search,
-    genre: filter.genres,
-    page: page || 1,
-    year: filter.status === 'RELEASING' ? Number(new Date().getFullYear() + '0000') : filter.year == null ? 0 : Number(filter.year + '0000'),
-    quantity,
-    id_not_in: filter.id_not_in || [],
-    status_in: filter.status ? [filter.status] : ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED', 'HIATUS'],
-  };
-};
-
-export const getAnimesQuery = gql`
-  query ($page: Int, $year: FuzzyDateInt, $status_in: [MediaStatus], $id_not_in: [Int], $quantity: Int, $search: String, $genre: String) {
-    Page(page: $page, perPage: $quantity) {
+export const getAnimelistQuery = gql`
+  query ($id_in: [Int], $quantity: Int) {
+    Page(page: 1, perPage: $quantity) {
       pageInfo {
         currentPage
         hasNextPage
       }
-      media(
-        status_in: $status_in
-        startDate_greater: $year
-        type: ANIME
-        format: TV
-        isAdult: false
-        search: $search
-        id_not_in: $id_not_in
-        genre: $genre
-      ) {
+      media(id_in: $id_in) {
         id
         title {
           romaji

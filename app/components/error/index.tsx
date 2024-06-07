@@ -15,7 +15,7 @@ export function ErrorFeedback({
   animeApi: boolean;
 }) {
   return (
-    <div className="flex flex-col justify-center items-center w-full gap-5">
+    <div className="flex flex-col justify-center items-center w-full gap-6">
       {animeApi ? (
         <h1 className="text-white text-lg text-center">
           The button below appeared because the API is likely offline.
@@ -23,7 +23,9 @@ export function ErrorFeedback({
           Click it to reload the page in offline mode!
         </h1>
       ) : (
-        <h1 className="text-white text-lg text-center"> An error has occurred, Click it to reload </h1>
+        <h1 className="text-white text-lg text-center">
+          An error has occurred <br /> click bellow to retry!
+        </h1>
       )}
       <SignatureButton
         type="submit"

@@ -5,8 +5,7 @@ import React from 'react';
 export function FollowedAnimeSkeleton() {
   return (
     <div className="flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
-      <h1 className="font-bold text-center p-5"> You are following </h1>
-      <div className="flex flex-wrap p-5 gap-4">
+      <div className="flex flex-wrap gap-4">
         {Array.from({ length: 8 }).map((_, i) => (
           <div className="flex flex-col justify-end w-[7.125rem] h-40 bg-fifth animate-pulse rounded-md bg-cover cursor-pointer" key={i}></div>
         ))}
