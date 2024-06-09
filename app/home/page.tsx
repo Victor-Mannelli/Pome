@@ -1,7 +1,7 @@
 'use client';
 
 import { TokenContext, VariablesContext, FilterType, AnimeData, UsersAnimeData, getUsersFollewedAnime } from '@/utils';
-import { ErrorFeedback, Filter, HomePageAnimesSkeleton } from '@/components';
+import { ErrorFeedback, AnimeFilter, HomePageAnimesSkeleton } from '@/components';
 import { getAnimesQuery, getAnimesVariables } from '@/utils/queries';
 import { useContext, useEffect, useState } from 'react';
 import { ShowFollowedAnime } from './showFollowedAnime';
@@ -12,11 +12,10 @@ import { Animelist } from './animelist';
 import React from 'react';
 
 export default function Home() {
-  const { animelistTitle, setAnimelistTitle } = useContext(VariablesContext);
+  const { showFollowedAnime, setShowFollowedAnime, animelistTitle, setAnimelistTitle } = useContext(VariablesContext);
   const [usersAnimelist, setUsersAnimelist] = useState<UsersAnimeData[] | null>(null);
   const [usersAnimelistLoading, setUsersAnimelistLoading] = useState<boolean>(true);
   const [usersAnimelistFailed, setUsersAnimelistFailed] = useState<boolean>(false);
-  const { showFollowedAnime, setShowFollowedAnime } = useContext(VariablesContext);
   const { user } = useContext(TokenContext);
   const [page, setPage] = useState<number>(1);
   const [filter, setFilter] = useState<FilterType>({
@@ -54,7 +53,7 @@ export default function Home() {
         className={`flex flex-col items-center h-full w-[20.2rem] 
         ${showFollowedAnime ? 'xl:w-[52rem] md:w-[41.4rem]' : 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]'}`}
       >
-        <Filter setShowFollowedAnime={setShowFollowedAnime} showFollowedAnime={showFollowedAnime} setFilter={setFilter} filter={filter} />
+        <AnimeFilter setShowFollowedAnime={setShowFollowedAnime} showFollowedAnime={showFollowedAnime} setFilter={setFilter} filter={filter} />
         {animeDataError ? (
           <div className="h-[calc(100vh-20rem)] flex items-center justify-center">
             <ErrorFeedback animeApi={true} loading={animeDataLoading} refreshFunction={() => router.refresh()} />

@@ -122,3 +122,15 @@ export function ProfileSkeleton() {
     </SkeletonTheme>
   );
 }
+
+export function FriendsSkeleton() {
+  return (
+    <SkeletonTheme baseColor="#3a3d3e" highlightColor="#797776">
+      <div className="flex flex-col gap-3 w-full overflow-auto">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <Skeleton className="p-2 h-10 w-full hover:cursor-pointer" key={i} />
+        ))}
+      </div>
+    </SkeletonTheme>
+  );
+}

@@ -37,6 +37,7 @@ export default function Profile() {
   }, []);
 
   // const sort = '';
+  //! this doesnt make sense, underscore sortBy is not being used here
   const animelist = _.sortBy(usersAnimelist, '')
     .reverse()
     ?.filter((e: UsersAnimeData) => {
