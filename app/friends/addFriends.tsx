@@ -13,13 +13,10 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
   const [strangersAndFRsLoading, setStrangersAndFRsLoading] = useState<boolean>(true);
   const [strangersAndFRsFailed, setStrangersAndFRsFailed] = useState<boolean>(false);
   const [strangersAndFRs, setStrangersAndFRs] = useState<StrangersAndFRsType>(null);
-
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
-  const [update, setUpdate] = useState<boolean>(false);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowUsers(false));
-
   useEffect(() => {
     getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed });
   }, []);
@@ -51,12 +48,12 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
           ) : strangersList.length > 0 ? (
             strangersList.map((stranger: FriendType) => {
               const requestSent = strangersAndFRs.friendRequests.find((friendRequest) => friendRequest.requested_id === stranger.user_id);
-              console.log(requestSent, stranger.username);
+              // console.log(requestSent, stranger.username);
               return (
                 <div
                   key={stranger.user_id}
                   className={`flex items-center justify-between p-2 w-full bg-fifth rounded-xl ${requestSent ? '' : 'hover:cursor-pointer hover:bg-sixth'}`}
-                  onClick={() => (requestSent ? null : sendFriendRequest(stranger.user_id, update, setUpdate))}
+                  onClick={() => (requestSent ? null : sendFriendRequest({ friend_id: stranger.user_id, setData: setStrangersAndFRs }))}
                 >
                   <div className="flex items-center">
                     <Image className="rounded-full h-6 w-6 mr-2" width={1920} height={1080} src="/assets/dark_bg.jpg" alt="profile_pic" />
@@ -66,7 +63,15 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
                     {requestSent ? (
                       <div className="flex items-center">
                         <h3 className="text-signature pr-2"> Friend Request Sent </h3>
-                        <CloseButton className="text-white" onClick={() => deleteFriendRequest(requestSent.friend_request_id)} />
+                        <CloseButton
+                          className="text-white"
+                          onClick={() => {
+                            deleteFriendRequest({
+                              friendRequestId: requestSent.friend_request_id,
+                              setData: setStrangersAndFRs,
+                            });
+                          }}
+                        />
                       </div>
                     ) : (
                       <FiUserPlus className="text-white text-2xl pr-1" />

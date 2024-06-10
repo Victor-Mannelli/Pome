@@ -4,7 +4,7 @@ export type ChatMessages = {
 export type FriendAsFData = {
   //being used at friends.tsx as the element of the friendlist
   friend: {
-    user_id: number;
+    user_id: string;
     username: string;
     profile_picture: string;
     timestamp: Date;
@@ -14,7 +14,7 @@ export type FriendAsFData = {
 export type FriendAsUData = {
   // being used at friends.tsx as the element of the friendlist
   user: {
-    user_id: number;
+    user_id: string;
     username: string;
     profile_picture: string;
     timestamp: Date;
@@ -27,14 +27,14 @@ export type ChatMessagestype = {
   author: {
     username: string;
   };
-  author_id: number; // don´t think I need this one
+  author_id: string; // don´t think I need this one
   created_at: string;
   message: string;
   message_id: number;
   receiver: {
     username: string;
   };
-  receiver_id: number; // don´t think I need this one
+  receiver_id: string; // don´t think I need this one
 };
 
 export type StrangersAndFRsType = {
@@ -42,11 +42,11 @@ export type StrangersAndFRsType = {
   friendRequests: FriendRequests[];
 };
 export type FriendType = {
-  user_id: number;
+  user_id: string;
   username: string;
 };
 export type FriendRequests = {
   friend_request_id: number;
-  requester_id: number;
-  requested_id: number;
+  requester_id: string;
+  requested_id: string;
 };
