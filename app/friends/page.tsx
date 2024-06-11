@@ -16,7 +16,7 @@ export default function Friends() {
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [friendlistLoading, setFriendlistSetLoading] = useState<boolean>(true);
   const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
-  const [friendlist, setFriendlist] = useState<FriendType[] | null>(null);
+  const [friendlist, setFriendlist] = useState<FriendType[]>([]);
   const [showUsers, setShowUsers] = useState<boolean>(false);
   const { user } = useContext(TokenContext);
   const [userChat, setUserChat] = useState<string>(user ? user.user_id : '');

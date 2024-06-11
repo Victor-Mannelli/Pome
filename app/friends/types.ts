@@ -38,14 +38,9 @@ export type FriendRequests = {
 export type ChatMessagetype = {
   message_id: number;
   message: string;
-  // author_id: string; // don´t think I need this one
-  // receiver_id: string; // don´t think I need this one
   author: {
     username: string;
     avatar: string;
   };
   created_at: string;
-  // receiver: {
-  // username: string;
-  // };
 };

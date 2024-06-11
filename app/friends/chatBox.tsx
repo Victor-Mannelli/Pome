@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
 import { getMessages, sendMessage } from './functions';
 import Textarea, { TextAreaRef } from 'rc-textarea';
 import { GenericRowSkeleton } from '@/components';
+import { Socket, io } from 'socket.io-client';
 import { ChatMessagetype } from './types';
 import { Message } from './message';
 
@@ -12,6 +14,15 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
   const [chatLoading, setChatLoading] = useState<boolean>(true);
   const textArea = useRef<TextAreaRef>(null);
   const [message, setMessage] = useState('');
+  const [socket, setSocket] = useState<Socket>();
+
+  function sendToWebsocket(message: string) {
+    socket?.emit('message', message);
+  }
+  useEffect(() => {
+    const socketInstance = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
+    setSocket(socketInstance);
+  }, [setSocket]);
 
   useEffect(() => {
     getMessages({ setData: setChatMessages, authorId: userChat, setLoading: setChatLoading });
@@ -20,6 +31,30 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
   useEffect(() => {
     document.getElementById('last')?.scrollIntoView(false);
   }, [chatMessages]);
+
+  useEffect(() => {
+    socket?.on('message', messageListener);
+
+    return () => {
+      socket?.off('message', messageListener);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageListener]);
+
+  function messageListener(message: string) {
+    setChatMessages([
+      ...chatMessages,
+      {
+        message_id: 1111111,
+        message,
+        author: {
+          username: 'cliff',
+          avatar: 'string',
+        },
+        created_at: 'string',
+      },
+    ]);
+  }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === 'Enter' && !e.shiftKey) {
