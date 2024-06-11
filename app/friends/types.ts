@@ -1,6 +1,3 @@
-export type ChatMessages = {
-  message: string;
-};
 export type FriendAsFData = {
   //being used at friends.tsx as the element of the friendlist
   friend: {
@@ -22,21 +19,6 @@ export type FriendAsUData = {
   };
 };
 
-export type ChatMessagestype = {
-  profile_picture: string;
-  author: {
-    username: string;
-  };
-  author_id: string; // don´t think I need this one
-  created_at: string;
-  message: string;
-  message_id: number;
-  receiver: {
-    username: string;
-  };
-  receiver_id: string; // don´t think I need this one
-};
-
 export type StrangersAndFRsType = {
   strangers: FriendType[];
   friendRequests: FriendRequests[];
@@ -49,4 +31,21 @@ export type FriendRequests = {
   friend_request_id: number;
   requester_id: string;
   requested_id: string;
+};
+
+//* Messages
+
+export type ChatMessagetype = {
+  message_id: number;
+  message: string;
+  // author_id: string; // don´t think I need this one
+  // receiver_id: string; // don´t think I need this one
+  author: {
+    username: string;
+    avatar: string;
+  };
+  created_at: string;
+  // receiver: {
+  // username: string;
+  // };
 };

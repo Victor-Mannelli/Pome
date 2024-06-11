@@ -2,7 +2,7 @@
 
 import { deleteFriendRequest, getStrangersAndFRs, sendFriendRequest } from './functions';
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { FriendsSkeleton, ErrorFeedback, Filter } from '@/components';
+import { GenericRowSkeleton, ErrorFeedback, Filter } from '@/components';
 import { FriendType, StrangersAndFRsType } from './types';
 import { FiUserPlus, RxCross2 } from '@/utils/libs';
 import { useOnClickOutside } from 'usehooks-ts';
@@ -35,7 +35,7 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
         <Filter onChange={(e) => setAddFriendFilter(e.target.value)} />
         <div className="flex flex-col gap-3 w-full overflow-auto">
           {strangersAndFRsLoading ? (
-            <FriendsSkeleton />
+            <GenericRowSkeleton />
           ) : strangersAndFRsFailed ? (
             <ErrorFeedback
               loading={strangersAndFRsLoading}
@@ -48,7 +48,6 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
           ) : strangersList.length > 0 ? (
             strangersList.map((stranger: FriendType) => {
               const requestSent = strangersAndFRs.friendRequests.find((friendRequest) => friendRequest.requested_id === stranger.user_id);
-              // console.log(requestSent, stranger.username);
               return (
                 <div
                   key={stranger.user_id}

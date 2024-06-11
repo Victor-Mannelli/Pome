@@ -1,5 +1,3 @@
-'use client';
-
 import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { Buffer } from 'buffer';

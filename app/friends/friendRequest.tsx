@@ -30,8 +30,7 @@ export function FriendRequestsElement({
     getFriendRequests({ setData: setFriendRequests });
   }, []);
 
-  const receivedFR = friendRequests.filter((e: FriendRequests) => e.requested_id === user.user_id);
-  console.log(receivedFR);
+  const receivedFR = friendRequests.filter((e: FriendRequests) => e.requested_id === user?.user_id);
   // const usersList = allUsers.filter((e: any, i: number) => {
   //   return [];
   // e.username.includes(acceptFriendFilter) &&

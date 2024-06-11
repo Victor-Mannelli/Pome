@@ -123,12 +123,12 @@ export function ProfileSkeleton() {
   );
 }
 
-export function FriendsSkeleton() {
+export function GenericRowSkeleton({ rows, lineHeight }: { rows?: number; lineHeight?: string }) {
   return (
     <SkeletonTheme baseColor="#3a3d3e" highlightColor="#797776">
       <div className="flex flex-col gap-3 w-full overflow-auto">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <Skeleton className="p-2 h-10 w-full hover:cursor-pointer" key={i} />
+        {Array.from({ length: rows ? rows : 10 }).map((_, i) => (
+          <Skeleton className={`p-2 ${lineHeight ? lineHeight : 'h-10'} w-full hover:cursor-pointer`} key={i} />
         ))}
       </div>
     </SkeletonTheme>

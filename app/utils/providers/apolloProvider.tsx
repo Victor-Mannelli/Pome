@@ -1,5 +1,3 @@
-'use client';
-
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { ReactNode } from 'react';
 import React from 'react';

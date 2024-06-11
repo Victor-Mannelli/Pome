@@ -1,6 +1,9 @@
-import { FriendRequests, FriendType, StrangersAndFRsType } from './types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChatMessagetype, FriendRequests, FriendType, StrangersAndFRsType } from './types';
 import { Dispatch, SetStateAction } from 'react';
 import { api } from '@/utils';
+
+//* FRIEND LIST
 
 export function getFriendList({
   setData,
@@ -78,5 +81,67 @@ export function deleteFriendRequest({
     })
     .finally(() => {
       // setLoading(false)
+    });
+}
+
+//* MESSAGES
+
+export function getMessages({
+  authorId,
+  setData,
+  setLoading,
+}: {
+  authorId: string;
+  setData: Dispatch<SetStateAction<any>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+}) {
+  if (!authorId) return;
+  setLoading(true);
+
+  api
+    .get(`/messages/${authorId}`)
+    .then((e) => {
+      setData(e.data);
+    })
+    .catch(() => {
+      // setFailed(true);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}
+
+export function sendMessage({
+  authorId,
+  message,
+  setChatMessages,
+}: {
+  authorId: string;
+  message: string;
+  setChatMessages?: Dispatch<SetStateAction<ChatMessagetype[]>>;
+}) {
+  api
+    .post(`/messages/${authorId}`, { message })
+    .then((e) => {
+      setChatMessages && setChatMessages((prevState) => [...prevState, e.data]);
+      // setData((prevState) => ({ ...prevState, friendRequests: e.data }));
+      // setData(e.data);
+    })
+    .catch(() => {
+      // setFailed(true);
+    })
+    .finally(() => {
+      // setLoading(false);
+    });
+}
+
+export function deleteMessage({ id, setChatMessages }: { id: number; setChatMessages?: Dispatch<SetStateAction<ChatMessagetype[]>> }) {
+  api
+    .delete(`/messages/${id}`)
+    .then((e) => {
+      setChatMessages && setChatMessages((prevState) => [...prevState, e.data]);
+    })
+    .finally(() => {
+      // setLoading(false);
     });
 }
