@@ -1,24 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { getMessages, sendMessage } from './functions';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Textarea, { TextAreaRef } from 'rc-textarea';
 import { GenericRowSkeleton } from '@/components';
 import { Socket, io } from 'socket.io-client';
 import { ChatMessagetype } from './types';
+import { getMessages } from './functions';
+import { TokenContext } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { Message } from './message';
 
 export function ChatBox({ userChat, userId }: { userChat: string; userId: string }) {
   const [chatMessages, setChatMessages] = useState<ChatMessagetype[]>([]);
-  const [chatLoading, setChatLoading] = useState<boolean>(true);
-  const textArea = useRef<TextAreaRef>(null);
-  const [message, setMessage] = useState('');
+  const [chatLoading, setChatLoading] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket>();
+  const [message, setMessage] = useState('');
+  const textArea = useRef<TextAreaRef>(null);
+  const { user } = useContext(TokenContext);
 
-  function sendToWebsocket(message: string) {
-    socket?.emit('message', message);
-  }
   useEffect(() => {
     const socketInstance = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
     setSocket(socketInstance);
@@ -33,37 +32,46 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
   }, [chatMessages]);
 
   useEffect(() => {
-    socket?.on('message', messageListener);
+    socket?.on('message', (chatMessage) => {
+      setChatMessages([...chatMessages, chatMessage]);
+    });
 
     return () => {
-      socket?.off('message', messageListener);
+      socket?.off('message', (chatMessage) => {
+        setChatMessages([...chatMessages, chatMessage]);
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageListener]);
-
-  function messageListener(message: string) {
-    setChatMessages([
-      ...chatMessages,
-      {
-        message_id: 1111111,
-        message,
-        author: {
-          username: 'cliff',
-          avatar: 'string',
-        },
-        created_at: 'string',
-      },
-    ]);
-  }
+  }, [socket]);
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (message.trim() !== '') {
         if (userId === userChat) {
-          sendMessage({ message: message, authorId: userChat, setChatMessages });
+          socket?.emit('message', {
+            message_id: uuidv4(),
+            message,
+            author_id: user.user_id,
+            author: {
+              username: user.username,
+              avatar: user.avatar,
+            },
+            receiver_id: user.user_id,
+            created_at: Date.now().toString(),
+          });
         } else {
-          sendMessage({ message: message, authorId: userChat });
+          socket?.emit('message', {
+            message_id: uuidv4(),
+            message,
+            author_id: user.user_id,
+            author: {
+              username: user.username,
+              avatar: user.avatar,
+            },
+            receiver_id: userChat,
+            created_at: Date.now().toString(),
+          });
         }
         setMessage('');
       }
@@ -79,12 +87,13 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
           chatMessages.map((e, i: number) => (
             <Message
               id={i === chatMessages.length - 1 ? 'last' : e.message_id.toString()}
-              // profile_picture={e.profile_picture}
-              timestamp={new Date(e.created_at)}
+              avatar={e.author.avatar}
+              timestamp={e.created_at}
               username={e.author.username}
               messageId={e.message_id}
               message={e.message}
               key={e.message_id}
+              sameUser={false}
             />
           ))
         )}

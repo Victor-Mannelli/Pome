@@ -7,10 +7,10 @@ import { GenericRowSkeleton } from '@/components';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
 import { AddFriends } from './addFriends';
+import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
 import { FriendType } from './types';
 import { ChatBox } from './chatBox';
-import Image from 'next/image';
 
 export default function Friends() {
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function Friends() {
   }, []);
 
   return (
-    <div className="flex m-5 gap-5 h-[calc(100vh-6.5rem)]">
+    <div className="flex m-5 gap-5 h-[calc(100vh-6rem)]">
       <div id="friendlist" className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5 gap-5">
         <div
           className={`flex justify-center items-center rounded-xl p-2 w-full ${userChat === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
@@ -49,7 +49,7 @@ export default function Friends() {
                 className={`flex items-center rounded-xl p-2 w-full ${friend.user_id === userChat ? 'bg-sixth' : 'bg-fourth'}`}
                 onClick={() => setUserChat(friend.user_id)}
               >
-                <Image className="rounded-full h-6 w-6 mr-2" src="/assets/dark_bg.jpg" alt="profile_pic" width={1920} height={1080} />
+                <Avatar className="rounded-full mr-3" size="sm" src={friend.avatar ? friend.avatar : null} />
                 <h1> {friend.username} </h1>
               </div>
             ))

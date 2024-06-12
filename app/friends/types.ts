@@ -26,6 +26,7 @@ export type StrangersAndFRsType = {
 export type FriendType = {
   user_id: string;
   username: string;
+  avatar?: string;
 };
 export type FriendRequests = {
   friend_request_id: number;
