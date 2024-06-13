@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], display: 'swap', adjustFontFallback: false });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
