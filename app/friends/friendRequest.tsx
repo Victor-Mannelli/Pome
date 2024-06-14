@@ -7,6 +7,7 @@ import { FaUserFriends, FiUserPlus, GiCakeSlice, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { Filter, PopUp } from '@/components';
 import { TokenContext } from '@/utils';
+import { Avatar } from '@chakra-ui/react';
 
 export function FriendRequestsElement({
   setShowFriendRequests,
@@ -77,7 +78,7 @@ export function FriendRequestsElement({
                       onClick={() => acceptFriendRequest(e.friend_request_id)}
                     >
                       <div className="flex items-center">
-                        <img className="rounded-full h-6 w-6 mr-2" src="/assets/dark_bg.jpg" alt="profile_pic" />
+                        <Avatar className="rounded-full h-6 w-6 mr-2" src={null} />
                         {/* <h1 className="cursor-pointer text-2xl">{usersList.find((user) => user.user_id === e.requester_id)?.username}</h1> */}
                       </div>
                       <div className="flex items-center gap-3">

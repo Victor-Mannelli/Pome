@@ -54,7 +54,7 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
                   onClick={() => (requestSent ? null : sendFriendRequest({ friend_id: stranger.user_id, setData: setStrangersAndFRs }))}
                 >
                   <div className="flex items-center">
-                    <Avatar className="rounded-full mr-2" size='sm' src={stranger.avatar ? stranger.avatar : null} />
+                    <Avatar className="rounded-full mr-2" size="sm" src={stranger.avatar ? stranger.avatar : null} />
                     <h1> {stranger.username} </h1>
                   </div>
                   <div className="flex items-center gap-3 h-7">
