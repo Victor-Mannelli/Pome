@@ -4,10 +4,9 @@ import { deleteFriendRequest, getStrangersAndFRs, sendFriendRequest } from './fu
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { GenericRowSkeleton, ErrorFeedback, Filter } from '@/components';
 import { FriendType, StrangersAndFRsType } from './types';
+import { Avatar, CloseButton } from '@chakra-ui/react';
 import { FiUserPlus, RxCross2 } from '@/utils/libs';
 import { useOnClickOutside } from 'usehooks-ts';
-import { CloseButton } from '@chakra-ui/react';
-import Image from 'next/image';
 
 export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch<SetStateAction<boolean>>; showUsers: boolean }) {
   const [strangersAndFRsLoading, setStrangersAndFRsLoading] = useState<boolean>(true);
@@ -55,7 +54,7 @@ export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch
                   onClick={() => (requestSent ? null : sendFriendRequest({ friend_id: stranger.user_id, setData: setStrangersAndFRs }))}
                 >
                   <div className="flex items-center">
-                    <Image className="rounded-full h-6 w-6 mr-2" width={1920} height={1080} src="/assets/dark_bg.jpg" alt="profile_pic" />
+                    <Avatar className="rounded-full mr-2" size='sm' src={stranger.avatar ? stranger.avatar : null} />
                     <h1> {stranger.username} </h1>
                   </div>
                   <div className="flex items-center gap-3 h-7">
