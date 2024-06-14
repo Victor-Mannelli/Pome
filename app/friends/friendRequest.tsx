@@ -32,13 +32,7 @@ export function FriendRequestsElement({
   }, []);
 
   const receivedFR = friendRequests.filter((e: FriendRequests) => e.requested_id === user?.user_id);
-  // const usersList = allUsers.filter((e: any, i: number) => {
-  //   return [];
-  // e.username.includes(acceptFriendFilter) &&
-  // e.username !== data.userData.username &&
-  // !friends.some((friend) => friend.username === e.username) &&
-  // i < 10,
-  // });
+  const usersList = receivedFR.filter((e, i: number) => e.requester.username.toLowerCase().includes(acceptFriendFilter) && i < 10);
 
   return (
     <div className="relative flex items-center gap-3">
@@ -71,22 +65,19 @@ export function FriendRequestsElement({
                     <GiCakeSlice className="text-3xl" />
                   </div>
                 ) : (
-                  receivedFR.map((e: FriendRequests) => (
+                  usersList.map((e: FriendRequests) => (
                     <div
                       key={e.friend_request_id}
                       className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between hover:bg-sixth hover:cursor-pointer"
                       onClick={() => acceptFriendRequest(e.friend_request_id)}
                     >
                       <div className="flex items-center">
-                        <Avatar className="rounded-full h-6 w-6 mr-2" src={null} />
-                        {/* <h1 className="cursor-pointer text-2xl">{usersList.find((user) => user.user_id === e.requester_id)?.username}</h1> */}
+                        <Avatar size="sm" className="rounded-full mr-2" src={e.requester.avatar} />
+                        <h1 className="cursor-pointer text-lg">{e.requester.username}</h1>
                       </div>
-                      <div className="flex items-center gap-3">
-                        {/* {data.friendRequests.some((friendRequest) => friendRequest.requested_id === e.user_id)
-                              ? <h3 className='text-signature'> Friend Request Sent </h3>
-                              : null
-                            } */}
-                        <FiUserPlus className="text-white text-2xl cursor-pointer hover:text-sixth pr-1" />
+                      <div className="z-10 flex items-center gap-3 text-white hover:text-signature cursor-pointer">
+                        {/* <p className="cursor-pointer hover:text-inherit"> Accept </p> */}
+                        <FiUserPlus className="text-2xl pr-1" />
                       </div>
                     </div>
                   ))

@@ -10,7 +10,7 @@ import { TokenContext } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { Message } from './message';
 
-export function ChatBox({ userChat, userId }: { userChat: string; userId: string }) {
+export function ChatBox({ wsRoom, userId }: { wsRoom: string; userId: string }) {
   const [chatMessages, setChatMessages] = useState<ChatMessagetype[]>([]);
   const [chatLoading, setChatLoading] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket>();
@@ -19,13 +19,16 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
   const { user } = useContext(TokenContext);
 
   useEffect(() => {
-    const socketInstance = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
+    const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/messages`);
     setSocket(socketInstance);
   }, [setSocket]);
 
   useEffect(() => {
-    getMessages({ setData: setChatMessages, authorId: userChat, setLoading: setChatLoading });
-  }, [userChat]);
+    socket?.emit('joinRoom', wsRoom);
+
+    //! REFACTOR SO WE CAN GET MESSAGES BASED ON FRIENDSHIP ID
+    getMessages({ setData: setChatMessages, authorId: wsRoom, setLoading: setChatLoading });
+  }, [socket, wsRoom]);
 
   useEffect(() => {
     document.getElementById('last')?.scrollIntoView(false);
@@ -33,12 +36,12 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
 
   useEffect(() => {
     socket?.on('message', (chatMessage) => {
-      setChatMessages([...chatMessages, chatMessage]);
+      setChatMessages([...chatMessages, chatMessage.message]);
     });
 
     return () => {
       socket?.off('message', (chatMessage) => {
-        setChatMessages([...chatMessages, chatMessage]);
+        setChatMessages([...chatMessages, chatMessage.message]);
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,29 +51,20 @@ export function ChatBox({ userChat, userId }: { userChat: string; userId: string
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (message.trim() !== '') {
-        if (userId === userChat) {
+        if (userId === wsRoom) {
           socket?.emit('message', {
-            message_id: uuidv4(),
-            message,
-            author_id: user.user_id,
-            author: {
-              username: user.username,
-              avatar: user.avatar,
+            message: {
+              message_id: uuidv4(),
+              message,
+              author_id: user.user_id,
+              author: {
+                username: user.username,
+                avatar: user.avatar,
+              },
+              receiver_id: userId === wsRoom ? user.user_id : wsRoom,
+              created_at: Date.now().toString(),
             },
-            receiver_id: user.user_id,
-            created_at: Date.now().toString(),
-          });
-        } else {
-          socket?.emit('message', {
-            message_id: uuidv4(),
-            message,
-            author_id: user.user_id,
-            author: {
-              username: user.username,
-              avatar: user.avatar,
-            },
-            receiver_id: userChat,
-            created_at: Date.now().toString(),
+            room: userId === wsRoom ? userId : '',
           });
         }
         setMessage('');

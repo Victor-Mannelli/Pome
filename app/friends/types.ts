@@ -30,8 +30,22 @@ export type FriendType = {
 };
 export type FriendRequests = {
   friend_request_id: number;
-  requester_id: string;
   requested_id: string;
+  requester: {
+    user_id: string;
+    username: string;
+    avatar: string | null;
+  };
+};
+//* Friend Requests
+
+//* FriendShip
+
+export type FriendShip = {
+  friendship_id: string;
+  user_id: string;
+  username: string;
+  avatar: string | null;
 };
 
 //* Messages

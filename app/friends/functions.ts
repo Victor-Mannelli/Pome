@@ -15,7 +15,7 @@ export function getFriendList({
   setFailed: Dispatch<SetStateAction<boolean>>;
 }) {
   api
-    .get('/friends/friendList')
+    .get('/friendship/friendList')
     .then((e) => {
       setData(e.data);
     })
@@ -26,18 +26,18 @@ export function getFriendList({
 }
 
 export function acceptFriendRequest(friend_request_id: number) {
-  api.post(`/friends/friendRequest/accept/${friend_request_id}`);
+  api.post(`/friendRequest/accept/${friend_request_id}`);
 }
 export function sendFriendRequest({ friend_id, setData }: { friend_id: string; setData: Dispatch<SetStateAction<StrangersAndFRsType>> }) {
   api
-    .post('/friends/friendrequest', { friend_id })
+    .post('/friendRequest', { friend_id })
     .then((e) => setData((prevState) => ({ ...prevState, friendRequests: [...prevState.friendRequests, e.data] })))
     .finally(() => {
       // setLoading(false)
     });
 }
 export function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
-  api.get('/friends/friendrequests').then((e) => {
+  api.get('/friendRequest').then((e) => {
     setData(e.data);
   });
 }
@@ -52,7 +52,7 @@ export function getStrangersAndFRs({
 }) {
   setLoading(true);
   api
-    .get('/friends/strangersAndFRs')
+    .get('/users/strangersAndFRs')
     .then((e) => {
       setData(e.data);
     })
@@ -71,7 +71,7 @@ export function deleteFriendRequest({
 }) {
   // setLoading(true);
   api
-    .delete(`/friends/friendRequest/${friendRequestId}`)
+    .delete(`/friendRequest/${friendRequestId}`)
     .then((e) => {
       setData((prevState) => ({ ...prevState, friendRequests: e.data }));
       // setData(e.data);

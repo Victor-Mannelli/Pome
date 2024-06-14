@@ -4,22 +4,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FriendRequestsElement } from './friendRequest';
 import { GenericRowSkeleton } from '@/components';
+import { FriendShip, FriendType } from './types';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
 import { AddFriends } from './addFriends';
 import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
-import { FriendType } from './types';
 import { ChatBox } from './chatBox';
 
 export default function Friends() {
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [friendlistLoading, setFriendlistSetLoading] = useState<boolean>(true);
   const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
-  const [friendlist, setFriendlist] = useState<FriendType[]>([]);
+  const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
   const [showUsers, setShowUsers] = useState<boolean>(false);
   const { user } = useContext(TokenContext);
-  const [userChat, setUserChat] = useState<string>(user ? user.user_id : '');
+  const [wsRoom, setWsRoom] = useState<string>(user ? user.user_id : '');
 
   useEffect(() => {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
@@ -29,8 +29,8 @@ export default function Friends() {
     <div className="flex m-5 gap-5 h-[calc(100vh-6rem)]">
       <div id="friendlist" className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5 gap-5">
         <div
-          className={`flex justify-center items-center rounded-xl p-2 w-full ${userChat === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
-          onClick={() => setUserChat(user?.user_id)}
+          className={`flex justify-center items-center rounded-xl p-2 w-full ${wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
+          onClick={() => setWsRoom(user?.user_id)}
         >
           <h1> Your notes </h1>
         </div>
@@ -43,11 +43,11 @@ export default function Friends() {
           {friendlistLoading ? (
             <GenericRowSkeleton />
           ) : friendlist.length !== 0 ? (
-            friendlist.map((friend: FriendType, i: number) => (
+            friendlist.map((friend: FriendShip, i: number) => (
               <div
                 key={i}
-                className={`flex items-center rounded-xl p-2 w-full ${friend.user_id === userChat ? 'bg-sixth' : 'bg-fourth'}`}
-                onClick={() => setUserChat(friend.user_id)}
+                className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
+                onClick={() => setWsRoom(friend.friendship_id)}
               >
                 <Avatar className="rounded-full mr-3" size="sm" src={friend.avatar ? friend.avatar : null} />
                 <h1> {friend.username} </h1>
@@ -62,7 +62,7 @@ export default function Friends() {
           )}
         </div>
       </div>
-      <ChatBox userChat={userChat} userId={user?.user_id} />
+      <ChatBox wsRoom={wsRoom} userId={user?.user_id} />
     </div>
   );
 }

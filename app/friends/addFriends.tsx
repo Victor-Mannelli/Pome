@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { deleteFriendRequest, getStrangersAndFRs, sendFriendRequest } from './functions';
@@ -7,18 +8,38 @@ import { FriendType, StrangersAndFRsType } from './types';
 import { Avatar, CloseButton } from '@chakra-ui/react';
 import { FiUserPlus, RxCross2 } from '@/utils/libs';
 import { useOnClickOutside } from 'usehooks-ts';
+import { io, Socket } from 'socket.io-client';
 
 export function AddFriends({ showUsers, setShowUsers }: { setShowUsers: Dispatch<SetStateAction<boolean>>; showUsers: boolean }) {
   const [strangersAndFRsLoading, setStrangersAndFRsLoading] = useState<boolean>(true);
   const [strangersAndFRsFailed, setStrangersAndFRsFailed] = useState<boolean>(false);
   const [strangersAndFRs, setStrangersAndFRs] = useState<StrangersAndFRsType>(null);
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
+  const [socket, setSocket] = useState<Socket>();
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowUsers(false));
   useEffect(() => {
     getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed });
   }, []);
+
+  useEffect(() => {
+    const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/friendRequest`);
+    setSocket(socketInstance);
+  }, [setSocket]);
+
+  useEffect(() => {
+    socket?.on('friendRequest', (chatMessage) => {
+      // setChatMessages([...chatMessages, chatMessage]);
+    });
+
+    return () => {
+      socket?.off('friendRequest', (chatMessage) => {
+        // setChatMessages([...chatMessages, chatMessage]);
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
 
   const strangersList = strangersAndFRs?.strangers.filter((e: FriendType, i: number) => e.username.includes(addFriendFilter) && i < 10);
 
