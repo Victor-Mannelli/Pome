@@ -1,9 +1,10 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { FriendRequestsElement } from './friendRequest';
-import { GenericRowSkeleton } from '@/components';
+import { ChatBoxSkeleton, GenericRowSkeleton } from '@/components';
 import { FriendShip, FriendType } from './types';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
@@ -18,12 +19,16 @@ export default function Friends() {
   const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
   const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
   const [showUsers, setShowUsers] = useState<boolean>(false);
+  const [wsRoom, setWsRoom] = useState<string>('');
   const { user } = useContext(TokenContext);
-  const [wsRoom, setWsRoom] = useState<string>(user ? user.user_id : '');
 
   useEffect(() => {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
   }, []);
+
+  useEffect(() => {
+    if (user) setWsRoom(user.user_id);
+  }, [user]);
 
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6rem)]">
@@ -62,7 +67,7 @@ export default function Friends() {
           )}
         </div>
       </div>
-      <ChatBox wsRoom={wsRoom} userId={user?.user_id} />
+      {wsRoom == '' ? <ChatBoxSkeleton /> : <ChatBox wsRoom={wsRoom} user={user} />}
     </div>
   );
 }

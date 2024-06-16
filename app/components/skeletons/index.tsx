@@ -1,7 +1,7 @@
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { FaRegHeart } from '@/utils/libs';
+import Textarea from 'rc-textarea';
 import React from 'react';
-
 export function FollowedAnimeSkeleton() {
   return (
     <div className="flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
@@ -132,5 +132,19 @@ export function GenericRowSkeleton({ rows, lineHeight }: { rows?: number; lineHe
         ))}
       </div>
     </SkeletonTheme>
+  );
+}
+
+export function ChatBoxSkeleton() {
+  return (
+    <div id="chat" className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
+      <GenericRowSkeleton rows={15} />
+      <Textarea
+        disabled
+        value={''}
+        placeholder="Message"
+        className="w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none h-12"
+      />
+    </div>
   );
 }

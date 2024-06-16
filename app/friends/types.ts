@@ -53,6 +53,8 @@ export type FriendShip = {
 export type ChatMessagetype = {
   message_id: number;
   message: string;
+  receiver_id?: string;
+  author_id?: string;
   author: {
     username: string;
     avatar: string;

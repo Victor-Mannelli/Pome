@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChatMessagetype, FriendRequests, FriendType, StrangersAndFRsType } from './types';
 import { Dispatch, SetStateAction } from 'react';
-import { api } from '@/utils';
-
+import { v4 as uuidv4 } from 'uuid';
+import { api, User } from '@/utils';
+import { Socket } from 'socket.io-client';
 //* FRIEND LIST
 
 export function getFriendList({
@@ -87,19 +87,18 @@ export function deleteFriendRequest({
 //* MESSAGES
 
 export function getMessages({
-  authorId,
-  setData,
   setLoading,
+  setData,
+  room_id,
 }: {
-  authorId: string;
-  setData: Dispatch<SetStateAction<any>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  setData: Dispatch<SetStateAction<ChatMessagetype[]>>;
+  room_id: string;
 }) {
-  if (!authorId) return;
   setLoading(true);
 
   api
-    .get(`/messages/${authorId}`)
+    .get(`/messages/${room_id}`)
     .then((e) => {
       setData(e.data);
     })
@@ -144,4 +143,43 @@ export function deleteMessage({ id, setChatMessages }: { id: number; setChatMess
     .finally(() => {
       // setLoading(false);
     });
+}
+
+export function sendMessageToWebSocket({
+  setMessage,
+  message,
+  socket,
+  wsRoom,
+  event,
+  user,
+}: {
+  event: React.KeyboardEvent<HTMLTextAreaElement>;
+  setMessage: Dispatch<SetStateAction<string>>;
+  message: string;
+  socket: Socket;
+  wsRoom: string;
+  user: User;
+}) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    if (message.trim() !== '') {
+      if (user.user_id === wsRoom) {
+        socket?.emit('message', {
+          message: {
+            message_id: uuidv4(),
+            message,
+            author_id: user.user_id,
+            author: {
+              username: user.username,
+              avatar: user.avatar,
+            },
+            receiver_id: user.user_id === wsRoom ? user.user_id : wsRoom,
+            created_at: Date.now().toString(),
+          },
+          room: wsRoom,
+        });
+      }
+      setMessage('');
+    }
+  }
 }

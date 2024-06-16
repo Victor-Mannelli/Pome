@@ -1,5 +1,4 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
-import { redirect, usePathname, useRouter } from 'next/navigation';
 import { Buffer } from 'buffer';
 import { User } from '../types';
 import React from 'react';
@@ -22,8 +21,6 @@ export const TokenContext = createContext<TokenContextType>(defaultTokenContext)
 export function TokenProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const existingToken = localStorage.getItem('token');
@@ -41,11 +38,6 @@ export function TokenProvider({ children }: { children: ReactNode }) {
       setUser(null);
     }
   }, [token]);
-
-  useEffect(() => {
-    if (token && pathname == '/login') redirect('/');
-    if (!token && pathname.includes('/profile')) redirect('/');
-  }, [token, router, pathname]);
 
   return <TokenContext.Provider value={{ user, setUser, token, setToken }}>{children}</TokenContext.Provider>;
 }

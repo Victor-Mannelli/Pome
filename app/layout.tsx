@@ -1,9 +1,10 @@
 'use client';
 
+import { redirect, usePathname } from 'next/navigation';
 import { Navbar } from './components/elements/navbar';
 import { Providers } from './utils/providers';
 import { Inter } from 'next/font/google';
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './globals.css';
@@ -11,6 +12,14 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], display: 'swap', adjustFontFallback: false });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && pathname == '/login') redirect('/');
+    if (!token && (pathname.includes('/profile') || pathname.includes('/friends'))) redirect('/');
+  }, [pathname]);
+
   return (
     <html lang="en">
       <head>
