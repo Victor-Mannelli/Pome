@@ -164,22 +164,20 @@ export function sendMessageToWS({
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
     if (message.trim() !== '') {
-      if (user.user_id === wsRoom) {
-        socket?.emit('message', {
-          message: {
-            message_id: uuidv4(),
-            message,
-            author_id: user.user_id,
-            author: {
-              username: user.username,
-              avatar: user.avatar,
-            },
-            receiver_id: user.user_id === wsRoom ? user.user_id : wsRoom,
-            created_at: Date.now().toString(),
+      socket?.emit('message', {
+        message: {
+          message_id: uuidv4(),
+          message,
+          author_id: user.user_id,
+          author: {
+            username: user.username,
+            avatar: user.avatar,
           },
-          room: wsRoom,
-        });
-      }
+          receiver_id: user.user_id === wsRoom ? user.user_id : wsRoom,
+          created_at: Date.now().toString(),
+        },
+        room: wsRoom,
+      });
       setMessage('');
     }
   }
