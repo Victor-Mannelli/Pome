@@ -41,7 +41,7 @@ export function Navbar() {
       `}
     >
       <div
-        className={`flex justify-between items-center ${pathname.startsWith('/anime') ? 'w-full' : 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]'}`}
+        className={`flex justify-between items-center ${pathname === '/' ? 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]' : 'w-full'}`}
       >
         <Link href={'/'}>
           <HoverDescription hoverText="Home">

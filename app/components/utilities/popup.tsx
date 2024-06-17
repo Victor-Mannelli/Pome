@@ -15,7 +15,7 @@ export function PopUp({
   return (
     <div
       className={`fixed top-0 left-0 h-screen w-full ${show ? 'flex' : 'hidden'} ${bg ? 'bg-black bg-opacity-50' : ''} justify-center items-center z-50`}
-      onClick={() => setShow(!show)}
+      onClick={() => setShow((prevState) => !prevState)}
     >
       {children}
     </div>

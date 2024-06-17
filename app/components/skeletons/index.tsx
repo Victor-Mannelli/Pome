@@ -1,7 +1,9 @@
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { FaRegHeart } from '@/utils/libs';
+import React, { Dispatch, SetStateAction } from 'react';
+import { FaRegHeart, RxCross2 } from '@/utils/libs';
 import Textarea from 'rc-textarea';
-import React from 'react';
+import { Filter } from '../tools';
+
 export function FollowedAnimeSkeleton() {
   return (
     <div className="flex flex-col bg-third rounded-md xl:w-[34rem] lg:w-[17.75rem] md:w-[42.125rem] sm:w-[25.875rem] w-[17.75rem]">
@@ -123,18 +125,6 @@ export function ProfileSkeleton() {
   );
 }
 
-export function GenericRowSkeleton({ rows, lineHeight }: { rows?: number; lineHeight?: string }) {
-  return (
-    <SkeletonTheme baseColor="#3a3d3e" highlightColor="#797776">
-      <div className="flex flex-col gap-3 w-full overflow-auto">
-        {Array.from({ length: rows ? rows : 10 }).map((_, i) => (
-          <Skeleton className={`p-2 ${lineHeight ? lineHeight : 'h-10'} w-full hover:cursor-pointer`} key={i} />
-        ))}
-      </div>
-    </SkeletonTheme>
-  );
-}
-
 export function ChatBoxSkeleton() {
   return (
     <div id="chat" className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
@@ -146,5 +136,35 @@ export function ChatBoxSkeleton() {
         className="w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none h-12"
       />
     </div>
+  );
+}
+
+export function AddFriendsSkeleton({ setShowUsers }: { setShowUsers: Dispatch<SetStateAction<boolean>> }) {
+  return (
+    <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
+      <div className="relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-center gap-3 p-5">
+        <RxCross2
+          className="absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth"
+          onClick={() => setShowUsers((prevState) => !prevState)}
+        />
+        <h1> Send a Friend Request! </h1>
+        <Filter onChange={null} />
+        <GenericRowSkeleton />
+      </div>
+    </div>
+  );
+}
+
+//* GENERIC
+
+export function GenericRowSkeleton({ rows, lineHeight }: { rows?: number; lineHeight?: string }) {
+  return (
+    <SkeletonTheme baseColor="#3a3d3e" highlightColor="#797776">
+      <div className="flex flex-col gap-3 w-full overflow-auto">
+        {Array.from({ length: rows ? rows : 10 }).map((_, i) => (
+          <Skeleton className={`p-2 ${lineHeight ? lineHeight : 'h-10'} w-full hover:cursor-pointer`} key={i} />
+        ))}
+      </div>
+    </SkeletonTheme>
   );
 }

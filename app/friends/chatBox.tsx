@@ -1,6 +1,6 @@
 'use client';
 
-import { getMessages, sendMessageToWebSocket } from './functions';
+import { getMessages, sendMessageToWS } from './functions';
 import React, { useEffect, useRef, useState } from 'react';
 import Textarea, { TextAreaRef } from 'rc-textarea';
 import { GenericRowSkeleton } from '@/components';
@@ -70,7 +70,7 @@ export function ChatBox({ wsRoom, user }: { wsRoom: string; user: User }) {
         <Textarea
           ref={textArea}
           onKeyDown={(event) =>
-            sendMessageToWebSocket({
+            sendMessageToWS({
               setMessage,
               message,
               socket,

@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { api, User } from '@/utils';
 import { Socket } from 'socket.io-client';
+
 //* FRIEND LIST
 
 export function getFriendList({
@@ -145,7 +146,7 @@ export function deleteMessage({ id, setChatMessages }: { id: number; setChatMess
     });
 }
 
-export function sendMessageToWebSocket({
+export function sendMessageToWS({
   setMessage,
   message,
   socket,
@@ -182,4 +183,14 @@ export function sendMessageToWebSocket({
       setMessage('');
     }
   }
+}
+
+//* FRIEND REQUESTS
+
+export function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_id: string; socket: Socket; user: User }) {
+  socket?.emit('friendRequest', {
+    room: stranger_id,
+    user_id: user.user_id,
+    friend_id: stranger_id,
+  });
 }

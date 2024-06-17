@@ -1,17 +1,17 @@
-/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-constant-condition */
 'use client';
 
+import { AddFriendsSkeleton, ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton } from '@/components';
 import React, { useContext, useEffect, useState } from 'react';
-import { FriendRequestsElement } from './friendRequest';
-import { ChatBoxSkeleton, GenericRowSkeleton } from '@/components';
-import { FriendShip, FriendType } from './types';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
-import { AddFriends } from './addFriends';
+import { SendFrs } from './sendFrs';
 import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
+import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
+import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 
 export default function Friends() {
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
@@ -39,14 +39,25 @@ export default function Friends() {
         >
           <h1> Your notes </h1>
         </div>
-        <div className="flex items-center justify-between">
-          <FriendRequestsElement setShowFriendRequests={setShowFriendRequests} showFriendRequests={showFriendRequests} data={friendlist} />
-          <FiUserPlus className="text-signature text-2xl cursor-pointer" onClick={() => setShowUsers(true)} />
-          {showUsers ? <AddFriends showUsers={showUsers} setShowUsers={setShowUsers} /> : null}
-        </div>
+        {!user ? (
+          <div className="flex items-center justify-between">
+            <h1 className="font-bold"> Friends </h1>
+            <FiUserPlus className="text-signature text-2xl cursor-pointer" />
+          </div>
+        ) : (
+          <FriendShipAndFriendRequests user={user} />
+        )}
         <div className="h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
           {friendlistLoading ? (
             <GenericRowSkeleton />
+          ) : friendlistFailed ? (
+            <div className="flex items-center h-1/2">
+              <ErrorFeedback
+                refreshFunction={() => getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed })}
+                loading={friendlistLoading}
+                animeApi={false}
+              />
+            </div>
           ) : friendlist.length !== 0 ? (
             friendlist.map((friend: FriendShip, i: number) => (
               <div
@@ -59,10 +70,14 @@ export default function Friends() {
               </div>
             ))
           ) : (
-            <div className="flex flex-col text-white pt-10 text-center">
-              <h3> It looks a little empty, just like you on the inside :D </h3>
+            <div className="flex flex-col justify-center h-1/2 text-white text-center">
+              <p> It looks a little empty, just like your kokoro :D </p>
               <br />
-              <h3> Add some friends at the green button above!</h3>
+              <div className="flex text-md flex-wrap justify-center items-center">
+                <p> Add some friends at the </p>
+                <FiUserPlus className="mx-2 text-lg text-signature" />
+                <p> button above! </p>
+              </div>
             </div>
           )}
         </div>
