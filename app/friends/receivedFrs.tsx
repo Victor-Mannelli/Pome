@@ -1,20 +1,23 @@
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { FiUserPlus, GiCakeSlice, RxCross2 } from '@/utils/libs';
-import { acceptFriendRequest } from './functions';
+import { acceptFriendRequestWS } from './functions';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Avatar } from '@chakra-ui/react';
+import { Socket } from 'socket.io-client';
 import { FriendRequests } from './types';
 import { Filter } from '@/components';
 
 export function ReceivedFrs({
   setShowFriendRequests,
   friendRequests,
+  socket,
 }: {
   setShowFriendRequests: Dispatch<SetStateAction<boolean>>;
   friendRequests: FriendRequests[];
+  socket: Socket;
 }) {
   const [acceptFriendFilter, setAcceptFriendFilter] = useState<string>('');
-  const usersList = friendRequests.filter((e, i: number) => e.requester.username.toLowerCase().includes(acceptFriendFilter) && i < 10);
+  const filteredFRs = friendRequests.filter((e, i: number) => e.requester.username.toLowerCase().includes(acceptFriendFilter) && i < 10);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowFriendRequests(false));
@@ -39,11 +42,18 @@ export function ReceivedFrs({
               <GiCakeSlice className="text-3xl" />
             </div>
           ) : (
-            usersList.map((e: FriendRequests) => (
+            filteredFRs.map((e: FriendRequests) => (
               <div
                 key={e.friend_request_id}
                 className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between hover:bg-sixth hover:cursor-pointer"
-                onClick={() => acceptFriendRequest(e.friend_request_id)}
+                onClick={() => {
+                  acceptFriendRequestWS({
+                    friendRequestId: e.friend_request_id,
+                    stranger_id: e.requester.user_id,
+                    socket,
+                    userId: e.requested_id,
+                  });
+                }}
               >
                 <div className="flex items-center">
                   <Avatar size="sm" className="rounded-full mr-2" src={e.requester.avatar} />

@@ -194,3 +194,39 @@ export function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_
     friend_id: stranger_id,
   });
 }
+
+export function deleteFriendRequestWS({
+  friendRequestId,
+  stranger_id,
+  socket,
+  userId,
+}: {
+  friendRequestId: number;
+  stranger_id: string;
+  socket: Socket;
+  userId: string;
+}) {
+  socket?.emit('deleteFR', {
+    room: stranger_id,
+    userId,
+    friendRequestId,
+  });
+}
+
+export function acceptFriendRequestWS({
+  friendRequestId,
+  stranger_id,
+  socket,
+  userId,
+}: {
+  friendRequestId: number;
+  stranger_id: string;
+  socket: Socket;
+  userId: string;
+}) {
+  socket?.emit('acceptFR', {
+    room: stranger_id,
+    userId,
+    friendRequestId,
+  });
+}

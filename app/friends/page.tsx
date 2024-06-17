@@ -1,24 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-constant-condition */
 'use client';
 
-import { AddFriendsSkeleton, ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton } from '@/components';
+import { ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton } from '@/components';
+import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 import React, { useContext, useEffect, useState } from 'react';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
-import { SendFrs } from './sendFrs';
 import { Avatar } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
-import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 
 export default function Friends() {
-  const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [friendlistLoading, setFriendlistSetLoading] = useState<boolean>(true);
   const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
   const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
-  const [showUsers, setShowUsers] = useState<boolean>(false);
   const [wsRoom, setWsRoom] = useState<string>('');
   const { user } = useContext(TokenContext);
 
@@ -45,7 +40,7 @@ export default function Friends() {
             <FiUserPlus className="text-signature text-2xl cursor-pointer" />
           </div>
         ) : (
-          <FriendShipAndFriendRequests user={user} />
+          <FriendShipAndFriendRequests user={user} setFriendlist={setFriendlist} />
         )}
         <div className="h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
           {friendlistLoading ? (

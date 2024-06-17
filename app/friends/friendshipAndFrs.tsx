@@ -1,16 +1,16 @@
 'use client';
 
+import { FriendRequests, FriendShip, StrangersAndFRsType } from './types';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { getStrangersAndFRs } from './functions';
-import { FriendRequests, StrangersAndFRsType } from './types';
 import { io, Socket } from 'socket.io-client';
 import { FaUserFriends } from '@/utils/libs';
-import { FiUserPlus } from 'react-icons/fi';
-import { useEffect, useState } from 'react';
 import { ReceivedFrs } from './receivedFrs';
+import { FiUserPlus } from 'react-icons/fi';
 import { SendFrs } from './sendFrs';
 import { User } from '@/utils';
 
-export function FriendShipAndFriendRequests({ user }: { user: User }) {
+export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: User; setFriendlist: Dispatch<SetStateAction<FriendShip[]>> }) {
   const [strangersAndFRsLoading, setStrangersAndFRsLoading] = useState<boolean>(true);
   const [strangersAndFRsFailed, setStrangersAndFRsFailed] = useState<boolean>(false);
   const [strangersAndFRs, setStrangersAndFRs] = useState<StrangersAndFRsType>(null);
@@ -39,18 +39,33 @@ export function FriendShipAndFriendRequests({ user }: { user: User }) {
     socket?.on('friendRequest', (response) => {
       setStrangersAndFRs((prevState) => ({ ...prevState, friendRequests: [...prevState.friendRequests, response.friendRequest] }));
     });
+  }, [socket]);
 
-    return () => {
-      socket?.off('friendRequest', () => {
-        socket?.emit('leaveFrRoom', user.user_id);
-      });
-    };
-  }, [socket, user]);
+  useEffect(() => {
+    socket?.on('deleteFR', (response) => {
+      setStrangersAndFRs((prevState) => ({
+        ...prevState,
+        friendRequests: prevState.friendRequests.filter((FR) => FR.friend_request_id !== response.deletedFR.friend_request_id),
+      }));
+    });
+  }, [socket]);
 
-  if (strangersAndFRsLoading) return;
-  const receivedFR = strangersAndFRs.friendRequests.filter((e: FriendRequests) => e.requested_id === user.user_id);
+  useEffect(() => {
+    socket?.on('acceptFR', (response) => {
+      setFriendlist((prevState) => [...prevState, response.acceptedFR]);
+    });
+  }, [socket, setFriendlist]);
 
-  //! maybe refactor strangersAndFRs to also send the only received FRS array
+  const receivedFR = strangersAndFRs?.friendRequests.filter((e: FriendRequests) => e.requested_id === user.user_id);
+
+  if (strangersAndFRsLoading) {
+    return (
+      <div className="flex items-center justify-between">
+        <h1 className="font-bold"> Friends </h1>
+        <FiUserPlus className="text-signature text-2xl cursor-pointer" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-between">
@@ -68,7 +83,7 @@ export function FriendShipAndFriendRequests({ user }: { user: User }) {
           </>
         ) : null}
       </div>
-      {showFriendRequests ? <ReceivedFrs friendRequests={receivedFR} setShowFriendRequests={setShowFriendRequests} /> : null}
+      {showFriendRequests ? <ReceivedFrs socket={socket} friendRequests={receivedFR} setShowFriendRequests={setShowFriendRequests} /> : null}
       <FiUserPlus
         className="text-signature text-2xl cursor-pointer"
         onClick={() => {
@@ -80,7 +95,6 @@ export function FriendShipAndFriendRequests({ user }: { user: User }) {
           setStrangersAndFRsFailed={setStrangersAndFRsFailed}
           strangersAndFRsLoading={strangersAndFRsLoading}
           strangersAndFRsFailed={strangersAndFRsFailed}
-          setStrangersAndFRs={setStrangersAndFRs}
           strangersAndFRs={strangersAndFRs}
           setShowUsers={setShowUsers}
           showUsers={showUsers}
