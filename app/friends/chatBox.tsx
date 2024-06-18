@@ -1,20 +1,22 @@
 'use client';
 
-import { getMessages, sendMessageToWS } from './functions';
 import React, { useEffect, useRef, useState } from 'react';
 import Textarea, { TextAreaRef } from 'rc-textarea';
 import { GenericRowSkeleton } from '@/components';
+import { sendMessageToWS } from './functions';
 import { Socket, io } from 'socket.io-client';
 import { ChatMessagetype } from './types';
 import { Message } from './message';
 import { User } from '@/utils';
 
-export function ChatBox({ wsRoom, user }: { wsRoom: string; user: User }) {
+export function ChatBox({ wsRoomAndFriendId, user }: { wsRoomAndFriendId: { wsRoom: string; friend_id: string }; user: User }) {
   const [chatMessages, setChatMessages] = useState<ChatMessagetype[]>([]);
-  const [chatLoading, setChatLoading] = useState<boolean>(false);
+  const [chatLoading, setChatLoading] = useState<boolean>(true);
   const [socket, setSocket] = useState<Socket>();
   const [message, setMessage] = useState('');
   const textArea = useRef<TextAreaRef>(null);
+
+  console.log(chatMessages);
 
   useEffect(() => {
     const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/messages`);
@@ -22,13 +24,19 @@ export function ChatBox({ wsRoom, user }: { wsRoom: string; user: User }) {
   }, [setSocket]);
 
   useEffect(() => {
-    socket?.emit('joinRoom', wsRoom);
-    getMessages({ setData: setChatMessages, setLoading: setChatLoading, room_id: wsRoom });
+    socket?.emit('joinRoom', { room: wsRoomAndFriendId.wsRoom, user_id: user.user_id });
 
     return () => {
-      socket?.emit('leaveRoom', wsRoom);
+      socket?.emit('leaveRoom', wsRoomAndFriendId.wsRoom);
     };
-  }, [socket, wsRoom]);
+  }, [socket, wsRoomAndFriendId, user]);
+
+  useEffect(() => {
+    socket?.on('joinedRoom', (response) => {
+      setChatMessages(response.storedMessages);
+      setChatLoading(false);
+    });
+  }, [socket]);
 
   useEffect(() => {
     socket?.on('message', (chatMessage) => {
@@ -47,8 +55,8 @@ export function ChatBox({ wsRoom, user }: { wsRoom: string; user: User }) {
   }, [chatMessages]);
 
   return (
-    <div id="chat" className="bg-third w-3/4 h-full rounded-xl p-5 pb-3 flex flex-col justify-between">
-      <div className="w-full flex flex-col gap-3 overflow-auto rounded-md">
+    <div id="chat" className="bg-third w-3/4 h-full rounded-xl py-5 pl-5 flex flex-col justify-between">
+      <div className="w-full flex flex-col gap-3 overflow-auto rounded-md pr-5">
         {chatLoading ? (
           <GenericRowSkeleton rows={13} lineHeight="h-[2.9rem]" />
         ) : (
@@ -61,20 +69,21 @@ export function ChatBox({ wsRoom, user }: { wsRoom: string; user: User }) {
               messageId={e.message_id}
               message={e.message}
               key={e.message_id}
-              sameUser={false}
+              sameUser={i > 0 ? (chatMessages[i - 1].author.username === chatMessages[i].author.username ? true : false) : false}
+              user={user}
             />
           ))
         )}
       </div>
-      <div className="relative w-full bg-third rounded-md pt-5">
+      <div className="relative w-full bg-third rounded-md pt-5 pr-5">
         <Textarea
           ref={textArea}
           onKeyDown={(event) =>
             sendMessageToWS({
+              wsRoomAndFriendId,
               setMessage,
               message,
               socket,
-              wsRoom,
               event,
               user,
             })
@@ -83,7 +92,7 @@ export function ChatBox({ wsRoom, user }: { wsRoom: string; user: User }) {
           autoSize={true}
           placeholder="Message"
           onChange={(e) => setMessage(e.target.value)}
-          className="w-full outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
+          className="w-[100%] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
         />
       </div>
     </div>
