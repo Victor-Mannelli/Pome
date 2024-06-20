@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { SingleAnimeDataForSlug, UsersAnimeData, getAnimeQuery, TokenContext } from '@/utils';
@@ -20,8 +21,6 @@ export default function AnimePage({ params }: { params: { id: string } }) {
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
   const router = useRouter();
-
-  console.log(userAnimeDataLoading, userAnimeDataFailed);
 
   useEffect(() => {
     if (!token) return;

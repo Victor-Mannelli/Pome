@@ -11,12 +11,12 @@ import { TokenContext } from '@/utils';
 import React from 'react';
 
 export function AnimeFilter({
-  setFilter,
-  filter,
   setShowFollowedAnime,
   showFollowedAnime,
+  setFilter,
+  filter,
 }: {
-  setShowFollowedAnime: Dispatch<SetStateAction<boolean>>;
+  setShowFollowedAnime?: Dispatch<SetStateAction<boolean>>;
   setFilter: Dispatch<SetStateAction<FilterType>>;
   showFollowedAnime: boolean;
   filter: FilterType;

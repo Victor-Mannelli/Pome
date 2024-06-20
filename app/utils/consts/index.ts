@@ -23,8 +23,9 @@ export const animeUserStatus: { [key: string]: { name: string; color: string } }
 };
 
 export const airingStatusOptions: { [key: string]: string } = {
-  FINISHED: 'Finished',
+  WATCHING: 'Watching',
   RELEASING: 'Releasing',
+  FINISHED: 'Finished',
   NOT_YET_RELEASED: 'Not yet Released',
   // "CANCELLED": "Cancelled",
   // "HIATUS": "Hiatus"

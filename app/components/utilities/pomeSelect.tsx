@@ -8,18 +8,22 @@ import { FilterType } from '@/utils/types';
 import React from 'react';
 
 export function PomeSelect({
-  title,
+  optionsWidth,
+  selectionOf,
+  parentSize,
+  setFilter,
   options,
   setShow,
+  title,
   show,
-  selectionOf,
-  setFilter,
 }: {
-  setFilter: Dispatch<SetStateAction<FilterType>>;
+  setFilter?: Dispatch<SetStateAction<FilterType>>;
   setShow: Dispatch<SetStateAction<boolean>>;
-  title: string | null;
-  selectionOf: string;
   options: string[] | number[];
+  title: string | null;
+  optionsWidth?: string;
+  parentSize?: string;
+  selectionOf: string;
   show: boolean;
 }) {
   const ref = useRef(null);
@@ -27,8 +31,9 @@ export function PomeSelect({
 
   return (
     <div
-      className="relative flex flex-col w-[10.5rem] h-full bg-third text-white rounded-sm"
+      className={`relative flex flex-col ${parentSize ? parentSize : 'w-[10.5rem] h-full'}  bg-third text-white rounded-sm`}
       style={{ boxShadow: '0 0 2px rgb(204, 204, 204)', transition: 'all 0.5s ease' }}
+      onClick={(e) => e.stopPropagation()}
       ref={ref}
     >
       <div className="flex items-center justify-between pl-3 w-full h-8 cursor-pointer text-sm active:bg-fifth" onClick={() => setShow(!show)}>
@@ -38,7 +43,7 @@ export function PomeSelect({
             className="hover:text-signature hover:text-opacity-75 mr-[0.6rem] text-xl font-bold"
             onClick={(e) => {
               e.stopPropagation();
-              setFilter((prevState: FilterType) => ({ ...prevState, [selectionOf]: null }));
+              setFilter && setFilter((prevState: FilterType) => ({ ...prevState, [selectionOf]: null }));
               setShow(false);
             }}
           />
@@ -47,7 +52,7 @@ export function PomeSelect({
         )}
       </div>
       <ul
-        className={`absolute z-10 top-8 bg-third w-[10.5rem] max-h-60 overflow-auto ${show ? 'block' : 'hidden'}`}
+        className={`absolute z-10 top-8 bg-third ${optionsWidth ? optionsWidth : 'w-[10.5rem]'} max-h-60 overflow-auto ${show ? 'block' : 'hidden'}`}
         style={{ boxShadow: '0 0 2px rgb(204, 204, 204)', transition: 'all 0.5s ease' }}
       >
         {options.map((e: string | number, i: number) => (
