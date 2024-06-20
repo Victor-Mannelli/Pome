@@ -1,7 +1,7 @@
 'use client';
 
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { deleteFriendRequest, sendFriendRequestToWS } from './functions';
+import { deleteFriendRequestWS, sendFriendRequestToWS } from './functions';
 import { GenericRowSkeleton, ErrorFeedback, Filter } from '@/components';
 import { FriendType, StrangersAndFRsType } from './types';
 import { Avatar, CloseButton } from '@chakra-ui/react';
@@ -12,9 +12,8 @@ import { User } from '@/utils';
 
 export function SendFrs({
   setStrangersAndFRsFailed,
-  strangersAndFRsFailed,
   strangersAndFRsLoading,
-  setStrangersAndFRs,
+  strangersAndFRsFailed,
   strangersAndFRs,
   refreshFunction,
   setShowUsers,
@@ -22,7 +21,6 @@ export function SendFrs({
   socket,
   user,
 }: {
-  setStrangersAndFRs: Dispatch<SetStateAction<StrangersAndFRsType>>;
   setStrangersAndFRsFailed: Dispatch<SetStateAction<boolean>>;
   setShowUsers: Dispatch<SetStateAction<boolean>>;
   strangersAndFRs: StrangersAndFRsType;
@@ -34,12 +32,10 @@ export function SendFrs({
   user: User;
 }) {
   const [addFriendFilter, setAddFriendFilter] = useState<string>('');
-  const strangersList = strangersAndFRs.strangers.filter((e: FriendType, i: number) => e.username.toLowerCase().includes(addFriendFilter) && i < 10);
+  const strangersList = strangersAndFRs?.strangers.filter((e: FriendType, i: number) => e.username.toLowerCase().includes(addFriendFilter) && i < 10);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowUsers(false));
-
-  //! MAKE THIS FILTER BETTER USING STRANGERSANDFRS STATE INSTEAD OF ANOTHER STATE
 
   return (
     <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
@@ -76,9 +72,11 @@ export function SendFrs({
                         <CloseButton
                           className="text-white"
                           onClick={() => {
-                            deleteFriendRequest({
+                            deleteFriendRequestWS({
                               friendRequestId: requestSent.friend_request_id,
-                              setData: setStrangersAndFRs,
+                              stranger_id: stranger.user_id,
+                              userId: user.user_id,
+                              socket,
                             });
                           }}
                         />

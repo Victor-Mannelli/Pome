@@ -1,5 +1,6 @@
 import { Avatar, CloseButton } from '@chakra-ui/react';
 import { deleteMessage } from './functions';
+import { User } from '@/utils';
 import React from 'react';
 
 export function Message({
@@ -9,6 +10,7 @@ export function Message({
   sameUser,
   message,
   avatar,
+  user,
   id,
 }: {
   messageId: number;
@@ -17,7 +19,8 @@ export function Message({
   username: string;
   message: string;
   avatar: string;
-  id?: string;
+  user: User;
+  id: string;
 }) {
   const myDate = new Date(Number(timestamp));
   const month = myDate.getMonth() + 1;
@@ -26,10 +29,11 @@ export function Message({
   const hours = myDate.getHours();
   const minutes = myDate.getMinutes().toString().padStart(2, '0');
   const meridiem = hours >= 12 ? 'PM' : 'AM';
+
   return (
-    <div id={id} className="flex flex-col p-3 gap-2 text-sixth bg-fourth rounded-md">
+    <div id={id} className={`flex flex-col p-3 gap-2 w-4/5 text-sixth bg-fourth rounded-md ${username !== user.username ? 'ml-auto' : ''}`}>
       {!sameUser ? (
-        <div className="flex items-center justify-between">
+        <div className={`flex ${username !== user.username ? 'flex-row-reverse' : ''} items-center justify-between`}>
           <div className="flex items-center gap-3">
             <Avatar className="rounded-full" size="sm" src={avatar ? avatar : null} />
             <h1 className="font-bold text-lg"> {username} </h1>

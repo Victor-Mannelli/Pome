@@ -31,7 +31,7 @@ export function TokenProvider({ children }: { children: ReactNode }) {
     try {
       if (!token) return;
       const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-      console.log(decoded, 'decoded');
+      // console.log(decoded, 'decoded');
       setUser(decoded);
     } catch (error) {
       setToken(null);
