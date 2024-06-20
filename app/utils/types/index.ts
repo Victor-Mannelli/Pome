@@ -183,7 +183,7 @@ export type User = {
 export type FilterType = {
   status: 'FINISHED' | 'RELEASING' | 'NOT_YET_RELEASED' | 'CANCELLED' | 'HIATUS';
   search: string;
-  id_not_in: number[];
+  id_not_in?: number[];
   genres: string | null;
   year: number;
 };
