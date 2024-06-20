@@ -35,9 +35,8 @@ export default function Profile() {
   useEffect(() => {
     getUsersAnimelist({ setData: setUsersAnimelist, setLoading: usersAnimelistSetLoad, setFailed: setUsersAnimelistFailed });
   }, []);
-
   const filteredAnimelist = _.filter(usersAnimelist, (item: UsersAnimeData) => data && applyUnderscoreFilter(data, item, filter));
-  const animelist = _.sortBy(filteredAnimelist, data?.Page.media[0].title.romaji).reverse();
+  const animelist = _.sortBy(filteredAnimelist, data?.Page?.media?.[0]?.title?.romaji || '').reverse();
 
   return usersAnimelistFailed || error ? (
     logout({ setToken, setUser, toast })
@@ -46,7 +45,7 @@ export default function Profile() {
   ) : usersAnimelist ? (
     <div className="flex flex-col items-center">
       <div
-        className={'flex items-end w-full h-60'}
+        className={'flex items-end w-full h-60 mb-2'}
         style={user?.banner ? { backgroundImage: `url('${user?.banner}')` } : { backgroundColor: '#1e1e1e' }}
       >
         <div className="flex justify-end w-1/4">

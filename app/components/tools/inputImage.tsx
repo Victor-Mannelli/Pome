@@ -1,8 +1,10 @@
+'use client';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import React from 'react';
 
-export default function InputImage() {
+export default function BannerInput() {
   const [image, setImage] = useState<string | null>(null);
   const [focus, setFocus] = useState<boolean>(false);
 
@@ -18,28 +20,28 @@ export default function InputImage() {
   return (
     <>
       {image ? (
-        <>
-          <Image src={image} alt="user_banner" className="rounded-xl" width={1920} height={1080} />
-          <h1
-            className="mb-5 mt-1 hover:cursor-pointer hover:text-fifth underline"
+        <div className="flex flex-col">
+          <h1 className="mb-3"> Banner </h1>
+          <Image src={image} alt="user_banner" className="rounded-xl h-28" width={1920} height={1080} />
+          <p
+            className="mt-1 text-sm hover:cursor-pointer hover:text-fifth underline"
             onClick={() => {
               setImage(null);
               focus === true ? setFocus(false) : '';
             }}
           >
-            {' '}
-            change image here{' '}
-          </h1>
-        </>
+            change image here
+          </p>
+        </div>
       ) : (
-        <>
-          <h1 className="font-bold mb-3"> Banner </h1>
+        <div className="flex flex-col">
+          <h1 className="mb-3"> Banner </h1>
           <div
             className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md mb-3 px-5 
             ${focus === true ? 'bg-fourth' : 'bg-second'}`}
           >
-            <h1 className="border p-2 mr-5 text-sm uppercase cursor-pointer rounded-md"> Choose Image </h1>
-            <h1> or drag and drop your file here</h1>
+            <p className="border p-2 mr-5 text-sm font-bold cursor-pointer rounded-md text-center"> Choose Image </p>
+            <p className="text-sm"> click or drag and drop your file here</p>
             <input
               className="opacity-0 hover:cursor-pointer bg-black absolute top-0 left-0 w-full h-full"
               type="file"
@@ -52,7 +54,7 @@ export default function InputImage() {
               onDragLeave={() => setFocus(!focus)}
             />
           </div>
-        </>
+        </div>
       )}
     </>
   );
