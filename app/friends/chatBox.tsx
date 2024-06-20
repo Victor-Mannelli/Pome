@@ -16,8 +16,6 @@ export function ChatBox({ wsRoomAndFriendId, user }: { wsRoomAndFriendId: { wsRo
   const [message, setMessage] = useState('');
   const textArea = useRef<TextAreaRef>(null);
 
-  console.log(chatMessages);
-
   useEffect(() => {
     const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/messages`);
     setSocket(socketInstance);
@@ -56,21 +54,22 @@ export function ChatBox({ wsRoomAndFriendId, user }: { wsRoomAndFriendId: { wsRo
 
   return (
     <div id="chat" className="bg-third w-3/4 h-full rounded-xl py-5 pl-5 flex flex-col justify-between">
-      <div className="w-full flex flex-col gap-3 overflow-auto rounded-md pr-5">
+      <div className="w-full flex flex-col gap-1 overflow-auto rounded-md pr-5">
         {chatLoading ? (
           <GenericRowSkeleton rows={13} lineHeight="h-[2.9rem]" />
         ) : (
           chatMessages.map((e, i: number) => (
             <Message
+              sameUser={i > 0 ? (chatMessages[i - 1].author.username === chatMessages[i].author.username ? true : false) : false}
               id={i === chatMessages.length - 1 ? 'last' : e.message_id.toString()}
-              avatar={e.author.avatar}
-              timestamp={e.created_at}
               username={e.author.username}
+              timestamp={e.created_at}
               messageId={e.message_id}
+              avatar={e.author.avatar}
               message={e.message}
               key={e.message_id}
-              sameUser={i > 0 ? (chatMessages[i - 1].author.username === chatMessages[i].author.username ? true : false) : false}
               user={user}
+              index={i}
             />
           ))
         )}

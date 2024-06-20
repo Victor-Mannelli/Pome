@@ -109,11 +109,6 @@ export function getFriendList({
 //     });
 // }
 
-export function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
-  api.get('/friendRequest').then((e) => {
-    setData(e.data);
-  });
-}
 export function getStrangersAndFRs({
   setData,
   setLoading,
@@ -144,6 +139,14 @@ export function deleteMessage({ id, setChatMessages }: { id: number; setChatMess
     .finally(() => {
       // setLoading(false);
     });
+}
+
+//* FRIEND REQUESTS
+
+export function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
+  api.get('/friendRequest').then((e) => {
+    setData(e.data);
+  });
 }
 
 //* MESSAGES WS
@@ -183,6 +186,10 @@ export function sendMessageToWS({
       setMessage('');
     }
   }
+}
+
+export function deleteMessageWS({ socket, user, messageId }: { messageId: string; socket: Socket; user: User }) {
+  socket?.emit('deleteMessage', { userId: user.user_id, messageId });
 }
 
 //* FRIEND REQUESTS WS
