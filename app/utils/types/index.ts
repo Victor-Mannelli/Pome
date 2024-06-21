@@ -97,61 +97,61 @@ export type PageInfo = {
   hasNextPage: boolean;
 };
 
-export type SingleAnimeDataForSlug = {
-  id: number;
-  anime_id: number;
-  title: {
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  status: string;
-  description: string;
-  startDate: {
-    year: number;
-    month: number;
-    day: number;
-  };
-  endDate: {
-    year: number | null;
-    month: number | null;
-    day: number | null;
-  };
-  episodes: string;
-  chapters: number | null;
-  volumes: number | null;
-  coverImage: {
-    extraLarge: string;
-    large: string;
-    medium: string;
-  };
-  bannerImage: string;
-  genres: string[];
-  tags: AnimeTags[];
-  averageScore: number;
-  nextAiringEpisode: {
-    id: number;
-    episode: number;
-    timeUntilAiring: number;
-  };
-  trailer: {
-    id: string;
-    site: string;
-    thumbnail: string;
-  };
-  UserAnimeList?: {
-    id: number;
-    user_id: number;
-    anime_id: number;
-    status: string;
-    score: number;
-    progress: number;
-    rewatches: number;
-    start_date: string;
-    finish_date: string | null;
-    favorite: boolean;
-  };
-};
+// export type SingleAnimeDataForSlug = {
+//   id: number;
+//   anime_id: number;
+//   title: {
+//     romaji: string;
+//     english: string;
+//     native: string;
+//   };
+//   status: string;
+//   description: string;
+//   startDate: {
+//     year: number;
+//     month: number;
+//     day: number;
+//   };
+//   endDate: {
+//     year: number | null;
+//     month: number | null;
+//     day: number | null;
+//   };
+//   episodes: string;
+//   chapters: number | null;
+//   volumes: number | null;
+//   coverImage: {
+//     extraLarge: string;
+//     large: string;
+//     medium: string;
+//   };
+//   bannerImage: string;
+//   genres: string[];
+//   tags: AnimeTags[];
+//   averageScore: number;
+//   nextAiringEpisode: {
+//     id: number;
+//     episode: number;
+//     timeUntilAiring: number;
+//   };
+//   trailer: {
+//     id: string;
+//     site: string;
+//     thumbnail: string;
+//   };
+//   UserAnimeList?: {
+//     id: number;
+//     user_id: number;
+//     anime_id: number;
+//     status: string;
+//     score: number;
+//     progress: number;
+//     rewatches: number;
+//     start_date: string;
+//     finish_date: string | null;
+//     favorite: boolean;
+//   };
+// };
 export type AnimeTags = {
   id: number;
   name: string;

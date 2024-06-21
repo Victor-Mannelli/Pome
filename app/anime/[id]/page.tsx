@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import { SingleAnimeDataForSlug, UsersAnimeData, getAnimeQuery, TokenContext } from '@/utils';
+import { UsersAnimeData, getAnimeQuery, TokenContext, SingleAnimeData } from '@/utils';
 import { PopUp, AnimePageSkeleton, ErrorFeedback } from '@/components';
 import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { maximizeTrailer, getUserAnimeData } from './functions';
@@ -13,7 +13,7 @@ import { AnimeInfo } from './animeInfo';
 import { Sinopse } from './sinopse';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
-  const { loading, error: dataFailed, data } = useQuery<{ Media: SingleAnimeDataForSlug }>(getAnimeQuery, { variables: { id: Number(params.id) } });
+  const { loading, error: dataFailed, data } = useQuery<{ Media: SingleAnimeData }>(getAnimeQuery, { variables: { id: Number(params.id) } });
   const { token } = useContext(TokenContext);
   const [userAnimeData, setUserAnimeData] = useState<UsersAnimeData | null>(null);
   const [userAnimeDataLoading, setUserAnimeDataLoading] = useState<boolean>(true);

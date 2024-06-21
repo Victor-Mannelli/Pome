@@ -1,11 +1,10 @@
 'use client';
 
-import { AnimeData, FilterType, TokenContext, UsersAnimeData, getAnimelistQuery } from '@/utils';
-import { applyUnderscoreFilter, getUsersAnimelist } from './functions';
+import { AnimeData, FaSortAmountDown, FaSortAmountUpAlt, FilterType, TokenContext, UsersAnimeData, getAnimelistQuery, FaSort } from '@/utils';
+import { applyUnderscoreFilter, getUsersAnimelist, sortFunction } from './functions';
 import { AnimeFilter, ProfileSkeleton } from '@/components';
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, useToast } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
 import { logout } from '@/utils/functions';
 import { useQuery } from '@apollo/client';
 import { AnimeRow } from './animeRow';
@@ -16,6 +15,7 @@ export default function Profile() {
   const [usersAnimelist, setUsersAnimelist] = useState<UsersAnimeData[] | null>(null);
   const [usersAnimelistFailed, setUsersAnimelistFailed] = useState<boolean>(false);
   const [usersAnimelistLoad, usersAnimelistSetLoad] = useState<boolean>(true);
+  const [sortScore, setSortScore] = useState<'up' | 'down' | 'none'>('none');
   const { user, setToken, setUser } = useContext(TokenContext);
   const [filter, setFilter] = useState<FilterType>({
     search: null,
@@ -23,7 +23,6 @@ export default function Profile() {
     genres: null,
     year: null,
   });
-  const router = useRouter();
   const toast = useToast();
   const { loading, error, data } = useQuery<AnimeData>(getAnimelistQuery, {
     variables: {
@@ -35,8 +34,9 @@ export default function Profile() {
   useEffect(() => {
     getUsersAnimelist({ setData: setUsersAnimelist, setLoading: usersAnimelistSetLoad, setFailed: setUsersAnimelistFailed });
   }, []);
+
   const filteredAnimelist = _.filter(usersAnimelist, (item: UsersAnimeData) => data && applyUnderscoreFilter(data, item, filter));
-  const animelist = _.sortBy(filteredAnimelist, data?.Page?.media?.[0]?.title?.romaji || '').reverse();
+  const animelist = _.sortBy(filteredAnimelist, (item) => sortFunction(item, sortScore, data));
 
   return usersAnimelistFailed || error ? (
     logout({ setToken, setUser, toast })
@@ -58,14 +58,26 @@ export default function Profile() {
         <div className="grid grid-cols-[6%_58.72%_11%_11%_13.28%] w-full p-3">
           <h3 className="text-center break-all font-bold"> Title </h3>
           <div></div>
-          <h3 className="text-center font-bold"> Score </h3>
+          <div
+            className="flex items-center justify-center gap-1 cursor-pointer [&>*]:cursor-pointer [&>h3]:hover:text-signature"
+            onClick={() => setSortScore((prevState) => (prevState === 'none' ? 'up' : prevState === 'up' ? 'down' : 'none'))}
+          >
+            <h3 className="text-center font-bold">Score</h3>
+            {sortScore === 'down' ? (
+              <FaSortAmountUpAlt className="text-white" />
+            ) : sortScore === 'up' ? (
+              <FaSortAmountDown className="text-white" />
+            ) : (
+              <FaSort className="text-white" />
+            )}
+          </div>
           <h3 className="text-center font-bold"> Progress </h3>
           <h3 className="text-center font-bold"> Status </h3>
         </div>
         {usersAnimelist && usersAnimelist.length > 0 ? (
           animelist.map((anime: UsersAnimeData) => {
             const animeData = data.Page.media;
-            return <AnimeRow key={anime.anime_id} router={router} animeData={animeData} anime={anime} />;
+            return <AnimeRow key={anime.anime_id} animeData={animeData} anime={anime} />;
           })
         ) : (
           <div className="w-full h-fit p-5 rounded-md bg-third">

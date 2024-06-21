@@ -3,61 +3,83 @@
 import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from '@chakra-ui/react';
 import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from './functions';
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
-import { SingleAnimeDataForSlug, UsersAnimeData } from '@/utils/types';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { animeUserData, animeUserStatus } from '@/utils/consts';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useOnClickOutside } from 'usehooks-ts';
+import { usePathname } from 'next/navigation';
+import { Link } from '@/components';
+import Image from 'next/image';
 import React from 'react';
 
 export function AnimeUserSettings({
   setShowAnimeSettings,
   setUserAnimeData,
-  animeData,
   userAnimeData,
+  animeData,
 }: {
   setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
-  animeData: SingleAnimeDataForSlug;
   userAnimeData: UsersAnimeData;
+  animeData: SingleAnimeData;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
+  const pathname = usePathname();
   const toast = useToast();
+  const ref = useRef(null);
+
+  useOnClickOutside(ref, () => setShowAnimeSettings(false));
 
   return (
     <div
-      className="relative lg:w-[60rem] md:w-[70%] w-full lg:h-[65%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-end"
+      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-full lg:h-[28rem] h-screen bg-second md:rounded-xl md:border border-sixth"
       onClick={(e) => e.stopPropagation()}
+      ref={ref}
     >
       <RxCross2
-        className="absolute z-20 right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth"
+        className="absolute z-20 right-4 top-4 text-white text-3xl cursor-pointer hover:text-fourth drop-shadow-[0_0_3px_rgb(0_0_0)]"
         onClick={() => setShowAnimeSettings(false)}
       />
-      <div
-        className={'relative rounded-t-xl h-72 w-full bg-cover flex items-end p-3 bg-right'}
-        style={{ backgroundImage: `url(${animeData.bannerImage})`, boxShadow: 'inset 0 0 200px black' }}
-      >
-        <h3 className="font-bold"> {animeData.title.romaji} </h3>
+      <div className={'relative rounded-t-xl h-60 w-full bg-cover flex items-end bg-right'} style={{ boxShadow: 'inset 0 0 200px black' }}>
+        {pathname.includes('anime') ? (
+          <Image className="w-full h-full rounded-t-xl" alt="banner" src={animeData.bannerImage} width={1920} height={1080} />
+        ) : (
+          <Link href={`/anime/${animeData.id}`}>
+            <Image className="w-full h-full rounded-t-xl cursor-pointer" alt="banner" src={animeData.bannerImage} width={1920} height={1080} />
+          </Link>
+        )}
+        <h3 className="absolute bottom-3 left-3 font-bold drop-shadow-[0_0_7px_rgb(0_0_0)]"> {animeData.title.romaji} </h3>
         {userAnimeData ? (
           userAnimeData.favorite === true ? (
             <FaHeart
-              className="absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer"
-              onClick={() => setUserAnimeData((prevState) => ({ ...prevState, favorite: false }))}
+              className="z-20 absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer drop-shadow-[0_0_2px_rgb(255_255_255)]"
+              onClick={(e) => {
+                e.stopPropagation();
+                setUserAnimeData((prevState) => ({ ...prevState, favorite: false }));
+              }}
             />
           ) : (
             <FaRegHeart
-              className="absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer"
-              onClick={() => setUserAnimeData((prevState) => ({ ...prevState, favorite: true }))}
+              className="z-20 absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer drop-shadow-[0_0_7px_rgb(0_0_0)]"
+              onClick={(e) => {
+                e.stopPropagation();
+                setUserAnimeData((prevState) => ({ ...prevState, favorite: true }));
+              }}
             />
           )
         ) : (
           <FaRegHeart
-            className="absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer"
-            onClick={() => setUserAnimeData((prevState) => ({ ...prevState, favorite: true }))}
+            className="z-20 absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer drop-shadow-[0_0_7px_rgb(0_0_0)]"
+            onClick={(e) => {
+              e.stopPropagation();
+              setUserAnimeData((prevState) => ({ ...prevState, favorite: true }));
+            }}
           />
         )}
       </div>
-      <div className="flex items-center justify-center h-full w-full p-5">
+      <div className="flex items-center justify-center h-full w-full">
         <form
-          className="flex flex-col flex-wrap items-center justify-center h-56 w-[45rem] gap-9"
+          className="flex flex-col flex-wrap items-center justify-center lg:h-40 w-[37rem] gap-5 mr-10"
           onSubmit={(e) => {
             e.preventDefault();
             addAnimeToUserAnimelist({
@@ -78,21 +100,20 @@ export function AnimeUserSettings({
             });
           }}
         >
-          <InputGroup w={'20rem'}>
-            <InputLeftAddon cursor={'default'} w={'7rem'} h={'3rem'}>
-              {' '}
-              Status{' '}
+          <InputGroup w={'17rem'}>
+            <InputLeftAddon className="flex justify-center h-full cursor-default" w={'7rem'}>
+              Status
             </InputLeftAddon>
             <Select
               roundedLeft={'initial'}
               textColor={'white'}
               cursor={'pointer'}
-              h={'3rem'}
               iconColor="white"
               id="status"
               required
               placeholder={userAnimeData ? userAnimeData.status : 'Follow'}
               defaultValue={userAnimeData ? userAnimeData.status : null}
+              w={'10rem'}
             >
               {Object.keys(animeUserStatus).map((e, i) => (
                 <option key={'select_options' + i} value={animeUserStatus[e].name}>
@@ -102,10 +123,9 @@ export function AnimeUserSettings({
             </Select>
           </InputGroup>
           {Object.keys(animeUserData).map((e, i) => (
-            <InputGroup w={'20rem'} key={'input' + i}>
-              <InputLeftAddon cursor={'default'} w={'7rem'} h={'3rem'}>
-                {' '}
-                {animeUserData[e].title}{' '}
+            <InputGroup w={'17rem'} key={'input' + i}>
+              <InputLeftAddon className="flex justify-center cursor-default" w={'7rem'}>
+                {animeUserData[e].title}
               </InputLeftAddon>
               <Input
                 id={e}
@@ -123,12 +143,12 @@ export function AnimeUserSettings({
                 defaultValue={userAnimeData ? userAnimeData[e] : animeUserData[e].defaultValue}
                 autoComplete="off"
                 textColor={'white'}
-                h={'3rem'}
+                w={'10rem'}
               />
             </InputGroup>
           ))}
           <FaTrashAlt
-            className="absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer"
+            className="absolute left-4 top-4 text-white text-xl hover:text-red-400 cursor-pointer drop-shadow-[0_0_3px_rgb(0_0_0)]"
             onClick={() => removeAnimeFromUserAnimelist({ animeId: animeData.id, toast })}
           />
           <Button
