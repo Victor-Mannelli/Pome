@@ -10,7 +10,6 @@ export function Link({ href, children, replace, ...rest }: Parameters<typeof Nex
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
   const router = useRouter();
-
   if (isPending) {
     return (
       <div className="fixed z-[95] inset-0 w-full h-screen flex flex-col items-center justify-center gap-5 bg-fourth">

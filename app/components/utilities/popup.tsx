@@ -2,10 +2,10 @@ import { Dispatch, ReactNode, SetStateAction } from 'react';
 import React from 'react';
 
 export function PopUp({
-  show,
-  setShow,
-  bg,
   children,
+  setShow,
+  show,
+  bg,
 }: {
   setShow: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;

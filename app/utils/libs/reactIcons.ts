@@ -1,4 +1,16 @@
-import { FaRegHeart, FaHeart, FaUserFriends, FaUserCircle, FaTrashAlt, FaEye, FaEyeSlash, FaEdit } from 'react-icons/fa';
+import {
+  FaSortAmountUpAlt,
+  FaSortAmountDown,
+  FaUserFriends,
+  FaUserCircle,
+  FaRegHeart,
+  FaTrashAlt,
+  FaEyeSlash,
+  FaHeart,
+  FaSort,
+  FaEdit,
+  FaEye,
+} from 'react-icons/fa';
 import { GiMagnifyingGlass, GiBroom, GiExitDoor, GiCakeSlice, GiConfirmed } from 'react-icons/gi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { LiaExpandArrowsAltSolid } from 'react-icons/lia';
@@ -14,13 +26,16 @@ import { CgProfile } from 'react-icons/cg';
 import { RxCross2 } from 'react-icons/rx';
 
 export {
+  FaSortAmountUpAlt,
+  FaSortAmountDown,
   FaUserFriends,
   FaUserCircle,
-  FaEyeSlash,
   FaRegHeart,
   FaTrashAlt,
+  FaEyeSlash,
   FaHeart,
   FaEdit,
+  FaSort,
   FaEye,
   GiMagnifyingGlass,
   GiConfirmed,

@@ -39,3 +39,18 @@ export function applyUnderscoreFilter(data: AnimeData, item: UsersAnimeData, fil
   }
   return true;
 }
+
+export function sortFunction(item: UsersAnimeData, sortScore: 'up' | 'down' | 'none', data: AnimeData) {
+  // console.log(sortScore);
+
+  if (sortScore === 'down') {
+    return item.score;
+  }
+  if (sortScore === 'up') {
+    return -item.score;
+  }
+  if (sortScore === 'none') {
+    const mediaItem = data.Page.media.find((mediaItem) => mediaItem.id === item.anime_id);
+    return mediaItem ? mediaItem.title.romaji : '';
+  }
+}

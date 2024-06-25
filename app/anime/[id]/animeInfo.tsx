@@ -1,4 +1,4 @@
-import { AnimeTags, SingleAnimeDataForSlug, UsersAnimeData } from '@/utils/types';
+import { AnimeTags, SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { animeUserStatus, monthNames } from '@/utils/consts';
 import { FaHeart, FaRegHeart } from '@/utils/libs';
@@ -12,13 +12,13 @@ import React from 'react';
 export function AnimeInfo({
   toggleShowAnimeSettings,
   setUserAnimeData,
-  animeData,
   userAnimeData,
+  animeData,
 }: {
   setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   toggleShowAnimeSettings: () => void;
-  animeData: SingleAnimeDataForSlug;
   userAnimeData: UsersAnimeData;
+  animeData: SingleAnimeData;
 }) {
   const { token } = useContext(TokenContext);
   const toast = useToast();

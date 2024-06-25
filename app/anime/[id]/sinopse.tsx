@@ -1,11 +1,11 @@
 'use client';
 
-import { SingleAnimeDataForSlug } from '@/utils/types';
+import { SingleAnimeData } from '@/utils/types';
 import { useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import React from 'react';
 
-export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeDataForSlug | null; inAnimeInfo: boolean }) {
+export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeData | null; inAnimeInfo: boolean }) {
   const cleanedDescription = DOMPurify.sanitize(animeData?.description || '');
 
   useEffect(() => {
