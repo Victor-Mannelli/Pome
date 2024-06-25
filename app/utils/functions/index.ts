@@ -100,3 +100,54 @@ export function logout({
     isClosable: true,
   });
 }
+
+export function updateUser({
+  data,
+  toast,
+  onClose,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setUser,
+  setLoading,
+}: {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  toast: (options?: UseToastOptions) => void;
+  setUser: Dispatch<SetStateAction<User>>;
+  onClose: () => void;
+  data: UpdateUser;
+}) {
+  setLoading(true);
+  api
+    .patch(`/users/${data.id}`, data)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .then((response) => {
+      // const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
+      // setUser(response);
+      toast({
+        title: 'User updated!',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    })
+    .catch(() => {
+      toast({
+        title: 'Error on user update',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    })
+    .finally(() => {
+      setLoading(false);
+      onClose();
+    });
+}
+
+type UpdateUser = {
+  id: string;
+  banner?: string;
+  avatar?: string;
+  password?: string;
+  email?: string;
+  username?: string;
+};

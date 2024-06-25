@@ -21,23 +21,29 @@ export function Link({ href, children, replace, ...rest }: Parameters<typeof Nex
   }
 
   return (
-    <NextLink
-      href={href}
-      onClick={(e) => {
-        e.preventDefault();
-        startTransition(() => {
-          const url = href.toString();
-          if (pathname === url) return;
-          if (replace) {
-            router.replace(url);
-          } else {
-            router.push(url);
-          }
-        });
-      }}
-      {...rest}
-    >
-      {children}
-    </NextLink>
+    <>
+      {href ? (
+        <NextLink
+          href={href}
+          onClick={(e) => {
+            e.preventDefault();
+            startTransition(() => {
+              const url = href.toString();
+              if (pathname === url) return;
+              if (replace) {
+                router.replace(url);
+              } else {
+                router.push(url);
+              }
+            });
+          }}
+          {...rest}
+        >
+          {children}
+        </NextLink>
+      ) : (
+        <>{children}</>
+      )}
+    </>
   );
 }
