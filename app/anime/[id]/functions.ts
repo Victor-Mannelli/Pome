@@ -55,15 +55,15 @@ export async function removeAnimeFromUserAnimelist({ animeId, toast }: { toast: 
     );
 }
 
-export async function addAnimeToUserAnimelist({
+export async function upsertUserAnimelist({
   setShowAnimeSettings,
   animeUserStats,
   setLoading,
   setData,
   toast,
 }: {
-  setData: Dispatch<SetStateAction<UsersAnimeData>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
+  setData: Dispatch<SetStateAction<UsersAnimeData>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   toast: (options?: UseToastOptions) => void;
   animeUserStats: AnimeUserStatus;
@@ -87,8 +87,8 @@ export async function addAnimeToUserAnimelist({
   api
     .post('/animelist', newData)
     .then((e) => {
-      setData(e.data);
       setShowAnimeSettings(false);
+      setData(e.data);
       toast({
         title: 'Anime status updated!',
         status: 'success',

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from '@chakra-ui/react';
-import { addAnimeToUserAnimelist, removeAnimeFromUserAnimelist } from './functions';
+import { upsertUserAnimelist, removeAnimeFromUserAnimelist } from './functions';
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { SingleAnimeData, UsersAnimeData } from '@/utils/types';
@@ -82,7 +82,7 @@ export function AnimeUserSettings({
           className="flex flex-col flex-wrap items-center justify-center lg:h-40 w-[37rem] gap-5 mr-10"
           onSubmit={(e) => {
             e.preventDefault();
-            addAnimeToUserAnimelist({
+            upsertUserAnimelist({
               animeUserStats: {
                 anime_id: animeData.id,
                 status: e.target['status'].value,

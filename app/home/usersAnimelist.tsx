@@ -1,21 +1,22 @@
 'use client';
 
 import { AnimeData, SingleAnimeData, UsersAnimeData } from '@/utils/types';
-import { ErrorFeedback, FollowedAnimeSkeleton, Link } from '@/components';
+import { ErrorFeedback, FollowedAnimeSkeleton } from '@/components';
 import { getAnimelistQuery } from '@/utils/queries';
 import { Dispatch, SetStateAction } from 'react';
 import { CloseButton } from '@chakra-ui/react';
-import { BiMinus, BiPlus } from '@/utils';
 import { useQuery } from '@apollo/client';
+import { UsersAnime } from './usersAnime';
 import React from 'react';
 
 export function UsersAnimeList({
-  setShowFollowedAnime,
-  usersAnimelist,
-  usersAnimelistFailed,
-  usersAnimelistLoading,
   setUsersAnimelistFailed,
+  usersAnimelistLoading,
+  setShowFollowedAnime,
+  usersAnimelistFailed,
+  setUsersAnimelist,
   getDataFunction,
+  usersAnimelist,
 }: {
   setUsersAnimelist: Dispatch<SetStateAction<UsersAnimeData[] | null>>;
   setUsersAnimelistFailed: Dispatch<SetStateAction<boolean>>;
@@ -53,44 +54,16 @@ export function UsersAnimeList({
         ) : usersAnimelist && usersAnimelist.length > 0 ? (
           usersAnimelist.map((usersAnime: UsersAnimeData) => {
             const animeData = data.Page.media.find((singleAnime: SingleAnimeData) => singleAnime.id === usersAnime.anime_id);
+            const episodeParam = animeData.nextAiringEpisode ? animeData.nextAiringEpisode.episode - 1 : animeData.episodes;
+            if (!animeData.nextAiringEpisode && animeData.episodes === usersAnime.progress) return;
             return (
-              <Link href={`/anime/${usersAnime.anime_id}`} key={usersAnime.anime_id}>
-                <div
-                  className="flex flex-col justify-end w-[7.125rem] h-40 bg-fifth rounded-md bg-cover cursor-pointer hover:shadow-black hover:shadow-inner"
-                  style={{ backgroundImage: `url(${animeData.coverImage.extraLarge})` }}
-                >
-                  <div
-                    className={`flex flex-col justify-center items-center h-fit w-full bg-black bg-opacity-50 rounded-b-md cursor-default
-                    ${animeData.nextAiringEpisode.episode - 1 - usersAnime.progress > 0 ? 'border-b-8 border-signature' : ''}
-                  `}
-                  >
-                    {animeData.nextAiringEpisode.episode - 1 - usersAnime.progress > 0 ? (
-                      <div className="flex items-center gap-5">
-                        <BiMinus
-                          className="text-white text-xl cursor-pointer hover:text-eigth"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            // updateFollowedAnime({ progress: e.progress - 1, animeId: animeData.anime_id, toggle, setToggle })
-                          }}
-                        />
-                        <h3 className="text-white"> {animeData.nextAiringEpisode.episode - 1 - usersAnime.progress} </h3>
-                        <BiPlus
-                          className="text-white text-xl cursor-pointer hover:text-eigth"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            // updateFollowedAnime({ progress: e.progress + 1, animeId: animeData.anime_id, toggle, setToggle })
-                          }}
-                        />
-                      </div>
-                    ) : null}
-                    <h3 className={`text-white ${animeData.nextAiringEpisode.episode - 1 - usersAnime.progress > 0 ? '' : 'py-1'}`}>
-                      {Math.floor(animeData.nextAiringEpisode.timeUntilAiring / 86400)}d{' '}
-                      {Math.floor((animeData.nextAiringEpisode.timeUntilAiring % 86400) / 3600)}h{' '}
-                      {Math.floor((animeData.nextAiringEpisode.timeUntilAiring % 3600) / 60)}m
-                    </h3>
-                  </div>
-                </div>
-              </Link>
+              <UsersAnime
+                episodeParam={episodeParam}
+                setData={setUsersAnimelist}
+                key={usersAnime.anime_id}
+                usersAnime={usersAnime}
+                animeData={animeData}
+              />
             );
           })
         ) : (
