@@ -5,11 +5,11 @@ import { api } from '@/utils/libs/axios';
 import { User } from '@/utils/types';
 
 export function userLogin({
-  login,
-  password,
-  router,
-  setUser,
   setLoading,
+  password,
+  setUser,
+  router,
+  login,
   toast,
 }: {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -23,9 +23,11 @@ export function userLogin({
   api
     .post('/users/login', { login, password })
     .then((response) => {
-      const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
-      setUser(decoded);
+      // const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
+      setUser(response.data.userData);
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('banner', response.data.userData.banner);
+      localStorage.setItem('avatar', response.data.userData.avatar);
       // setCookie(null, "token", response.data.token, {
       //   maxAge: 1 * 60 * 60 * 24, // 24 hrs
       //   path: "/",

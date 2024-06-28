@@ -21,11 +21,11 @@ export function UserDrawer({
 
   return (
     <>
-      <Avatar name={user?.username} onClick={onOpen} cursor={'pointer'} src={user?.avatar} />
+      <Avatar name={user?.username} onClick={onOpen} cursor={'pointer'} src={`data:image/png;base64, ${user?.avatar}`} />
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerContent boxShadow={'0 0 10px rgb(0, 0, 0)'} bgColor={'#2c2e2f'}>
           <DrawerCloseButton onClick={() => setUpdateUser(false)} color={'white'} mt={2} />
-          {updateUser ? (
+          {updateUser && user ? (
             <UpdateUserDrawer
               logout={() => logout({ setToken, setUser, toast })}
               setUpdateUser={setUpdateUser}
@@ -34,7 +34,7 @@ export function UserDrawer({
               user={user}
             />
           ) : (
-            <MobileNavbar user={user} logout={() => logout({ setToken, setUser, toast })} setUpdateUser={setUpdateUser} />
+            <MobileNavbar onClose={onClose} user={user} logout={() => logout({ setToken, setUser, toast })} setUpdateUser={setUpdateUser} />
           )}
         </DrawerContent>
       </Drawer>

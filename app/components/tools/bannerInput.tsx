@@ -1,10 +1,11 @@
 'use client';
 
 import { Dispatch, SetStateAction, useState } from 'react';
+import { User } from '@/utils';
 import Image from 'next/image';
 import React from 'react';
 
-export default function BannerInput({ image, setImage }: { image: string; setImage: Dispatch<SetStateAction<string>> }) {
+export default function BannerInput({ image, setImage, user }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
   const [focus, setFocus] = useState<boolean>(false);
 
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,10 +19,16 @@ export default function BannerInput({ image, setImage }: { image: string; setIma
 
   return (
     <>
-      {image ? (
+      {user?.banner || image ? (
         <div className="flex flex-col">
           <h1 className="mb-3"> Banner </h1>
-          <Image src={image} alt="user_banner" className="rounded-xl h-28" width={1920} height={1080} />
+          <Image
+            src={image ? image : `data:image/png;base64, ${user?.banner}`}
+            className="rounded-xl h-28"
+            alt="user_banner"
+            height={1080}
+            width={1920}
+          />
           <p
             className="mt-1 text-sm hover:cursor-pointer hover:text-fifth underline"
             onClick={() => {

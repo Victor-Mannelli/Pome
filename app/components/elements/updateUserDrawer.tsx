@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import { Box, Button, DrawerBody, DrawerFooter, FormLabel, Input, InputGroup, InputRightElement, Stack, useToast } from '@chakra-ui/react';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Box, DrawerBody, FormLabel, Input, InputGroup, InputRightElement, Stack, useToast } from '@chakra-ui/react';
 import { CgProfile, User, FaEye, FaEyeSlash, GiExitDoor, GiConfirmed, updateUser } from '@/utils';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { ButtonWithIcon } from './buttonWithIcon';
 import BannerInput from '../tools/bannerInput';
-import AvatarInput from '../tools/inputImage';
+import AvatarInput from '../tools/avatarInput';
 
 export function UpdateUserDrawer({
   setUpdateUser,
@@ -31,8 +30,6 @@ export function UpdateUserDrawer({
   const [banner, setBanner] = useState<string>(null);
   const firstField = React.useRef(null);
   const toast = useToast();
-  // const [updateUser, setUpdateUser] = useState<boolean>(false);
-  // const fileTypes = ['png', 'jpeg', 'jpg'];
 
   return (
     <form
@@ -48,8 +45,8 @@ export function UpdateUserDrawer({
           ...(e.target['username'].value && { username: e.target['username'].value }),
           ...(e.target['email'].value && { email: e.target['email'].value }),
           ...(e.target['password'].value && { password: e.target['password'].value }),
-          ...(profilePicture && { avatar: profilePicture }),
-          ...(banner && { banner }),
+          ...(profilePicture && { avatar: profilePicture.toString().replace(/^data:image\/\w+;base64,/, '') }),
+          ...(banner && { banner: banner.toString().replace(/^data:image\/\w+;base64,/, '') }),
         };
         updateUser({ data, toast, onClose, setUser, setLoading });
       }}
@@ -58,7 +55,7 @@ export function UpdateUserDrawer({
         <Stack spacing="20px" h={'full'}>
           <h1 className="mt-3"> Profile Picture (optional) </h1>
           <AvatarInput user={user} image={profilePicture} setImage={setProfilePicture} />
-          <BannerInput image={banner} setImage={setBanner} />
+          <BannerInput user={user} image={banner} setImage={setBanner} />
           <Box>
             <FormLabel htmlFor="username" textColor={'white'} fontWeight={700}>
               Username (optional)

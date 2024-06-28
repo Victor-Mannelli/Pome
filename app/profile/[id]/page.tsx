@@ -46,10 +46,11 @@ export default function Profile() {
     <div className="flex flex-col items-center">
       <div
         className={'flex items-end w-full h-60 mb-2'}
-        style={user?.banner ? { backgroundImage: `url('${user?.banner}')` } : { backgroundColor: '#1e1e1e' }}
+        style={user?.banner ? { backgroundImage: `url('data:image/png;base64, ${user?.banner}')` } : { backgroundColor: '#1e1e1e' }}
+        // style={user?.banner ? { backgroundImage: `url('${user?.banner}')` } : { backgroundColor: '#1e1e1e' }}
       >
         <div className="flex justify-end w-1/4">
-          <Avatar borderRadius={2} h={160} w={137} className="cursor-pointer" src={user ? user.avatar : null} />
+          <Avatar borderRadius={2} h={160} w={137} className="cursor-pointer" src={user ? `data:image/png;base64, ${user.avatar}` : null} />
         </div>
         <h1 className="w-3/4 pl-7 pb-5 text-2xl"> {user?.username[0].toUpperCase() + user?.username.slice(1)} </h1>
       </div>

@@ -60,7 +60,7 @@ export default function Friends() {
                 className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoomAndFriendId.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
                 onClick={() => setWsRoomAndFriendId({ wsRoom: friend.friendship_id, friend_id: friend.user_id })}
               >
-                <Avatar className="rounded-full mr-3" size="sm" src={friend.avatar ? friend.avatar : null} />
+                <Avatar className="rounded-full mr-3" size="sm" src={friend.avatar ? `data:image/png;base64, ${friend.avatar}` : null} />
                 <h1> {friend.username} </h1>
               </div>
             ))

@@ -45,7 +45,7 @@ export function Message({
       {!sameUser ? (
         <div className={`flex ${username === user.username ? 'flex-row-reverse' : ''} items-center justify-between py-2 pr-3`}>
           <div className={`flex ${username === user.username ? 'flex-row-reverse' : ''} items-center gap-3`}>
-            <Avatar className="rounded-full" size="sm" src={avatar ? avatar : null} />
+            <Avatar className="rounded-full" size="sm" src={avatar ? `data:image/png;base64, ${avatar}` : null} />
             <h1 className="font-bold"> {username} </h1>
           </div>
           <div className="flex items-center gap-3">
@@ -58,9 +58,9 @@ export function Message({
       <div className="flex justify-between gap-2 py-1 pr-2">
         <p className="break-all whitespace-pre-line"> {message} </p>
         {/* {Date.now() - Number(timestamp) < 3600000 ? ( */}
-        <MdKeyboardArrowDown 
-          className="text-xl font-bold text-white cursor-pointer" 
-          // onClick={() => deleteMessageWS({ id: messageId })} 
+        <MdKeyboardArrowDown
+          className="text-xl font-bold text-white cursor-pointer"
+          // onClick={() => deleteMessageWS({ id: messageId })}
         />
         {/* ) : null} */}
       </div>

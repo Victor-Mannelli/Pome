@@ -1,6 +1,6 @@
+import { FilterType, User, UsersAnimeData } from '../types';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
-import { FilterType, User, UsersAnimeData } from '../types';
 import { api } from '@/utils/libs/axios';
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number; childWidth: number }) {
@@ -102,32 +102,31 @@ export function logout({
 }
 
 export function updateUser({
-  data,
-  toast,
-  onClose,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setUser,
   setLoading,
+  onClose,
+  setUser,
+  toast,
+  data,
 }: {
+  setUser: Dispatch<SetStateAction<User | unknown>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   toast: (options?: UseToastOptions) => void;
-  setUser: Dispatch<SetStateAction<User>>;
   onClose: () => void;
   data: UpdateUser;
 }) {
   setLoading(true);
   api
-    .patch(`/users/${data.id}`, data)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .patch(`/users`, data)
     .then((response) => {
-      // const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
-      // setUser(response);
+      console.log(response, 'updateuser response');
+      setUser(response);
       toast({
         title: 'User updated!',
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
+      onClose();
     })
     .catch(() => {
       toast({
@@ -139,7 +138,6 @@ export function updateUser({
     })
     .finally(() => {
       setLoading(false);
-      onClose();
     });
 }
 
