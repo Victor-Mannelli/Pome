@@ -1,8 +1,8 @@
 import { ChatMessagetype, FriendRequests, FriendType, StrangersAndFRsType } from './types';
+import { api, bufferToBase64, User } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { api, User } from '@/utils';
 import { Socket } from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
 
 //* FRIEND LIST
 
@@ -176,7 +176,7 @@ export function sendMessageToWS({
           author_id: user.user_id,
           author: {
             username: user.username,
-            avatar: user.avatar,
+            avatar: bufferToBase64(user.avatar),
           },
           receiver_id: wsRoomAndFriendId.friend_id,
           created_at: Date.now().toString(),

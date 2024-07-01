@@ -1,8 +1,8 @@
 'use client';
 
+import { User, FaEdit, bufferToBase64 } from '@/utils';
 import { Avatar, AvatarBadge } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
-import { User, FaEdit } from '@/utils';
 import React from 'react';
 
 export default function AvatarInput({ user, setImage, image }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
@@ -17,7 +17,7 @@ export default function AvatarInput({ user, setImage, image }: { user: User; ima
 
   return (
     <div className="flex flex-col items-center w-full">
-      <Avatar size={'xl'} src={image ? image : `data:image/png;base64, ${user?.avatar}`}>
+      <Avatar size={'xl'} src={image ? image : `data:image/png;base64, ${bufferToBase64(user?.avatar)}`}>
         <AvatarBadge display="relative" pl={1} pt={'1px'} borderColor="#4a4d4e" boxSize="1em" bg="#4a4d4e" className="cursor-pointer">
           <FaEdit className="text-white text-xl cursor-pointer" />
           <label htmlFor="profile_picture" className="absolute -top-2 -left-2 w-10 h-10 cursor-pointer">

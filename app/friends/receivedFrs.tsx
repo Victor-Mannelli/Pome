@@ -5,6 +5,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import { Avatar } from '@chakra-ui/react';
 import { Socket } from 'socket.io-client';
 import { FriendRequests } from './types';
+import { bufferToBase64 } from '@/utils';
 import { Filter } from '@/components';
 
 export function ReceivedFrs({
@@ -21,6 +22,8 @@ export function ReceivedFrs({
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowFriendRequests(false));
+
+  // console.log(filteredFRs);
 
   return (
     <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
@@ -56,7 +59,7 @@ export function ReceivedFrs({
                 }}
               >
                 <div className="flex items-center">
-                  <Avatar size="sm" className="rounded-full mr-2" src={e.requester.avatar} />
+                  <Avatar size="sm" className="rounded-full mr-2" src={`data:image/png;base64, ${bufferToBase64(e.requester.avatar)}`} />
                   <h1 className="cursor-pointer text-lg">{e.requester.username}</h1>
                 </div>
                 <div className="z-10 flex items-center gap-3 text-white hover:text-signature cursor-pointer">

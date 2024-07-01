@@ -41,8 +41,6 @@ export function applyUnderscoreFilter(data: AnimeData, item: UsersAnimeData, fil
 }
 
 export function sortFunction(item: UsersAnimeData, sortScore: 'up' | 'down' | 'none', data: AnimeData) {
-  // console.log(sortScore);
-
   if (sortScore === 'down') {
     return item.score;
   }

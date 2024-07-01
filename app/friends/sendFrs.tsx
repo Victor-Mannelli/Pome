@@ -36,6 +36,7 @@ export function SendFrs({
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowUsers(false));
+  // console.log(strangersList);
 
   return (
     <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
@@ -62,7 +63,7 @@ export function SendFrs({
                   onClick={() => (requestSent ? null : sendFriendRequestToWS({ stranger_id: stranger.user_id, socket, user }))}
                 >
                   <div className="flex items-center">
-                    <Avatar className="rounded-full mr-2" size="sm" src={stranger.avatar ? stranger.avatar : null} />
+                    <Avatar className="rounded-full mr-2" size="sm" src={stranger.avatar ? `data:image/png;base64, ${stranger.avatar}` : null} />
                     <h1> {stranger.username} </h1>
                   </div>
                   <div className="flex items-center gap-3 h-7">

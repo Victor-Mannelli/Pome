@@ -29,6 +29,8 @@ export function TokenProvider({ children }: { children: ReactNode }) {
     setToken(existingToken || null);
   }, []);
 
+  // console.log(user, 'user updated');
+
   useEffect(() => {
     // console.log('Token state updated:', token); // Debugging log
     if (!token) return;
@@ -48,9 +50,9 @@ export function TokenProvider({ children }: { children: ReactNode }) {
     }
   }, [token]);
 
-  useEffect(() => {
-    console.log('User state updated:', user); // Debugging log
-  }, [user]);
+  // useEffect(() => {
+  //   console.log('User state updated:', user); // Debugging log
+  // }, [user]);
 
   return <TokenContext.Provider value={{ user, setUser, token, setToken }}>{children}</TokenContext.Provider>;
 }

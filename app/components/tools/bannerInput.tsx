@@ -1,17 +1,19 @@
 'use client';
 
 import { Dispatch, SetStateAction, useState } from 'react';
-import { User } from '@/utils';
+import { bufferToBase64, User } from '@/utils';
 import Image from 'next/image';
 import React from 'react';
 
 export default function BannerInput({ image, setImage, user }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
+  const [newImage, setNewImage] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
 
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
+      setNewImage(false);
       setImage(reader.result as string);
     };
     reader.readAsDataURL(file);
@@ -19,11 +21,11 @@ export default function BannerInput({ image, setImage, user }: { user: User; ima
 
   return (
     <>
-      {user?.banner || image ? (
+      {(user?.banner || image) && !newImage ? (
         <div className="flex flex-col">
           <h1 className="mb-3"> Banner </h1>
           <Image
-            src={image ? image : `data:image/png;base64, ${user?.banner}`}
+            src={image ? image : `data:image/png;base64, ${bufferToBase64(user?.banner)}`}
             className="rounded-xl h-28"
             alt="user_banner"
             height={1080}
@@ -32,7 +34,7 @@ export default function BannerInput({ image, setImage, user }: { user: User; ima
           <p
             className="mt-1 text-sm hover:cursor-pointer hover:text-fifth underline"
             onClick={() => {
-              setImage(null);
+              setNewImage(true);
               focus === true ? setFocus(false) : '';
             }}
           >
@@ -54,7 +56,6 @@ export default function BannerInput({ image, setImage, user }: { user: User; ima
               name="user_banner"
               onChange={(e) => {
                 handleImageInput(e);
-                // handleChanges(e)
               }}
               onDragEnter={() => setFocus(!focus)}
               onDragLeave={() => setFocus(!focus)}

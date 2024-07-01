@@ -2,9 +2,9 @@
 
 import { useDisclosure, Drawer, DrawerContent, DrawerCloseButton, useToast, Avatar } from '@chakra-ui/react';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { bufferToBase64, logout, User } from '@/utils';
 import { UpdateUserDrawer } from './updateUserDrawer';
 import { MobileNavbar } from './mobileNavbar';
-import { logout, User } from '@/utils';
 
 export function UserDrawer({
   setToken,
@@ -21,7 +21,7 @@ export function UserDrawer({
 
   return (
     <>
-      <Avatar name={user?.username} onClick={onOpen} cursor={'pointer'} src={`data:image/png;base64, ${user?.avatar}`} />
+      <Avatar name={user?.username} onClick={onOpen} cursor={'pointer'} src={`data:image/png;base64, ${bufferToBase64(user?.avatar)}`} />
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerContent boxShadow={'0 0 10px rgb(0, 0, 0)'} bgColor={'#2c2e2f'}>
           <DrawerCloseButton onClick={() => setUpdateUser(false)} color={'white'} mt={2} />

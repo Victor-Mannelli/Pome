@@ -58,8 +58,7 @@ export default function Home() {
           <div className="h-[calc(100vh-20rem)] flex items-center justify-center">
             <ErrorFeedback animeApi={true} loading={animeDataLoading} refreshFunction={() => router.refresh()} />
           </div>
-        ) : // eslint-disable-next-line no-constant-condition
-        animeDataLoading ? (
+        ) : animeDataLoading ? (
           <HomePageAnimesSkeleton page={page} />
         ) : (
           <Animelist animeData={animeData.Page} setPage={setPage} page={page} />

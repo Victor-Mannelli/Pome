@@ -26,8 +26,8 @@ export function userLogin({
       // const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
       setUser(response.data.userData);
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('banner', response.data.userData.banner);
-      localStorage.setItem('avatar', response.data.userData.avatar);
+      localStorage.setItem('banner', response.data.userData.banner?.data);
+      localStorage.setItem('avatar', response.data.userData.avatar?.data);
       // setCookie(null, "token", response.data.token, {
       //   maxAge: 1 * 60 * 60 * 24, // 24 hrs
       //   path: "/",

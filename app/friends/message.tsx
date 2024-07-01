@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
 
-import { MdKeyboardArrowDown, User } from '@/utils';
+import { bufferToBase64, MdKeyboardArrowDown, User } from '@/utils';
 import { deleteMessage } from './functions';
 import { Avatar } from '@chakra-ui/react';
 import React from 'react';
@@ -34,6 +33,7 @@ export function Message({
   const hours = myDate.getHours();
   const minutes = myDate.getMinutes().toString().padStart(2, '0');
   const meridiem = hours >= 12 ? 'PM' : 'AM';
+
   return (
     <div
       id={id}
@@ -45,7 +45,7 @@ export function Message({
       {!sameUser ? (
         <div className={`flex ${username === user.username ? 'flex-row-reverse' : ''} items-center justify-between py-2 pr-3`}>
           <div className={`flex ${username === user.username ? 'flex-row-reverse' : ''} items-center gap-3`}>
-            <Avatar className="rounded-full" size="sm" src={avatar ? `data:image/png;base64, ${avatar}` : null} />
+            <Avatar className="rounded-full" size="sm" src={avatar ? `data:image/png;base64, ${bufferToBase64(avatar)}` : null} />
             <h1 className="font-bold"> {username} </h1>
           </div>
           <div className="flex items-center gap-3">

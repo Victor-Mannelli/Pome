@@ -1,4 +1,4 @@
-import { ImProfile, GiExitDoor, GrDocumentUpdate, User, SiNiconico, FaUser, FaUserPlus } from '@/utils';
+import { ImProfile, GiExitDoor, GrDocumentUpdate, User, SiNiconico, FaUser, FaUserPlus, bufferToBase64 } from '@/utils';
 import { ButtonWithIcon } from './buttonWithIcon';
 import { Dispatch, SetStateAction } from 'react';
 import { Avatar } from '@chakra-ui/react';
@@ -17,7 +17,7 @@ export function MobileNavbar({
   return (
     <div className="flex flex-col items-center w-full gap-2">
       <div className="flex flex-col items-center justify-center pt-16 pb-5 gap-3">
-        <Avatar size={'xl'} src={`data:image/png;base64, ${user?.avatar}`} />
+        <Avatar size={'xl'} src={`data:image/png;base64, ${bufferToBase64(user?.avatar)}`} />
         {user ? <h1 className="text-xl"> {user.username.slice(0, 1).toUpperCase() + user.username.slice(1)} </h1> : null}
       </div>
       {user ? (

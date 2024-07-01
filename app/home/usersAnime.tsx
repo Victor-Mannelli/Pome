@@ -46,8 +46,6 @@ export function UsersAnime({
     debouncedUpdate();
   };
 
-  console.log(animeData.title.romaji, usersAnime.progress);
-
   return (
     <div className="relative flex flex-col justify-end w-[7.125rem] h-40 bg-fifth rounded-md cursor-pointer hover:shadow-black hover:shadow-inner">
       <Link href={`/anime/${usersAnime.anime_id}`}>

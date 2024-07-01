@@ -45,8 +45,8 @@ export function UpdateUserDrawer({
           ...(e.target['username'].value && { username: e.target['username'].value }),
           ...(e.target['email'].value && { email: e.target['email'].value }),
           ...(e.target['password'].value && { password: e.target['password'].value }),
-          ...(profilePicture && { avatar: profilePicture.toString().replace(/^data:image\/\w+;base64,/, '') }),
-          ...(banner && { banner: banner.toString().replace(/^data:image\/\w+;base64,/, '') }),
+          ...(profilePicture && { avatar: profilePicture.toString().replace(/data.*?base64,/, '') }),
+          ...(banner && { banner: banner.toString().replace(/data.*?base64,/, '') }),
         };
         updateUser({ data, toast, onClose, setUser, setLoading });
       }}

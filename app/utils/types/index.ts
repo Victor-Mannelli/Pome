@@ -176,8 +176,8 @@ export type User = {
   user_id: string;
   username: string;
   email: string;
-  banner: string;
-  avatar: string;
+  banner: number[];
+  avatar: number[];
 };
 
 export type FilterType = {

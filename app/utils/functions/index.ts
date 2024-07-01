@@ -118,8 +118,9 @@ export function updateUser({
   api
     .patch(`/users`, data)
     .then((response) => {
-      console.log(response, 'updateuser response');
-      setUser(response);
+      localStorage.setItem('banner', response.data?.banner?.data);
+      localStorage.setItem('avatar', response.data?.avatar?.data);
+      setUser({ ...response.data, avatar: response.data?.avatar?.data, banner: response.data?.banner?.data });
       toast({
         title: 'User updated!',
         status: 'success',
@@ -139,6 +140,16 @@ export function updateUser({
     .finally(() => {
       setLoading(false);
     });
+}
+
+export function bufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
 }
 
 type UpdateUser = {

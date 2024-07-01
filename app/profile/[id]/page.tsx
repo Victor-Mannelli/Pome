@@ -3,9 +3,9 @@
 import { AnimeData, FaSortAmountDown, FaSortAmountUpAlt, FilterType, TokenContext, UsersAnimeData, getAnimelistQuery, FaSort } from '@/utils';
 import { applyUnderscoreFilter, getUsersAnimelist, sortFunction } from './functions';
 import { AnimeFilter, ProfileSkeleton } from '@/components';
+import { bufferToBase64, logout } from '@/utils/functions';
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, useToast } from '@chakra-ui/react';
-import { logout } from '@/utils/functions';
 import { useQuery } from '@apollo/client';
 import { AnimeRow } from './animeRow';
 import _ from 'underscore';
@@ -45,14 +45,19 @@ export default function Profile() {
   ) : usersAnimelist ? (
     <div className="flex flex-col items-center">
       <div
-        className={'flex items-end w-full h-60 mb-2'}
-        style={user?.banner ? { backgroundImage: `url('data:image/png;base64, ${user?.banner}')` } : { backgroundColor: '#1e1e1e' }}
-        // style={user?.banner ? { backgroundImage: `url('${user?.banner}')` } : { backgroundColor: '#1e1e1e' }}
+        className={'flex items-end w-full h-60 mb-2 bg-cover'}
+        style={user?.banner ? { backgroundImage: `url('data:image/png;base64, ${bufferToBase64(user?.banner)}')` } : { backgroundColor: '#1e1e1e' }}
       >
         <div className="flex justify-end w-1/4">
-          <Avatar borderRadius={2} h={160} w={137} className="cursor-pointer" src={user ? `data:image/png;base64, ${user.avatar}` : null} />
+          <Avatar
+            borderRadius={2}
+            h={160}
+            w={137}
+            className="cursor-pointer"
+            src={user ? `data:image/png;base64, ${bufferToBase64(user.avatar)}` : null}
+          />
         </div>
-        <h1 className="w-3/4 pl-7 pb-5 text-2xl"> {user?.username[0].toUpperCase() + user?.username.slice(1)} </h1>
+        <h1 className="w-3/4 pl-7 pb-5 text-2xl"> {user?.username?.[0]?.toUpperCase() + user?.username?.slice(1)} </h1>
       </div>
       <AnimeFilter setFilter={setFilter} showFollowedAnime={true} filter={filter} />
       <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
