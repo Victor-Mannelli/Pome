@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { bufferToBase64, logout, User } from '@/utils';
 import { UpdateUserDrawer } from './updateUserDrawer';
 import { MobileNavbar } from './mobileNavbar';
+import { usePathname } from 'next/navigation';
 
 export function UserDrawer({
   setToken,
@@ -17,6 +18,7 @@ export function UserDrawer({
 }) {
   const [updateUser, setUpdateUser] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const pathname = usePathname();
   const toast = useToast();
 
   return (
@@ -34,7 +36,13 @@ export function UserDrawer({
               user={user}
             />
           ) : (
-            <MobileNavbar onClose={onClose} user={user} logout={() => logout({ setToken, setUser, toast })} setUpdateUser={setUpdateUser} />
+            <MobileNavbar
+              logout={() => logout({ setToken, setUser, toast })}
+              setUpdateUser={setUpdateUser}
+              pathname={pathname}
+              onClose={onClose}
+              user={user}
+            />
           )}
         </DrawerContent>
       </Drawer>

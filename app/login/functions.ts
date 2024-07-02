@@ -23,15 +23,15 @@ export function userLogin({
   api
     .post('/users/login', { login, password })
     .then((response) => {
-      // const decoded = JSON.parse(Buffer.from(response.data.token.split('.')[1], 'base64').toString());
-      setUser(response.data.userData);
+      setUser({
+        token: response.data.token,
+        ...response.data.userData,
+        avatar: response.data.userData.avatar?.data,
+        banner: response.data.userData.banner?.data,
+      });
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('banner', response.data.userData.banner?.data);
       localStorage.setItem('avatar', response.data.userData.avatar?.data);
-      // setCookie(null, "token", response.data.token, {
-      //   maxAge: 1 * 60 * 60 * 24, // 24 hrs
-      //   path: "/",
-      // });
       router.push('/');
       toast({
         title: 'Logged In!',

@@ -18,9 +18,9 @@ export default function Login() {
     userLogin({
       login: e.target['username'].value,
       password: e.target['password'].value,
-      router,
-      setUser,
       setLoading,
+      setUser,
+      router,
       toast,
     });
   }

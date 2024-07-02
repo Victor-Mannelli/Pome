@@ -5,6 +5,7 @@ import { Avatar } from '@chakra-ui/react';
 
 export function MobileNavbar({
   setUpdateUser,
+  pathname,
   onClose,
   logout,
   user,
@@ -12,6 +13,7 @@ export function MobileNavbar({
   setUpdateUser: Dispatch<SetStateAction<boolean>>;
   onClose: () => void;
   logout: () => void;
+  pathname: string;
   user: User;
 }) {
   return (
@@ -22,8 +24,20 @@ export function MobileNavbar({
       </div>
       {user ? (
         <>
-          <ButtonWithIcon href={'/'} Icon={SiNiconico} title={'Home'} className="w-72 hover:bg-fourthAndAHalf" />
-          <ButtonWithIcon href={`/profile/${user?.user_id}`} Icon={ImProfile} title={'Profile'} className="w-72 hover:bg-fourthAndAHalf" />
+          <ButtonWithIcon
+            className="w-72 hover:bg-fourthAndAHalf"
+            href={pathname === '/' ? null : '/'}
+            onClick={onClose}
+            Icon={SiNiconico}
+            title={'Home'}
+          />
+          <ButtonWithIcon
+            href={pathname === `/profile/${user?.user_id}` ? null : `/profile/${user?.user_id}`}
+            className="w-72 hover:bg-fourthAndAHalf"
+            onClick={onClose}
+            title={'Profile'}
+            Icon={ImProfile}
+          />
           <ButtonWithIcon
             className="w-72 hover:bg-fourthAndAHalf"
             onClick={() => setUpdateUser(true)}
@@ -35,7 +49,10 @@ export function MobileNavbar({
             className="w-72 hover:bg-fourthAndAHalf"
             href={`/profile/${user?.user_id}`}
             Icon={GiExitDoor}
-            onClick={logout}
+            onClick={() => {
+              onClose();
+              logout();
+            }}
             title={'Exit'}
           />
         </>
