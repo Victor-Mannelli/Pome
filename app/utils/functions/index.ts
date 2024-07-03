@@ -1,6 +1,7 @@
 import { FilterType, User, UsersAnimeData } from '../types';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
+import { saveDataInIndexDB } from '../indexDB';
 import { api } from '@/utils/libs/axios';
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number; childWidth: number }) {
@@ -12,11 +13,11 @@ export function calculatePadding({ parentWidth, childWidth }: { parentWidth: num
 }
 
 export function addAnimeUserStatus({
-  body,
   setShowAnimeSettings,
   setLoading,
   setFailed,
   toast,
+  body,
 }: {
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -50,15 +51,15 @@ export function addAnimeUserStatus({
 }
 
 export async function getUsersFollewedAnime({
-  setData,
   setLoading,
   setFailed,
   setFilter,
+  setData,
 }: {
   setData: Dispatch<SetStateAction<UsersAnimeData[] | null>>;
+  setFilter: Dispatch<SetStateAction<FilterType>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
-  setFilter: Dispatch<SetStateAction<FilterType>>;
 }) {
   setLoading(true);
   api
@@ -75,9 +76,9 @@ export async function getUsersFollewedAnime({
 
 export function getDateAsYYYYMMDD() {
   const currentDate = new Date();
-  const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1 and pad with leading zero
   const day = String(currentDate.getDate()).padStart(2, '0'); // Pad day with leading zero
+  const year = currentDate.getFullYear();
 
   return `${year}-${month}-${day}`;
 }
@@ -118,9 +119,9 @@ export function updateUser({
   api
     .patch(`/users`, data)
     .then((response) => {
-      localStorage.setItem('banner', response.data?.banner?.data);
-      localStorage.setItem('avatar', response.data?.avatar?.data);
-      setUser({ ...response.data, avatar: response.data?.avatar?.data, banner: response.data?.banner?.data });
+      setUser({ ...response.data, avatar: response.data.avatar?.data, banner: response.data.banner?.data });
+      saveDataInIndexDB('banner', response.data.banner?.data);
+      saveDataInIndexDB('avatar', response.data.avatar?.data);
       toast({
         title: 'User updated!',
         status: 'success',
