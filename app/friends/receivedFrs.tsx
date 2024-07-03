@@ -23,7 +23,7 @@ export function ReceivedFrs({
 
   useOnClickOutside(ref, () => setShowFriendRequests(false));
 
-  // console.log(filteredFRs);
+  console.log(filteredFRs);
 
   return (
     <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
@@ -59,11 +59,11 @@ export function ReceivedFrs({
                 }}
               >
                 <div className="flex items-center">
-                  <Avatar size="sm" className="rounded-full mr-2" src={`data:image/png;base64, ${bufferToBase64(e.requester.avatar)}`} />
+                  <Avatar size="sm" className="rounded-full mr-2" src={`data:image/png;base64, ${bufferToBase64(e.requester.avatar.data)}`} />
                   <h1 className="cursor-pointer text-lg">{e.requester.username}</h1>
                 </div>
                 <div className="z-10 flex items-center gap-3 text-white hover:text-signature cursor-pointer">
-                  {/* <p className="cursor-pointer hover:text-inherit"> Accept </p> */}
+                  {/* <p className="cursor-pointer hover:text-inherit font-bold"> Accept </p> */}
                   <FiUserPlus className="text-2xl pr-1" />
                 </div>
               </div>

@@ -8,7 +8,7 @@ import { Avatar, CloseButton } from '@chakra-ui/react';
 import { FiUserPlus, RxCross2 } from '@/utils/libs';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Socket } from 'socket.io-client';
-import { User } from '@/utils';
+import { bufferToBase64, User } from '@/utils';
 
 export function SendFrs({
   setStrangersAndFRsFailed,
@@ -63,7 +63,11 @@ export function SendFrs({
                   onClick={() => (requestSent ? null : sendFriendRequestToWS({ stranger_id: stranger.user_id, socket, user }))}
                 >
                   <div className="flex items-center">
-                    <Avatar className="rounded-full mr-2" size="sm" src={stranger.avatar ? `data:image/png;base64, ${stranger.avatar}` : null} />
+                    <Avatar
+                      src={stranger.avatar ? `data:image/png;base64, ${bufferToBase64(stranger.avatar?.data)}` : null}
+                      className="rounded-full mr-2"
+                      size="sm"
+                    />
                     <h1> {stranger.username} </h1>
                   </div>
                   <div className="flex items-center gap-3 h-7">

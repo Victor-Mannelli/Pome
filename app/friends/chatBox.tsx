@@ -91,7 +91,7 @@ export function ChatBox({ wsRoomAndFriendId, user }: { wsRoomAndFriendId: { wsRo
           autoSize={true}
           placeholder="Message"
           onChange={(e) => setMessage(e.target.value)}
-          className="w-[100%] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 resize-none"
+          className="w-[100%] outline-none border-none bg-fifth placeholder:text-white text-white rounded-lg pl-4 pr-9 py-3 min-h-12 resize-none"
         />
       </div>
     </div>

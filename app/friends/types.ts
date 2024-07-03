@@ -26,7 +26,9 @@ export type StrangersAndFRsType = {
 export type FriendType = {
   user_id: string;
   username: string;
-  avatar?: string;
+  avatar?: {
+    data: number[];
+  };
 };
 export type FriendRequests = {
   friend_request_id: number;
@@ -34,7 +36,9 @@ export type FriendRequests = {
   requester: {
     user_id: string;
     username: string;
-    avatar: string | null;
+    avatar: {
+      data: number[];
+    };
   };
 };
 //* Friend Requests
@@ -45,7 +49,9 @@ export type FriendShip = {
   friendship_id: string;
   user_id: string;
   username: string;
-  avatar: string | null;
+  avatar: {
+    data: number[];
+  };
 };
 
 //* Messages
