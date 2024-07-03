@@ -1,3 +1,4 @@
+import { saveDataInIndexDB } from '@/utils/indexDB';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
@@ -30,8 +31,8 @@ export function userLogin({
         banner: response.data.userData.banner?.data,
       });
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('banner', response.data.userData.banner?.data);
-      localStorage.setItem('avatar', response.data.userData.avatar?.data);
+      saveDataInIndexDB('banner', response.data.userData.banner?.data);
+      saveDataInIndexDB('avatar', response.data.userData.avatar?.data);
       router.push('/');
       toast({
         title: 'Logged In!',
@@ -42,7 +43,7 @@ export function userLogin({
     })
     .catch(() => {
       toast({
-        title: 'Error on login, API is possibly offline!',
+        title: 'Error on login',
         status: 'error',
         duration: 5000,
         isClosable: true,

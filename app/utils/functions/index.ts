@@ -95,6 +95,8 @@ export function logout({
   localStorage.removeItem('token');
   setUser(null);
   setToken(null);
+  saveDataInIndexDB('avatar', null);
+  saveDataInIndexDB('banner', null);
   toast({
     title: 'logged out!',
     status: 'success',

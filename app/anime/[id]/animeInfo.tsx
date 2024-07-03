@@ -22,7 +22,6 @@ export function AnimeInfo({
 }) {
   const { token } = useContext(TokenContext);
   const toast = useToast();
-
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-16'}`}>
       {userAnimeData ? (
@@ -122,7 +121,7 @@ export function AnimeInfo({
                 </h3>
                 {animeData.averageScore ? <Stars className="" score={animeData.averageScore} /> : null}
               </div>
-              {animeData.status === 'RELEASING' ? (
+              {animeData.status === 'RELEASING' && animeData.nextAiringEpisode ? (
                 <>
                   <h3 className="w-72 h-6"> Current Episode: {animeData.nextAiringEpisode.episode - 1} </h3>
                   <h3 className="w-72 h-6 text-h-signature">

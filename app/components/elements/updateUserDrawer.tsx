@@ -33,6 +33,7 @@ export function UpdateUserDrawer({
 
   return (
     <form
+      id="updateUser"
       className="h-screen"
       onSubmit={(e) => {
         e.preventDefault();

@@ -95,30 +95,34 @@ export function AnimePageSkeleton() {
 export function ProfileSkeleton() {
   return (
     <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col items-center h-full">
         <div className="relative w-full h-60">
           <Skeleton key="banner" className="w-full h-full" />
-          <Skeleton key="pfp" className="absolute bottom-0 left-32 h-40 w-32 shadow-fifth shadow" />
-          <Skeleton key="userName" className="absolute bottom-3 left-72 h-6 w-32 shadow-fifth shadow" />
+          <Skeleton key="pfp" className="absolute bottom-0 left-52 h-40 w-32 shadow-fifth shadow" />
+          <Skeleton key="userName" className="absolute bottom-3 left-96 h-6 w-32 shadow-fifth shadow" />
         </div>
-        <div className="flex lg:flex-row flex-col">
-          <div className="flex lg:flex-col flex-row flex-wrap lg:flex-nowrap lg:w-1/5 bg-second p-10 gap-5">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <Skeleton key={'filter' + i} className="shadow-fifth shadow w-48 lg:w-full h-10" />
+        <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
+          <div className="flex flex-wrap items-center justify-center md:flex-row gap-3 py-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={'filter' + i} className="w-[10.5rem] h-9 rounded-sm" />
             ))}
           </div>
-          <div className="flex flex-col items-center w-full lg:w-4/5 h-full pb-7">
-            <div className="flex justify-center gap-3 p-5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Skeleton key={'userAnimeStatus' + i} className="w-32 h-12 rounded-xl" />
-              ))}
-            </div>
-            <div className="flex flex-col w-[calc(100%-2.5rem)] bg-third rounded-2xl p-5 gap-5">
-              {Array.from({ length: 20 }).map((_, i) => (
-                <Skeleton key={'userAnimeList' + i} className="w-full h-8" />
-              ))}
-            </div>
+          <div className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] p-3 w-full hover:bg-second rounded-md cursor-pointer">
+            <Skeleton className="h-8" />
+            <div></div>
+            <Skeleton className="h-8 " />
+            <Skeleton className="h-8 " />
+            <Skeleton className="h-8 " />
           </div>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={'animeRow' + i} className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] px-3 w-full hover:bg-second rounded-md cursor-pointer">
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16 pl-5" />
+              <Skeleton className="h-16 " />
+              <Skeleton className="h-16 " />
+              <Skeleton className="h-16 " />
+            </div>
+          ))}
         </div>
       </div>
     </SkeletonTheme>

@@ -24,15 +24,15 @@ export function TokenProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const existingToken = localStorage.getItem('token');
-    if (token !== existingToken) {
+    if (!token) {
+      const existingToken = localStorage.getItem('token');
       setToken(existingToken || null);
     }
-  }, [token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!token) return;
-
     const fetchData = async () => {
       try {
         const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());

@@ -6,6 +6,7 @@ import { AnimeFilter, ProfileSkeleton } from '@/components';
 import { bufferToBase64, logout } from '@/utils/functions';
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, useToast } from '@chakra-ui/react';
+//? import { useParams } from 'next/navigation';
 import { useQuery } from '@apollo/client';
 import { AnimeRow } from './animeRow';
 import _ from 'underscore';
@@ -24,6 +25,7 @@ export default function Profile() {
     year: null,
   });
   const toast = useToast();
+  //? const { id } = useParams(); slug
   const { loading, error, data } = useQuery<AnimeData>(getAnimelistQuery, {
     variables: {
       quantity: usersAnimelist ? usersAnimelist.length : 0,
@@ -45,7 +47,7 @@ export default function Profile() {
   ) : usersAnimelist ? (
     <div className="flex flex-col items-center">
       <div
-        className={'flex items-end w-full h-60 mb-2 bg-cover'}
+        className={'flex items-end w-full h-60 bg-cover'}
         style={user?.banner ? { backgroundImage: `url('data:image/png;base64, ${bufferToBase64(user?.banner)}')` } : { backgroundColor: '#1e1e1e' }}
       >
         <div className="flex justify-end w-1/4">
@@ -57,10 +59,10 @@ export default function Profile() {
             src={user ? `data:image/png;base64, ${bufferToBase64(user.avatar)}` : null}
           />
         </div>
-        <h1 className="w-3/4 pl-7 pb-5 text-2xl"> {user?.username?.[0]?.toUpperCase() + user?.username?.slice(1)} </h1>
+        <h1 className="w-3/4 pl-7 pb-3 text-2xl"> {user?.username?.[0]?.toUpperCase() + user?.username?.slice(1)} </h1>
       </div>
-      <AnimeFilter setFilter={setFilter} showFollowedAnime={true} filter={filter} />
       <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
+        <AnimeFilter setFilter={setFilter} showFollowedAnime={true} filter={filter} />
         <div className="grid grid-cols-[6%_58.72%_11%_11%_13.28%] w-full p-3">
           <h3 className="text-center break-all font-bold"> Title </h3>
           <div></div>
