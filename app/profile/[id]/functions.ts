@@ -1,12 +1,12 @@
-import { AnimeData, FilterType, UsersAnimeData, airingStatusOptions, api } from '@/utils';
+import { AnimeData, FilterType, ProfilePageSlugObject, UsersAnimeData, airingStatusOptions, api } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 
 export async function getUsersAnimelist({
-  setData,
   setLoading,
   setFailed,
+  setData,
 }: {
-  setData: Dispatch<SetStateAction<UsersAnimeData[] | null>>;
+  setData: Dispatch<SetStateAction<ProfilePageSlugObject | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setFailed: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -14,9 +14,33 @@ export async function getUsersAnimelist({
   api
     .get('/animelist')
     .then((e) => {
-      setData(e.data);
+      setData((prevState) => ({ ...prevState, usersAnimelist: e.data }));
     })
     .catch(() => {
+      setFailed(true);
+    })
+    .finally(() => setLoading(false));
+}
+
+export async function getUserProfileById({
+  setLoading,
+  setFailed,
+  setData,
+  userId,
+}: {
+  setData: Dispatch<SetStateAction<ProfilePageSlugObject | null>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setFailed: Dispatch<SetStateAction<boolean>>;
+  userId: string | string[];
+}) {
+  setLoading(true);
+  api
+    .get(`/users/find/${userId}`)
+    .then((e) => {
+      setData(e.data);
+    })
+    .catch((e) => {
+      console.log(e, 'error');
       setFailed(true);
     })
     .finally(() => setLoading(false));

@@ -11,6 +11,13 @@ export type UsersAnimeData = {
   favorite: boolean;
 };
 
+export type ProfilePageSlugObject = {
+  username: string;
+  avatar: { data: number[] };
+  banner: { data: number[] };
+  usersAnimelist: UsersAnimeData[];
+};
+
 export type AnimeData = {
   Page: AnimeCatalogData;
 };

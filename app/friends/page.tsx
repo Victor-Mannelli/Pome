@@ -1,12 +1,12 @@
 'use client';
 
-import { ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton } from '@/components';
+import { ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 import React, { useContext, useEffect, useState } from 'react';
+import { bufferToBase64, TokenContext } from '@/utils';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
 import { Avatar } from '@chakra-ui/react';
-import { TokenContext } from '@/utils';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
 
@@ -60,7 +60,13 @@ export default function Friends() {
                 className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoomAndFriendId.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
                 onClick={() => setWsRoomAndFriendId({ wsRoom: friend.friendship_id, friend_id: friend.user_id })}
               >
-                <Avatar className="rounded-full mr-3" size="sm" src={friend.avatar ? `data:image/png;base64, ${friend.avatar}` : null} />
+                <Link href={`profile/${friend.user_id}`}>
+                  <Avatar
+                    className="rounded-full mr-3"
+                    size="sm"
+                    src={friend.avatar ? `data:image/png;base64, ${bufferToBase64(friend.avatar)}` : null}
+                  />
+                </Link>
                 <h1> {friend.username} </h1>
               </div>
             ))
