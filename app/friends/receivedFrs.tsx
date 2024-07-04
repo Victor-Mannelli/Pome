@@ -58,7 +58,7 @@ export function ReceivedFrs({
                 }}
               >
                 <div className="flex items-center">
-                  <Avatar size="sm" className="rounded-full mr-2" src={`data:image/png;base64, ${bufferToBase64(e.requester.avatar.data)}`} />
+                  <Avatar size="sm" className="rounded-full mr-2" src={`data:image/png;base64, ${bufferToBase64(e.requester.avatar)}`} />
                   <h1 className="cursor-pointer text-lg">{e.requester.username}</h1>
                 </div>
                 <div className="z-10 flex items-center gap-3 text-white hover:text-signature cursor-pointer">

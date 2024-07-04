@@ -24,6 +24,7 @@ export default function Friends() {
   useEffect(() => {
     if (user) setWsRoomAndFriendId({ wsRoom: user.user_id, friend_id: user.user_id });
   }, [user]);
+  // console.log(friendlist);
 
   return (
     <div className="flex m-5 gap-5 h-[calc(100vh-6rem)]">
@@ -57,14 +58,14 @@ export default function Friends() {
             friendlist.map((friend: FriendShip, i: number) => (
               <div
                 key={i}
-                className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoomAndFriendId.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
+                className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoomAndFriendId?.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
                 onClick={() => setWsRoomAndFriendId({ wsRoom: friend.friendship_id, friend_id: friend.user_id })}
               >
                 <Link href={`profile/${friend.user_id}`}>
                   <Avatar
                     className="rounded-full mr-3"
                     size="sm"
-                    src={friend.avatar ? `data:image/png;base64, ${bufferToBase64(friend.avatar)}` : null}
+                    src={friend.avatar ? `data:image/png;base64, ${bufferToBase64(friend.avatar.data)}` : null}
                   />
                 </Link>
                 <h1> {friend.username} </h1>

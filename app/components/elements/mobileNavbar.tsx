@@ -1,4 +1,4 @@
-import { ImProfile, GiExitDoor, GrDocumentUpdate, User, SiNiconico, FaUser, FaUserPlus, bufferToBase64 } from '@/utils';
+import { ImProfile, GiExitDoor, GrDocumentUpdate, User, SiNiconico, FaUser, FaUserPlus, bufferToBase64, FaUserFriends } from '@/utils';
 import { ButtonWithIcon } from './buttonWithIcon';
 import { Dispatch, SetStateAction } from 'react';
 import { Avatar } from '@chakra-ui/react';
@@ -37,6 +37,13 @@ export function MobileNavbar({
             onClick={onClose}
             title={'Profile'}
             Icon={ImProfile}
+          />
+          <ButtonWithIcon
+            href={pathname === '/friends' ? null : '/friends'}
+            className="w-72 hover:bg-fourthAndAHalf"
+            onClick={onClose}
+            title={'Friends'}
+            Icon={FaUserFriends}
           />
           <ButtonWithIcon
             className="w-72 hover:bg-fourthAndAHalf"
