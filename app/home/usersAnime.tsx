@@ -26,12 +26,13 @@ export function UsersAnime({
   const debouncedUpdate = useDebounceCallback(() => {
     if (progressRef.current === 0) return;
     updateUserProgress({
+      status: animeData.episodes && usersAnime.progress + progressRef.current === animeData.episodes ? 'Finished' : null,
       progress: usersAnime.progress + progressRef.current,
       anime_id: animeData.id,
       toast,
     });
     progressRef.current = 0;
-  }, 4000);
+  }, 5000);
 
   const handleProgressChange = (change: number) => {
     progressRef.current += change;

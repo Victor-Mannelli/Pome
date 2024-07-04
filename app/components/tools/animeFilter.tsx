@@ -3,7 +3,7 @@
 import { airingStatusOptions, animeYearOptions, genres } from '@/utils/consts';
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { ShowFollowedAnime } from '@/home/showFollowedAnime';
-import { PomeSelect } from '../utilities/pomeSelect';
+import { PomeSelect } from './pomeSelect';
 import { useDebounceCallback } from 'usehooks-ts';
 import { GiMagnifyingGlass } from '@/utils/libs';
 import { FilterType } from '@/utils/types';

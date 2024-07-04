@@ -22,8 +22,7 @@ export function ReceivedFrs({
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowFriendRequests(false));
-
-  console.log(filteredFRs);
+  // console.log(filteredFRs);
 
   return (
     <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">

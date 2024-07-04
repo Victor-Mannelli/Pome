@@ -1,7 +1,7 @@
 'use client';
 
-import { LoadingOverlay, Navbar } from './components/elements';
 import { redirect, usePathname } from 'next/navigation';
+import { Navbar } from './components/elements';
 import { Providers } from './utils/providers';
 import { Inter } from 'next/font/google';
 import React, { useEffect } from 'react';
@@ -27,7 +27,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className={inter.className}>
         <Providers>
-          <LoadingOverlay />
           <Navbar />
           {children}
         </Providers>

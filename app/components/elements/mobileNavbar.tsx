@@ -34,7 +34,7 @@ export function MobileNavbar({
           <ButtonWithIcon
             href={pathname === `/profile/${user?.user_id}` ? null : `/profile/${user?.user_id}`}
             className="w-72 hover:bg-fourthAndAHalf"
-            // onClick={onClose}
+            onClick={onClose}
             title={'Profile'}
             Icon={ImProfile}
           />

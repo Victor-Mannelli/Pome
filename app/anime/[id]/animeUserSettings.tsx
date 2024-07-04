@@ -42,7 +42,9 @@ export function AnimeUserSettings({
       />
       <div className={'relative rounded-t-xl h-60 w-full bg-cover flex items-end bg-right'} style={{ boxShadow: 'inset 0 0 200px black' }}>
         <Link href={pathname.includes('anime') ? null : `/anime/${animeData.id}`}>
-          <Image className="w-full h-full rounded-t-xl" alt="banner" src={animeData.bannerImage} width={1920} height={1080} />
+          {animeData.bannerImage ? (
+            <Image className="w-full h-full rounded-t-xl" alt="banner" src={animeData.bannerImage} width={1920} height={1080} />
+          ) : null}
         </Link>
         <h3 className="absolute bottom-3 left-3 font-bold drop-shadow-[0_0_7px_rgb(0_0_0)]"> {animeData.title.romaji} </h3>
         {userAnimeData ? (

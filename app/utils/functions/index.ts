@@ -12,44 +12,6 @@ export function calculatePadding({ parentWidth, childWidth }: { parentWidth: num
   return padding || 0;
 }
 
-export function addAnimeUserStatus({
-  setShowAnimeSettings,
-  setLoading,
-  setFailed,
-  toast,
-  body,
-}: {
-  setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setFailed: Dispatch<SetStateAction<boolean>>;
-  toast: (options?: UseToastOptions) => void;
-  body: unknown;
-}) {
-  setLoading(true);
-  api
-    .post('/animes/updateStatus', body)
-    .then(() => {
-      setShowAnimeSettings(false);
-      setFailed(false);
-      toast({
-        title: 'Anime status updated',
-        status: 'success',
-        isClosable: true,
-      });
-    })
-    .catch(() => {
-      setFailed(true);
-      toast({
-        title: 'An error ocurred',
-        status: 'error',
-        isClosable: true,
-      });
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-}
-
 export async function getUsersFollewedAnime({
   setLoading,
   setFailed,

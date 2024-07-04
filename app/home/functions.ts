@@ -4,14 +4,16 @@ import { api } from '@/utils';
 export function updateUserProgress({
   anime_id,
   progress,
+  status,
   toast,
 }: {
   toast: (options?: UseToastOptions) => void;
+  status: string | null;
   anime_id: number;
   progress: number;
 }) {
   api
-    .patch(`/animelist/${anime_id}`, { progress })
+    .patch(`/animelist/${anime_id}`, { progress, status })
     .then(() => {
       toast({
         title: 'Anime status updated!',
