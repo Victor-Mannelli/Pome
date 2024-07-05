@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import { Button, Input, InputGroup, InputLeftAddon, Select, useToast } from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputLeftAddon, useToast } from '@chakra-ui/react';
 import { upsertUserAnimelist, removeAnimeFromUserAnimelist } from './functions';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { animeUserData, animeUserStatus } from '@/utils/consts';
 import { useOnClickOutside } from 'usehooks-ts';
-import { usePathname } from 'next/navigation';
 import { Link, PomeSelect } from '@/components';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
 
@@ -28,12 +27,17 @@ export function AnimeUserSettings({
 }) {
   const [userAnimeStatus, setUserAnimeStatus] = useState<string>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [formKey, setFormKey] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
   const pathname = usePathname();
   const toast = useToast();
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowAnimeSettings(false));
+
+  useEffect(() => {
+    setFormKey((prevKey) => prevKey + 1);
+  }, [userAnimeStatus, userAnimeData, userAnimeDataLoading, animeData]);
 
   return (
     <div
@@ -82,6 +86,7 @@ export function AnimeUserSettings({
       </div>
       <div className="flex items-center justify-center h-full w-full">
         <form
+          key={formKey}
           className="flex flex-col flex-wrap items-center justify-center lg:h-40 w-[37rem] gap-5 mr-10"
           onSubmit={(e) => {
             e.preventDefault();
@@ -116,15 +121,20 @@ export function AnimeUserSettings({
               Status
             </InputLeftAddon>
             <PomeSelect
-              options={Object.keys(animeUserStatus).map((e) => animeUserStatus[e].name)}
+              options={Object.keys(animeUserStatus).reduce((acc, status) => {
+                if (!(animeData.status === 'RELEASING' && status === 'Finished')) {
+                  acc.push(animeUserStatus[status].name);
+                }
+                return acc;
+              }, [])}
               customSelectStyle="w-40 h-10 text-white bg-second rounded-r-md border border-white relative"
               customOptionsStyle="z-[1000000] top-[2.4rem] w-[9.875rem] bg-second"
-              selectionOf={'Follow'}
-              setShow={setShow}
               title={userAnimeStatus ? userAnimeStatus : 'Follow'}
-              show={show}
               clearSelect={() => setUserAnimeStatus(null)}
               onSelect={(e) => setUserAnimeStatus(e)}
+              selectionOf={'Follow'}
+              setShow={setShow}
+              show={show}
             />
           </InputGroup>
           {Object.keys(animeUserData).map((e, i) => (
@@ -141,7 +151,13 @@ export function AnimeUserSettings({
                       : animeData.episodes
                     : animeUserData[e].max
                 }
-                defaultValue={userAnimeData && !userAnimeDataLoading ? userAnimeData[e] : animeUserData[e].defaultValue}
+                defaultValue={
+                  e == 'progress' && userAnimeStatus == 'Finished'
+                    ? animeData.episodes
+                    : userAnimeData && !userAnimeDataLoading
+                      ? userAnimeData[e]
+                      : animeUserData[e].defaultValue
+                }
                 cursor={animeUserData[e].cursor}
                 type={animeUserData[e].type}
                 min={animeUserData[e].min}

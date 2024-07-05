@@ -4,13 +4,14 @@ import { UsersAnimeData, getAnimeQuery, TokenContext, SingleAnimeData, logout } 
 import { PopUp, AnimePageSkeleton, ErrorFeedback } from '@/components';
 import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { maximizeTrailer, getUserAnimeData } from './functions';
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AnimeUserSettings } from './animeUserSettings';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
 import { AnimeInfo } from './animeInfo';
 import { Sinopse } from './sinopse';
+import React from 'react';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
   const { loading, error: dataFailed, data } = useQuery<{ Media: SingleAnimeData }>(getAnimeQuery, { variables: { id: Number(params.id) } });
