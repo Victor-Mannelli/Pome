@@ -11,12 +11,14 @@ import React from 'react';
 
 export function AnimeInfo({
   toggleShowAnimeSettings,
+  userAnimeDataLoading,
   setUserAnimeData,
   userAnimeData,
   animeData,
 }: {
   setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   toggleShowAnimeSettings: () => void;
+  userAnimeDataLoading: boolean;
   userAnimeData: UsersAnimeData;
   animeData: SingleAnimeData;
 }) {
@@ -24,7 +26,7 @@ export function AnimeInfo({
   const toast = useToast();
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-16'}`}>
-      {userAnimeData ? (
+      {userAnimeData && !userAnimeDataLoading ? (
         userAnimeData.favorite === false ? (
           <FaRegHeart
             className="absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
@@ -90,7 +92,7 @@ export function AnimeInfo({
         <button
           key="coverImageButton"
           className={`flex items-center justify-center w-60 h-9 py-3 rounded-md hover:bg-fifth bg-fourthAndAHalf cursor-pointer font-bold text-lg
-            ${userAnimeData ? animeUserStatus[userAnimeData.status].color : 'text-white'}
+            ${userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].color : 'text-white'}
           `}
           onClick={() => {
             if (!token) {
@@ -104,7 +106,7 @@ export function AnimeInfo({
             toggleShowAnimeSettings();
           }}
         >
-          {userAnimeData ? animeUserStatus[userAnimeData.status].name : 'Follow'}
+          {userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].name : 'Follow'}
         </button>
       </div>
       <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'my-5 mr-5 ml-1'}`}>

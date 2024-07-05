@@ -1,22 +1,13 @@
 'use client';
 
-import {
-  FaSort,
-  AnimeData,
-  FilterType,
-  TokenContext,
-  UsersAnimeData,
-  FaSortAmountDown,
-  FaSortAmountUpAlt,
-  getAnimelistQuery,
-  ProfilePageSlugObject,
-} from '@/utils';
+import { AnimeData, FilterType, TokenContext, UsersAnimeData, getAnimelistQuery, ProfilePageSlugObject } from '@/utils';
 import { applyUnderscoreFilter, getUserProfileById, getUsersAnimelist, sortFunction } from './functions';
+import { FaSort, FaSortAmountDown, FaSortAmountUpAlt } from '@/utils/libs';
 import { AnimeFilter, ProfileSkeleton } from '@/components';
 import { bufferToBase64, logout } from '@/utils/functions';
 import { useContext, useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { Avatar, useToast } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
 import { useQuery } from '@apollo/client';
 import { AnimeRow } from './animeRow';
 import _ from 'underscore';
@@ -34,21 +25,20 @@ export default function Profile() {
     genres: null,
     year: null,
   });
-  const toast = useToast();
-  const { id } = useParams();
   const { loading, error, data } = useQuery<AnimeData>(getAnimelistQuery, {
     variables: {
       quantity: profileData ? profileData?.usersAnimelist?.length : 0,
       id_in: profileData ? profileData?.usersAnimelist?.map((anime: UsersAnimeData) => anime.anime_id) : [],
     },
   });
+  const { id } = useParams();
+  const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
     if (user?.user_id === id) {
-      console.log('user');
       getUsersAnimelist({ setData: setProfileData, setLoading: setProfileDataLoad, setFailed: setProfileDataFailed });
     } else {
-      console.log('friend');
       getUserProfileById({ setData: setProfileData, setLoading: setProfileDataLoad, setFailed: setProfileDataFailed, userId: id });
     }
   }, [user, id]);
@@ -57,9 +47,12 @@ export default function Profile() {
   const animelist = _.sortBy(filteredAnimelist, (item) => sortFunction(item, sortScore, data));
   const userProfile = user?.user_id === id;
 
-  return profileDataFailed || error ? (
-    logout({ setToken, setUser, toast })
-  ) : profileDataLoad || loading || !profileData ? (
+  if (profileDataFailed || error) {
+    logout({ setToken, setUser, toast });
+    router.push('/');
+  }
+
+  profileDataLoad || loading || !profileData ? (
     <ProfileSkeleton />
   ) : profileData ? (
     <div className="flex flex-col items-center">

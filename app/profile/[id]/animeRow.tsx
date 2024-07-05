@@ -28,10 +28,10 @@ export function AnimeRow({ animeData, anime }: { animeData: SingleAnimeData[]; a
       </div>
       {showAnimeSettings ? (
         <AnimeUserSettings
-          setUserAnimeData={setUserAnimeData}
           setShowAnimeSettings={setShowAnimeSettings}
-          animeData={animeRowData}
+          setUserAnimeData={setUserAnimeData}
           userAnimeData={userAnimeData}
+          animeData={animeRowData}
         />
       ) : null}
     </>
