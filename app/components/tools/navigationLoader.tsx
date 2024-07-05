@@ -15,6 +15,7 @@ export function Link({ href, children, replace, ...rest }: Parameters<typeof Nex
           href={href}
           className="cursor-pointer"
           onClick={(e) => {
+            e.stopPropagation();
             e.preventDefault();
             const url = href.toString();
             if (pathname === url) return;

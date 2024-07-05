@@ -52,7 +52,7 @@ export default function Profile() {
     router.push('/');
   }
 
-  profileDataLoad || loading || !profileData ? (
+  return profileDataLoad || loading || !profileData ? (
     <ProfileSkeleton />
   ) : profileData ? (
     <div className="flex flex-col items-center">
