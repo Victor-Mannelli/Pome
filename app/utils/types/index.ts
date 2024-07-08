@@ -1,6 +1,6 @@
 export type UsersAnimeData = {
   id: number;
-  user_id: number;
+  user_id: string;
   anime_id: number;
   status: string;
   score: number;
@@ -8,7 +8,7 @@ export type UsersAnimeData = {
   rewatches: number;
   start_date: string;
   finish_date: string | null;
-  favorite: boolean;
+  favorite: boolean | null;
 };
 
 export type ProfilePageSlugObject = {

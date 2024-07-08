@@ -1,10 +1,10 @@
 'use client';
 
+import { ProfilePageSlugObject, SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { Button, Input, InputGroup, InputLeftAddon, useToast } from '@chakra-ui/react';
 import { upsertUserAnimelist, removeAnimeFromUserAnimelist } from './functions';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
-import { SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { animeUserData, animeUserStatus } from '@/utils/consts';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Link, PomeSelect } from '@/components';
@@ -16,9 +16,11 @@ export function AnimeUserSettings({
   setShowAnimeSettings,
   userAnimeDataLoading,
   setUserAnimeData,
+  setProfileData,
   userAnimeData,
   animeData,
 }: {
+  setProfileData?: Dispatch<SetStateAction<ProfilePageSlugObject>>;
   setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   setShowAnimeSettings: Dispatch<SetStateAction<boolean>>;
   userAnimeDataLoading?: boolean;
@@ -98,22 +100,30 @@ export function AnimeUserSettings({
               });
               return;
             }
+            const animeUserStats = {
+              anime_id: animeData.id,
+              status: animeData.episodes && Number(animeData.episodes) === Number(e.target['progress']?.value) ? 'Finished' : userAnimeStatus,
+              score: Number(e.target['score']?.value),
+              progress: userAnimeStatus === 'Finished' ? Number(animeData.episodes) : Number(e.target['progress']?.value),
+              rewatches: Number(e.target['rewatches']?.value),
+              startDate: e.target['start_date'].value,
+              finishDate: e.target['finish_date']?.value,
+              favorite: userAnimeData && userAnimeData.favorite,
+            };
             upsertUserAnimelist({
-              animeUserStats: {
-                anime_id: animeData.id,
-                status: animeData.episodes && Number(animeData.episodes) === Number(e.target['progress']?.value) ? 'Finished' : userAnimeStatus,
-                score: Number(e.target['score']?.value),
-                progress: userAnimeStatus === 'Finished' ? Number(animeData.episodes) : Number(e.target['progress']?.value),
-                rewatches: Number(e.target['rewatches']?.value),
-                startDate: e.target['start_date'].value,
-                finishDate: e.target['finish_date']?.value,
-                favorite: userAnimeData && userAnimeData.favorite,
-              },
+              animeUserStats,
               setShowAnimeSettings,
               setData: setUserAnimeData,
               setLoading,
               toast,
             });
+            setProfileData &&
+              setProfileData((prevState) => ({
+                ...prevState,
+                userAnimelist: prevState.usersAnimelist.map((anime) =>
+                  anime.anime_id === animeData.id ? { id: animeData.id, user_id: '', ...animeUserStats } : anime,
+                ),
+              }));
           }}
         >
           <InputGroup w={'17rem'} zIndex={20}>

@@ -65,13 +65,7 @@ export default function Home() {
         )}
       </div>
       {!showFollowedAnime ? (
-        <ShowFollowedAnime
-          setShowFollowedAnime={setShowFollowedAnime}
-          showFollowedAnime={showFollowedAnime}
-          mobile={false}
-          // toast={toast}
-          user={user}
-        />
+        <ShowFollowedAnime setShowFollowedAnime={setShowFollowedAnime} showFollowedAnime={showFollowedAnime} mobile={false} user={user} />
       ) : (
         <UsersAnimeList
           setUsersAnimelistFailed={setUsersAnimelistFailed}

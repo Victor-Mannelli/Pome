@@ -16,8 +16,8 @@ export const animeUserStatus: { [key: string]: { name: string; color: string; bg
   },
   Finished: {
     name: 'Finished',
-    color: 'text-[#FFFE00]',
-    bg_color: 'bg-[#FFFE00]',
+    color: 'text-[#fff]',
+    bg_color: 'bg-[#fff]',
   },
   Rewatching: {
     name: 'Re-Watching',

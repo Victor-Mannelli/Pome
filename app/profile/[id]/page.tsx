@@ -107,7 +107,7 @@ export default function Profile() {
         {profileData.usersAnimelist && profileData.usersAnimelist.length > 0 ? (
           animelist.map((anime: UsersAnimeData) => {
             const animeData = data.Page.media.find((animeData) => animeData.id === anime.anime_id);
-            return <AnimeRow key={anime.anime_id} animeData={animeData} anime={anime} />;
+            return <AnimeRow key={anime.anime_id} animeData={animeData} anime={anime} setProfileData={setProfileData} />;
           })
         ) : (
           <div className="w-full h-fit p-5 rounded-md bg-third">
