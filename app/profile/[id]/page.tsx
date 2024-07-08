@@ -84,7 +84,7 @@ export default function Profile() {
         </h1>
       </div>
       <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
-        <AnimeFilter setFilter={setFilter} showFollowedAnime={true} filter={filter} />
+        <AnimeFilter profile={true} setFilter={setFilter} showFollowedAnime={true} filter={filter} />
         <div className="grid grid-cols-[6%_58.72%_11%_11%_13.28%] w-full p-3">
           <h3 className="text-center break-all font-bold"> Title </h3>
           <div></div>
@@ -106,7 +106,7 @@ export default function Profile() {
         </div>
         {profileData.usersAnimelist && profileData.usersAnimelist.length > 0 ? (
           animelist.map((anime: UsersAnimeData) => {
-            const animeData = data.Page.media;
+            const animeData = data.Page.media.find((animeData) => animeData.id === anime.anime_id);
             return <AnimeRow key={anime.anime_id} animeData={animeData} anime={anime} />;
           })
         ) : (

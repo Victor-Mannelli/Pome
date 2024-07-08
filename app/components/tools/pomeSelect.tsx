@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
+import { airingStatusOptions, animeUserStatus } from '@/utils/consts';
 import { MdKeyboardArrowDown, IoCloseSharp } from '@/utils/libs';
 import { Dispatch, SetStateAction, useRef } from 'react';
-import { airingStatusOptions } from '@/utils/consts';
 import { useOnClickOutside } from 'usehooks-ts';
 import React from 'react';
 
@@ -13,19 +12,21 @@ export function PomeSelect({
   selectionOf,
   clearSelect,
   onSelect,
+  profile,
   options,
   setShow,
   title,
   show,
 }: {
   setShow: Dispatch<SetStateAction<boolean>>;
-  onSelect: (e: any) => void;
   options: string[] | number[];
   customOptionsStyle?: string;
   customSelectStyle?: string;
   clearSelect: () => void;
+  onSelect: (e) => void;
   title: string | null;
   selectionOf: string;
+  profile?: boolean;
   show: boolean;
 }) {
   const ref = useRef(null);
@@ -66,7 +67,7 @@ export function PomeSelect({
               onSelect(e);
             }}
           >
-            {selectionOf === 'status' ? airingStatusOptions[e] : e}
+            {selectionOf === 'status' ? (profile ? animeUserStatus[e].name : airingStatusOptions[e]) : e}
           </li>
         ))}
       </ul>

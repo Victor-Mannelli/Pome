@@ -1,10 +1,10 @@
 'use client';
 
-import { airingStatusOptions, animeYearOptions, genres } from '@/utils/consts';
+import { airingStatusOptions, animeUserStatus, animeYearOptions, genres } from '@/utils/consts';
 import { Dispatch, SetStateAction, useContext, useRef, useState } from 'react';
+import { GiMagnifyingGlass, IoCloseSharp } from '@/utils/libs';
 import { ShowFollowedAnime } from '@/home/showFollowedAnime';
 import { useDebounceCallback } from 'usehooks-ts';
-import { GiMagnifyingGlass, IoCloseSharp } from '@/utils/libs';
 import { FilterType } from '@/utils/types';
 import { PomeSelect } from './pomeSelect';
 import { TokenContext } from '@/utils';
@@ -14,12 +14,14 @@ export function AnimeFilter({
   setShowFollowedAnime,
   showFollowedAnime,
   setFilter,
+  profile,
   filter,
 }: {
   setShowFollowedAnime?: Dispatch<SetStateAction<boolean>>;
   setFilter: Dispatch<SetStateAction<FilterType>>;
   showFollowedAnime: boolean;
   filter: FilterType;
+  profile?: boolean;
 }) {
   const [showSelectStatus, setShowSelectStatus] = useState<boolean>(false);
   const [showSelectGenres, setShowSelectGenres] = useState<boolean>(false);
@@ -53,11 +55,12 @@ export function AnimeFilter({
       <PomeSelect
         clearSelect={() => setFilter((prevState: FilterType) => ({ ...prevState, ['status']: null }))}
         onSelect={(e) => setFilter((prevState: FilterType) => ({ ...prevState, ['status']: e }))}
-        title={filter.status ? airingStatusOptions[filter.status] : null}
-        options={Object.keys(airingStatusOptions)}
+        title={filter.status ? (profile ? animeUserStatus[filter.status].name : airingStatusOptions[filter.status]) : null}
+        options={profile ? Object.keys(animeUserStatus) : Object.keys(airingStatusOptions)}
         setShow={setShowSelectStatus}
         show={showSelectStatus}
         selectionOf={'status'}
+        profile={profile}
       />
       <PomeSelect
         clearSelect={() => setFilter((prevState: FilterType) => ({ ...prevState, ['genres']: null }))}

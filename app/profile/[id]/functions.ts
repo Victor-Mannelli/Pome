@@ -1,4 +1,4 @@
-import { AnimeData, FilterType, ProfilePageSlugObject, UsersAnimeData, airingStatusOptions, api } from '@/utils';
+import { AnimeData, FilterType, ProfilePageSlugObject, UsersAnimeData, airingStatusOptions, animeUserStatus, api } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 
 export async function getUsersAnimelist({
@@ -52,7 +52,7 @@ export function applyUnderscoreFilter(data: AnimeData, item: UsersAnimeData, fil
   if (filter.search && !specificAnime.title.romaji.toLowerCase().includes(filter.search.toLowerCase())) {
     return false;
   }
-  if (filter.status && item.status !== airingStatusOptions[filter.status]) {
+  if (filter.status && item.status !== airingStatusOptions[filter.status] && item.status !== animeUserStatus[filter.status].name) {
     return false;
   }
   if (filter.genres && !specificAnime.genres.find((anime) => anime === filter.genres)) {

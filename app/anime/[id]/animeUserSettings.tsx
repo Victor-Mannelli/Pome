@@ -25,7 +25,7 @@ export function AnimeUserSettings({
   userAnimeData: UsersAnimeData;
   animeData: SingleAnimeData;
 }) {
-  const [userAnimeStatus, setUserAnimeStatus] = useState<string>(null);
+  const [userAnimeStatus, setUserAnimeStatus] = useState<string>(userAnimeData?.status);
   const [loading, setLoading] = useState<boolean>(false);
   const [formKey, setFormKey] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export function AnimeUserSettings({
 
   return (
     <div
-      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-full lg:h-[28rem] h-screen bg-second md:rounded-xl md:border border-sixth"
+      className="fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-full lg:h-[28rem] h-screen bg-second md:rounded-xl md:border border-sixth"
       onClick={(e) => e.stopPropagation()}
       ref={ref}
     >
