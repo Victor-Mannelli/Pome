@@ -57,7 +57,7 @@ export default function Profile() {
   ) : profileData ? (
     <div className="flex flex-col items-center">
       <div
-        className={'flex items-end w-full h-60 bg-cover'}
+        className={'flex items-end w-full h-52 sm:h-60 bg-cover'}
         style={
           userProfile
             ? user?.banner
@@ -68,16 +68,16 @@ export default function Profile() {
               : { backgroundColor: '#1e1e1e' }
         }
       >
-        <div className="flex justify-end w-1/4">
+        <div className="flex justify-end sm:w-1/4">
           <Avatar
             borderRadius={2}
-            h={160}
-            w={137}
+            h={[130, 160]}
+            w={[100, 137]}
             className="cursor-pointer"
             src={user ? `data:image/png;base64, ${bufferToBase64(userProfile ? user.avatar : profileData.avatar.data)}` : null}
           />
         </div>
-        <h1 className="w-3/4 pl-7 pb-3 text-2xl">
+        <h1 className="sm:w-3/4 pl-5 sm:pl-7 pb-3 text-xl sm:text-2xl">
           {userProfile
             ? user?.username?.[0]?.toUpperCase() + user?.username?.slice(1)
             : profileData?.username?.[0]?.toUpperCase() + profileData?.username?.slice(1)}
@@ -85,11 +85,11 @@ export default function Profile() {
       </div>
       <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
         <AnimeFilter profile={true} setFilter={setFilter} showFollowedAnime={true} filter={filter} />
-        <div className="grid grid-cols-[6%_58.72%_11%_11%_13.28%] w-full p-3">
+        <div className="grid grid-cols-[10%_39%_16%_19%_16%] sm:grid-cols-[6%_58.72%_11%_11%_13.28%] place-items-center w-full p-1 sm:p-3">
           <h3 className="text-center break-all font-bold"> Title </h3>
           <div></div>
           <div
-            className="flex items-center justify-center gap-1 cursor-pointer [&>*]:cursor-pointer [&>h3]:hover:text-signature"
+            className="flex items-center justify-center cursor-pointer [&>*]:cursor-pointer [&>h3]:hover:text-signature"
             onClick={() => setSortScore((prevState) => (prevState === 'none' ? 'up' : prevState === 'up' ? 'down' : 'none'))}
           >
             <h3 className="text-center font-bold">Score</h3>

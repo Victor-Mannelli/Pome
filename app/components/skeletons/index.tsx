@@ -20,7 +20,7 @@ export function HomePageAnimesSkeleton({ page }: { page: number }) {
   return (
     // <div className="flex flex-col items-center h-full xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[20.2rem]">
     <>
-      <div className="flex flex-wrap gap-4 py-5">
+      <div className="flex flex-wrap gap-4 py-5 w-[20.2rem]">
         {Array.from({ length: 30 }).map((_, i) => (
           <div
             className="flex flex-col justify-end w-[9.6rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover animate-pulse bg-fifth"

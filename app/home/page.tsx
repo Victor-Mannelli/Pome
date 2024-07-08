@@ -48,9 +48,9 @@ export default function Home() {
   }, [filter, setAnimelistTitle]);
 
   return (
-    <div className="relative flex flex-col-reverse justify-center items-center lg:items-start lg:flex-row m-5 lg:gap-10 gap-3">
+    <div className="relative flex flex-col-reverse justify-center items-center lg:items-start lg:flex-row my-5 sm:m-5 lg:gap-10 gap-3">
       <div
-        className={`flex flex-col items-center h-full w-[20.2rem] 
+        className={`flex flex-col items-center h-full w-full
         ${showFollowedAnime ? 'xl:w-[52rem] md:w-[41.4rem]' : 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]'}`}
       >
         <AnimeFilter setShowFollowedAnime={setShowFollowedAnime} showFollowedAnime={showFollowedAnime} setFilter={setFilter} filter={filter} />

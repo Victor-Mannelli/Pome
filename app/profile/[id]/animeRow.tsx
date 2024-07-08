@@ -2,8 +2,9 @@
 
 import { animeUserStatus, ProfilePageSlugObject, SingleAnimeData, UsersAnimeData } from '@/utils';
 import { AnimeUserSettings } from '@/anime/[id]/animeUserSettings';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
+import React from 'react';
 
 export function AnimeRow({
   setProfileData,
@@ -16,23 +17,22 @@ export function AnimeRow({
 }) {
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const [userAnimeData, setUserAnimeData] = useState<UsersAnimeData>(anime);
-
   return (
     <>
       <div
         key={anime.anime_id}
-        className="grid grid-cols-[6%_3%_55.72%_11%_11%_13.28%] px-3 py-1 w-full items-center hover:bg-second rounded-md cursor-pointer text-sm"
+        className="grid grid-cols-[5%_44%_16%_19%_16%] sm:grid-cols-[6%_3%_55.72%_11%_11%_13.28%] sm:px-3 pr-1 py-1 w-full items-center hover:bg-second rounded-md cursor-pointer text-sm"
         onClick={() => setShowAnimeSettings(true)}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.15) 0px -30px 60px -12px inset',
         }}
       >
-        <Image alt="animeCover" src={animeData.coverImage.medium} className="h-[4rem] rounded-sm" width={1920} height={1080} />
+        <Image alt="animeCover" src={animeData.coverImage.medium} className="hidden sm:block h-[4rem] rounded-sm" width={1920} height={1080} />
         <span className={`${animeData.status === 'RELEASING' ? 'bg-[#00FF01]' : ''} rounded-full h-2 w-2 m-auto`}> </span>
         <h3 className="cursor-pointer">{animeData.title.romaji} </h3>
         <h3 className="text-center cursor-pointer"> {anime.score} </h3>
         <h3 className="text-center cursor-pointer"> {anime.progress} </h3>
-        <h3 className={`text-center cursor-pointer font-bold ${animeUserStatus[anime.status].color}`}> {anime.status} </h3>
+        <h3 className={`text-center cursor-pointer text-[13px] sm:text-[14px] font-bold ${animeUserStatus[anime.status].color}`}> {anime.status} </h3>
       </div>
       {showAnimeSettings ? (
         <AnimeUserSettings

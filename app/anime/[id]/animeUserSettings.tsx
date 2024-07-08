@@ -43,14 +43,14 @@ export function AnimeUserSettings({
 
   return (
     <div
-      className="fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-full lg:h-[28rem] h-screen bg-second md:rounded-xl md:border border-sixth"
+      className="fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-full lg:h-[28rem] h-fit bg-second rounded-md md:rounded-xl md:border border-sixth"
       onClick={(e) => e.stopPropagation()}
       ref={ref}
     >
-      <div className={'relative rounded-t-xl h-60 w-full'} style={{ boxShadow: 'inset 0 0 200px black' }}>
+      <div className={'relative rounded-t-xl h-[10.5rem] w-full'} style={{ boxShadow: 'inset 0 0 200px black' }}>
         <Link href={pathname.includes('anime') ? null : `/anime/${animeData.id}`}>
           {animeData.bannerImage ? (
-            <Image className="w-full h-[10.5rem] rounded-t-xl" alt="banner" src={animeData.bannerImage} width={1920} height={1080} />
+            <Image className="w-full h-[10.5rem] rounded-t-md sm:rounded-t-xl" alt="banner" src={animeData.bannerImage} width={1920} height={1080} />
           ) : null}
         </Link>
         <RxCross2
@@ -86,10 +86,10 @@ export function AnimeUserSettings({
           />
         )}
       </div>
-      <div className="flex items-center justify-center h-full w-full">
+      <div className="flex items-center justify-center h-full w-full pb-20 pt-10">
         <form
           key={formKey}
-          className="flex flex-col flex-wrap items-center justify-center lg:h-40 w-[37rem] gap-5 mr-10"
+          className="flex flex-col flex-wrap items-center justify-center lg:h-40 w-[37rem] gap-5 sm:mr-10"
           onSubmit={(e) => {
             e.preventDefault();
             if (!userAnimeStatus) {
