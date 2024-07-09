@@ -68,7 +68,7 @@ export default function Profile() {
               : { backgroundColor: '#1e1e1e' }
         }
       >
-        <div className="flex justify-end sm:w-1/4">
+        <div className="flex justify-end sm:w-1/4 ml-5">
           <Avatar
             borderRadius={2}
             h={[130, 160]}

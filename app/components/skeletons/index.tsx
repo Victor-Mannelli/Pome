@@ -96,10 +96,10 @@ export function ProfileSkeleton() {
   return (
     <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
       <div className="flex flex-col items-center h-full">
-        <div className="relative w-full h-60">
-          <Skeleton key="banner" className="w-full h-full" />
-          <Skeleton key="pfp" className="absolute bottom-0 left-52 h-40 w-32 shadow-fifth shadow" />
-          <Skeleton key="userName" className="absolute bottom-3 left-96 h-6 w-32 shadow-fifth shadow" />
+        <div className="relative flex items-end w-full h-52 sm:h-60">
+          <Skeleton key="banner" className="absolute inset-0" />
+          <Skeleton key="pfp" className="w-[100px] sm:w-[137px] h-[130px] sm:h-40 ml-5 shadow-fifth shadow" />
+          <Skeleton key="userName" className="w-24 h-6 ml-5 sm:ml-7 mb-3 shadow-fifth shadow" />
         </div>
         <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
           <div className="flex flex-wrap items-center justify-center md:flex-row gap-3 py-3">
@@ -110,17 +110,17 @@ export function ProfileSkeleton() {
           <div className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] p-3 w-full hover:bg-second rounded-md cursor-pointer">
             <Skeleton className="h-8" />
             <div></div>
-            <Skeleton className="h-8 " />
-            <Skeleton className="h-8 " />
-            <Skeleton className="h-8 " />
+            <Skeleton className="h-8" />
+            <Skeleton className="h-8" />
+            <Skeleton className="h-8" />
           </div>
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={'animeRow' + i} className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] px-3 w-full hover:bg-second rounded-md cursor-pointer">
               <Skeleton className="h-16" />
               <Skeleton className="h-16 pl-5" />
-              <Skeleton className="h-16 " />
-              <Skeleton className="h-16 " />
-              <Skeleton className="h-16 " />
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16" />
             </div>
           ))}
         </div>
