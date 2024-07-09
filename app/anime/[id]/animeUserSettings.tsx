@@ -1,14 +1,16 @@
 'use client';
 
+import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import { ProfilePageSlugObject, SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { Button, Input, InputGroup, InputLeftAddon, useToast } from '@chakra-ui/react';
 import { upsertUserAnimelist, removeAnimeFromUserAnimelist } from './functions';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { FaHeart, FaRegHeart, FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { animeUserData, animeUserStatus } from '@/utils/consts';
+import { FaTrashAlt, RxCross2 } from '@/utils/libs';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Link, PomeSelect } from '@/components';
+import { FavoriteHeart } from './favoriteHeart';
 import { usePathname } from 'next/navigation';
+import { TokenContext } from '@/utils';
 import Image from 'next/image';
 import React from 'react';
 
@@ -31,6 +33,7 @@ export function AnimeUserSettings({
   const [loading, setLoading] = useState<boolean>(false);
   const [formKey, setFormKey] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
+  const { token } = useContext(TokenContext);
   const pathname = usePathname();
   const toast = useToast();
   const ref = useRef(null);
@@ -58,33 +61,13 @@ export function AnimeUserSettings({
           onClick={() => setShowAnimeSettings(false)}
         />
         <h3 className="absolute bottom-3 left-3 font-bold drop-shadow-[0_0_7px_rgb(0_0_0)]"> {animeData.title.romaji} </h3>
-        {userAnimeData && !userAnimeDataLoading ? (
-          userAnimeData.favorite === true ? (
-            <FaHeart
-              className="z-20 absolute right-1 bottom-4 mr-3 text-2xl text-red-500 hover:cursor-pointer drop-shadow-[0_0_2px_rgb(255_255_255)]"
-              onClick={(e) => {
-                e.stopPropagation();
-                setUserAnimeData((prevState) => ({ ...prevState, favorite: false }));
-              }}
-            />
-          ) : (
-            <FaRegHeart
-              className="z-20 absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer drop-shadow-[0_0_7px_rgb(0_0_0)]"
-              onClick={(e) => {
-                e.stopPropagation();
-                setUserAnimeData((prevState) => ({ ...prevState, favorite: true }));
-              }}
-            />
-          )
-        ) : (
-          <FaRegHeart
-            className="z-20 absolute right-1 bottom-4 mr-3 text-2xl text-white hover:cursor-pointer drop-shadow-[0_0_7px_rgb(0_0_0)]"
-            onClick={(e) => {
-              e.stopPropagation();
-              setUserAnimeData((prevState) => ({ ...prevState, favorite: true }));
-            }}
-          />
-        )}
+        <FavoriteHeart
+          userAnimeDataLoading={userAnimeDataLoading}
+          setUserAnimeData={setUserAnimeData}
+          userAnimeData={userAnimeData}
+          token={token}
+          toast={toast}
+        />
       </div>
       <div className="flex items-center justify-center h-full w-full pb-20 pt-10">
         <form

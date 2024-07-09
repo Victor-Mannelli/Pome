@@ -38,7 +38,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
     logout({ setToken, setUser, toast });
     router.push('/');
   }
-
+  console.log(data?.Media?.bannerImage);
   return (
     <>
       {dataFailed ? (
@@ -50,7 +50,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
       ) : (
         <div className="flex flex-col items-center w-full mb-5">
           {data.Media.bannerImage ? (
-            <div className={'w-full h-80 bg-cover bg-center'} style={{ backgroundImage: `url(${data.Media.bannerImage})` }}></div>
+            <div className={'w-full h-52 sm:h-80 bg-cover bg-center'} style={{ backgroundImage: `url(${data.Media.bannerImage})` }}></div>
           ) : null}
           <AnimeInfo
             toggleShowAnimeSettings={() => setShowAnimeSettings(!showAnimeSettings)}

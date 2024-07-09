@@ -7,7 +7,7 @@ import React from 'react';
 
 export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeData | null; inAnimeInfo: boolean }) {
   const cleanedDescription = DOMPurify.sanitize(animeData?.description || '');
-
+  // AI = animeInfo && PG = page
   useEffect(() => {
     const sinopseDiv = document.getElementById(inAnimeInfo ? 'sinopseAI' : 'sinopsePG');
     if (sinopseDiv && sinopseDiv.innerHTML !== cleanedDescription) {
@@ -20,7 +20,7 @@ export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeData
       <div
         className={`bg-fourthAndAHalf rounded-xl p-5 text-white
           ${inAnimeInfo ? 'w-full' : 'w-[calc(100%-40px)]'}
-          ${(inAnimeInfo && animeData.bannerImage) || (!inAnimeInfo && !animeData.bannerImage) ? 'hidden' : ''}
+          ${(inAnimeInfo && animeData.bannerImage) || (!inAnimeInfo && !animeData.bannerImage) ? 'block lg:hidden' : 'hidden lg:block'}
         `}
       >
         <h1 className="text-xl font-bold pb-3"> Sinopse </h1>

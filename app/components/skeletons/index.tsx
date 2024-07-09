@@ -20,7 +20,7 @@ export function HomePageAnimesSkeleton({ page }: { page: number }) {
   return (
     // <div className="flex flex-col items-center h-full xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[20.2rem]">
     <>
-      <div className="flex flex-wrap gap-4 py-5 w-[20.2rem]">
+      <div className="flex flex-wrap gap-4 py-5 w-[20.2rem] sm:w-full">
         {Array.from({ length: 30 }).map((_, i) => (
           <div
             className="flex flex-col justify-end w-[9.6rem] h-64 rounded-md cursor-pointer hover:brightness-90 bg-cover animate-pulse bg-fifth"
@@ -81,8 +81,8 @@ export function AnimePageSkeleton() {
             </div>
           </div>
         </div>
-        <div id="description" className="w-[calc(100%-40px)]">
-          <Skeleton className="h-48" />
+        <div id="sinopse" className="w-[calc(100%-40px)]">
+          <Skeleton className="h-72 ms:h-48" />
         </div>
         <div id="trailer" className="w-[calc(100%-40px)] mt-5">
           <Skeleton className="h-96" />
