@@ -1,4 +1,4 @@
-import { ChatMessagetype, FriendRequests, FriendType, StrangersAndFRsType } from './types';
+import { ChatMessagetype, FriendRequests, FriendShip, FriendType, StrangersAndFRsType } from './types';
 import { api, bufferToBase64, User } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 import { Socket } from 'socket.io-client';
@@ -152,14 +152,14 @@ export function getFriendRequests({ setData }: { setData: Dispatch<SetStateActio
 //* MESSAGES WS
 
 export function sendMessageToWS({
-  wsRoomAndFriendId,
+  wsRoomAndFriend,
   setMessage,
   message,
   socket,
   event,
   user,
 }: {
-  wsRoomAndFriendId: { wsRoom: string; friend_id: string };
+  wsRoomAndFriend: { wsRoom: string; friend_id: string; friend: FriendShip | User };
   event: React.KeyboardEvent<HTMLTextAreaElement>;
   setMessage: Dispatch<SetStateAction<string>>;
   message: string;
@@ -178,10 +178,10 @@ export function sendMessageToWS({
             username: user.username,
             avatar: bufferToBase64(user.avatar),
           },
-          receiver_id: wsRoomAndFriendId.friend_id,
+          receiver_id: wsRoomAndFriend.friend_id,
           created_at: Date.now().toString(),
         },
-        room: wsRoomAndFriendId.wsRoom,
+        room: wsRoomAndFriend.wsRoom,
       });
       setMessage('');
     }

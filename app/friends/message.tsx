@@ -44,7 +44,7 @@ export function Message({
     >
       {!sameUser ? (
         <div className={`flex ${username === user.username ? 'flex-row-reverse' : ''} items-center justify-between py-2 pr-3`}>
-          <div className={`flex ${username === user.username ? 'flex-row-reverse' : ''} items-center gap-3`}>
+          <div className={`hidden sm:flex ${username === user.username ? 'flex-row-reverse' : ''} items-center gap-3`}>
             <Avatar className="rounded-full" size="sm" src={avatar ? `data:image/png;base64, ${avatar}` : null} />
             <h1 className="font-bold"> {username} </h1>
           </div>

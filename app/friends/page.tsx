@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { bufferToBase64, TokenContext } from '@/utils';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
 import { Avatar } from '@chakra-ui/react';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
+import React from 'react';
 
 export default function Friends() {
-  const [wsRoomAndFriendId, setWsRoomAndFriendId] = useState<{ wsRoom: string; friend_id: string }>(null);
+  const [wsRoomAndFriend, setWsRoomAndFriend] = useState<{ wsRoom: string; friend_id: string; friend: any }>(null);
   const [friendlistLoading, setFriendlistSetLoading] = useState<boolean>(true);
   const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
   const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
@@ -22,16 +24,18 @@ export default function Friends() {
   }, []);
 
   useEffect(() => {
-    if (user) setWsRoomAndFriendId({ wsRoom: user.user_id, friend_id: user.user_id });
+    if (user) setWsRoomAndFriend({ wsRoom: user.user_id, friend_id: user.user_id, friend: { ...user, friendship_id: '1' } });
   }, [user]);
-  // console.log(friendlist);
 
   return (
-    <div className="flex m-5 gap-5 h-[calc(100vh-6rem)]">
-      <div id="friendlist" className="flex flex-col bg-third w-1/4 h-full rounded-xl p-5 gap-5">
+    <div className="flex sm:m-5 gap-5 sm:h-[calc(100vh-6rem)] h-[calc(100vh-3.5rem)]">
+      <div
+        id="friendlist"
+        className={`${wsRoomAndFriend?.wsRoom === user?.user_id ? 'flex' : 'hidden sm:flex'} flex-col bg-third w-full sm:w-1/4 h-full sm:rounded-xl p-5 gap-5`}
+      >
         <div
-          className={`flex justify-center items-center rounded-xl p-2 w-full ${wsRoomAndFriendId?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
-          onClick={() => setWsRoomAndFriendId({ wsRoom: user?.user_id, friend_id: user?.user_id })}
+          className={`flex justify-center items-center rounded-xl p-2 w-full ${wsRoomAndFriend?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
+          onClick={() => setWsRoomAndFriend({ wsRoom: user?.user_id, friend_id: user?.user_id, friend: null })}
         >
           <h1> Your notes </h1>
         </div>
@@ -58,8 +62,8 @@ export default function Friends() {
             friendlist.map((friend: FriendShip, i: number) => (
               <div
                 key={i}
-                className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoomAndFriendId?.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
-                onClick={() => setWsRoomAndFriendId({ wsRoom: friend.friendship_id, friend_id: friend.user_id })}
+                className={`flex items-center rounded-xl p-2 w-full ${friend.friendship_id === wsRoomAndFriend?.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
+                onClick={() => setWsRoomAndFriend({ wsRoom: friend.friendship_id, friend_id: friend.user_id, friend })}
               >
                 <Link href={`profile/${friend.user_id}`}>
                   <Avatar
@@ -84,7 +88,15 @@ export default function Friends() {
           )}
         </div>
       </div>
-      {!wsRoomAndFriendId || !user ? <ChatBoxSkeleton /> : <ChatBox wsRoomAndFriendId={wsRoomAndFriendId} user={user} />}
+      {!wsRoomAndFriend || !user ? (
+        <ChatBoxSkeleton wsRoomAndFriend={wsRoomAndFriend} user={user} />
+      ) : (
+        <ChatBox
+          clearRoomId={() => setWsRoomAndFriend((prevState) => ({ ...prevState, wsRoom: user.user_id }))}
+          wsRoomAndFriend={wsRoomAndFriend}
+          user={user}
+        />
+      )}
     </div>
   );
 }

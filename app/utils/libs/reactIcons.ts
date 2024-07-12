@@ -17,6 +17,7 @@ import { GiMagnifyingGlass, GiBroom, GiExitDoor, GiCakeSlice, GiConfirmed } from
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { LiaExpandArrowsAltSolid } from 'react-icons/lia';
 import { IoReload, IoCloseSharp } from 'react-icons/io5';
+import { RiArrowLeftDoubleFill } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { ImExit, ImProfile } from 'react-icons/im';
 import { GrDocumentUpdate } from 'react-icons/gr';
@@ -54,6 +55,7 @@ export {
   ImExit,
   AiOutlineLoading3Quarters,
   LiaExpandArrowsAltSolid,
+  RiArrowLeftDoubleFill,
   MdKeyboardArrowDown,
   GrDocumentUpdate,
   BsPlusSquare,

@@ -52,7 +52,7 @@ export function Navbar() {
         <div id="avatar" className="flex items-center gap-7">
           {user ? (
             <Link href={'/friends'}>
-              <FaUserFriends className="text-signature text-3xl" />
+              <FaUserFriends className="text-signature text-3xl hidden sm:block" />
             </Link>
           ) : null}
           <UserDrawer user={user} setUser={setUser} setToken={setToken} />
