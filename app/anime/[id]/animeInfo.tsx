@@ -24,8 +24,9 @@ export function AnimeInfo({
 }) {
   const { token } = useContext(TokenContext);
   const toast = useToast();
+  console.log(token);
   return (
-    <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-16'}`}>
+    <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-14'}`}>
       <FavoriteHeart
         userAnimeDataLoading={userAnimeDataLoading}
         setUserAnimeData={setUserAnimeData}
@@ -65,11 +66,11 @@ export function AnimeInfo({
           {userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].name : 'Follow'}
         </button>
       </div>
-      <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'my-5 mr-5 ml-1'}`}>
+      <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'sm:my-5 sm:mr-5 sm:ml-1 m-5'}`}>
         <h1 id="title" className={`w-full pr-7 font-bold text-2xl ${animeData.bannerImage ? 'md:pl-[17.75rem]' : ''} `}>
           {animeData.title.romaji}
         </h1>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 sm:m-0 m-auto">
           <div className="flex flex-row flex-wrap sm:flex-nowrap pt-3 gap-7">
             <div className={`flex flex-col gap-3 ${animeData.bannerImage ? 'md:ml-[17.75rem]' : ''}`}>
               <div className="flex w-72 h-6">
@@ -128,6 +129,25 @@ export function AnimeInfo({
               </div>
             ) : null}
           </div>
+          <button
+            key="mobileFollowButton"
+            className={`flex md:hidden items-center justify-center w-full h-9 py-3 rounded-md hover:bg-fifth bg-fourthAndAHalf cursor-pointer font-bold text-lg
+            ${userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].color : 'text-white'}
+          `}
+            onClick={() => {
+              if (!token) {
+                toast({
+                  title: 'Log in first!',
+                  status: 'error',
+                  isClosable: true,
+                });
+                return;
+              }
+              toggleShowAnimeSettings();
+            }}
+          >
+            {userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].name : 'Follow'}
+          </button>
           <Sinopse animeData={animeData} inAnimeInfo={true} />
         </div>
       </div>

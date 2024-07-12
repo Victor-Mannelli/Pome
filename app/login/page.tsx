@@ -27,9 +27,9 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col md:justify-start justify-center items-center md:w-[35rem] w-full md:h-fit pt-10 pb-5 h-full bg-second rounded-xl">
-        <h1> Welcome Back! </h1>
-        <form onSubmit={submitLogin} className="flex flex-col justify-center items-center w-full h-full px-16 py-10 gap-5">
+      <div className="flex flex-col md:justify-start justify-center items-center md:w-[35rem] w-full md:h-fit pt-10 pb-5 sm:h-full h-[calc(100vh-3rem)] bg-second sm:rounded-xl">
+        <form onSubmit={submitLogin} className="flex flex-col justify-center items-center w-full h-full px-16 pb-10 gap-5">
+          <h1 className="pb-4 pt-2"> Welcome Back! </h1>
           <input
             className="w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white pl-2 border-white"
             id="username"

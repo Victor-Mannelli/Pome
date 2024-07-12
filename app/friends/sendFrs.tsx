@@ -1,11 +1,11 @@
 'use client';
 
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { deleteFriendRequestWS, sendFriendRequestToWS } from './functions';
+import { FiUserPlus, RiArrowLeftDoubleFill, RxCross2 } from '@/utils/libs';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { GenericRowSkeleton, ErrorFeedback, Filter } from '@/components';
 import { FriendType, StrangersAndFRsType } from './types';
 import { Avatar, CloseButton } from '@chakra-ui/react';
-import { FiUserPlus, RxCross2 } from '@/utils/libs';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Socket } from 'socket.io-client';
 import { bufferToBase64, User } from '@/utils';
@@ -36,16 +36,19 @@ export function SendFrs({
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowUsers(false));
-  // console.log(strangersList);
 
   return (
-    <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
+    <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full pt-24 sm:p-0">
       <div
         className="relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-center gap-3 p-5"
         onClick={(e) => e.stopPropagation()}
         ref={ref}
       >
-        <RxCross2 className="absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth" onClick={() => setShowUsers(!showUsers)} />
+        <RxCross2
+          className="absolute right-4 top-4 sm:block hidden text-white text-3xl cursor-pointer hover:text-sixth"
+          onClick={() => setShowUsers(!showUsers)}
+        />
+        <RiArrowLeftDoubleFill className="absolute left-2 top-4 sm:hidden block text-white text-3xl" onClick={() => setShowUsers(!showUsers)} />
         <h1> Send a Friend Request! </h1>
         <Filter onChange={(e) => setAddFriendFilter(e.target.value)} />
         <div className="flex flex-col gap-3 w-full overflow-auto">

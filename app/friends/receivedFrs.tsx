@@ -1,5 +1,5 @@
+import { FiUserPlus, GiCakeSlice, RiArrowLeftDoubleFill, RxCross2 } from '@/utils/libs';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { FiUserPlus, GiCakeSlice, RxCross2 } from '@/utils/libs';
 import { acceptFriendRequestWS } from './functions';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Avatar } from '@chakra-ui/react';
@@ -22,17 +22,20 @@ export function ReceivedFrs({
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setShowFriendRequests(false));
-  // console.log(filteredFRs);
 
   return (
-    <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full">
+    <div className="fixed top-0 left-0 flex justify-center items-center z-50 h-screen w-full pt-24 sm:p-0">
       <div
         className="relative lg:w-[60rem] md:w-[70%] w-full md:h-[70%] h-screen bg-second md:rounded-xl md:border border-sixth flex flex-col items-center gap-3 p-5"
         onClick={(e) => e.stopPropagation()}
         ref={ref}
       >
         <RxCross2
-          className="absolute right-4 top-4 text-white text-3xl cursor-pointer hover:text-sixth"
+          className="absolute right-4 top-4 sm:block hidden text-white text-3xl cursor-pointer hover:text-sixth"
+          onClick={() => setShowFriendRequests((prev: boolean) => !prev)}
+        />
+        <RiArrowLeftDoubleFill
+          className="absolute left-2 top-4 block sm:hidden text-white text-3xl"
           onClick={() => setShowFriendRequests((prev: boolean) => !prev)}
         />
         <h1> These people want to be your friend! </h1>

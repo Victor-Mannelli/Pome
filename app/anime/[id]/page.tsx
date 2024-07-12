@@ -38,7 +38,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
     logout({ setToken, setUser, toast });
     router.push('/');
   }
-  console.log(data?.Media?.bannerImage);
+  // console.log(data?.Media?.bannerImage);
   return (
     <>
       {dataFailed ? (

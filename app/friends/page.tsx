@@ -13,7 +13,11 @@ import { ChatBox } from './chatBox';
 import React from 'react';
 
 export default function Friends() {
-  const [wsRoomAndFriend, setWsRoomAndFriend] = useState<{ wsRoom: string; friend_id: string; friend: any }>(null);
+  const [wsRoomAndFriend, setWsRoomAndFriend] = useState<{ wsRoom: string; friend_id: string; friend: any }>({
+    friend_id: null,
+    friend: null,
+    wsRoom: null,
+  });
   const [friendlistLoading, setFriendlistSetLoading] = useState<boolean>(true);
   const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
   const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
@@ -23,15 +27,14 @@ export default function Friends() {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
   }, []);
 
-  useEffect(() => {
-    if (user) setWsRoomAndFriend({ wsRoom: user.user_id, friend_id: user.user_id, friend: { ...user, friendship_id: '1' } });
-  }, [user]);
+  console.log(wsRoomAndFriend);
+  console.log(wsRoomAndFriend?.wsRoom);
 
   return (
     <div className="flex sm:m-5 gap-5 sm:h-[calc(100vh-6rem)] h-[calc(100vh-3.5rem)]">
       <div
         id="friendlist"
-        className={`${wsRoomAndFriend?.wsRoom === user?.user_id ? 'flex' : 'hidden sm:flex'} flex-col bg-third w-full sm:w-1/4 h-full sm:rounded-xl p-5 gap-5`}
+        className={`${wsRoomAndFriend?.wsRoom ? 'hidden sm:flex' : 'flex'} flex-col bg-third w-full sm:w-1/4 h-full sm:rounded-xl p-5 gap-5`}
       >
         <div
           className={`flex justify-center items-center rounded-xl p-2 w-full ${wsRoomAndFriend?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
@@ -92,7 +95,7 @@ export default function Friends() {
         <ChatBoxSkeleton wsRoomAndFriend={wsRoomAndFriend} user={user} />
       ) : (
         <ChatBox
-          clearRoomId={() => setWsRoomAndFriend((prevState) => ({ ...prevState, wsRoom: user.user_id }))}
+          clearRoomId={() => setWsRoomAndFriend((prevState) => ({ ...prevState, wsRoom: null }))}
           wsRoomAndFriend={wsRoomAndFriend}
           user={user}
         />

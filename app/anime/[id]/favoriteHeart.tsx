@@ -21,7 +21,7 @@ export function FavoriteHeart({
       {userAnimeData && !userAnimeDataLoading ? (
         userAnimeData.favorite === false ? (
           <FaRegHeart
-            className="absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
+            className="absolute right-1 sm:top-0 top-3 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               token
@@ -35,7 +35,7 @@ export function FavoriteHeart({
           />
         ) : (
           <FaHeart
-            className="absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer"
+            className="absolute right-1 sm:top-0 top-3 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               token
@@ -50,7 +50,7 @@ export function FavoriteHeart({
         )
       ) : (
         <FaRegHeart
-          className="absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
+          className="absolute right-1 sm:top-0 top-3 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
             token

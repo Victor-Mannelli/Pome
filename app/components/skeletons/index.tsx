@@ -55,7 +55,7 @@ export function AnimePageSkeleton() {
           <Skeleton className="h-56 sm:h-80" />
         </div>
         <div id="animeInfo" className="relative flex justify-start w-full min-h-72 h-fit">
-          <FaRegHeart className="absolute right-1 top-0 my-3 mr-2 text-2xl text-second" />
+          <FaRegHeart className="absolute right-1 top-3 my-3 mr-2 text-2xl text-second" />
           <div id="coverImage" className="absolute -top-5 h-64 sm:flex hidden flex-col justify-end items-center w-[19rem]">
             <Skeleton key="coverImage" className="w-60 h-[23rem] rounded-lg shadow-fifth shadow" />
             <Skeleton key="coverImageButton" className="w-60 h-9 rounded-lg shadow-fifth shadow" />
@@ -116,7 +116,7 @@ export function ProfileSkeleton() {
             <Skeleton className="h-8" />
             <Skeleton className="h-8" />
           </div>
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <div key={'animeRow' + i} className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] px-3 w-full hover:bg-second rounded-md cursor-pointer">
               <Skeleton className="h-16" />
               <Skeleton className="h-16 pl-5" />

@@ -56,8 +56,8 @@ export default function Registration() {
   }
 
   return (
-    <div className="flex justify-center items-center w-full h-[calc(100vh-4rem)]">
-      <div className="flex flex-col md:justify-center justify-center items-center md:w-[35rem] md:py-10 md:h-fit w-full h-screen bg-second rounded-xl">
+    <div className="flex justify-center items-center w-full h-[calc(100vh-7rem)]">
+      <div className="flex flex-col md:justify-center justify-center items-center md:w-[35rem] md:py-10 md:h-fit w-full h-screen bg-second sm:rounded-xl">
         <h1> Welcome! </h1>
         {/* {image ? (
           <div className="relative mb-2">

@@ -62,20 +62,22 @@ export function ChatBox({
   return (
     <div
       id="chat"
-      className={`${!wsRoomAndFriend?.friend ? 'hidden sm:flex' : 'flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
+      className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
     >
-      <div className="w-full flex flex-col gap-1 overflow-auto rounded-md">
-        {wsRoomAndFriend.friend ? (
-          <div className="sm:hidden flex items-center gap-1 py-2 pl-1" style={{ boxShadow: 'rgba(85, 89, 94, 1) 0px 7px 7px -4px' }}>
-            <RiArrowLeftDoubleFill className="text-white text-2xl" onClick={() => clearRoomId()} />
+      <div className="w-full flex flex-col gap-1 overflow-auto rounded-md sm:pt-4 sm:px-4">
+        <div id="identification" className="sm:hidden flex items-center gap-1 py-2 pl-1 mb-2 shadow-[0px_2px_7px_0px] shadow-fourth">
+          <RiArrowLeftDoubleFill className="text-white text-2xl" onClick={() => clearRoomId()} />
+          {wsRoomAndFriend.friend ? (
             <Link href={`/profile/${wsRoomAndFriend.friend.user_id}`}>
               <div className="flex items-center gap-1">
                 <Avatar className="mr-1" size={'sm'} src={`data:image/png;base64, ${bufferToBase64(wsRoomAndFriend.friend.avatar?.data)}`} />
                 <h1> {wsRoomAndFriend.friend.username}</h1>
               </div>
             </Link>
-          </div>
-        ) : null}
+          ) : (
+            <h1 className="text-center "> Your notes </h1>
+          )}
+        </div>
         {chatLoading ? (
           <GenericRowSkeleton rows={13} lineHeight="h-[2.9rem]" />
         ) : (
