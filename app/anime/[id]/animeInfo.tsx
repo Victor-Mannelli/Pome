@@ -1,7 +1,7 @@
 import { AnimeTags, SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { animeUserStatus, monthNames } from '@/utils/consts';
-import { FaHeart, FaRegHeart } from '@/utils/libs';
+import { FavoriteHeart } from './favoriteHeart';
 import { useToast } from '@chakra-ui/react';
 import { TokenContext } from '@/utils';
 import { Stars } from '@/components';
@@ -11,12 +11,14 @@ import React from 'react';
 
 export function AnimeInfo({
   toggleShowAnimeSettings,
+  userAnimeDataLoading,
   setUserAnimeData,
   userAnimeData,
   animeData,
 }: {
   setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
   toggleShowAnimeSettings: () => void;
+  userAnimeDataLoading: boolean;
   userAnimeData: UsersAnimeData;
   animeData: SingleAnimeData;
 }) {
@@ -24,57 +26,13 @@ export function AnimeInfo({
   const toast = useToast();
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-16'}`}>
-      {userAnimeData ? (
-        userAnimeData.favorite === false ? (
-          <FaRegHeart
-            className="absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
-            onClick={() =>
-              token
-                ? setUserAnimeData((prevState) => ({
-                    ...prevState,
-                    favorite: true,
-                  }))
-                : toast({
-                    title: 'Log in first!',
-                    status: 'success',
-                    isClosable: true,
-                  })
-            }
-          />
-        ) : (
-          <FaHeart
-            className="absolute right-1 top-0 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer"
-            onClick={() =>
-              token
-                ? setUserAnimeData((prevState) => ({
-                    ...prevState,
-                    favorite: false,
-                  }))
-                : toast({
-                    title: 'Log in first!',
-                    status: 'success',
-                    isClosable: true,
-                  })
-            }
-          />
-        )
-      ) : (
-        <FaRegHeart
-          className="absolute right-1 top-0 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
-          onClick={() =>
-            token
-              ? setUserAnimeData((prevState) => ({
-                  ...prevState,
-                  favorite: true,
-                }))
-              : toast({
-                  title: 'Log in first!',
-                  status: 'success',
-                  isClosable: true,
-                })
-          }
-        />
-      )}
+      <FavoriteHeart
+        userAnimeDataLoading={userAnimeDataLoading}
+        setUserAnimeData={setUserAnimeData}
+        userAnimeData={userAnimeData}
+        token={token}
+        toast={toast}
+      />
       <div
         id="coverImageDisplay"
         className={`${animeData.bannerImage ? 'absolute -top-5 h-[17rem] justify-end' : 'm-5 justify-start'} md:flex hidden flex-col  items-center gap-2 w-[19rem]`}
@@ -90,7 +48,7 @@ export function AnimeInfo({
         <button
           key="coverImageButton"
           className={`flex items-center justify-center w-60 h-9 py-3 rounded-md hover:bg-fifth bg-fourthAndAHalf cursor-pointer font-bold text-lg
-            ${userAnimeData ? animeUserStatus[userAnimeData.status].color : 'text-white'}
+            ${userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].color : 'text-white'}
           `}
           onClick={() => {
             if (!token) {
@@ -104,7 +62,7 @@ export function AnimeInfo({
             toggleShowAnimeSettings();
           }}
         >
-          {userAnimeData ? animeUserStatus[userAnimeData.status].name : 'Follow'}
+          {userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].name : 'Follow'}
         </button>
       </div>
       <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'my-5 mr-5 ml-1'}`}>
@@ -112,7 +70,7 @@ export function AnimeInfo({
           {animeData.title.romaji}
         </h1>
         <div className="flex flex-col gap-3">
-          <div className="flex flex-row lg:flex-row pt-3 gap-7">
+          <div className="flex flex-row flex-wrap sm:flex-nowrap pt-3 gap-7">
             <div className={`flex flex-col gap-3 ${animeData.bannerImage ? 'md:ml-[17.75rem]' : ''}`}>
               <div className="flex w-72 h-6">
                 <h3 className="pr-2 pt-[0.1rem]">

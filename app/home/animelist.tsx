@@ -9,12 +9,12 @@ export function Animelist({ animeData, setPage, page }: { setPage: Dispatch<SetS
   return (
     <>
       {animeData.media.length === 0 ? (
-        <div className="py-7">
+        <div className="py-7 w-[20.2rem]">
           <h1 className="text-lg"> Nenhum anime encontrado </h1>
         </div>
       ) : (
         <>
-          <div className="flex flex-wrap gap-4 py-5">
+          <div className="flex flex-wrap gap-4 py-5 w-[20.2rem] sm:w-full">
             {animeData.media.map((anime: SingleAnimeData) => (
               <Link href={`/anime/${anime.id}`} key={anime.id}>
                 <div

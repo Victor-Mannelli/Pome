@@ -1,29 +1,32 @@
 'use client';
 
+import { airingStatusOptions, animeUserStatus } from '@/utils/consts';
 import { MdKeyboardArrowDown, IoCloseSharp } from '@/utils/libs';
 import { Dispatch, SetStateAction, useRef } from 'react';
-import { airingStatusOptions } from '@/utils/consts';
 import { useOnClickOutside } from 'usehooks-ts';
-import { FilterType } from '@/utils/types';
 import React from 'react';
 
 export function PomeSelect({
-  optionsWidth,
+  customOptionsStyle,
+  customSelectStyle,
   selectionOf,
-  parentSize,
-  setFilter,
+  clearSelect,
+  onSelect,
+  profile,
   options,
   setShow,
   title,
   show,
 }: {
-  setFilter?: Dispatch<SetStateAction<FilterType>>;
   setShow: Dispatch<SetStateAction<boolean>>;
   options: string[] | number[];
+  customOptionsStyle?: string;
+  customSelectStyle?: string;
+  clearSelect: () => void;
+  onSelect: (e) => void;
   title: string | null;
-  optionsWidth?: string;
-  parentSize?: string;
   selectionOf: string;
+  profile?: boolean;
   show: boolean;
 }) {
   const ref = useRef(null);
@@ -31,19 +34,19 @@ export function PomeSelect({
 
   return (
     <div
-      className={`relative flex flex-col ${parentSize ? parentSize : 'w-[10.5rem] h-full'}  bg-third text-white rounded-sm`}
+      className={`relative flex flex-col ${customSelectStyle ? customSelectStyle : 'w-[10.5rem] h-8 bg-third text-white text-sm rounded-sm'}`}
       style={{ boxShadow: '0 0 2px rgb(204, 204, 204)', transition: 'all 0.5s ease' }}
       onClick={(e) => e.stopPropagation()}
       ref={ref}
     >
-      <div className="flex items-center justify-between pl-3 w-full h-8 cursor-pointer text-sm active:bg-fifth" onClick={() => setShow(!show)}>
+      <div className="flex items-center justify-between pl-3 w-full h-full cursor-pointer active:bg-fifth" onClick={() => setShow(!show)}>
         <span> {title ? title : selectionOf[0].toLocaleUpperCase() + selectionOf.slice(1)} </span>
         {title ? (
           <IoCloseSharp
             className="hover:text-signature hover:text-opacity-75 mr-[0.6rem] text-xl font-bold"
             onClick={(e) => {
               e.stopPropagation();
-              setFilter && setFilter((prevState: FilterType) => ({ ...prevState, [selectionOf]: null }));
+              clearSelect();
               setShow(false);
             }}
           />
@@ -52,7 +55,7 @@ export function PomeSelect({
         )}
       </div>
       <ul
-        className={`absolute z-10 top-8 bg-third ${optionsWidth ? optionsWidth : 'w-[10.5rem]'} max-h-60 overflow-auto ${show ? 'block' : 'hidden'}`}
+        className={`absolute z-10 overflow-auto max-h-60 ${customOptionsStyle ? customOptionsStyle : 'w-[10.5rem] top-8 bg-third'} ${show ? 'block' : 'hidden'}`}
         style={{ boxShadow: '0 0 2px rgb(204, 204, 204)', transition: 'all 0.5s ease' }}
       >
         {options.map((e: string | number, i: number) => (
@@ -61,10 +64,10 @@ export function PomeSelect({
             className="text-center text-sm py-2 hover:bg-fourth cursor-pointer active:bg-fifth"
             onClick={() => {
               setShow(false);
-              setFilter((prevState: FilterType) => ({ ...prevState, [selectionOf]: e }));
+              onSelect(e);
             }}
           >
-            {selectionOf === 'status' ? airingStatusOptions[e] : e}
+            {selectionOf === 'status' ? (profile ? animeUserStatus[e].name : airingStatusOptions[e]) : e}
           </li>
         ))}
       </ul>

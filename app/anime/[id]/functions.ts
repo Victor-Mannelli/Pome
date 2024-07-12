@@ -16,9 +16,9 @@ export function getUserAnimeData({
 }) {
   setLoading(true);
   api
-    .get('/animelist')
+    .get(`/animelist/anime/${animeId}`)
     .then((e) => {
-      setUserAnimeData(e.data.find((anime: UsersAnimeData) => anime.anime_id === animeId));
+      setUserAnimeData(e.data);
     })
     .catch(() => setFailed(true))
     .finally(() => setLoading(false));

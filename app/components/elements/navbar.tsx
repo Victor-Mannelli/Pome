@@ -45,8 +45,7 @@ export function Navbar() {
         </Link>
         <Link href={'/'}>
           <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg cursor-pointer hover:text-signature transition-all">
-            {' '}
-            {animelistTitle ? titlesFilterParser[animelistTitle] : 'Anime List'}{' '}
+            {animelistTitle ? titlesFilterParser[animelistTitle] : 'Anime List'}
           </h1>
         </Link>
         <div id="avatar" className="flex items-center gap-7">

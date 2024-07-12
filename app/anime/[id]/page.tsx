@@ -1,26 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import { UsersAnimeData, getAnimeQuery, TokenContext, SingleAnimeData } from '@/utils';
+import { UsersAnimeData, getAnimeQuery, TokenContext, SingleAnimeData, logout } from '@/utils';
 import { PopUp, AnimePageSkeleton, ErrorFeedback } from '@/components';
 import { LiaExpandArrowsAltSolid } from '@/utils/libs/reactIcons';
 import { maximizeTrailer, getUserAnimeData } from './functions';
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AnimeUserSettings } from './animeUserSettings';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
 import { AnimeInfo } from './animeInfo';
 import { Sinopse } from './sinopse';
+import React from 'react';
 
 export default function AnimePage({ params }: { params: { id: string } }) {
   const { loading, error: dataFailed, data } = useQuery<{ Media: SingleAnimeData }>(getAnimeQuery, { variables: { id: Number(params.id) } });
-  const { token } = useContext(TokenContext);
   const [userAnimeData, setUserAnimeData] = useState<UsersAnimeData | null>(null);
   const [userAnimeDataLoading, setUserAnimeDataLoading] = useState<boolean>(true);
   const [userAnimeDataFailed, setUserAnimeDataFailed] = useState<boolean>(false);
   const [showAnimeSettings, setShowAnimeSettings] = useState<boolean>(false);
   const [trailerFullScreen, setTrailerFullScreen] = useState<boolean>(false);
+  const { token, setToken, setUser } = useContext(TokenContext);
   const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
     if (!token) return;
@@ -32,6 +34,11 @@ export default function AnimePage({ params }: { params: { id: string } }) {
     });
   }, [params.id, token]);
 
+  if (userAnimeDataFailed) {
+    logout({ setToken, setUser, toast });
+    router.push('/');
+  }
+  console.log(data?.Media?.bannerImage);
   return (
     <>
       {dataFailed ? (
@@ -43,10 +50,11 @@ export default function AnimePage({ params }: { params: { id: string } }) {
       ) : (
         <div className="flex flex-col items-center w-full mb-5">
           {data.Media.bannerImage ? (
-            <div className={'w-full h-80 bg-cover bg-center'} style={{ backgroundImage: `url(${data.Media.bannerImage})` }}></div>
+            <div className={'w-full h-52 sm:h-80 bg-cover bg-center'} style={{ backgroundImage: `url(${data.Media.bannerImage})` }}></div>
           ) : null}
           <AnimeInfo
             toggleShowAnimeSettings={() => setShowAnimeSettings(!showAnimeSettings)}
+            userAnimeDataLoading={userAnimeDataLoading}
             setUserAnimeData={setUserAnimeData}
             userAnimeData={userAnimeData}
             animeData={data.Media}
@@ -55,6 +63,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
             {showAnimeSettings ? (
               <AnimeUserSettings
                 setShowAnimeSettings={setShowAnimeSettings}
+                userAnimeDataLoading={userAnimeDataLoading}
                 setUserAnimeData={setUserAnimeData}
                 userAnimeData={userAnimeData}
                 animeData={data.Media}

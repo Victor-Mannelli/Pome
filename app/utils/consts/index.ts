@@ -3,27 +3,30 @@ import { HTMLInputTypeAttribute } from 'react';
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-export const animeUserStatus: { [key: string]: { name: string; color: string } } = {
+export const animeUserStatus: { [key: string]: { name: string; color: string; bg_color: string } } = {
   Watching: {
     name: 'Watching',
     color: 'text-[#00ffff]',
+    bg_color: 'bg-[#00ffff]',
   },
   Dropped: {
     name: 'Dropped',
-    color: 'text-orange-500',
+    color: 'text-[#FF4646]',
+    bg_color: 'bg-[#FF4646]',
   },
   Finished: {
     name: 'Finished',
-    color: 'text-green-500',
+    color: 'text-[#fff]',
+    bg_color: 'bg-[#fff]',
   },
   Rewatching: {
     name: 'Re-Watching',
     color: 'text-purple-400',
+    bg_color: 'bg-purple-400',
   },
 };
 
 export const airingStatusOptions: { [key: string]: string } = {
-  WATCHING: 'Watching',
   RELEASING: 'Releasing',
   FINISHED: 'Finished',
   NOT_YET_RELEASED: 'Not yet Released',
