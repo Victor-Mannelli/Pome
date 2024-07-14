@@ -31,6 +31,8 @@ export function TokenProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // console.log(token, 'token provider');
+
   useEffect(() => {
     if (!token) return;
     const fetchData = async () => {

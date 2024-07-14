@@ -1,10 +1,10 @@
 'use client';
 
 import { TokenContext, VariablesContext, titlesFilterParser } from '@/utils';
-import { FaUserFriends, SiNiconico } from '@/utils/libs';
+import { GiReturnArrow, SiNiconico } from '@/utils/libs';
+import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from '../tools/navigationLoader';
-import { usePathname } from 'next/navigation';
 import { UserDrawer } from './userDrawer';
 import React from 'react';
 
@@ -13,6 +13,7 @@ export function Navbar() {
   const { animelistTitle } = useContext(VariablesContext);
   const [show, setShow] = useState<boolean>(true);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -40,8 +41,11 @@ export function Navbar() {
       <div
         className={`flex justify-between items-center ${pathname === '/' ? 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]' : 'w-full'}`}
       >
+        <div className="sm:hidden block" onClick={() => router.back()}>
+          <GiReturnArrow className="text-signature text-2xl cursor-pointer hover:brightness-75 mr-[18px]" />
+        </div>
         <Link href={'/'}>
-          <SiNiconico className="text-signature text-2xl cursor-pointer hover:brightness-75 mr-[18px]" />
+          <SiNiconico className="hidden sm:block text-signature text-2xl cursor-pointer hover:brightness-75 mr-[18px]" />
         </Link>
         <Link href={'/'}>
           <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg cursor-pointer hover:text-signature transition-all">
@@ -49,11 +53,6 @@ export function Navbar() {
           </h1>
         </Link>
         <div id="avatar" className="flex items-center gap-7">
-          {user ? (
-            <Link href={'/friends'}>
-              <FaUserFriends className="text-signature text-3xl hidden sm:block" />
-            </Link>
-          ) : null}
           <UserDrawer user={user} setUser={setUser} setToken={setToken} />
         </div>
       </div>

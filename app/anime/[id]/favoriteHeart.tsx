@@ -7,6 +7,7 @@ export function FavoriteHeart({
   userAnimeDataLoading,
   setUserAnimeData,
   userAnimeData,
+  position,
   token,
   toast,
 }: {
@@ -14,6 +15,7 @@ export function FavoriteHeart({
   toast: (options?: UseToastOptions) => void;
   userAnimeDataLoading?: boolean;
   userAnimeData: UsersAnimeData;
+  position: string;
   token: string;
 }) {
   return (
@@ -21,7 +23,7 @@ export function FavoriteHeart({
       {userAnimeData && !userAnimeDataLoading ? (
         userAnimeData.favorite === false ? (
           <FaRegHeart
-            className="absolute right-1 sm:top-0 top-3 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
+            className={`absolute ${position} my-3 mr-2 text-2xl text-white cursor-pointer drop-shadow-[0_0_3px_rgb(0_0_0)]`}
             onClick={(e) => {
               e.stopPropagation();
               token
@@ -35,7 +37,7 @@ export function FavoriteHeart({
           />
         ) : (
           <FaHeart
-            className="absolute right-1 sm:top-0 top-3 my-3 mr-2 text-2xl text-red-500 hover:cursor-pointer"
+            className={`absolute ${position} my-3 mr-2 text-2xl text-red-500 cursor-pointer`}
             onClick={(e) => {
               e.stopPropagation();
               token
@@ -50,7 +52,7 @@ export function FavoriteHeart({
         )
       ) : (
         <FaRegHeart
-          className="absolute right-1 sm:top-0 top-3 my-3 mr-2 text-2xl text-white hover:cursor-pointer"
+          className={`absolute ${position} my-3 mr-2 text-2xl text-white cursor-pointer`}
           onClick={(e) => {
             e.stopPropagation();
             token

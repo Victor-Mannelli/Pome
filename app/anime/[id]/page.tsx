@@ -38,7 +38,6 @@ export default function AnimePage({ params }: { params: { id: string } }) {
     logout({ setToken, setUser, toast });
     router.push('/');
   }
-  // console.log(data?.Media?.bannerImage);
   return (
     <>
       {dataFailed ? (
@@ -58,6 +57,8 @@ export default function AnimePage({ params }: { params: { id: string } }) {
             setUserAnimeData={setUserAnimeData}
             userAnimeData={userAnimeData}
             animeData={data.Media}
+            token={token}
+            toast={toast}
           />
           <PopUp show={showAnimeSettings} setShow={setShowAnimeSettings} bg={true}>
             {showAnimeSettings ? (

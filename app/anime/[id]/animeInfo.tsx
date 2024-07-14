@@ -1,9 +1,8 @@
 import { AnimeTags, SingleAnimeData, UsersAnimeData } from '@/utils/types';
-import { Dispatch, SetStateAction, useContext } from 'react';
 import { animeUserStatus, monthNames } from '@/utils/consts';
+import { UseToastOptions } from '@chakra-ui/react';
+import { Dispatch, SetStateAction } from 'react';
 import { FavoriteHeart } from './favoriteHeart';
-import { useToast } from '@chakra-ui/react';
-import { TokenContext } from '@/utils';
 import { Stars } from '@/components';
 import { Sinopse } from './sinopse';
 import Image from 'next/image';
@@ -15,21 +14,23 @@ export function AnimeInfo({
   setUserAnimeData,
   userAnimeData,
   animeData,
+  token,
+  toast,
 }: {
   setUserAnimeData: Dispatch<SetStateAction<UsersAnimeData>>;
+  toast: (options?: UseToastOptions) => void;
   toggleShowAnimeSettings: () => void;
   userAnimeDataLoading: boolean;
   userAnimeData: UsersAnimeData;
   animeData: SingleAnimeData;
+  token: string;
 }) {
-  const { token } = useContext(TokenContext);
-  const toast = useToast();
-  console.log(token);
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-14'}`}>
       <FavoriteHeart
         userAnimeDataLoading={userAnimeDataLoading}
         setUserAnimeData={setUserAnimeData}
+        position={'right-1 sm:top-0 top-3'}
         userAnimeData={userAnimeData}
         token={token}
         toast={toast}
@@ -49,7 +50,7 @@ export function AnimeInfo({
         <button
           key="coverImageButton"
           className={`flex items-center justify-center w-60 h-9 py-3 rounded-md hover:bg-fifth bg-fourthAndAHalf cursor-pointer font-bold text-lg
-            ${userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].color : 'text-white'}
+            ${userAnimeData && !userAnimeDataLoading && animeUserStatus[userAnimeData.status]?.color ? animeUserStatus[userAnimeData.status].color : 'text-white'}
           `}
           onClick={() => {
             if (!token) {
@@ -63,7 +64,9 @@ export function AnimeInfo({
             toggleShowAnimeSettings();
           }}
         >
-          {userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].name : 'Follow'}
+          {userAnimeData && !userAnimeDataLoading && animeUserStatus[userAnimeData.status]?.name
+            ? animeUserStatus[userAnimeData.status].name
+            : 'Follow'}
         </button>
       </div>
       <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'sm:my-5 sm:mr-5 sm:ml-1 m-5'}`}>
@@ -132,7 +135,7 @@ export function AnimeInfo({
           <button
             key="mobileFollowButton"
             className={`flex md:hidden items-center justify-center w-full h-9 py-3 rounded-md hover:bg-fifth bg-fourthAndAHalf cursor-pointer font-bold text-lg
-            ${userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].color : 'text-white'}
+            ${userAnimeData && !userAnimeDataLoading && animeUserStatus[userAnimeData.status]?.color ? animeUserStatus[userAnimeData.status].color : 'text-white'}
           `}
             onClick={() => {
               if (!token) {
@@ -146,7 +149,9 @@ export function AnimeInfo({
               toggleShowAnimeSettings();
             }}
           >
-            {userAnimeData && !userAnimeDataLoading ? animeUserStatus[userAnimeData.status].name : 'Follow'}
+            {userAnimeData && !userAnimeDataLoading && animeUserStatus[userAnimeData.status]?.name
+              ? animeUserStatus[userAnimeData.status].name
+              : 'Follow'}
           </button>
           <Sinopse animeData={animeData} inAnimeInfo={true} />
         </div>

@@ -27,8 +27,8 @@ export default function Friends() {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
   }, []);
 
-  console.log(wsRoomAndFriend);
-  console.log(wsRoomAndFriend?.wsRoom);
+  // console.log(wsRoomAndFriend);
+  // console.log(wsRoomAndFriend?.wsRoom);
 
   return (
     <div className="flex sm:m-5 gap-5 sm:h-[calc(100vh-6rem)] h-[calc(100vh-3.5rem)]">

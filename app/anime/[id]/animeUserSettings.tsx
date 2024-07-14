@@ -60,11 +60,12 @@ export function AnimeUserSettings({
           className="absolute z-10 right-4 top-4 text-white text-3xl cursor-pointer hover:text-fourth drop-shadow-[0_0_3px_rgb(0_0_0)]"
           onClick={() => setShowAnimeSettings(false)}
         />
-        <h3 className="absolute bottom-3 left-3 font-bold drop-shadow-[0_0_7px_rgb(0_0_0)]"> {animeData.title.romaji} </h3>
+        <h3 className="absolute bottom-3 left-3 w-[84%] sm:w-[92%] font-bold drop-shadow-[0_0_7px_rgb(0_0_0)]"> {animeData.title.romaji} </h3>
         <FavoriteHeart
           userAnimeDataLoading={userAnimeDataLoading}
           setUserAnimeData={setUserAnimeData}
           userAnimeData={userAnimeData}
+          position={'right-3 sm:bottom-0 bottom-3'}
           token={token}
           toast={toast}
         />
@@ -147,7 +148,7 @@ export function AnimeUserSettings({
                 defaultValue={
                   e == 'progress' && userAnimeStatus == 'Finished'
                     ? animeData.episodes
-                    : userAnimeData && !userAnimeDataLoading
+                    : userAnimeData && !userAnimeDataLoading && userAnimeData[e]
                       ? userAnimeData[e]
                       : animeUserData[e].defaultValue
                 }

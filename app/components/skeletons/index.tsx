@@ -116,7 +116,7 @@ export function ProfileSkeleton() {
             <Skeleton className="h-8" />
             <Skeleton className="h-8" />
           </div>
-          {Array.from({ length: 5 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <div key={'animeRow' + i} className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] px-3 w-full hover:bg-second rounded-md cursor-pointer">
               <Skeleton className="h-16" />
               <Skeleton className="h-16 pl-5" />

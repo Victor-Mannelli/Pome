@@ -18,9 +18,11 @@ export function getUserAnimeData({
   api
     .get(`/animelist/anime/${animeId}`)
     .then((e) => {
-      setUserAnimeData(e.data);
+      setUserAnimeData(e.data.length === 0 ? null : e.data);
     })
-    .catch(() => setFailed(true))
+    .catch(() => {
+      setFailed(true);
+    })
     .finally(() => setLoading(false));
 }
 

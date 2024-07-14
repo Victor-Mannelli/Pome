@@ -13,7 +13,7 @@ import {
   FaEdit,
   FaEye,
 } from 'react-icons/fa';
-import { GiMagnifyingGlass, GiBroom, GiExitDoor, GiCakeSlice, GiConfirmed } from 'react-icons/gi';
+import { GiMagnifyingGlass, GiBroom, GiExitDoor, GiCakeSlice, GiConfirmed, GiReturnArrow } from 'react-icons/gi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { LiaExpandArrowsAltSolid } from 'react-icons/lia';
 import { IoReload, IoCloseSharp } from 'react-icons/io5';
@@ -43,6 +43,7 @@ export {
   FaSort,
   FaEye,
   GiMagnifyingGlass,
+  GiReturnArrow,
   GiConfirmed,
   GiCakeSlice,
   GiExitDoor,
