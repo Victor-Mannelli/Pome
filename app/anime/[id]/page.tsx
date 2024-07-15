@@ -74,7 +74,7 @@ export default function AnimePage({ params }: { params: { id: string } }) {
           </PopUp>
           <Sinopse animeData={data.Media} inAnimeInfo={false} />
           {data.Media.trailer && data.Media.trailer.site === 'youtube' ? (
-            <div className="relative bg-fourthAndAHalf rounded-xl w-[calc(100%-40px)] mt-5 p-5">
+            <div className="relative bg-fourthAndAHalf rounded-xl w-[calc(100%-40px)] sm:mt-5 p-5">
               <h1 className="text-xl font-bold pb-3"> Trailer </h1>
               <div className="relative flex justify-center">
                 <iframe

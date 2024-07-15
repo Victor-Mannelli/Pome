@@ -1,10 +1,10 @@
 'use client';
 
 import { bufferToBase64, RiArrowLeftDoubleFill, User } from '@/utils';
+import { GenericRowSkeleton, Link } from '@/components';
 import { ChatMessagetype, FriendShip } from './types';
 import { useEffect, useRef, useState } from 'react';
 import Textarea, { TextAreaRef } from 'rc-textarea';
-import { GenericRowSkeleton, Link } from '@/components';
 import { sendMessageToWS } from './functions';
 import { Socket, io } from 'socket.io-client';
 import { Avatar } from '@chakra-ui/react';
@@ -64,7 +64,7 @@ export function ChatBox({
       id="chat"
       className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
     >
-      <div className="w-full flex flex-col gap-1 overflow-auto rounded-md sm:pt-4 sm:px-4">
+      <div className="flex flex-col w-full overflow-auto rounded-md">
         <div id="identification" className="sm:hidden flex items-center gap-1 py-2 pl-1 mb-2 shadow-[0px_2px_7px_0px] shadow-fourth">
           <RiArrowLeftDoubleFill className="text-white text-2xl" onClick={() => clearRoomId()} />
           {wsRoomAndFriend.friend ? (
@@ -78,24 +78,28 @@ export function ChatBox({
             <h1 className="text-center "> Your notes </h1>
           )}
         </div>
-        {chatLoading ? (
-          <GenericRowSkeleton rows={13} lineHeight="h-[2.9rem]" />
-        ) : (
-          chatMessages.map((e, i: number) => (
-            <Message
-              sameUser={i > 0 ? (chatMessages[i - 1].author.username === chatMessages[i].author.username ? true : false) : false}
-              id={i === chatMessages.length - 1 ? 'last' : e.message_id.toString()}
-              username={e.author.username}
-              timestamp={e.created_at}
-              messageId={e.message_id}
-              avatar={e.author.avatar}
-              message={e.message}
-              key={e.message_id}
-              user={user}
-              index={i}
-            />
-          ))
-        )}
+        <div className="flex flex-col gap-1 w-full overflow-auto rounded-md sm:p-4">
+          {chatLoading ? (
+            <GenericRowSkeleton rows={13} lineHeight="h-[2.9rem]" />
+          ) : (
+            <>
+              {chatMessages.map((e, i: number) => (
+                <Message
+                  sameUser={i > 0 ? (chatMessages[i - 1].author.username === chatMessages[i].author.username ? true : false) : false}
+                  id={i === chatMessages.length - 1 ? 'last' : e.message_id.toString()}
+                  username={e.author.username}
+                  timestamp={e.created_at}
+                  messageId={e.message_id}
+                  avatar={e.author.avatar}
+                  message={e.message}
+                  key={e.message_id}
+                  user={user}
+                  index={i}
+                />
+              ))}
+            </>
+          )}
+        </div>
       </div>
       <div className="relative w-full bg-third rounded-md px-4 py-3">
         <Textarea
