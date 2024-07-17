@@ -1,10 +1,9 @@
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import React, { Dispatch, SetStateAction } from 'react';
 import { FaRegHeart, RxCross2 } from '@/utils/libs';
+import { FriendShip } from '@/friends/types';
 import Textarea from 'rc-textarea';
 import { Filter } from '../tools';
-import { FriendShip } from '@/friends/types';
-import { User } from '@/utils';
 
 export function FollowedAnimeSkeleton() {
   return (
@@ -131,17 +130,11 @@ export function ProfileSkeleton() {
   );
 }
 
-export function ChatBoxSkeleton({
-  wsRoomAndFriend,
-  user,
-}: {
-  wsRoomAndFriend: { wsRoom: string; friend_id: string; friend: FriendShip };
-  user: User;
-}) {
+export function ChatBoxSkeleton({ wsRoomAndFriend }: { wsRoomAndFriend: { wsRoom: string; friend_id: string; friend: FriendShip } }) {
   return (
     <div
       id="chat"
-      className={`${wsRoomAndFriend?.wsRoom === user?.user_id ? 'hidden sm:flex' : 'flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
+      className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
     >
       <GenericRowSkeleton rows={15} />
       <Textarea

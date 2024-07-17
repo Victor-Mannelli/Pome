@@ -16,8 +16,8 @@ import React from 'react';
 export default function Profile() {
   const [profileData, setProfileData] = useState<ProfilePageSlugObject | null>(null);
   const [profileDataFailed, setProfileDataFailed] = useState<boolean>(false);
-  const [profileDataLoad, setProfileDataLoad] = useState<boolean>(true);
   const [sortScore, setSortScore] = useState<'up' | 'down' | 'none'>('none');
+  const [profileDataLoad, setProfileDataLoad] = useState<boolean>(true);
   const { user, setToken, setUser } = useContext(TokenContext);
   const [filter, setFilter] = useState<FilterType>({
     search: null,
@@ -51,6 +51,8 @@ export default function Profile() {
     logout({ setToken, setUser, toast });
     router.push('/');
   }
+  // console.log(profileData && profileData.usersAnimelist);
+  // console.log(animelist);
 
   return profileDataLoad || loading || !profileData ? (
     <ProfileSkeleton />

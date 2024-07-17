@@ -46,7 +46,7 @@ export function AnimeUserSettings({
 
   return (
     <div
-      className="fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-full lg:h-[28rem] h-fit bg-second rounded-md md:rounded-xl md:border border-sixth"
+      className="fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-start lg:w-[50rem] md:w-[70%] w-[90%] lg:h-[28rem] h-fit bg-second rounded-xl md:border border-sixth"
       onClick={(e) => e.stopPropagation()}
       ref={ref}
     >
@@ -57,7 +57,7 @@ export function AnimeUserSettings({
           ) : null}
         </Link>
         <RxCross2
-          className="absolute z-10 right-4 top-4 text-white text-3xl cursor-pointer hover:text-fourth drop-shadow-[0_0_3px_rgb(0_0_0)]"
+          className="absolute z-10 right-4 top-4 text-white text-3xl cursor-pointer hover:brightness-75 drop-shadow-[0_0_3px_rgb(0_0_0)]"
           onClick={() => setShowAnimeSettings(false)}
         />
         <h3 className="absolute bottom-3 left-3 w-[84%] sm:w-[92%] font-bold drop-shadow-[0_0_7px_rgb(0_0_0)]"> {animeData.title.romaji} </h3>

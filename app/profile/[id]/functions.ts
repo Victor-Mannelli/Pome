@@ -14,6 +14,7 @@ export async function getUsersAnimelist({
   api
     .get('/animelist')
     .then((e) => {
+      // console.log(e.data, 'getUsersAnimelist');
       setData((prevState) => ({ ...prevState, usersAnimelist: e.data }));
     })
     .catch(() => {
@@ -37,6 +38,7 @@ export async function getUserProfileById({
   api
     .get(`/users/find/${userId}`)
     .then((e) => {
+      // console.log(e.data, 'getUserProfileById');
       setData(e.data);
     })
     .catch((e) => {

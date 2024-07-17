@@ -91,8 +91,8 @@ export default function Friends() {
           )}
         </div>
       </div>
-      {!wsRoomAndFriend || !user ? (
-        <ChatBoxSkeleton wsRoomAndFriend={wsRoomAndFriend} user={user} />
+      {!wsRoomAndFriend.wsRoom || !user ? (
+        <ChatBoxSkeleton wsRoomAndFriend={wsRoomAndFriend} />
       ) : (
         <ChatBox
           clearRoomId={() => setWsRoomAndFriend((prevState) => ({ ...prevState, wsRoom: null }))}
