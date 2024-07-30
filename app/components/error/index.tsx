@@ -1,18 +1,18 @@
-import { SignatureButton } from '../tools/signatureButton';
 import { Dispatch, SetStateAction } from 'react';
+import { SignatureButton } from '../tools';
 import { destroyCookie } from 'nookies';
 import React from 'react';
 
 export function ErrorFeedback({
   refreshFunction,
-  loading,
   setFailed,
   animeApi,
+  loading,
 }: {
   setFailed?: Dispatch<SetStateAction<boolean>>;
   refreshFunction: () => void;
-  loading: boolean;
   animeApi: boolean;
+  loading: boolean;
 }) {
   return (
     <div className="flex flex-col justify-center items-center w-full gap-6">

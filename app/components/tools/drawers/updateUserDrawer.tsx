@@ -2,10 +2,10 @@
 
 import { Box, DrawerBody, FormLabel, Input, InputGroup, InputRightElement, Stack, useToast } from '@chakra-ui/react';
 import { CgProfile, User, FaEye, FaEyeSlash, GiExitDoor, GiConfirmed, updateUser } from '@/utils';
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { ButtonWithIcon } from './buttonWithIcon';
-import BannerInput from '../tools/bannerInput';
-import AvatarInput from '../tools/avatarInput';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { AvatarInput, BannerInput } from '@/components';
+import { ButtonWithIcon } from '../buttons';
+import React from 'react';
 
 export function UpdateUserDrawer({
   setUpdateUser,

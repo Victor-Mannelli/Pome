@@ -1,5 +1,5 @@
 import { ImProfile, GiExitDoor, GrDocumentUpdate, User, SiNiconico, FaUser, FaUserPlus, bufferToBase64, FaUserFriends } from '@/utils';
-import { ButtonWithIcon } from './buttonWithIcon';
+import { ButtonWithIcon } from '../tools/buttons/buttonWithIcon';
 import { Dispatch, SetStateAction } from 'react';
 import { Avatar } from '@chakra-ui/react';
 
@@ -65,7 +65,7 @@ export function MobileNavbar({
         </>
       ) : (
         <>
-          <ButtonWithIcon className="w-72 hover:bg-fourthAndAHalf" onClick={onClose} Icon={FaUser} title={'Login'} href={'/login'} />
+          <ButtonWithIcon className="w-72 hover:bg-fourthAndAHalf" Icon={FaUser} title={'Login'} href={'/login'} />
           <ButtonWithIcon
             className="w-72 hover:bg-fourthAndAHalf"
             title={'Registration'}

@@ -6,7 +6,7 @@ import { GiMagnifyingGlass, IoCloseSharp } from '@/utils/libs';
 import { ShowFollowedAnime } from '@/home/showFollowedAnime';
 import { useDebounceCallback } from 'usehooks-ts';
 import { FilterType } from '@/utils/types';
-import { PomeSelect } from './pomeSelect';
+import { PomeSelect } from '@/components';
 import { TokenContext } from '@/utils';
 import React from 'react';
 

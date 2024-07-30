@@ -3,7 +3,7 @@
 import { Button, useToast } from '@chakra-ui/react';
 import { userRegistration } from './functions';
 import { useRouter } from 'next/navigation';
-import { Link } from '@/components/tools';
+import { Link, SignatureInput } from '@/components/tools';
 import React, { useState } from 'react';
 
 export default function Registration() {
@@ -58,7 +58,7 @@ export default function Registration() {
   return (
     <div className="flex justify-center items-center w-full h-[calc(100vh-7rem)]">
       <div className="flex flex-col md:justify-center justify-center items-center md:w-[35rem] md:py-10 md:h-fit w-full h-screen bg-second sm:rounded-xl">
-        <h1> Welcome! </h1>
+        <h1 className="text-xl"> Welcome! </h1>
         {/* {image ? (
           <div className="relative mb-2">
             <Image src={image} alt="user_banner" className="rounded-xl w-[23rem] h-44"/>
@@ -71,7 +71,7 @@ export default function Registration() {
             />
           </div>
         ) : null} */}
-        <form onSubmit={register} className="flex flex-col justify-center w-full gap-5 px-16 py-10">
+        <form onSubmit={register} className="flex flex-col justify-center w-full gap-3 px-16 py-10">
           {/* {!image ? (
             <div className={`relative w-full flex items-center h-[8.25rem] border-solid border-2 rounded-md mb-5 mt-8 px-5 
               ${focus === true ? 'bg-fourth' : 'bg-second'}`
@@ -94,28 +94,41 @@ export default function Registration() {
           {['Email', 'Username', 'Password', 'Confirm Password'].map((e: string) => {
             const type = e === 'Email' ? 'email' : e === 'Password' || e === 'Confirm Password' ? 'password' : 'text';
             return (
-              <input
+              // <input
+              //   key={e}
+              //   id={e}
+              //   placeholder={e}
+              //   type={type}
+              //   required
+              //   onChange={() => {
+              //     if (!match && type === 'password') setMatch(true);
+              //   }}
+              //   className={`w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white pl-2
+              //     ${type === 'password' && match === false ? 'border-red-600' : 'border-white'}`}
+              // />
+              <SignatureInput
                 key={e}
                 id={e}
                 placeholder={e}
+                label={e}
                 type={type}
                 required
                 onChange={() => {
                   if (!match && type === 'password') setMatch(true);
                 }}
-                className={`w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white pl-2
-                  ${type === 'password' && match === false ? 'border-red-600' : 'border-white'}`}
+                // className={`w-full md:w-full h-12 border-b-[3px] bg-transparent text-lg focus:border-b-2 duration-300 outline-none caret-white text-white pl-2
+                // ${type === 'password' && match === false ? 'border-red-600' : 'border-white'}`}
               />
             );
           })}
           <Button
+            className="w-full md:w-full text-lg h-12 mt-5 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
             textColor={'text-signature'}
-            bg={'bg-fourth'}
             _hover={'hover:bg-fifth'}
-            className="w-full md:w-full text-lg h-12 mt-7 text-signature bg-fourth hover:bg-fifth place-self-center font-bold rounded-md"
-            type="submit"
-            isLoading={loading}
             isDisabled={loading}
+            isLoading={loading}
+            bg={'bg-fourth'}
+            type={'submit'}
           >
             Register
           </Button>

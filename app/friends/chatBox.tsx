@@ -4,11 +4,12 @@ import { bufferToBase64, RiArrowLeftDoubleFill, User } from '@/utils';
 import { GenericRowSkeleton, Link } from '@/components';
 import { ChatMessagetype, FriendShip } from './types';
 import { useEffect, useRef, useState } from 'react';
-import Textarea, { TextAreaRef } from 'rc-textarea';
+import { TextAreaRef } from 'rc-textarea';
 import { sendMessageToWS } from './functions';
 import { Socket, io } from 'socket.io-client';
 import { Avatar } from '@chakra-ui/react';
 import { Message } from './message';
+import Textarea from 'rc-textarea';
 import React from 'react';
 
 export function ChatBox({

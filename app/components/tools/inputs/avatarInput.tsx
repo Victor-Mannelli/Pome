@@ -5,7 +5,7 @@ import { Avatar, AvatarBadge } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 import React from 'react';
 
-export default function AvatarInput({ user, setImage, image }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
+export function AvatarInput({ user, setImage, image }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     const reader = new FileReader();

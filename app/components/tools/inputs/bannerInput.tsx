@@ -5,7 +5,7 @@ import { bufferToBase64, User } from '@/utils';
 import Image from 'next/image';
 import React from 'react';
 
-export default function BannerInput({ image, setImage, user }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
+export function BannerInput({ image, setImage, user }: { user: User; image: string; setImage: Dispatch<SetStateAction<string>> }) {
   const [newImage, setNewImage] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
 

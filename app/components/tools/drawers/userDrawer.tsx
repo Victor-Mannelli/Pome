@@ -1,11 +1,11 @@
 'use client';
 
 import { useDisclosure, Drawer, DrawerContent, DrawerCloseButton, useToast, Avatar } from '@chakra-ui/react';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import { MobileNavbar, UpdateUserDrawer } from '@/components';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { bufferToBase64, logout, User } from '@/utils';
-import { UpdateUserDrawer } from './updateUserDrawer';
-import { MobileNavbar } from './mobileNavbar';
 import { usePathname } from 'next/navigation';
+import React from 'react';
 
 export function UserDrawer({
   setToken,

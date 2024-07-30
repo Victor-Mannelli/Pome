@@ -1,6 +1,6 @@
 import { AiOutlineLoading3Quarters } from '@/utils/libs';
 import { IconType } from 'react-icons';
-import { Link } from '../tools';
+import { Link } from '..';
 
 export function ButtonWithIcon({
   shadowColor,
@@ -33,7 +33,7 @@ export function ButtonWithIcon({
         <Icon className="text-white text-lg" />
         {loading ? (
           <span className="flex justify-center w-full mr-6">
-            <AiOutlineLoading3Quarters className="animate-spin text-white text-xl" />{' '}
+            <AiOutlineLoading3Quarters className="animate-spin text-white text-xl" />
           </span>
         ) : (
           <h1 className="cursor-pointer"> {title} </h1>
