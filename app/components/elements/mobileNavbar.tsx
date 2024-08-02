@@ -41,9 +41,9 @@ export function MobileNavbar({
           <ButtonWithIcon
             href={pathname === '/friends' ? null : '/friends'}
             className="w-72 hover:bg-fourthAndAHalf"
+            Icon={FaUserFriends}
             onClick={onClose}
             title={'Friends'}
-            Icon={FaUserFriends}
           />
           <ButtonWithIcon
             className="w-72 hover:bg-fourthAndAHalf"
@@ -65,7 +65,7 @@ export function MobileNavbar({
         </>
       ) : (
         <>
-          <ButtonWithIcon className="w-72 hover:bg-fourthAndAHalf" Icon={FaUser} title={'Login'} href={'/login'} />
+          <ButtonWithIcon className="w-72 hover:bg-fourthAndAHalf" Icon={FaUser} title={'Login'} href={'/login'} onClick={onClose} />
           <ButtonWithIcon
             className="w-72 hover:bg-fourthAndAHalf"
             title={'Registration'}

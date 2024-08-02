@@ -138,6 +138,7 @@ export function AnimeInfo({
             ${userAnimeData && !userAnimeDataLoading && animeUserStatus[userAnimeData.status]?.color ? animeUserStatus[userAnimeData.status].color : 'text-white'}
           `}
             onClick={() => {
+              // console.log(token, 'token anime info');
               if (!token) {
                 toast({
                   title: 'Log in first!',

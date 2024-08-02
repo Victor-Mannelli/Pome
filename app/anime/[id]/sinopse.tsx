@@ -19,7 +19,7 @@ export function Sinopse({ animeData, inAnimeInfo }: { animeData: SingleAnimeData
     <>
       <div
         className={`bg-fourthAndAHalf rounded-xl p-5 text-white
-          ${inAnimeInfo ? 'w-full' : 'w-[calc(100%-40px)]'}
+          ${inAnimeInfo ? 'w-full' : 'w-[calc(100%-40px)] mb-5'}
           ${(inAnimeInfo && animeData.bannerImage) || (!inAnimeInfo && !animeData.bannerImage) ? 'block lg:hidden' : 'hidden lg:block'}
         `}
       >
