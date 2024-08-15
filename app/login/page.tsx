@@ -8,8 +8,8 @@ import { TokenContext } from '@/utils';
 import React from 'react';
 
 export default function Login() {
+  const { setUser, setToken } = React.useContext(TokenContext);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { setUser } = React.useContext(TokenContext);
   const router = useRouter();
   const toast = useToast();
 
@@ -19,6 +19,7 @@ export default function Login() {
       login: e.target['username'].value,
       password: e.target['password'].value,
       setLoading,
+      setToken,
       setUser,
       router,
       toast,

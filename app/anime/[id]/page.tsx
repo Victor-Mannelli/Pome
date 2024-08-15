@@ -33,11 +33,12 @@ export default function AnimePage({ params }: { params: { id: string } }) {
       animeId: Number(params.id),
     });
   }, [params.id, token]);
-  // console.log(token, 'token anime slug');
+
   if (userAnimeDataFailed) {
     logout({ setToken, setUser, toast });
     router.push('/');
   }
+
   return (
     <>
       {dataFailed ? (

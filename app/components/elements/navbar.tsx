@@ -10,7 +10,7 @@ import React from 'react';
 
 export function Navbar() {
   const { user, setUser, setToken } = useContext(TokenContext);
-  const { animelistTitle } = useContext(VariablesContext);
+  const { animelistTitle, showFollowedAnime } = useContext(VariablesContext);
   const [show, setShow] = useState<boolean>(true);
   const pathname = usePathname();
   const router = useRouter();
@@ -39,7 +39,13 @@ export function Navbar() {
       `}
     >
       <div
-        className={`flex justify-between items-center ${pathname === '/' ? 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]' : 'w-full'}`}
+        className={`flex justify-between items-center ${
+          pathname === '/' && showFollowedAnime
+            ? 'xl:w-[87rem] lg:w-[60rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]'
+            : pathname === '/'
+              ? 'xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem] w-[24rem]'
+              : 'w-full'
+        }`}
       >
         <div className="sm:hidden block" onClick={() => router.back()}>
           <GiReturnArrow className="text-signature text-2xl cursor-pointer hover:brightness-75 mr-[18px]" />

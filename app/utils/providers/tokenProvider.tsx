@@ -2,7 +2,6 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState
 import { getDataFromIndexDB } from '../indexDB';
 import { Buffer } from 'buffer';
 import { User } from '../types';
-import React from 'react';
 
 interface TokenContextType {
   setToken: Dispatch<SetStateAction<string | null>>;
@@ -30,8 +29,6 @@ export function TokenProvider({ children }: { children: ReactNode }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // console.log(token, 'token provider');
 
   useEffect(() => {
     if (!token) return;

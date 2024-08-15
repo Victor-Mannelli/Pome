@@ -1,4 +1,4 @@
-import { getDateAsYYYYMMDD } from '@/utils/functions';
+import { getCurrentDateAsYYYYMMDD } from '@/utils/functions';
 import { HTMLInputTypeAttribute } from 'react';
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -67,7 +67,7 @@ export const animeUserData: {
     min: 0,
   },
   start_date: {
-    defaultValue: getDateAsYYYYMMDD(),
+    defaultValue: getCurrentDateAsYYYYMMDD(),
     title: 'Start Date',
     type: 'date',
     cursor: 'default',

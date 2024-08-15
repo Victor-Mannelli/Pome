@@ -19,6 +19,7 @@ export function PageHandler({
         onClick={() => {
           if (currentPage > 1) {
             setPage(currentPage - 1);
+            scrollTo({ top: 0, behavior: 'smooth' });
           }
         }}
       />
@@ -29,6 +30,7 @@ export function PageHandler({
         onClick={() => {
           if (hasNextPage) {
             setPage(currentPage + 1);
+            scrollTo({ top: 0, behavior: 'smooth' });
           }
         }}
       />

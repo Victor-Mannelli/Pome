@@ -8,6 +8,7 @@ import { User } from '@/utils/types';
 export function userLogin({
   setLoading,
   password,
+  setToken,
   setUser,
   router,
   login,
@@ -15,6 +16,7 @@ export function userLogin({
 }: {
   setLoading: Dispatch<SetStateAction<boolean>>;
   toast: (options?: UseToastOptions) => void;
+  setToken: Dispatch<SetStateAction<string>>;
   setUser: Dispatch<SetStateAction<User>>;
   router: ReturnType<typeof useRouter>;
   password: string;
@@ -30,6 +32,7 @@ export function userLogin({
         avatar: response.data.userData.avatar?.data,
         banner: response.data.userData.banner?.data,
       });
+      setToken(response.data.token);
       localStorage.setItem('token', response.data.token);
       saveDataInIndexDB('banner', response.data.userData.banner?.data);
       saveDataInIndexDB('avatar', response.data.userData.avatar?.data);

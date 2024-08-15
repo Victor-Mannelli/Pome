@@ -14,7 +14,7 @@ export function Animelist({ animeData, setPage, page }: { setPage: Dispatch<SetS
         </div>
       ) : (
         <>
-          <div className="flex flex-wrap gap-4 py-5 w-[20.2rem] sm:w-full">
+          <div className="flex flex-wrap gap-4 py-5 w-[20.2rem] sm:w-[41.4rem] md:w-full">
             {animeData.media.map((anime: SingleAnimeData) => (
               <Link href={`/anime/${anime.id}`} key={anime.id}>
                 <div

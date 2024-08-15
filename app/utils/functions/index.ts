@@ -3,6 +3,7 @@ import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 import { saveDataInIndexDB } from '../indexDB';
 import { api } from '@/utils/libs/axios';
+import { monthNames } from '../consts';
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number; childWidth: number }) {
   const numChildrenPerRow = parentWidth - childWidth < 24 ? 1 : Math.floor(parentWidth / (childWidth + 24)); // 24px is the gap between children
@@ -36,7 +37,7 @@ export async function getUsersFollewedAnime({
     .finally(() => setLoading(false));
 }
 
-export function getDateAsYYYYMMDD() {
+export function getCurrentDateAsYYYYMMDD() {
   const currentDate = new Date();
   const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1 and pad with leading zero
   const day = String(currentDate.getDate()).padStart(2, '0'); // Pad day with leading zero
@@ -115,6 +116,14 @@ export function bufferToBase64(buffer) {
     binary += String.fromCharCode(bytes[i]);
   }
   return btoa(binary);
+}
+
+export function getAnimeStartDateInFull(startDate: { year: number; month: number; day: number }) {
+  return `${monthNames[startDate.month]} ${startDate.day ? ' ' + startDate.day + 'th, ' : ', '} ${startDate.year}`;
+}
+
+export function getAnimeStartDateInShort(startDate: { year: number; month: number; day: number }) {
+  return `${startDate.month.toString().padStart(2, '0')}/${startDate.day}/${startDate.year}`;
 }
 
 type UpdateUser = {

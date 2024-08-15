@@ -1,7 +1,8 @@
 import { AnimeTags, SingleAnimeData, UsersAnimeData } from '@/utils/types';
-import { animeUserStatus, monthNames } from '@/utils/consts';
 import { UseToastOptions } from '@chakra-ui/react';
+import { getAnimeStartDateInFull, getAnimeStartDateInShort } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
+import { animeUserStatus } from '@/utils/consts';
 import { FavoriteHeart } from './favoriteHeart';
 import { Stars } from '@/components';
 import { Sinopse } from './sinopse';
@@ -25,6 +26,7 @@ export function AnimeInfo({
   animeData: SingleAnimeData;
   token: string;
 }) {
+  console.log(animeData);
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-14'}`}>
       <FavoriteHeart
@@ -83,6 +85,13 @@ export function AnimeInfo({
                 </h3>
                 {animeData.averageScore ? <Stars className="" score={animeData.averageScore} /> : null}
               </div>
+              <h3>
+                {animeData.status !== 'FINISHED' && animeData.status !== 'NOT_YET_RELEASED' && animeData.startDate
+                  ? 'Started At: ' + getAnimeStartDateInShort(animeData.startDate)
+                  : animeData.status === 'FINISHED' && animeData.endDate
+                    ? 'Finished at: ' + getAnimeStartDateInShort(animeData.endDate)
+                    : null}
+              </h3>
               {animeData.status === 'RELEASING' && animeData.nextAiringEpisode ? (
                 <>
                   <h3 className="w-72 h-6"> Current Episode: {animeData.nextAiringEpisode.episode - 1} </h3>
@@ -95,11 +104,7 @@ export function AnimeInfo({
                 </>
               ) : animeData.status === 'NOT_YET_RELEASED' ? (
                 <>
-                  <h3 className="w-72 h-6 text-h-signature">
-                    Start Date: {monthNames[animeData.startDate.month]}
-                    {animeData.startDate.day ? ' ' + animeData.startDate.day + 'th, ' : ', '}
-                    {animeData.startDate.year}
-                  </h3>
+                  <h3 className="w-72 h-6 text-h-signature"> Start Date: {getAnimeStartDateInFull(animeData.startDate)} </h3>
                   {animeData.episodes ? <h3> Total Episodes: {animeData.episodes} </h3> : null}
                 </>
               ) : null}
@@ -117,7 +122,7 @@ export function AnimeInfo({
             {animeData.tags ? (
               <div
                 id="tags"
-                className={`flex flex-wrap ${animeData.bannerImage ? 'xl:flex-col ' : 'flex-col'} items-start gap-2 pl-2 md:pl-7 lg:pl-0 xx:pl-36 xl:h-52 xx:h-48 xl:w-[28rem]`}
+                className={`flex flex-wrap ${animeData.bannerImage ? 'xl:flex-col' : 'flex-col'} items-start gap-2 pl-2 md:pl-7 lg:pl-0 xx:pl-36 xl:h-52 xx:h-48 xl:w-[28rem]`}
               >
                 {animeData.tags.slice(0, window.innerWidth < 1780 && 1080 < window.innerWidth ? 21 : 28).map((e: AnimeTags) => (
                   <>
