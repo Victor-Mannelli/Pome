@@ -27,6 +27,15 @@ export default function Friends() {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
   }, []);
 
+  useEffect(() => {
+    if (!user) return;
+    setWsRoomAndFriend({
+      friend: null,
+      friend_id: user.user_id,
+      wsRoom: user.user_id,
+    });
+  }, [user]);
+
   // console.log(wsRoomAndFriend);
   // console.log(wsRoomAndFriend?.wsRoom);
 

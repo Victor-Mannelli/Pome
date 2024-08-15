@@ -134,7 +134,7 @@ export function ChatBoxSkeleton({ wsRoomAndFriend }: { wsRoomAndFriend: { wsRoom
   return (
     <div
       id="chat"
-      className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
+      className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl p-5`}
     >
       <GenericRowSkeleton rows={15} />
       <Textarea
