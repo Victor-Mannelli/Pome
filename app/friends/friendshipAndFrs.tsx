@@ -20,12 +20,10 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
 
   useEffect(() => {
     getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed });
-  }, []);
 
-  useEffect(() => {
     const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/friendRequest`);
     setSocket(socketInstance);
-  }, [setSocket]);
+  }, []);
 
   useEffect(() => {
     socket?.emit('joinFrRoom', user.user_id);
@@ -39,24 +37,20 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
     socket?.on('friendRequest', (response) => {
       setStrangersAndFRs((prevState) => ({ ...prevState, friendRequests: [...prevState.friendRequests, response.friendRequest] }));
     });
-  }, [socket]);
 
-  useEffect(() => {
     socket?.on('deleteFR', (response) => {
       setStrangersAndFRs((prevState) => ({
         ...prevState,
         friendRequests: prevState.friendRequests.filter((FR) => FR.friend_request_id !== response.deletedFR.friend_request_id),
       }));
     });
-  }, [socket]);
 
-  useEffect(() => {
     socket?.on('acceptFR', (response) => {
       setFriendlist((prevState) => [...prevState, response.acceptedFR]);
     });
   }, [socket, setFriendlist]);
 
-  const receivedFR = strangersAndFRs?.friendRequests.filter((e: FriendRequests) => e.requested_id === user.user_id);
+  const receivedFR = strangersAndFRs?.friendRequests.filter((e: FriendRequests) => e?.requested_id === user.user_id);
 
   if (strangersAndFRsLoading) {
     return (
@@ -71,7 +65,7 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
     <div className="flex items-center justify-between">
       <div className="relative flex items-center gap-3">
         <h1 className="font-bold"> Friends </h1>
-        {receivedFR.length > 0 ? (
+        {receivedFR?.length > 0 ? (
           <>
             <FaUserFriends
               className="text-white text-2xl cursor-pointer animate-pulse"

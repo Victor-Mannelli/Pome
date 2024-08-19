@@ -2,13 +2,14 @@
 
 import { deleteFriendRequestWS, sendFriendRequestToWS } from './functions';
 import { FiUserPlus, RiArrowLeftDoubleFill, RxCross2 } from '@/utils/libs';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { GenericRowSkeleton, ErrorFeedback, Filter } from '@/components';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { FriendType, StrangersAndFRsType } from './types';
 import { Avatar, CloseButton } from '@chakra-ui/react';
 import { useOnClickOutside } from 'usehooks-ts';
-import { Socket } from 'socket.io-client';
 import { bufferToBase64, User } from '@/utils';
+import { Socket } from 'socket.io-client';
+import React from 'react';
 
 export function SendFrs({
   setStrangersAndFRsFailed,
@@ -58,7 +59,8 @@ export function SendFrs({
             <ErrorFeedback loading={strangersAndFRsLoading} setFailed={setStrangersAndFRsFailed} animeApi={false} refreshFunction={refreshFunction} />
           ) : strangersList.length > 0 ? (
             strangersList.map((stranger: FriendType) => {
-              const requestSent = strangersAndFRs.friendRequests.find((friendRequest) => friendRequest.requested_id === stranger.user_id);
+              // console.log(strangersList);
+              const requestSent = strangersAndFRs.friendRequests.find((friendRequest) => friendRequest?.requested_id === stranger.user_id);
               return (
                 <div
                   key={stranger.user_id}

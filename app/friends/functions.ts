@@ -215,8 +215,8 @@ export function deleteFriendRequestWS({
 }) {
   socket?.emit('deleteFR', {
     room: stranger_id,
-    userId,
     friendRequestId,
+    userId,
   });
 }
 
@@ -231,6 +231,7 @@ export function acceptFriendRequestWS({
   socket: Socket;
   userId: string;
 }) {
+  console.log('acceptedFriendRequestWS');
   socket?.emit('acceptFR', {
     room: stranger_id,
     userId,

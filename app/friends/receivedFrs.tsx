@@ -1,6 +1,6 @@
 import { FiUserPlus, GiCakeSlice, RiArrowLeftDoubleFill, RxCross2 } from '@/utils/libs';
+import { acceptFriendRequestWS, deleteFriendRequestWS } from './functions';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { acceptFriendRequestWS } from './functions';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Avatar } from '@chakra-ui/react';
 import { Socket } from 'socket.io-client';
@@ -47,29 +47,49 @@ export function ReceivedFrs({
               <GiCakeSlice className="text-3xl" />
             </div>
           ) : (
-            filteredFRs.map((e: FriendRequests) => (
-              <div
-                key={e.friend_request_id}
-                className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between hover:bg-sixth hover:cursor-pointer"
-                onClick={() => {
-                  acceptFriendRequestWS({
-                    friendRequestId: e.friend_request_id,
-                    stranger_id: e.requester.user_id,
-                    socket,
-                    userId: e.requested_id,
-                  });
-                }}
-              >
-                <div className="flex items-center">
-                  <Avatar size="sm" className="rounded-full mr-2" src={`data:image/png;base64, ${bufferToBase64(e.requester.avatar)}`} />
-                  <h1 className="cursor-pointer text-lg">{e.requester.username}</h1>
+            filteredFRs.map((FR: FriendRequests) => {
+              // console.log(typeof e?.requester.avatar);
+              // console.log(FR);
+              return (
+                <div
+                  key={FR.friend_request_id}
+                  className="bg-fifth rounded-xl p-2 w-full flex items-center justify-between hover:bg-sixth hover:cursor-pointer"
+                  onClick={() => {
+                    acceptFriendRequestWS({
+                      friendRequestId: FR.friend_request_id,
+                      stranger_id: FR.requester.user_id,
+                      socket,
+                      userId: FR.requested_id,
+                    });
+                  }}
+                >
+                  <div className="flex items-center">
+                    <Avatar
+                      size="sm"
+                      className="rounded-full mr-2"
+                      src={`data:image/png;base64, ${bufferToBase64(FR.requester.avatar.data)}`}
+                      // src={`data:image/png;base64, ${bufferToBase64(typeof FR.requester.avatar === 'object' ? FR.requester.avatar.data : FR.requester.avatar)}`}
+                    />
+                    <h1 className="cursor-pointer text-lg">{FR.requester.username}</h1>
+                  </div>
+                  <div className="z-10 flex items-center gap-4 text-white hover:text-signature cursor-pointer">
+                    <FiUserPlus className="text-[2rem] rounded-full p-1 text-signature bg-fourth" />
+                    <RxCross2
+                      className="text-[2rem] pr-1 text-red-500 rounded-full p-1 bg-fourth hover:bg-fourthAndAHalf"
+                      onClick={(clickEvent) => {
+                        clickEvent.stopPropagation();
+                        deleteFriendRequestWS({
+                          friendRequestId: FR.friend_request_id,
+                          stranger_id: FR.requested_id,
+                          userId: FR.requester.user_id,
+                          socket,
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="z-10 flex items-center gap-3 text-white hover:text-signature cursor-pointer">
-                  {/* <p className="cursor-pointer hover:text-inherit font-bold"> Accept </p> */}
-                  <FiUserPlus className="text-2xl pr-1" />
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

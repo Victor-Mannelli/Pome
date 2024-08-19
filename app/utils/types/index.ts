@@ -183,8 +183,20 @@ export type User = {
   user_id: string;
   username: string;
   email: string;
-  banner: number[];
-  avatar: number[];
+  banner: number[] | Base64ImageObject;
+  avatar: number[] | Base64ImageObject;
+};
+
+export type Base64ImageObject = {
+  type: Buffer;
+  data: number[];
+};
+
+export type FriendShip = {
+  avatar: Base64ImageObject;
+  friendship_id: string;
+  user_id: string;
+  username: string;
 };
 
 export type FilterType = {
