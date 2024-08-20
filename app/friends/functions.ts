@@ -195,6 +195,7 @@ export function deleteMessageWS({ socket, user, messageId }: { messageId: string
 //* FRIEND REQUESTS WS
 
 export function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_id: string; socket: Socket; user: User }) {
+  console.log('friendRequest sent');
   socket?.emit('friendRequest', {
     room: stranger_id,
     user_id: user.user_id,

@@ -1,6 +1,6 @@
 'use client';
 
-import { ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
+import { ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 import { useContext, useEffect, useState } from 'react';
 import { bufferToBase64, TokenContext } from '@/utils';
@@ -22,23 +22,13 @@ export default function Friends() {
   const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
   const { user } = useContext(TokenContext);
 
-  // console.log(wsRoomAndFriend.friend, 'wsRoomAndFriend: ' + wsRoomAndFriend.friend_id);
-
   useEffect(() => {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
   }, []);
 
-  useEffect(() => {
-    if (!user) return;
-    setWsRoomAndFriend({
-      friend: null,
-      friend_id: user.user_id,
-      wsRoom: user.user_id,
-    });
-  }, [user]);
-
   // console.log(wsRoomAndFriend);
   // console.log(wsRoomAndFriend?.wsRoom);
+  // console.log(wsRoomAndFriend.friend, 'wsRoomAndFriend: ' + wsRoomAndFriend.friend_id);
 
   return (
     <div className="flex sm:m-5 gap-5 sm:h-[calc(100vh-6rem)] h-[calc(100vh-3.5rem)]">
@@ -105,7 +95,14 @@ export default function Friends() {
         </div>
       </div>
       {!wsRoomAndFriend.wsRoom || !user ? (
-        <ChatBoxSkeleton wsRoomAndFriend={wsRoomAndFriend} />
+        <div
+          className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-center items-center gap-3 sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
+        >
+          <h1 className="text-2xl"> PoMe Chat </h1>
+          <p className="text-center">
+            Select your message channel <br /> on the left
+          </p>
+        </div>
       ) : (
         <ChatBox
           clearRoomId={() => setWsRoomAndFriend((prevState) => ({ ...prevState, wsRoom: null }))}

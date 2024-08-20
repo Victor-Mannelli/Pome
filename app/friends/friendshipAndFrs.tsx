@@ -35,10 +35,15 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
 
   useEffect(() => {
     socket?.on('friendRequest', (response) => {
-      setStrangersAndFRs((prevState) => ({ ...prevState, friendRequests: [...prevState.friendRequests, response.friendRequest] }));
+      console.log(response, 'friendRequest');
+      setStrangersAndFRs((prevState) => ({
+        ...prevState,
+        friendRequests: [...prevState.friendRequests, response.friendRequest],
+      }));
     });
 
     socket?.on('deleteFR', (response) => {
+      console.log(response, 'deleteFR');
       setStrangersAndFRs((prevState) => ({
         ...prevState,
         friendRequests: prevState.friendRequests.filter((FR) => FR.friend_request_id !== response.deletedFR.friend_request_id),
