@@ -1,6 +1,6 @@
 'use client';
 
-import { ChatBoxSkeleton, ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
+import { ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 import { useContext, useEffect, useState } from 'react';
 import { bufferToBase64, TokenContext } from '@/utils';
@@ -22,20 +22,9 @@ export default function Friends() {
   const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
   const { user } = useContext(TokenContext);
 
-  // console.log(wsRoomAndFriend.friend, 'wsRoomAndFriend: ' + wsRoomAndFriend.friend_id);
-
   useEffect(() => {
     getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
   }, []);
-
-  useEffect(() => {
-    if (!user) return;
-    setWsRoomAndFriend({
-      friend: null,
-      friend_id: user.user_id,
-      wsRoom: user.user_id,
-    });
-  }, [user]);
 
   // console.log(wsRoomAndFriend);
   // console.log(wsRoomAndFriend?.wsRoom);
@@ -47,10 +36,10 @@ export default function Friends() {
         className={`${wsRoomAndFriend?.wsRoom ? 'hidden sm:flex' : 'flex'} flex-col bg-third w-full sm:w-1/4 h-full sm:rounded-xl p-5 gap-5`}
       >
         <div
-          className={`flex justify-center items-center rounded-xl p-2 w-full ${wsRoomAndFriend?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
+          className={`flex justify-center items-center rounded-xl p-2 w-full cursor-pointer ${wsRoomAndFriend?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
           onClick={() => setWsRoomAndFriend({ wsRoom: user?.user_id, friend_id: user?.user_id, friend: null })}
         >
-          <h1> Your notes </h1>
+          <h1 className="cursor-pointer"> Your notes </h1>
         </div>
         {!user ? (
           <div className="flex items-center justify-between">
@@ -73,21 +62,20 @@ export default function Friends() {
             </div>
           ) : friendlist.length !== 0 ? (
             friendlist.map((friend: FriendShip, i: number) => {
-              // console.log(friendlist, 'friendlist');
               return (
                 <div
                   key={i}
-                  className={`flex items-center rounded-xl p-2 w-full ${friend?.friendship_id === wsRoomAndFriend?.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
+                  className={`flex items-center rounded-xl p-2 w-full cursor-pointer ${friend.friendship_id === wsRoomAndFriend?.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
                   onClick={() => setWsRoomAndFriend({ wsRoom: friend.friendship_id, friend_id: friend.user_id, friend })}
                 >
-                  <Link href={`profile/${friend?.user_id}`}>
+                  <Link href={`profile/${friend.user_id}`}>
                     <Avatar
                       className="rounded-full mr-3"
                       size="sm"
-                      src={friend?.avatar ? `data:image/png;base64, ${bufferToBase64(friend?.avatar.data)}` : null}
+                      src={friend.avatar ? `data:image/png;base64, ${bufferToBase64(friend.avatar.data)}` : null}
                     />
                   </Link>
-                  <h1> {friend?.username} </h1>
+                  <h1 className="cursor-pointer"> {friend.username} </h1>
                 </div>
               );
             })
@@ -105,7 +93,12 @@ export default function Friends() {
         </div>
       </div>
       {!wsRoomAndFriend.wsRoom || !user ? (
-        <ChatBoxSkeleton wsRoomAndFriend={wsRoomAndFriend} />
+        <div
+          className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-center items-center gap-3 sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
+        >
+          <h1 className="text-2xl"> PoMe Chat </h1>
+          <p> Select a friend or your notes on the left! </p>
+        </div>
       ) : (
         <ChatBox
           clearRoomId={() => setWsRoomAndFriend((prevState) => ({ ...prevState, wsRoom: null }))}

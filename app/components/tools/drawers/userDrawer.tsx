@@ -23,7 +23,15 @@ export function UserDrawer({
 
   return (
     <>
-      <Avatar name={user?.username} onClick={onOpen} cursor={'pointer'} src={`data:image/png;base64, ${bufferToBase64(user?.avatar)}`} />
+      <Avatar
+        name={user?.username}
+        onClick={() => {
+          setUpdateUser(false);
+          onOpen();
+        }}
+        cursor={'pointer'}
+        src={`data:image/png;base64, ${bufferToBase64(user?.avatar)}`}
+      />
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerContent boxShadow={'0 0 10px rgb(0, 0, 0)'} bgColor={'#2c2e2f'}>
           <DrawerCloseButton onClick={() => setUpdateUser(false)} color={'white'} mt={2} />

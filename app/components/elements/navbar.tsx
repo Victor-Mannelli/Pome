@@ -4,13 +4,12 @@ import { TokenContext, VariablesContext, titlesFilterParser } from '@/utils';
 import { GiReturnArrow, SiNiconico } from '@/utils/libs';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
-import { Link } from '../tools/navigationLoader';
-import { UserDrawer } from '../tools';
+import { Link, UserDrawer } from '../tools';
 import React from 'react';
 
 export function Navbar() {
-  const { user, setUser, setToken } = useContext(TokenContext);
   const { animelistTitle, showFollowedAnime } = useContext(VariablesContext);
+  const { user, setUser, setToken } = useContext(TokenContext);
   const [show, setShow] = useState<boolean>(true);
   const pathname = usePathname();
   const router = useRouter();
