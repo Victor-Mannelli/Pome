@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Socket } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 
-//* FRIEND LIST
+//? FRIEND LIST
 
 // export function acceptFriendRequest(friend_request_id: number) {
 //   api.post(`/friendRequest/accept/${friend_request_id}`);
@@ -40,9 +40,9 @@ import { v4 as uuidv4 } from 'uuid';
 // }
 
 export function getFriendList({
-  setData,
   setLoading,
   setFailed,
+  setData,
 }: {
   setData: Dispatch<SetStateAction<FriendType[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -59,7 +59,7 @@ export function getFriendList({
     .finally(() => setLoading(false));
 }
 
-// * MESSAGES
+//? MESSAGES
 
 // export function getMessages({
 //   setLoading,
@@ -141,12 +141,18 @@ export function deleteMessage({ id, setChatMessages }: { id: number; setChatMess
     });
 }
 
-//* FRIEND REQUESTS
+//TODO FRIEND REQUESTS
 
 export function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
   api.get('/friendRequest').then((e) => {
     setData(e.data);
   });
+}
+
+//TODO FRIENDSHIP
+
+export function deleteFriend(friendship_id: string, refreshFL: () => void) {
+  api.delete(`/friendship/${friendship_id}`).then(() => refreshFL());
 }
 
 //* MESSAGES WS
