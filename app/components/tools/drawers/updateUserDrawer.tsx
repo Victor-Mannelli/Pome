@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, DrawerBody, FormLabel, Input, InputGroup, InputRightElement, Stack, useToast } from '@chakra-ui/react';
+import { Box, DrawerBody, FormLabel, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/react';
 import { CgProfile, User, FaEye, FaEyeSlash, GiExitDoor, GiConfirmed, updateUser } from '@/utils';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { AvatarInput, BannerInput } from '@/components';
@@ -34,7 +34,7 @@ export function UpdateUserDrawer({
   return (
     <form
       id="updateUser"
-      className="h-screen"
+      className="h-screen w-[280px]"
       onSubmit={(e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
@@ -53,74 +53,78 @@ export function UpdateUserDrawer({
       }}
     >
       <DrawerBody h={'full'}>
-        <Stack spacing="20px" h={'full'}>
-          <h1 className="mt-3"> Profile Picture (optional) </h1>
+        <div className="flex flex-col h-full">
+          <h1 className="my-3">
+            Profile Picture <span className="text-sm"> (optional) </span>
+          </h1>
           <AvatarInput user={user} image={profilePicture} setImage={setProfilePicture} />
-          <BannerInput user={user} image={banner} setImage={setBanner} />
-          <Box>
-            <FormLabel htmlFor="username" textColor={'white'} fontWeight={700}>
-              Username (optional)
-            </FormLabel>
-            <Input ref={firstField} id="username" textColor={'white'} placeholder={user?.username} />
-          </Box>
-          <Box>
-            <FormLabel htmlFor="email" textColor={'white'} fontWeight={700}>
-              Email (optional)
-            </FormLabel>
-            <Input id="email" textColor={'white'} placeholder={user?.email} />
-          </Box>
-          <Box>
-            <FormLabel htmlFor="password" textColor={'white'} fontWeight={700}>
-              Password (optional)
-            </FormLabel>
-            <InputGroup>
-              <Input
-                id="password"
-                textColor={'white'}
-                placeholder="New Password"
-                type={showPassword ? 'text' : 'password'}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setInvalidPassword(false);
-                }}
-              />
-              <InputRightElement>
-                {showPassword ? (
-                  <FaEye className="cursor-pointer text-white" onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEyeSlash className="cursor-pointer text-white" onClick={() => setShowPassword(true)} />
-                )}
-              </InputRightElement>
-            </InputGroup>
-          </Box>
-          <Box>
-            <FormLabel htmlFor="password" textColor={'white'} fontWeight={700}>
-              Confirm Password (optional)
-            </FormLabel>
-            <InputGroup>
-              <Input
-                type={showConfirmPassword ? 'text' : 'password'}
-                required={password.length > 0 ? true : false}
-                isInvalid={invalidPassword ? true : false}
-                placeholder="Repeat Password"
-                id={'confirmPassword'}
-                textColor={'white'}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  setInvalidPassword(false);
-                }}
-              />
-              <InputRightElement>
-                {showConfirmPassword ? (
-                  <FaEye className="cursor-pointer text-white" onClick={() => setShowConfirmPassword(false)} />
-                ) : (
-                  <FaEyeSlash className="cursor-pointer text-white" onClick={() => setShowConfirmPassword(true)} />
-                )}
-              </InputRightElement>
-            </InputGroup>
-            {invalidPassword ? <p className="text-red-500"> As duas senhas são diferentes </p> : null}
-          </Box>
-          <Box className="flex flex-col justify-between h-full">
+          <div className="flex flex-col gap-1 h-full">
+            <BannerInput user={user} image={banner} setImage={setBanner} />
+            <Box>
+              <FormLabel htmlFor="username" textColor={'white'} fontWeight={700}>
+                Username <span className="text-sm"> (optional) </span>
+              </FormLabel>
+              <Input ref={firstField} id="username" textColor={'white'} placeholder={user?.username} />
+            </Box>
+            <Box>
+              <FormLabel htmlFor="email" textColor={'white'} fontWeight={700}>
+                Email <span className="text-sm"> (optional) </span>
+              </FormLabel>
+              <Input id="email" textColor={'white'} placeholder={user?.email} />
+            </Box>
+            <Box>
+              <FormLabel htmlFor="password" textColor={'white'} fontWeight={700}>
+                Password <span className="text-sm"> (optional) </span>
+              </FormLabel>
+              <InputGroup>
+                <Input
+                  id="password"
+                  textColor={'white'}
+                  placeholder="New Password"
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setInvalidPassword(false);
+                  }}
+                />
+                <InputRightElement>
+                  {showPassword ? (
+                    <FaEye className="cursor-pointer text-white" onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <FaEyeSlash className="cursor-pointer text-white" onClick={() => setShowPassword(true)} />
+                  )}
+                </InputRightElement>
+              </InputGroup>
+            </Box>
+            <Box>
+              <FormLabel htmlFor="password" textColor={'white'} fontWeight={700}>
+                Confirm Password {password.length > 0 ? null : <span className="text-sm"> (optional) </span>}
+              </FormLabel>
+              <InputGroup>
+                <Input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  required={password.length > 0 ? true : false}
+                  isInvalid={invalidPassword ? true : false}
+                  placeholder="Repeat Password"
+                  id={'confirmPassword'}
+                  textColor={'white'}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    setInvalidPassword(false);
+                  }}
+                />
+                <InputRightElement>
+                  {showConfirmPassword ? (
+                    <FaEye className="cursor-pointer text-white" onClick={() => setShowConfirmPassword(false)} />
+                  ) : (
+                    <FaEyeSlash className="cursor-pointer text-white" onClick={() => setShowConfirmPassword(true)} />
+                  )}
+                </InputRightElement>
+              </InputGroup>
+              {invalidPassword ? <p className="text-red-500"> As duas senhas são diferentes </p> : null}
+            </Box>
+          </div>
+          <Box className="flex flex-col justify-between h-full pt-3">
             <ButtonWithIcon
               className="w-full bg-green-500"
               shadowColor="rgb(34 197 94)"
@@ -148,7 +152,7 @@ export function UpdateUserDrawer({
               />
             </div>
           </Box>
-        </Stack>
+        </div>
       </DrawerBody>
     </form>
   );

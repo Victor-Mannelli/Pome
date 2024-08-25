@@ -60,7 +60,7 @@ type Base64ImageObject = {
 //* Messages
 
 export type ChatMessagetype = {
-  message_id: number;
+  message_id: string;
   message: string;
   receiver_id?: string;
   author_id?: string;

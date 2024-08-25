@@ -1,10 +1,11 @@
 'use client';
 
 import { TokenContext, VariablesContext, titlesFilterParser } from '@/utils';
-import { GiReturnArrow, SiNiconico } from '@/utils/libs';
+import { SiNiconico } from '@/utils/libs';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { Link, UserDrawer } from '../tools';
+import { TiArrowBack } from 'react-icons/ti';
 import React from 'react';
 
 export function Navbar() {
@@ -47,7 +48,7 @@ export function Navbar() {
         }`}
       >
         <div className="sm:hidden block" onClick={() => router.back()}>
-          <GiReturnArrow className="text-signature text-2xl cursor-pointer hover:brightness-75 mr-[18px]" />
+          <TiArrowBack className="text-signature text-3xl cursor-pointer hover:brightness-75 mr-[18px]" />
         </div>
         <Link href={'/'}>
           <SiNiconico className="hidden sm:block text-signature text-2xl cursor-pointer hover:brightness-75 mr-[18px]" />

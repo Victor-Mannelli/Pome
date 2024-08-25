@@ -31,9 +31,10 @@ export function UserDrawer({
         }}
         cursor={'pointer'}
         src={`data:image/png;base64, ${bufferToBase64(user?.avatar)}`}
+        className="shadow shadow-inner-[0px_0px_5px_#fff]"
       />
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-        <DrawerContent boxShadow={'0 0 10px rgb(0, 0, 0)'} bgColor={'#2c2e2f'}>
+        <DrawerContent maxWidth={'fit-content'} boxShadow={'0 0 10px rgb(0, 0, 0)'} bgColor={'#2c2e2f'}>
           <DrawerCloseButton onClick={() => setUpdateUser(false)} color={'white'} mt={2} />
           {updateUser && user ? (
             <UpdateUserDrawer
