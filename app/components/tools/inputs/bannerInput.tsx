@@ -43,7 +43,9 @@ export function BannerInput({ image, setImage, user }: { user: User; image: stri
         </div>
       ) : (
         <div className="flex flex-col">
-          <h1 className="mb-3"> Banner (optional) </h1>
+          <h1 className="mb-3">
+            Banner <span className="text-sm"> (optional) </span>
+          </h1>
           <div
             className={`relative w-full flex items-center h-24 border-solid border-2 rounded-md px-5 
             ${focus === true ? 'bg-fourth' : 'bg-second'}`}

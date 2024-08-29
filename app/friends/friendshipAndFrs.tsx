@@ -27,7 +27,7 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
 
   useEffect(() => {
     socket?.emit('joinFrRoom', user.user_id);
-
+    // console.log('conected?');
     return () => {
       socket?.emit('leaveFrRoom', user.user_id);
     };
@@ -40,6 +40,7 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
         ...prevState,
         friendRequests: [...prevState.friendRequests, response.friendRequest],
       }));
+      // console.log(response.friendRequest, 'friendRequest');
     });
 
     socket?.on('deleteFR', (response) => {

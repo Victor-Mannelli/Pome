@@ -49,15 +49,18 @@ export type FriendShip = {
   friendship_id: string;
   user_id: string;
   username: string;
-  avatar: {
-    data: number[];
-  };
+  avatar: Base64ImageObject;
+};
+
+type Base64ImageObject = {
+  type: Buffer;
+  data: number[];
 };
 
 //* Messages
 
 export type ChatMessagetype = {
-  message_id: number;
+  message_id: string;
   message: string;
   receiver_id?: string;
   author_id?: string;

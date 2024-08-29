@@ -206,3 +206,9 @@ export type FilterType = {
   genres: string | null;
   year: number;
 };
+
+export type wsRoomAndFriendType = {
+  wsRoom: string;
+  friend_id: string;
+  friend: FriendShip;
+};

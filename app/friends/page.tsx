@@ -1,18 +1,18 @@
 'use client';
 
-import { ErrorFeedback, GenericRowSkeleton, Link } from '@/components';
+import { ErrorFeedback, GenericRowSkeleton } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
+import { TokenContext, wsRoomAndFriendType } from '@/utils';
 import { useContext, useEffect, useState } from 'react';
-import { bufferToBase64, TokenContext } from '@/utils';
+import { FriendElement } from './friendElement';
 import { getFriendList } from './functions';
 import { FiUserPlus } from '@/utils/libs';
-import { Avatar } from '@chakra-ui/react';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
 import React from 'react';
 
 export default function Friends() {
-  const [wsRoomAndFriend, setWsRoomAndFriend] = useState<{ wsRoom: string; friend_id: string; friend: FriendShip }>({
+  const [wsRoomAndFriend, setWsRoomAndFriend] = useState<wsRoomAndFriendType>({
     friend_id: null,
     friend: null,
     wsRoom: null,
@@ -37,10 +37,10 @@ export default function Friends() {
         className={`${wsRoomAndFriend?.wsRoom ? 'hidden sm:flex' : 'flex'} flex-col bg-third w-full sm:w-1/4 h-full sm:rounded-xl p-5 gap-5`}
       >
         <div
-          className={`flex justify-center items-center rounded-xl p-2 w-full ${wsRoomAndFriend?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
+          className={`flex justify-center items-center rounded-xl p-2 w-full cursor-pointer ${wsRoomAndFriend?.wsRoom === user?.user_id ? 'bg-sixth' : 'bg-fourth'}`}
           onClick={() => setWsRoomAndFriend({ wsRoom: user?.user_id, friend_id: user?.user_id, friend: null })}
         >
-          <h1> Your notes </h1>
+          <h1 className="cursor-pointer"> Your notes </h1>
         </div>
         {!user ? (
           <div className="flex items-center justify-between">
@@ -62,25 +62,15 @@ export default function Friends() {
               />
             </div>
           ) : friendlist.length !== 0 ? (
-            friendlist.map((friend: FriendShip, i: number) => {
-              // console.log(friendlist, 'friendlist');
-              return (
-                <div
-                  key={i}
-                  className={`flex items-center rounded-xl p-2 w-full ${friend?.friendship_id === wsRoomAndFriend?.wsRoom ? 'bg-sixth' : 'bg-fourth'}`}
-                  onClick={() => setWsRoomAndFriend({ wsRoom: friend.friendship_id, friend_id: friend.user_id, friend })}
-                >
-                  <Link href={`profile/${friend?.user_id}`}>
-                    <Avatar
-                      className="rounded-full mr-3"
-                      size="sm"
-                      src={friend?.avatar ? `data:image/png;base64, ${bufferToBase64(friend?.avatar.data)}` : null}
-                    />
-                  </Link>
-                  <h1> {friend?.username} </h1>
-                </div>
-              );
-            })
+            friendlist.map((friend: FriendShip, i: number) => (
+              <FriendElement
+                key={i}
+                refreshFL={() => getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed })}
+                setWsRoomAndFriend={setWsRoomAndFriend}
+                wsRoomAndFriend={wsRoomAndFriend}
+                friend={friend}
+              />
+            ))
           ) : (
             <div className="flex flex-col justify-center h-1/2 text-white text-center">
               <p> It looks a little empty, just like your kokoro :D </p>
@@ -99,9 +89,7 @@ export default function Friends() {
           className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-center items-center gap-3 sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
         >
           <h1 className="text-2xl"> PoMe Chat </h1>
-          <p className="text-center">
-            Select your message channel <br /> on the left
-          </p>
+          <p> Select a friend or your notes on the left! </p>
         </div>
       ) : (
         <ChatBox

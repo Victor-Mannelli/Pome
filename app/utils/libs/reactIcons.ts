@@ -14,12 +14,13 @@ import {
   FaEye,
 } from 'react-icons/fa';
 import { GiMagnifyingGlass, GiBroom, GiExitDoor, GiCakeSlice, GiConfirmed, GiReturnArrow } from 'react-icons/gi';
+import { IoReload, IoCloseSharp } from 'react-icons/io5';
 import { BsPlusSquare, BsEye, BsEyeSlash } from 'react-icons/bs';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { LiaExpandArrowsAltSolid } from 'react-icons/lia';
-import { IoReload, IoCloseSharp } from 'react-icons/io5';
 import { RiArrowLeftDoubleFill } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from 'react-icons/md';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import { ImExit, ImProfile } from 'react-icons/im';
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { BiMinus, BiPlus } from 'react-icons/bi';
@@ -53,6 +54,7 @@ export {
   BsEye,
   BiMinus,
   BiPlus,
+  IoMdArrowRoundBack,
   IoCloseSharp,
   IoReload,
   ImProfile,

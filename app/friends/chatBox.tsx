@@ -1,30 +1,22 @@
 'use client';
 
-import { bufferToBase64, RiArrowLeftDoubleFill, User } from '@/utils';
+import { bufferToBase64, RiArrowLeftDoubleFill, User, wsRoomAndFriendType } from '@/utils';
 import { GenericRowSkeleton, Link } from '@/components';
-import { ChatMessagetype, FriendShip } from './types';
 import { useEffect, useRef, useState } from 'react';
 import { sendMessageToWS } from './functions';
 import { Socket, io } from 'socket.io-client';
+import { ChatMessagetype } from './types';
 import { TextAreaRef } from 'rc-textarea';
 import { Avatar } from '@chakra-ui/react';
 import { Message } from './message';
 import Textarea from 'rc-textarea';
 import React from 'react';
 
-export function ChatBox({
-  wsRoomAndFriend,
-  clearRoomId,
-  user,
-}: {
-  wsRoomAndFriend: { wsRoom: string; friend_id: string; friend: FriendShip };
-  clearRoomId: () => void;
-  user: User;
-}) {
+export function ChatBox({ wsRoomAndFriend, clearRoomId, user }: { wsRoomAndFriend: wsRoomAndFriendType; clearRoomId: () => void; user: User }) {
   const [chatMessages, setChatMessages] = useState<ChatMessagetype[]>([]);
   const [chatLoading, setChatLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>('');
   const [socket, setSocket] = useState<Socket>();
-  const [message, setMessage] = useState('');
   const textArea = useRef<TextAreaRef>(null);
 
   useEffect(() => {
@@ -42,7 +34,7 @@ export function ChatBox({
 
   useEffect(() => {
     socket?.on('joinedRoom', (response) => {
-      setChatMessages(response.storedMessages);
+      setChatMessages(response);
       setChatLoading(false);
     });
 
@@ -53,6 +45,8 @@ export function ChatBox({
       socket?.off('message', (chatMessage) => {
         setChatMessages((prevState) => [...prevState, chatMessage.message]);
       });
+
+      socket?.off('joinedRoom');
     };
   }, [socket]);
 
@@ -65,7 +59,7 @@ export function ChatBox({
       id="chat"
       className={`${wsRoomAndFriend?.wsRoom ? 'flex' : 'hidden sm:flex'} flex-col justify-between sm:w-3/4 w-full h-full bg-third sm:rounded-xl`}
     >
-      <div className="flex flex-col w-full overflow-auto rounded-md">
+      <div className="flex flex-col w-full h-full overflow-auto rounded-md">
         <div id="identification" className="sm:hidden flex items-center gap-1 py-2 pl-1 mb-2 shadow-[0px_2px_7px_0px] shadow-fourth">
           <RiArrowLeftDoubleFill className="text-white text-2xl" onClick={() => clearRoomId()} />
           {wsRoomAndFriend.friend ? (
@@ -79,21 +73,19 @@ export function ChatBox({
             <h1 className="text-center "> Your notes </h1>
           )}
         </div>
-        <div className="flex flex-col gap-1 w-full overflow-auto rounded-md sm:p-4">
+        <div className="flex flex-col gap-1 w-full h-full overflow-auto rounded-md sm:p-4 px-1">
           {chatLoading ? (
             <GenericRowSkeleton rows={13} lineHeight="h-[2.9rem]" />
           ) : (
             <>
-              {chatMessages.map((e, i: number) => (
+              {chatMessages.map((message, i: number) => (
                 <Message
                   sameUser={i > 0 ? (chatMessages[i - 1].author.username === chatMessages[i].author.username ? true : false) : false}
-                  id={i === chatMessages.length - 1 ? 'last' : e.message_id.toString()}
-                  username={e.author.username}
-                  timestamp={e.created_at}
-                  messageId={e.message_id}
-                  avatar={e.author.avatar}
-                  message={e.message}
-                  key={e.message_id}
+                  id={i === chatMessages.length - 1 ? 'last' : message.message_id.toString()}
+                  wsRoomAndFriend={wsRoomAndFriend}
+                  key={message.message_id}
+                  chatMessage={message}
+                  socket={socket}
                   user={user}
                   index={i}
                 />
@@ -102,7 +94,7 @@ export function ChatBox({
           )}
         </div>
       </div>
-      <div className="relative w-full bg-third rounded-md px-4 py-3">
+      <div className="relative w-full bg-third rounded-md sm:px-4 sm:py-3 px-1 pt-3">
         <Textarea
           ref={textArea}
           onKeyDown={(event) =>

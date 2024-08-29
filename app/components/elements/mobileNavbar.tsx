@@ -17,7 +17,7 @@ export function MobileNavbar({
   user: User;
 }) {
   return (
-    <div className="flex flex-col items-center w-full gap-2">
+    <div className="flex flex-col items-center w-full gap-2 px-3">
       <div className="flex flex-col items-center justify-center pt-16 pb-5 gap-3">
         <Avatar size={'xl'} src={`data:image/png;base64, ${bufferToBase64(user?.avatar)}`} />
         {user ? <h1 className="text-xl"> {user.username.slice(0, 1).toUpperCase() + user.username.slice(1)} </h1> : null}
@@ -25,7 +25,7 @@ export function MobileNavbar({
       {user ? (
         <>
           <ButtonWithIcon
-            className="w-72 hover:bg-fourthAndAHalf"
+            className="w-64 hover:bg-fourthAndAHalf"
             href={pathname === '/' ? null : '/'}
             onClick={onClose}
             Icon={SiNiconico}
@@ -33,27 +33,27 @@ export function MobileNavbar({
           />
           <ButtonWithIcon
             href={pathname === `/profile/${user?.user_id}` ? null : `/profile/${user?.user_id}`}
-            className="w-72 hover:bg-fourthAndAHalf"
+            className="w-64 hover:bg-fourthAndAHalf"
             onClick={onClose}
             title={'Profile'}
             Icon={ImProfile}
           />
           <ButtonWithIcon
             href={pathname === '/friends' ? null : '/friends'}
-            className="w-72 hover:bg-fourthAndAHalf"
+            className="w-64 hover:bg-fourthAndAHalf"
             Icon={FaUserFriends}
             onClick={onClose}
             title={'Friends'}
           />
           <ButtonWithIcon
-            className="w-72 hover:bg-fourthAndAHalf"
+            className="w-64 hover:bg-fourthAndAHalf"
             onClick={() => setUpdateUser(true)}
             Icon={GrDocumentUpdate}
             title={'Update User'}
             href={null}
           />
           <ButtonWithIcon
-            className="w-72 hover:bg-fourthAndAHalf"
+            className="w-64 hover:bg-fourthAndAHalf"
             href={`/profile/${user?.user_id}`}
             Icon={GiExitDoor}
             onClick={() => {

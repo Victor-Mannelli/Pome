@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChatMessagetype, FriendRequests, FriendShip, FriendType, StrangersAndFRsType } from './types';
 import { api, bufferToBase64, User } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 import { Socket } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 
-//* FRIEND LIST
+//? FRIEND LIST
 
 // export function acceptFriendRequest(friend_request_id: number) {
 //   api.post(`/friendRequest/accept/${friend_request_id}`);
@@ -40,9 +41,9 @@ import { v4 as uuidv4 } from 'uuid';
 // }
 
 export function getFriendList({
-  setData,
   setLoading,
   setFailed,
+  setData,
 }: {
   setData: Dispatch<SetStateAction<FriendType[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -59,7 +60,7 @@ export function getFriendList({
     .finally(() => setLoading(false));
 }
 
-// * MESSAGES
+//? MESSAGES
 
 // export function getMessages({
 //   setLoading,
@@ -71,7 +72,7 @@ export function getFriendList({
 //   room_id: string;
 // }) {
 //   setLoading(true);
-
+//
 //   api
 //     .get(`/messages/${room_id}`)
 //     .then((e) => {
@@ -84,7 +85,7 @@ export function getFriendList({
 //       setLoading(false);
 //     });
 // }
-
+//
 // export function sendMessage({
 //   authorId,
 //   message,
@@ -110,9 +111,9 @@ export function getFriendList({
 // }
 
 export function getStrangersAndFRs({
-  setData,
   setLoading,
   setFailed,
+  setData,
 }: {
   setData: Dispatch<SetStateAction<StrangersAndFRsType | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -141,12 +142,18 @@ export function deleteMessage({ id, setChatMessages }: { id: number; setChatMess
     });
 }
 
-//* FRIEND REQUESTS
+//TODO FRIEND REQUESTS
 
 export function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
   api.get('/friendRequest').then((e) => {
     setData(e.data);
   });
+}
+
+//TODO FRIENDSHIP
+
+export function deleteFriend(friendship_id: string, refreshFL: () => void) {
+  api.delete(`/friendship/${friendship_id}`).then(() => refreshFL());
 }
 
 //* MESSAGES WS
@@ -188,8 +195,12 @@ export function sendMessageToWS({
   }
 }
 
-export function deleteMessageWS({ socket, user, messageId }: { messageId: string; socket: Socket; user: User }) {
-  socket?.emit('deleteMessage', { userId: user.user_id, messageId });
+export function deleteMessageWS({ message_id, user_id, socket, room }: { message_id: string; user_id: string; socket: Socket; room: string }) {
+  socket?.emit('deleteMessage', {
+    message_id,
+    user_id,
+    room,
+  });
 }
 
 //* FRIEND REQUESTS WS
