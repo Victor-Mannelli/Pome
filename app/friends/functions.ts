@@ -195,8 +195,30 @@ export function sendMessageToWS({
   }
 }
 
+export function editMessageWS({
+  message_id,
+  newMessage,
+  user_id,
+  socket,
+  room,
+}: {
+  message_id: string;
+  newMessage: string;
+  user_id: string;
+  socket: Socket;
+  room: string;
+}) {
+  socket?.emit('editMessage', {
+    newMessage,
+    message_id,
+    user_id,
+    room,
+  });
+}
+
 export function deleteMessageWS({ message_id, user_id, socket, room }: { message_id: string; user_id: string; socket: Socket; room: string }) {
-  socket?.emit('deleteMessage', {
+  socket?.emit('editMessage', {
+    newMessage: 'Deleted Message',
     message_id,
     user_id,
     room,

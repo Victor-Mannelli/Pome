@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { MdKeyboardArrowDown, User, wsRoomAndFriendType } from '@/utils';
+import { deleteMessageWS, editMessageWS } from './functions';
 import { useOnClickOutside } from 'usehooks-ts';
-import { deleteMessageWS } from './functions';
+import { CustomModal, SignatureInput } from '@/components';
 import { ChatMessagetype } from './types';
 import { Avatar } from '@chakra-ui/react';
 import { Socket } from 'socket.io-client';
 import { useRef, useState } from 'react';
+import Textarea from 'rc-textarea';
 import React from 'react';
 
 export function Message({
@@ -26,7 +29,10 @@ export function Message({
   user: User;
   id: string;
 }) {
+  const [editedMessage, setEditedMessage] = useState<string>(chatMessage.message);
   const [showMessageConfig, setShowMessageConfig] = useState<boolean>(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
+  const [showEditMessage, setShowEditMessage] = useState<boolean>(false);
   const messageConfigRef = useRef<HTMLDivElement>();
 
   const myDate = new Date(Number(chatMessage.created_at));
@@ -68,33 +74,120 @@ export function Message({
         <p className={`break-all whitespace-pre-line ${chatMessage.message === 'Deleted Message' ? 'italic brightness-[65%]' : null}`}>
           {chatMessage.message}
         </p>
-        {/* {Date.now() - Number(chatMessage.created_at) < 1000 * 60 * 60 ? ( */}
-        <MdKeyboardArrowDown className="text-xl font-bold text-white cursor-pointer" onClick={() => setShowMessageConfig(!showMessageConfig)} />
-        {/* ) : null} */}
+        {
+          // Date.now() - Number(chatMessage.created_at) < 1000 * 60 * 60 &&
+          (chatMessage.author_id || chatMessage.author.id) === user.user_id && chatMessage.message !== 'Deleted Message' ? (
+            <MdKeyboardArrowDown className="text-xl font-bold text-white cursor-pointer" onClick={() => setShowMessageConfig(!showMessageConfig)} />
+          ) : null
+        }
       </div>
       <div
         ref={messageConfigRef}
-        className={`${showMessageConfig ? 'block' : 'hidden'} absolute right-2 -bottom-24 flex flex-col py-3 bg-second rounded-md`}
+        className={`${showMessageConfig ? 'block' : 'hidden'} absolute z-10 right-2 -bottom-24 flex flex-col py-3 bg-second rounded-md`}
       >
         <p
           className="hover:bg-fourthAndAHalf w-full pl-5 pr-12 py-2 cursor-pointer"
           onClick={() => {
-            null;
-            setShowMessageConfig(false);
+            // setShowMessageConfig(false);
+            setShowEditMessage(true);
           }}
         >
           Edit
         </p>
-        <p
-          className="hover:bg-fourthAndAHalf w-full pl-5 pr-12 py-2 cursor-pointer"
-          onClick={() => {
-            deleteMessageWS({ room: wsRoomAndFriend.wsRoom, message_id: chatMessage.message_id, user_id: user.user_id, socket });
-            setShowMessageConfig(false);
-          }}
-        >
+        <p className="hover:bg-fourthAndAHalf w-full pl-5 pr-12 py-2 cursor-pointer" onClick={() => setShowConfirmDelete(true)}>
           Delete
         </p>
       </div>
+      <CustomModal show={showConfirmDelete} setShow={setShowConfirmDelete}>
+        <div className="flex flex-col gap-3 bg-fourth rounded-md cursor-default">
+          <div className="flex flex-col gap-3 px-5 py-3">
+            <h1> Delete Message </h1>
+            <p className="text-sm text-center">
+              Are you sure you want to <span className="font-bold text-signature">delete</span> this message?
+            </p>
+          </div>
+          <div className="flex justify-end w-full h-fit rounded-b-md bg-third p-3 gap-3">
+            <button
+              className="text-sm px-3 py-2 text-white bg-fourthAndAHalf rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
+              onClick={() => setShowConfirmDelete(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="text-sm px-3 py-2 text-white bg-red-500 rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
+              onClick={() => {
+                setShowConfirmDelete(false);
+                deleteMessageWS({ room: wsRoomAndFriend.wsRoom, message_id: chatMessage.message_id, user_id: user.user_id, socket });
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </CustomModal>
+      <CustomModal show={showEditMessage} setShow={setShowEditMessage}>
+        {/* <div onClick={(e) => e.stopPropagation()} className="flex flex-col gap-5 max-w-[66%] bg-fourth rounded-md cursor-default">
+          <div className="flex flex-col gap-3 pt-5 px-5">
+            <h1> Edit Message </h1>
+          </div>
+          <div className="bg-third mx-5 p-3 rounded-md">
+            <p className="break-all whitespace-pre-line">{chatMessage.message}</p>
+          </div>
+          <div className="flex justify-end w-full h-fit rounded-b-md bg-third p-3 gap-3">
+            <button
+              className="text-sm px-3 py-2 text-white bg-fourthAndAHalf rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
+              onClick={() => setShowEditMessage(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="text-sm px-3 py-2 text-black bg-signature rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
+              onClick={() => {
+                setShowEditMessage(false);
+                editMessageWS({
+                  message_id: chatMessage.message_id,
+                  room: wsRoomAndFriend.wsRoom,
+                  newMessage: editedMessage,
+                  user_id: user.user_id,
+                  socket,
+                });
+              }}
+            >
+              Confirm
+            </button>
+          </div>
+        </div> */}
+        <div onClick={(e) => e.stopPropagation()} className="flex flex-col gap-3 bg-fourth rounded-md cursor-default">
+          <div className="flex flex-col gap-5 px-5 py-3">
+            <h1> Edit Message </h1>
+            {/* <p className="text-sm text-center">Is this how you want your message to be?</p> */}
+            <SignatureInput onChange={(e) => setEditedMessage(e.target.value)} placeholder={editedMessage} label={'New Message'} id={'newMessage'} />
+          </div>
+          <div className="flex justify-end w-full h-fit rounded-b-md bg-third p-3 gap-3">
+            <button
+              className="text-sm px-3 py-2 text-white bg-fourthAndAHalf rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
+              onClick={() => setShowEditMessage(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="text-sm px-3 py-2 text-black bg-signature rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
+              onClick={() => {
+                setShowEditMessage(false);
+                editMessageWS({
+                  message_id: chatMessage.message_id,
+                  room: wsRoomAndFriend.wsRoom,
+                  newMessage: editedMessage,
+                  user_id: user.user_id,
+                  socket,
+                });
+              }}
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+      </CustomModal>
     </div>
   );
 }

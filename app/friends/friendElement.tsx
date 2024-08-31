@@ -1,9 +1,9 @@
 'use client';
 
 import { bufferToBase64, FriendShip, wsRoomAndFriendType } from '@/utils';
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { deleteFriend } from './functions';
+import { CustomModal } from '@/components';
 import { Avatar } from '@chakra-ui/react';
 import { RxCross2 } from '@/utils/libs';
 import Link from 'next/link';
@@ -20,9 +20,6 @@ export function FriendElement({
   friend: FriendShip;
 }) {
   const [showRemoveFriend, setShowRemoveFriend] = useState<boolean>(false);
-  const removeFriendRef = useRef<HTMLDivElement>(null);
-
-  useOnClickOutside(removeFriendRef, () => setShowRemoveFriend(false));
 
   return (
     <div
@@ -46,15 +43,12 @@ export function FriendElement({
           setShowRemoveFriend(true);
         }}
       />
-      <div
-        className={`fixed z-10 inset-0 flex items-center justify-center bg-opacity-40 h-screen w-full bg-black cursor-default ${showRemoveFriend ? 'block' : 'hidden'}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div ref={removeFriendRef} className="flex flex-col gap-3 bg-fourth rounded-md cursor-default">
+      <CustomModal show={showRemoveFriend} setShow={setShowRemoveFriend}>
+        <div className="flex flex-col gap-3 bg-fourth rounded-md cursor-default">
           <div className="flex flex-col gap-3 px-5 py-3">
             <h1> Remove Friend </h1>
             <p className="text-sm text-center">
-              Are you sure you want to remove <span className="font-bold">{friend.username}</span> from your friendlist?
+              Are you sure you want to remove <span className="font-bold text-signature">{friend.username}</span> from your friendlist?
             </p>
           </div>
           <div className="flex justify-end w-full h-fit rounded-b-md bg-third p-3 gap-3">
@@ -72,7 +66,7 @@ export function FriendElement({
             </button>
           </div>
         </div>
-      </div>
+      </CustomModal>
     </div>
   );
 }
