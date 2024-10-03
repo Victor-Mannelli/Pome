@@ -67,6 +67,7 @@ export type ChatMessagetype = {
   author: {
     username: string;
     avatar: string;
+    id?: string;
   };
   created_at: string;
 };
