@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react';
 
 export const useObserveElementWidth = <T extends HTMLDivElement>() => {

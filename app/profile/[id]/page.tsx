@@ -1,10 +1,10 @@
 'use client';
 
 import { AnimeData, FilterType, TokenContext, UsersAnimeData, getAnimelistQuery, ProfilePageSlugObject } from '@/utils';
-import { applyUnderscoreFilter, getUserProfileById, getUsersAnimelist, sortFunction } from './functions';
+import { applyUnderscoreAnimeFilter, bufferToBase64, logout } from '@/utils/functions';
+import { getUserProfileById, getUsersAnimelist, sortFunction } from './functions';
 import { FaSort, FaSortAmountDown, FaSortAmountUpAlt } from '@/utils/libs';
 import { AnimeFilter, ProfileSkeleton } from '@/components';
-import { bufferToBase64, logout } from '@/utils/functions';
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Avatar, useToast } from '@chakra-ui/react';
@@ -43,7 +43,7 @@ export default function Profile() {
     }
   }, [user, id]);
 
-  const filteredAnimelist = _.filter(profileData?.usersAnimelist, (item: UsersAnimeData) => data && applyUnderscoreFilter(data, item, filter));
+  const filteredAnimelist = _.filter(profileData?.usersAnimelist, (item: UsersAnimeData) => data && applyUnderscoreAnimeFilter(data, item, filter));
   const animelist = _.sortBy(filteredAnimelist, (item) => sortFunction(item, sortScore, data));
   const userProfile = user?.user_id === id;
 

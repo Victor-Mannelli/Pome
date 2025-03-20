@@ -1,3 +1,5 @@
+'use server';
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChatMessagetype, FriendRequests, FriendShip, FriendType, StrangersAndFRsType } from './types';
 import { api, bufferToBase64, User } from '@/utils';
@@ -40,7 +42,7 @@ import { v4 as uuidv4 } from 'uuid';
 //     });
 // }
 
-export function getFriendList({
+export async function getFriendList({
   setLoading,
   setFailed,
   setData,
@@ -110,7 +112,7 @@ export function getFriendList({
 //     });
 // }
 
-export function getStrangersAndFRs({
+export async function getStrangersAndFRs({
   setLoading,
   setFailed,
   setData,
@@ -131,7 +133,7 @@ export function getStrangersAndFRs({
     .finally(() => setLoading(false));
 }
 
-export function deleteMessage({ id, setChatMessages }: { id: number; setChatMessages?: Dispatch<SetStateAction<ChatMessagetype[]>> }) {
+export async function deleteMessage({ id, setChatMessages }: { id: number; setChatMessages?: Dispatch<SetStateAction<ChatMessagetype[]>> }) {
   api
     .delete(`/messages/${id}`)
     .then((e) => {
@@ -144,7 +146,7 @@ export function deleteMessage({ id, setChatMessages }: { id: number; setChatMess
 
 //TODO FRIEND REQUESTS
 
-export function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
+export async function getFriendRequests({ setData }: { setData: Dispatch<SetStateAction<FriendRequests[]>> }) {
   api.get('/friendRequest').then((e) => {
     setData(e.data);
   });
@@ -152,13 +154,13 @@ export function getFriendRequests({ setData }: { setData: Dispatch<SetStateActio
 
 //TODO FRIENDSHIP
 
-export function deleteFriend(friendship_id: string, refreshFL: () => void) {
+export async function deleteFriend(friendship_id: string, refreshFL: () => void) {
   api.delete(`/friendship/${friendship_id}`).then(() => refreshFL());
 }
 
 //* MESSAGES WS
 
-export function sendMessageToWS({
+export async function sendMessageToWS({
   wsRoomAndFriend,
   setMessage,
   message,
@@ -195,7 +197,7 @@ export function sendMessageToWS({
   }
 }
 
-export function editMessageWS({
+export async function editMessageWS({
   message_id,
   newMessage,
   user_id,
@@ -216,7 +218,7 @@ export function editMessageWS({
   });
 }
 
-export function deleteMessageWS({ message_id, user_id, socket, room }: { message_id: string; user_id: string; socket: Socket; room: string }) {
+export async function deleteMessageWS({ message_id, user_id, socket, room }: { message_id: string; user_id: string; socket: Socket; room: string }) {
   socket?.emit('editMessage', {
     newMessage: 'Deleted Message',
     message_id,
@@ -227,7 +229,7 @@ export function deleteMessageWS({ message_id, user_id, socket, room }: { message
 
 //* FRIEND REQUESTS WS
 
-export function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_id: string; socket: Socket; user: User }) {
+export async function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_id: string; socket: Socket; user: User }) {
   console.log('friendRequest sent');
   socket?.emit('friendRequest', {
     room: stranger_id,
@@ -236,7 +238,7 @@ export function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_
   });
 }
 
-export function deleteFriendRequestWS({
+export async function deleteFriendRequestWS({
   friendRequestId,
   stranger_id,
   socket,
@@ -254,7 +256,7 @@ export function deleteFriendRequestWS({
   });
 }
 
-export function acceptFriendRequestWS({
+export async function acceptFriendRequestWS({
   friendRequestId,
   stranger_id,
   socket,

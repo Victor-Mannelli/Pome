@@ -1,3 +1,5 @@
+'use server';
+
 import { saveDataInIndexDB } from '@/utils/indexDB';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
@@ -5,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/utils/libs/axios';
 import { User } from '@/utils/types';
 
-export function userLogin({
+export async function userLogin({
   setLoading,
   password,
   setToken,

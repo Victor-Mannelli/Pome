@@ -1,3 +1,5 @@
+'use client';
+
 import { FiUserPlus, GiCakeSlice, RiArrowLeftDoubleFill, RxCross2 } from '@/utils/libs';
 import { acceptFriendRequestWS, deleteFriendRequestWS } from './functions';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';

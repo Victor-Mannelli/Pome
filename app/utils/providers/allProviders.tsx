@@ -1,3 +1,5 @@
+'use client';
+
 import { VariablesProvider } from './variablesProvider';
 import { ApolloGqlProvider } from './apolloProvider';
 import { ChakraProvider } from '@chakra-ui/react';

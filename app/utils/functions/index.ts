@@ -1,9 +1,9 @@
-import { FilterType, User, UsersAnimeData } from '../types';
+import { airingStatusOptions, animeUserStatus, monthNames } from '../consts';
+import { AnimeData, FilterType, User, UsersAnimeData } from '../types';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 import { saveDataInIndexDB } from '../indexDB';
 import { api } from '@/utils/libs/axios';
-import { monthNames } from '../consts';
 
 export function calculatePadding({ parentWidth, childWidth }: { parentWidth: number; childWidth: number }) {
   const numChildrenPerRow = parentWidth - childWidth < 24 ? 1 : Math.floor(parentWidth / (childWidth + 24)); // 24px is the gap between children
@@ -124,6 +124,24 @@ export function getAnimeStartDateInFull(startDate: { year: number; month: number
 
 export function getAnimeStartDateInShort(startDate: { year: number; month: number; day: number }) {
   return `${startDate.month.toString().padStart(2, '0')}/${startDate.day}/${startDate.year}`;
+}
+
+export function applyUnderscoreAnimeFilter(data: AnimeData, item: UsersAnimeData, filter: FilterType) {
+  const specificAnime = data.Page.media.find((animeData) => animeData.id === item.anime_id);
+
+  if (filter.search && !specificAnime.title.romaji.toLowerCase().includes(filter.search.toLowerCase())) {
+    return false;
+  }
+  if (filter.status && item.status !== airingStatusOptions[filter.status] && item.status !== animeUserStatus[filter.status].name) {
+    return false;
+  }
+  if (filter.genres && !specificAnime.genres.find((anime) => anime === filter.genres)) {
+    return false;
+  }
+  if (filter.year && specificAnime.startDate.year.toString() !== filter.year.toString()) {
+    return false;
+  }
+  return true;
 }
 
 type UpdateUser = {

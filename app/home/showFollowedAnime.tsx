@@ -1,3 +1,5 @@
+'use client';
+
 import { Dispatch, SetStateAction } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { User } from '@/utils';
@@ -19,7 +21,7 @@ export function ShowFollowedAnime({
 
   return (
     <label
-      className={`items-center bg-third text-white w-[10.5rem] h-8 px-3 cursor-pointer active:bg-fifth hover:bg-fourth 
+      className={`items-center bg-third text-white w-[11rem] h-8 px-3 cursor-pointer active:bg-fifth hover:bg-fourth 
         ${mobile ? 'flex xl:hidden rounded-sm' : 'absolute top-0 right-0 xl:flex hidden rounded-md'}
       `}
       style={{ boxShadow: '0 0 2px rgb(204, 204, 204)' }}

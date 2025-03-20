@@ -1,9 +1,11 @@
+'use server';
+
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/utils';
 
-export function userRegistration({
+export async function userRegistration({
   setLoading,
   userData,
   router,

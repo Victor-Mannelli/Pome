@@ -1,9 +1,11 @@
+'use server';
+
 import { AnimeUserStatus, UsersAnimeData } from '@/utils/types';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 import { api } from '@/utils';
 
-export function getUserAnimeData({
+export async function getUserAnimeData({
   setUserAnimeData,
   setLoading,
   setFailed,
@@ -26,7 +28,7 @@ export function getUserAnimeData({
     .finally(() => setLoading(false));
 }
 
-export function maximizeTrailer({ toggle, setToggle }: { setToggle: Dispatch<SetStateAction<boolean>>; toggle: boolean }) {
+export async function maximizeTrailer({ toggle, setToggle }: { setToggle: Dispatch<SetStateAction<boolean>>; toggle: boolean }) {
   setToggle(!toggle);
   setTimeout(() => {
     if (toggle) return;

@@ -1,3 +1,5 @@
+'use client';
+
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import React, { Dispatch, SetStateAction } from 'react';
 import { FaRegHeart, RxCross2 } from '@/utils/libs';

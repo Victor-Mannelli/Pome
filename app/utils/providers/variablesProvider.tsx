@@ -1,3 +1,5 @@
+'use client';
+
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
 import React from 'react';
 

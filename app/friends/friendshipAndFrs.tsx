@@ -2,13 +2,13 @@
 
 import { FriendRequests, FriendShip, StrangersAndFRsType } from './types';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { FaUserFriends, FiUserPlus } from '@/utils/libs';
 import { getStrangersAndFRs } from './functions';
 import { io, Socket } from 'socket.io-client';
-import { FaUserFriends } from '@/utils/libs';
 import { ReceivedFrs } from './receivedFrs';
-import { FiUserPlus } from 'react-icons/fi';
 import { SendFrs } from './sendFrs';
 import { User } from '@/utils';
+import React from 'react';
 
 export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: User; setFriendlist: Dispatch<SetStateAction<FriendShip[]>> }) {
   const [strangersAndFRsLoading, setStrangersAndFRsLoading] = useState<boolean>(true);

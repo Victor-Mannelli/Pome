@@ -1,4 +1,6 @@
-import { AnimeData, FilterType, ProfilePageSlugObject, UsersAnimeData, airingStatusOptions, animeUserStatus, api } from '@/utils';
+'use server';
+
+import { AnimeData, ProfilePageSlugObject, UsersAnimeData, api } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 
 export async function getUsersAnimelist({
@@ -48,25 +50,7 @@ export async function getUserProfileById({
     .finally(() => setLoading(false));
 }
 
-export function applyUnderscoreFilter(data: AnimeData, item: UsersAnimeData, filter: FilterType) {
-  const specificAnime = data.Page.media.find((animeData) => animeData.id === item.anime_id);
-
-  if (filter.search && !specificAnime.title.romaji.toLowerCase().includes(filter.search.toLowerCase())) {
-    return false;
-  }
-  if (filter.status && item.status !== airingStatusOptions[filter.status] && item.status !== animeUserStatus[filter.status].name) {
-    return false;
-  }
-  if (filter.genres && !specificAnime.genres.find((anime) => anime === filter.genres)) {
-    return false;
-  }
-  if (filter.year && specificAnime.startDate.year.toString() !== filter.year.toString()) {
-    return false;
-  }
-  return true;
-}
-
-export function sortFunction(item: UsersAnimeData, sortScore: 'up' | 'down' | 'none', data: AnimeData) {
+export async function sortFunction(item: UsersAnimeData, sortScore: 'up' | 'down' | 'none', data: AnimeData) {
   if (sortScore === 'down') {
     return item.score;
   }

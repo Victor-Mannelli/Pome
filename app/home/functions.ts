@@ -1,7 +1,9 @@
+'use server';
+
 import { UseToastOptions } from '@chakra-ui/react';
 import { api } from '@/utils';
 
-export function updateUserProgress({
+export async function updateUserProgress({
   anime_id,
   progress,
   status,

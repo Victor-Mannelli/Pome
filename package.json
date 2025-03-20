@@ -22,7 +22,7 @@
     "framer-motion": "^11.2.4",
     "graphql": "^16.8.1",
     "lodash": "^4.17.21",
-    "next": "14.2.1",
+    "next": "^14.2.25",
     "node": "^20.14.0",
     "nookies": "^2.5.2",
     "rc-textarea": "^1.7.0",
