@@ -1,5 +1,3 @@
-'use server';
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChatMessagetype, FriendRequests, FriendShip, FriendType, StrangersAndFRsType } from './types';
 import { api, bufferToBase64, User } from '@/utils';

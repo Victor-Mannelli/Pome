@@ -1,5 +1,3 @@
-'use server';
-
 import { AnimeUserStatus, UsersAnimeData } from '@/utils/types';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';

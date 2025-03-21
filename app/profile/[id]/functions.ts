@@ -1,5 +1,3 @@
-'use server';
-
 import { AnimeData, ProfilePageSlugObject, UsersAnimeData, api } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 

@@ -1,5 +1,3 @@
-'use server';
-
 import { saveDataInIndexDB } from '@/utils/indexDB';
 import { UseToastOptions } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';

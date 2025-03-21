@@ -24,6 +24,7 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { ImExit, ImProfile } from 'react-icons/im';
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { BiMinus, BiPlus } from 'react-icons/bi';
+import { TiArrowBack } from 'react-icons/ti';
 import { FiUserPlus } from 'react-icons/fi';
 import { SiNiconico } from 'react-icons/si';
 import { CgProfile } from 'react-icons/cg';
@@ -68,4 +69,5 @@ export {
   FiUserPlus,
   CgProfile,
   RxCross2,
+  TiArrowBack,
 };

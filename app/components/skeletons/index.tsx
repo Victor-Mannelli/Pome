@@ -57,28 +57,28 @@ export function AnimePageSkeleton() {
         </div>
         <div id="animeInfo" className="relative flex justify-start w-full min-h-72 h-fit">
           <FaRegHeart className="absolute right-1 top-3 my-3 mr-2 text-2xl text-second" />
-          <div id="coverImage" className="absolute -top-5 h-64 sm:flex hidden flex-col justify-end items-center w-[19rem]">
-            <Skeleton key="coverImage" className="w-60 h-[23rem] rounded-lg shadow-fifth shadow" />
-            <Skeleton key="coverImageButton" className="w-60 h-9 rounded-lg shadow-fifth shadow" />
+          <div id="coverImage" className="absolute -top-5 w-[19rem] h-64 sm:flex hidden flex-col justify-end items-center">
+            <Skeleton key="coverImage" width={'15rem'} className="h-[23rem] rounded-lg shadow-fifth shadow" />
+            <Skeleton key="coverImageButton" width={'15rem'} className="h-9 rounded-lg shadow-fifth shadow" />
           </div>
           <div id="animeDescription" className="flex flex-col w-full p-5 sm:pl-0">
             <div id="title" className="w-full sm:pl-[19rem] pr-7">
               <Skeleton className="h-6" />
             </div>
             <div className="flex flex-col lg:flex-row justify-between pt-3 gap-3 ">
-              <div className="flex flex-col min-h-48 max-w-[32.75rem] sm:ml-[19rem]">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <Skeleton key={'animeStats' + i} className="w-72 h-5 my-1" />
+              <div className="flex flex-col min-h-48 sm:ml-[19rem]">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Skeleton key={'animeStats' + i} className="h-5 my-1" />
                 ))}
-                <div className="flex flex-wrap pt-2 gap-1">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <Skeleton key={'animeGenre' + i} className="w-32 h-9 my-1 rounded-lg" />
+                <div className="flex flex-wrap min-h-9 pt-2 gap-2">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={'animeGenre' + i} width={'8rem'} className="h-9 rounded-lg" />
                   ))}
                 </div>
               </div>
-              <div id="tags" className="flex flex-wrap gap-2 lg:w-2/5 sm:pl-5 lg:pl-0 sm:min-w-[22.5rem] overflow-auto">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <Skeleton key={'animeTags' + i} className="w-[10.5rem] sm:w-44 h-5" />
+              <div id="tags" className="flex flex-col sm:flex-row flex-wrap gap-2 min-h-48 sm:pl-5 lg:pl-0 pr-20 overflow-auto">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <Skeleton key={'animeTags' + i} width={'10.5rem'} className="h-5" />
                 ))}
               </div>
             </div>

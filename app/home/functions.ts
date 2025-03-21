@@ -1,5 +1,3 @@
-'use server';
-
 import { UseToastOptions } from '@chakra-ui/react';
 import { api } from '@/utils';
 

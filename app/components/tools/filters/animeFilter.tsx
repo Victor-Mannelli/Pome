@@ -71,15 +71,17 @@ export function AnimeFilter({
         title={filter.genres}
         options={genres}
       />
-      <PomeSelect
-        clearSelect={() => setFilter((prevState: FilterType) => ({ ...prevState, ['year']: null }))}
-        onSelect={(e) => setFilter((prevState: FilterType) => ({ ...prevState, ['year']: e }))}
-        title={filter.year ? filter.year.toString() : null}
-        setShow={setShowSelectYear}
-        options={animeYearOptions}
-        show={showSelectYear}
-        selectionOf={'year'}
-      />
+      {filter.status !== 'RELEASING' ? (
+        <PomeSelect
+          clearSelect={() => setFilter((prevState: FilterType) => ({ ...prevState, ['year']: null }))}
+          onSelect={(e) => setFilter((prevState: FilterType) => ({ ...prevState, ['year']: e }))}
+          title={filter.year ? filter.year.toString() : null}
+          setShow={setShowSelectYear}
+          options={animeYearOptions}
+          show={showSelectYear}
+          selectionOf={'year'}
+        />
+      ) : null}
       {!showFollowedAnime ? (
         <ShowFollowedAnime setShowFollowedAnime={setShowFollowedAnime} showFollowedAnime={showFollowedAnime} user={user} mobile={true} />
       ) : null}
