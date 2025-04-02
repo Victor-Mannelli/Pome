@@ -106,18 +106,20 @@ export default function Profile() {
           <h3 className="text-center font-bold"> Progress </h3>
           <h3 className="text-center font-bold"> Status </h3>
         </div>
-        {profileData.usersAnimelist && profileData.usersAnimelist.length > 0 ? (
-          animelist.map((anime: UsersAnimeData) => {
-            const animeData = data.Page.media.find((animeData) => animeData.id === anime.anime_id);
-            return <AnimeRow key={anime.anime_id} animeData={animeData} anime={anime} setProfileData={setProfileData} />;
-          })
-        ) : (
-          <div className="w-full h-fit p-5 rounded-md bg-third">
-            <p className="text-center">
-              You are not following any anime yet <br /> open their pages and start following!
-            </p>
-          </div>
-        )}
+        <div className="flex flex-col gap-[0.3rem] pb-5">
+          {profileData.usersAnimelist && profileData.usersAnimelist.length > 0 ? (
+            animelist.map((anime: UsersAnimeData) => {
+              const animeData = data.Page.media.find((animeData) => animeData.id === anime.anime_id);
+              return <AnimeRow key={anime.anime_id} animeData={animeData} anime={anime} setProfileData={setProfileData} />;
+            })
+          ) : (
+            <div className="w-full h-fit p-5 rounded-md bg-third">
+              <p className="text-center">
+                You are not following any anime yet <br /> open their pages and start following!
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   ) : null;

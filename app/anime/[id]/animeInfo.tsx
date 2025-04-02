@@ -71,7 +71,7 @@ export function AnimeInfo({
             : 'Follow'}
         </button>
       </div>
-      <div id="animeInfo" className={`flex flex-col w-full md:pl-0 ${animeData.bannerImage ? 'm-5' : 'sm:my-5 sm:mr-5 sm:ml-1 m-5'}`}>
+      <div id="animeInfo" className={`flex flex-col w-full md:pl-0 sm:pl-4 ${animeData.bannerImage ? 'm-5' : 'sm:my-5 sm:mr-5 sm:ml-1 m-5'}`}>
         <h1 id="title" className={`w-full pr-7 font-bold text-2xl ${animeData.bannerImage ? 'md:pl-[17.75rem]' : ''} `}>
           {animeData.title.romaji}
         </h1>
