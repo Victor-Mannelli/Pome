@@ -44,9 +44,10 @@ export async function userLogin({
         isClosable: true,
       });
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log(e);
       toast({
-        title: 'Error on login',
+        title: 'Error on login the api may be offline',
         status: 'error',
         duration: 5000,
         isClosable: true,

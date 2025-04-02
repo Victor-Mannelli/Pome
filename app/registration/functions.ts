@@ -32,7 +32,7 @@ export async function userRegistration({
     })
     .catch((e) => {
       toast({
-        title: e.message ? e.message : 'Error on registration, API is possibly offline!',
+        title: e?.message ? e.message : 'Error on registration, API is possibly offline!',
         status: 'error',
         isClosable: true,
       });
