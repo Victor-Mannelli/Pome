@@ -63,13 +63,14 @@ export function ReceivedFrs({
                       socket,
                       userId: FR.requested_id,
                     });
+                    setShowFriendRequests(false);
                   }}
                 >
                   <div className="flex items-center">
                     <Avatar
                       size="sm"
                       className="rounded-full mr-2"
-                      src={`data:image/png;base64, ${bufferToBase64(FR.requester.avatar.data)}`}
+                      src={`data:image/png;base64, ${bufferToBase64(FR.requester?.avatar?.data)}`}
                       // src={`data:image/png;base64, ${bufferToBase64(typeof FR.requester.avatar === 'object' ? FR.requester.avatar.data : FR.requester.avatar)}`}
                     />
                     <h1 className="cursor-pointer text-lg">{FR.requester.username}</h1>

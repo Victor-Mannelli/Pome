@@ -30,6 +30,13 @@ export type FriendType = {
     data: number[];
   };
 };
+
+export type StrangersListType = FriendType & {
+  requestSent: boolean;
+  requestReceived: boolean;
+  request_id?: number;
+};
+
 export type FriendRequests = {
   friend_request_id: number;
   requested_id: string;

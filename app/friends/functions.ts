@@ -40,25 +40,25 @@ import { v4 as uuidv4 } from 'uuid';
 //     });
 // }
 
-export async function getFriendList({
-  setLoading,
-  setFailed,
-  setData,
-}: {
-  setData: Dispatch<SetStateAction<FriendType[] | null>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setFailed: Dispatch<SetStateAction<boolean>>;
-}) {
-  api
-    .get('/friendship/friendList')
-    .then((e) => {
-      setData(e.data);
-    })
-    .catch(() => {
-      setFailed(true);
-    })
-    .finally(() => setLoading(false));
-}
+// export async function getFriendList({
+//   setLoading,
+//   setFailed,
+//   setData,
+// }: {
+//   setData: Dispatch<SetStateAction<FriendType[] | null>>;
+//   setLoading: Dispatch<SetStateAction<boolean>>;
+//   setFailed: Dispatch<SetStateAction<boolean>>;
+// }) {
+//   api
+//     .get('/friendship/friendList')
+//     .then((e) => {
+//       setData(e.data);
+//     })
+//     .catch(() => {
+//       setFailed(true);
+//     })
+//     .finally(() => setLoading(false));
+// }
 
 //? MESSAGES
 
@@ -110,26 +110,26 @@ export async function getFriendList({
 //     });
 // }
 
-export async function getStrangersAndFRs({
-  setLoading,
-  setFailed,
-  setData,
-}: {
-  setData: Dispatch<SetStateAction<StrangersAndFRsType | null>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setFailed: Dispatch<SetStateAction<boolean>>;
-}) {
-  setLoading(true);
-  api
-    .get('/users/strangersAndFRs')
-    .then((e) => {
-      setData(e.data);
-    })
-    .catch(() => {
-      setFailed(true);
-    })
-    .finally(() => setLoading(false));
-}
+// export async function getStrangersAndFRs({
+//   setLoading,
+//   setFailed,
+//   setData,
+// }: {
+//   setData: Dispatch<SetStateAction<StrangersAndFRsType | null>>;
+//   setLoading: Dispatch<SetStateAction<boolean>>;
+//   setFailed: Dispatch<SetStateAction<boolean>>;
+// }) {
+//   setLoading(true);
+//   api
+//     .get('/users/strangersAndFRs')
+//     .then((e) => {
+//       setData(e.data);
+//     })
+//     .catch(() => {
+//       setFailed(true);
+//     })
+//     .finally(() => setLoading(false));
+// }
 
 export async function deleteMessage({ id, setChatMessages }: { id: number; setChatMessages?: Dispatch<SetStateAction<ChatMessagetype[]>> }) {
   api

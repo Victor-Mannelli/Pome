@@ -1,25 +1,23 @@
 'use client';
 
-import { FriendRequests, FriendShip, StrangersAndFRsType } from './types';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { queryClient, TokenContext, useGetStrangersAndFRs } from '@/utils';
 import { FaUserFriends, FiUserPlus } from '@/utils/libs';
-import { getStrangersAndFRs } from './functions';
+import { useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ReceivedFrs } from './receivedFrs';
+import { FriendRequests } from './types';
 import { SendFrs } from './sendFrs';
-import { User } from '@/utils';
 import React from 'react';
 
-export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: User; setFriendlist: Dispatch<SetStateAction<FriendShip[]>> }) {
-  const [strangersAndFRsLoading, setStrangersAndFRsLoading] = useState<boolean>(true);
-  const [strangersAndFRsFailed, setStrangersAndFRsFailed] = useState<boolean>(false);
-  const [strangersAndFRs, setStrangersAndFRs] = useState<StrangersAndFRsType>(null);
+export function FriendShipAndFriendRequests() {
+  const { data: strangersAndFRs, isLoading: strangersAndFRsLoading, isError: strangersAndFRsFailed, refetch } = useGetStrangersAndFRs();
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [showUsers, setShowUsers] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket>();
+  const { user } = useContext(TokenContext);
 
   useEffect(() => {
-    getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed });
+    // getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed });
 
     const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/friendRequest`);
     setSocket(socketInstance);
@@ -36,25 +34,27 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
   useEffect(() => {
     socket?.on('friendRequest', (response) => {
       console.log(response, 'friendRequest');
-      setStrangersAndFRs((prevState) => ({
-        ...prevState,
-        friendRequests: [...prevState.friendRequests, response.friendRequest],
-      }));
+      refetch();
+      // setStrangersAndFRs((prevState) => ({
+      //   ...prevState,
+      //   friendRequests: [...prevState.friendRequests, response.friendRequest],
+      // }));
       // console.log(response.friendRequest, 'friendRequest');
     });
 
     socket?.on('deleteFR', (response) => {
       console.log(response, 'deleteFR');
-      setStrangersAndFRs((prevState) => ({
-        ...prevState,
-        friendRequests: prevState.friendRequests.filter((FR) => FR.friend_request_id !== response.deletedFR.friend_request_id),
-      }));
+      refetch();
+      // setStrangersAndFRs((prevState) => ({
+      //   ...prevState,
+      //   friendRequests: prevState.friendRequests.filter((FR) => FR.friend_request_id !== response.deletedFR.friend_request_id),
+      // }));
     });
 
-    socket?.on('acceptFR', (response) => {
-      setFriendlist((prevState) => [...prevState, response.acceptedFR]);
+    socket?.on('acceptFR', () => {
+      queryClient.invalidateQueries({ queryKey: ['friendlist'] });
     });
-  }, [socket, setFriendlist]);
+  }, [refetch, socket]);
 
   const receivedFR = strangersAndFRs?.friendRequests.filter((e: FriendRequests) => e?.requested_id === user.user_id);
 
@@ -92,17 +92,14 @@ export function FriendShipAndFriendRequests({ user, setFriendlist }: { user: Use
       />
       {showUsers ? (
         <SendFrs
-          setStrangersAndFRsFailed={setStrangersAndFRsFailed}
           strangersAndFRsLoading={strangersAndFRsLoading}
           strangersAndFRsFailed={strangersAndFRsFailed}
           strangersAndFRs={strangersAndFRs}
+          refreshFunction={() => refetch()}
           setShowUsers={setShowUsers}
           showUsers={showUsers}
           socket={socket}
           user={user}
-          refreshFunction={() =>
-            getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed })
-          }
         />
       ) : null}
     </div>

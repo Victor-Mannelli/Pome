@@ -1,11 +1,10 @@
 'use client';
 
+import { TokenContext, useGetFriendList, wsRoomAndFriendType } from '@/utils';
 import { ErrorFeedback, GenericRowSkeleton } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
-import { TokenContext, wsRoomAndFriendType } from '@/utils';
-import { useContext, useEffect, useState } from 'react';
 import { FriendElement } from './friendElement';
-import { getFriendList } from './functions';
+import { useContext, useState } from 'react';
 import { FiUserPlus } from '@/utils/libs';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
@@ -17,14 +16,8 @@ export default function Friends() {
     friend: null,
     wsRoom: null,
   });
-  const [friendlistLoading, setFriendlistSetLoading] = useState<boolean>(true);
-  const [friendlistFailed, setFriendlistFailed] = useState<boolean>(false);
-  const [friendlist, setFriendlist] = useState<FriendShip[]>([]);
   const { user } = useContext(TokenContext);
-
-  useEffect(() => {
-    getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed });
-  }, []);
+  const { data: friendlist, isError: friendlistFailed, isLoading: friendlistLoading, refetch } = useGetFriendList();
 
   // console.log(wsRoomAndFriend);
   // console.log(wsRoomAndFriend?.wsRoom);
@@ -48,24 +41,20 @@ export default function Friends() {
             <FiUserPlus className="text-signature text-2xl cursor-pointer" />
           </div>
         ) : (
-          <FriendShipAndFriendRequests user={user} setFriendlist={setFriendlist} />
+          <FriendShipAndFriendRequests />
         )}
         <div className="h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
           {friendlistLoading ? (
             <GenericRowSkeleton />
           ) : friendlistFailed ? (
             <div className="flex items-center h-1/2">
-              <ErrorFeedback
-                refreshFunction={() => getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed })}
-                loading={friendlistLoading}
-                animeApi={false}
-              />
+              <ErrorFeedback refreshFunction={() => refetch()} loading={friendlistLoading} animeApi={false} />
             </div>
           ) : friendlist.length !== 0 ? (
             friendlist.map((friend: FriendShip, i: number) => (
               <FriendElement
                 key={i}
-                refreshFL={() => getFriendList({ setData: setFriendlist, setLoading: setFriendlistSetLoading, setFailed: setFriendlistFailed })}
+                refreshFL={() => refetch()}
                 setWsRoomAndFriend={setWsRoomAndFriend}
                 wsRoomAndFriend={wsRoomAndFriend}
                 friend={friend}
