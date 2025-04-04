@@ -54,6 +54,7 @@ export default function Profile() {
   // console.log(profileData && profileData.usersAnimelist);
   // console.log(animelist);
 
+  // eslint-disable-next-line no-constant-condition
   return profileDataLoad || loading || !profileData ? (
     <ProfileSkeleton />
   ) : profileData ? (
@@ -79,7 +80,7 @@ export default function Profile() {
             src={user ? `data:image/png;base64, ${bufferToBase64(userProfile ? user.avatar : profileData.avatar.data)}` : null}
           />
         </div>
-        <h1 className="sm:w-3/4 pl-5 sm:pl-7 pb-3 text-xl sm:text-2xl">
+        <h1 className="sm:w-3/4 pl-5 sm:pl-7 pb-3 text-xl sm:text-2xl drop-shadow-[#000_0_5px_5px]">
           {userProfile
             ? user?.username?.[0]?.toUpperCase() + user?.username?.slice(1)
             : profileData?.username?.[0]?.toUpperCase() + profileData?.username?.slice(1)}

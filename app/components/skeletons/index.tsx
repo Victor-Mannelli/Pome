@@ -99,18 +99,19 @@ export function ProfileSkeleton() {
   return (
     <SkeletonTheme baseColor="#2c2e2f" highlightColor="#3a3d3e">
       <div className="flex flex-col items-center h-full">
-        <div className="relative flex items-end w-full h-52 sm:h-60">
-          <Skeleton key="banner" className="absolute inset-0" />
-          <Skeleton key="pfp" className="w-[100px] sm:w-[137px] h-[130px] sm:h-40 ml-5 shadow-fifth shadow" />
-          <Skeleton key="userName" className="w-24 h-6 ml-5 sm:ml-7 mb-3 shadow-fifth shadow" />
+        <div className="flex justify-center w-full h-52 sm:h-60 bg-[#292a2b]">
+          <div className="flex items-end xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
+            <Skeleton key="pfp" width={'7.5rem'} className="h-[130px] sm:h-40 ml-5 shadow-fifth shadow block" />
+            <Skeleton key="userName" width={'6rem'} className="h-6 ml-5 sm:ml-7 mb-3 shadow-fifth shadow block" />
+          </div>
         </div>
         <div className="flex flex-col gap-[0.3rem] xl:w-[62.6rem] lg:w-[52rem] md:w-[41.4rem] sm:w-[30.8rem]">
-          <div className="flex flex-wrap items-center justify-center md:flex-row gap-3 py-3">
+          <div className="flex flex-wrap items-center justify-center md:flex-row gap-3 pb-3 pt-1">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={'filter' + i} className="w-[10.5rem] h-9 rounded-sm" />
+              <Skeleton key={'filter' + i} width={'10.5rem'} className="h-9 rounded-sm" />
             ))}
           </div>
-          <div className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] p-3 w-full hover:bg-second rounded-md cursor-pointer">
+          <div className="grid grid-cols-[9%_53.55%_11%_11%_13.28%] gap-1 p-3 w-full rounded-md cursor-pointer">
             <Skeleton className="h-8" />
             <div></div>
             <Skeleton className="h-8" />
@@ -118,7 +119,7 @@ export function ProfileSkeleton() {
             <Skeleton className="h-8" />
           </div>
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={'animeRow' + i} className="grid grid-cols-[9%_55.72%_11%_11%_13.28%] px-3 w-full hover:bg-second rounded-md cursor-pointer">
+            <div key={'animeRow' + i} className="grid grid-cols-[9%_53.55%_11%_11%_13.28%] gap-1 px-3 w-full rounded-md cursor-pointer">
               <Skeleton className="h-16" />
               <Skeleton className="h-16 pl-5" />
               <Skeleton className="h-16" />
