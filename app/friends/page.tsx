@@ -11,14 +11,13 @@ import { ChatBox } from './chatBox';
 import React from 'react';
 
 export default function Friends() {
+  const { data: friendlist, isError: friendlistFailed, isLoading: friendlistLoading, refetch: friendListRefetch } = useGetFriendList();
   const [wsRoomAndFriend, setWsRoomAndFriend] = useState<wsRoomAndFriendType>({
     friend_id: null,
     friend: null,
     wsRoom: null,
   });
   const { user } = useContext(TokenContext);
-  const { data: friendlist, isError: friendlistFailed, isLoading: friendlistLoading, refetch } = useGetFriendList();
-
   // console.log(wsRoomAndFriend);
   // console.log(wsRoomAndFriend?.wsRoom);
   // console.log(wsRoomAndFriend.friend, 'wsRoomAndFriend: ' + wsRoomAndFriend.friend_id);
@@ -48,14 +47,14 @@ export default function Friends() {
             <GenericRowSkeleton />
           ) : friendlistFailed ? (
             <div className="flex items-center h-1/2">
-              <ErrorFeedback refreshFunction={() => refetch()} loading={friendlistLoading} animeApi={false} />
+              <ErrorFeedback refreshFunction={() => friendListRefetch()} loading={friendlistLoading} animeApi={false} />
             </div>
           ) : friendlist.length !== 0 ? (
             friendlist.map((friend: FriendShip, i: number) => (
               <FriendElement
                 key={i}
-                refreshFL={() => refetch()}
                 setWsRoomAndFriend={setWsRoomAndFriend}
+                refreshFL={() => friendListRefetch()}
                 wsRoomAndFriend={wsRoomAndFriend}
                 friend={friend}
               />

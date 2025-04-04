@@ -229,7 +229,7 @@ export async function deleteMessageWS({ message_id, user_id, socket, room }: { m
 
 export async function sendFriendRequestToWS({ stranger_id, socket, user }: { stranger_id: string; socket: Socket; user: User }) {
   console.log('friendRequest sent');
-  socket?.emit('friendRequest', {
+  socket?.emit('sendFR', {
     room: stranger_id,
     user_id: user.user_id,
     friend_id: stranger_id,
@@ -265,7 +265,6 @@ export async function acceptFriendRequestWS({
   socket: Socket;
   userId: string;
 }) {
-  console.log('acceptedFriendRequestWS');
   socket?.emit('acceptFR', {
     room: stranger_id,
     userId,

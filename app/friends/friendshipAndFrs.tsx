@@ -1,8 +1,8 @@
 'use client';
 
 import { queryClient, TokenContext, useGetStrangersAndFRs } from '@/utils';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { FaUserFriends, FiUserPlus } from '@/utils/libs';
-import { useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ReceivedFrs } from './receivedFrs';
 import { FriendRequests } from './types';
@@ -13,50 +13,41 @@ export function FriendShipAndFriendRequests() {
   const { data: strangersAndFRs, isLoading: strangersAndFRsLoading, isError: strangersAndFRsFailed, refetch } = useGetStrangersAndFRs();
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [showUsers, setShowUsers] = useState<boolean>(false);
-  const [socket, setSocket] = useState<Socket>();
+  const [socket, setSocket] = useState<Socket>(null);
   const { user } = useContext(TokenContext);
 
   useEffect(() => {
-    // getStrangersAndFRs({ setData: setStrangersAndFRs, setLoading: setStrangersAndFRsLoading, setFailed: setStrangersAndFRsFailed });
-
     const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/friendRequest`);
     setSocket(socketInstance);
   }, []);
 
   useEffect(() => {
-    socket?.emit('joinFrRoom', user.user_id);
-    // console.log('conected?');
+    if (!socket) return;
+
+    socket.emit('joinFrRoom', user.user_id);
     return () => {
-      socket?.emit('leaveFrRoom', user.user_id);
+      socket.emit('leaveFrRoom', user.user_id);
     };
   }, [socket, user]);
 
   useEffect(() => {
-    socket?.on('friendRequest', (response) => {
-      console.log(response, 'friendRequest');
+    socket?.on('sendFR', () => {
+      // console.log(response, 'sendFR');
       refetch();
-      // setStrangersAndFRs((prevState) => ({
-      //   ...prevState,
-      //   friendRequests: [...prevState.friendRequests, response.friendRequest],
-      // }));
-      // console.log(response.friendRequest, 'friendRequest');
     });
-
-    socket?.on('deleteFR', (response) => {
-      console.log(response, 'deleteFR');
+    socket?.on('deleteFR', () => {
+      // console.log(response, 'deleteFR');
       refetch();
-      // setStrangersAndFRs((prevState) => ({
-      //   ...prevState,
-      //   friendRequests: prevState.friendRequests.filter((FR) => FR.friend_request_id !== response.deletedFR.friend_request_id),
-      // }));
     });
-
     socket?.on('acceptFR', () => {
+      // console.log(response, 'acceptFR');
       queryClient.invalidateQueries({ queryKey: ['friendlist'] });
     });
   }, [refetch, socket]);
 
-  const receivedFR = strangersAndFRs?.friendRequests.filter((e: FriendRequests) => e?.requested_id === user.user_id);
+  const receivedFR = useMemo(() => {
+    return strangersAndFRs?.friendRequests.filter((e: FriendRequests) => e?.requested_id === user.user_id);
+  }, [strangersAndFRs, user]);
 
   if (strangersAndFRsLoading) {
     return (
@@ -84,12 +75,7 @@ export function FriendShipAndFriendRequests() {
         ) : null}
       </div>
       {showFriendRequests ? <ReceivedFrs socket={socket} friendRequests={receivedFR} setShowFriendRequests={setShowFriendRequests} /> : null}
-      <FiUserPlus
-        className="text-signature text-2xl cursor-pointer"
-        onClick={() => {
-          setShowUsers(true);
-        }}
-      />
+      <FiUserPlus className="text-signature text-2xl cursor-pointer" onClick={() => setShowUsers(true)} />
       {showUsers ? (
         <SendFrs
           strangersAndFRsLoading={strangersAndFRsLoading}
