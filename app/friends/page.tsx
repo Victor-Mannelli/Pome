@@ -3,24 +3,48 @@
 import { TokenContext, useGetFriendList, wsRoomAndFriendType } from '@/utils';
 import { ErrorFeedback, GenericRowSkeleton } from '@/components';
 import { FriendShipAndFriendRequests } from './friendshipAndFrs';
+import { useContext, useEffect, useState } from 'react';
 import { FriendElement } from './friendElement';
-import { useContext, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 import { FiUserPlus } from '@/utils/libs';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
 import React from 'react';
+import { deleteFriendWS } from './functions';
 
 export default function Friends() {
-  const { data: friendlist, isError: friendlistFailed, isLoading: friendlistLoading, refetch: friendListRefetch } = useGetFriendList();
+  const { data: friendlist, isError: friendlistFailed, isLoading: friendlistLoading, refetch: refetchFriendList } = useGetFriendList();
   const [wsRoomAndFriend, setWsRoomAndFriend] = useState<wsRoomAndFriendType>({
     friend_id: null,
     friend: null,
     wsRoom: null,
   });
+  const [socket, setSocket] = useState<Socket | null>(null);
   const { user } = useContext(TokenContext);
   // console.log(wsRoomAndFriend);
   // console.log(wsRoomAndFriend?.wsRoom);
   // console.log(wsRoomAndFriend.friend, 'wsRoomAndFriend: ' + wsRoomAndFriend.friend_id);
+
+  useEffect(() => {
+    const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/friendRequest`);
+    setSocket(socketInstance);
+  }, []);
+
+  useEffect(() => {
+    if (!socket || !user) return;
+    console.log(user);
+    socket.emit('joinFrRoom', user?.user_id);
+    return () => {
+      socket.emit('leaveFrRoom', user?.user_id);
+    };
+  }, [socket, user]);
+
+  useEffect(() => {
+    socket?.on('deleteFriend', () => {
+      // console.log(response, 'sendFR');
+      refetchFriendList();
+    });
+  }, [refetchFriendList, socket]);
 
   return (
     <div className="flex sm:m-5 gap-5 sm:h-[calc(100vh-6rem)] h-[calc(100vh-3.5rem)]">
@@ -34,29 +58,38 @@ export default function Friends() {
         >
           <h1 className="cursor-pointer"> Your notes </h1>
         </div>
-        {!user ? (
+        {!user || !socket ? (
           <div className="flex items-center justify-between">
             <h1 className="font-bold"> Friends </h1>
             <FiUserPlus className="text-signature text-2xl cursor-pointer" />
           </div>
         ) : (
-          <FriendShipAndFriendRequests />
+          <FriendShipAndFriendRequests socket={socket} />
         )}
         <div className="h-[93%] w-full flex flex-col gap-3 overflow-auto rounded-xl">
-          {friendlistLoading ? (
+          {friendlistLoading || !socket ? (
             <GenericRowSkeleton />
           ) : friendlistFailed ? (
             <div className="flex items-center h-1/2">
-              <ErrorFeedback refreshFunction={() => friendListRefetch()} loading={friendlistLoading} animeApi={false} />
+              <ErrorFeedback refreshFunction={() => refetchFriendList()} loading={friendlistLoading} animeApi={false} />
             </div>
           ) : friendlist.length !== 0 ? (
             friendlist.map((friend: FriendShip, i: number) => (
               <FriendElement
                 key={i}
                 setWsRoomAndFriend={setWsRoomAndFriend}
-                refreshFL={() => friendListRefetch()}
+                // refreshFL={() => friendListRefetch()}
                 wsRoomAndFriend={wsRoomAndFriend}
                 friend={friend}
+                handleDeleteFriendWS={() =>
+                  deleteFriendWS({
+                    friend_id: friend.user_id,
+                    userId: user.user_id,
+                    socket,
+                  })
+                }
+                // socket={socket}
+                // user={user}
               />
             ))
           ) : (

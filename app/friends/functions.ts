@@ -271,3 +271,12 @@ export async function acceptFriendRequestWS({
     friendRequestId,
   });
 }
+
+//* FRIENDSHIP WS
+
+export async function deleteFriendWS({ friend_id, socket, userId }: { friend_id: string; socket: Socket; userId: string }) {
+  socket?.emit('deleteFriend', {
+    room: friend_id,
+    userId,
+  });
+}

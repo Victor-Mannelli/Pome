@@ -2,21 +2,20 @@
 
 import { bufferToBase64, FriendShip, wsRoomAndFriendType } from '@/utils';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { deleteFriend } from './functions';
 import { CustomModal } from '@/components';
 import { Avatar } from '@chakra-ui/react';
 import { RxCross2 } from '@/utils/libs';
 import Link from 'next/link';
 
 export function FriendElement({
+  handleDeleteFriendWS,
   setWsRoomAndFriend,
   wsRoomAndFriend,
-  refreshFL,
   friend,
 }: {
   setWsRoomAndFriend: Dispatch<SetStateAction<wsRoomAndFriendType>>;
   wsRoomAndFriend: wsRoomAndFriendType;
-  refreshFL: () => void;
+  handleDeleteFriendWS: () => void;
   friend: FriendShip;
 }) {
   const [showRemoveFriend, setShowRemoveFriend] = useState<boolean>(false);
@@ -60,7 +59,8 @@ export function FriendElement({
             </button>
             <button
               className="text-sm px-3 py-2 text-white bg-red-500 rounded-md hover:brightness-110 hover:shadow-[0px_0px_3px_#fff]"
-              onClick={() => deleteFriend(friend.friendship_id, refreshFL)}
+              // onClick={() => deleteFriend(friend.friendship_id, refreshFL)}
+              onClick={() => handleDeleteFriendWS()}
             >
               Remove
             </button>

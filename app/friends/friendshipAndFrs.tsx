@@ -3,32 +3,17 @@
 import { queryClient, TokenContext, useGetStrangersAndFRs } from '@/utils';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { FaUserFriends, FiUserPlus } from '@/utils/libs';
-import { io, Socket } from 'socket.io-client';
 import { ReceivedFrs } from './receivedFrs';
+import { Socket } from 'socket.io-client';
 import { FriendRequests } from './types';
 import { SendFrs } from './sendFrs';
 import React from 'react';
 
-export function FriendShipAndFriendRequests() {
+export function FriendShipAndFriendRequests({ socket }: { socket: Socket }) {
   const { data: strangersAndFRs, isLoading: strangersAndFRsLoading, isError: strangersAndFRsFailed, refetch } = useGetStrangersAndFRs();
   const [showFriendRequests, setShowFriendRequests] = useState<boolean>(false);
   const [showUsers, setShowUsers] = useState<boolean>(false);
-  const [socket, setSocket] = useState<Socket>(null);
   const { user } = useContext(TokenContext);
-
-  useEffect(() => {
-    const socketInstance = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/friendRequest`);
-    setSocket(socketInstance);
-  }, []);
-
-  useEffect(() => {
-    if (!socket) return;
-
-    socket.emit('joinFrRoom', user.user_id);
-    return () => {
-      socket.emit('leaveFrRoom', user.user_id);
-    };
-  }, [socket, user]);
 
   useEffect(() => {
     socket?.on('sendFR', () => {
