@@ -6,11 +6,11 @@ import { FriendShipAndFriendRequests } from './friendshipAndFrs';
 import { useContext, useEffect, useState } from 'react';
 import { FriendElement } from './friendElement';
 import { io, Socket } from 'socket.io-client';
+import { deleteFriendWS } from './functions';
 import { FiUserPlus } from '@/utils/libs';
 import { FriendShip } from './types';
 import { ChatBox } from './chatBox';
 import React from 'react';
-import { deleteFriendWS } from './functions';
 
 export default function Friends() {
   const { data: friendlist, isError: friendlistFailed, isLoading: friendlistLoading, refetch: refetchFriendList } = useGetFriendList();

@@ -1,10 +1,10 @@
 'use client';
 
-import { StrangersAndFRsType, StrangersListType } from './types';
 import { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
 import { deleteFriendRequestWS, sendFriendRequestToWS } from './functions';
 import { FiUserPlus, RiArrowLeftDoubleFill, RxCross2 } from '@/utils/libs';
 import { GenericRowSkeleton, ErrorFeedback, Filter } from '@/components';
+import { StrangersAndFRsType, StrangersListType } from './types';
 import { Avatar, CloseButton } from '@chakra-ui/react';
 import { useOnClickOutside } from 'usehooks-ts';
 import { bufferToBase64, User } from '@/utils';

@@ -1,6 +1,6 @@
+import { getAnimeStartDateInFull, getAnimeStartDateInShort } from '@/utils';
 import { AnimeTags, SingleAnimeData, UsersAnimeData } from '@/utils/types';
 import { UseToastOptions } from '@chakra-ui/react';
-import { getAnimeStartDateInFull, getAnimeStartDateInShort } from '@/utils';
 import { Dispatch, SetStateAction } from 'react';
 import { animeUserStatus } from '@/utils/consts';
 import { FavoriteHeart } from './favoriteHeart';
@@ -26,7 +26,7 @@ export function AnimeInfo({
   animeData: SingleAnimeData;
   token: string;
 }) {
-  console.log(animeData);
+  // console.log(animeData);
   return (
     <div className={`relative flex justify-start w-full min-h-72 h-fit ${animeData.bannerImage ? '' : 'mt-14'}`}>
       <FavoriteHeart
